@@ -116,7 +116,7 @@ public class TestWordCloud {
     @Test
     public void whaleImgLargeAnglesTest() throws IOException {
         final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(750);
+        frequencyAnalizer.setWordFrequencesToReturn(600);
         frequencyAnalizer.setMinWordLength(4);
         frequencyAnalizer.setStopWords(loadStopWords());
 
