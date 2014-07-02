@@ -1,6 +1,7 @@
 package wordcloud.bg;
 
 import wordcloud.collide.Collidable;
+import wordcloud.collide.Vector2d;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,19 +28,19 @@ public class PixelBoundryBackground implements Background {
         if(!this.rectangleBackground.isInBounds(collidable)) {
             return false;
         }
-
+        final Vector2d position = collidable.getPosition();
         // get the overlapping box
-        int inter_x0 = Math.max(collidable.getX(), 0);
-        int inter_x1 = Math.min(collidable.getX() + collidable.getWidth(), this.bufferedImage.getWidth());
+        int startX = Math.max(position.getX(), 0);
+        int endX = Math.min(position.getX() + collidable.getWidth(), this.bufferedImage.getWidth());
 
-        int inter_y0 = Math.max(collidable.getY(), 0);
-        int inter_y1 = Math.min(collidable.getY() + collidable.getHeight(), this.bufferedImage.getHeight());
+        int startY = Math.max(position.getY(), 0);
+        int endY = Math.min(position.getY() + collidable.getHeight(), this.bufferedImage.getHeight());
 
-        for(int y = inter_y0 ; y < inter_y1 ; y++) {
-            for(int x = inter_x0 ; x < inter_x1 ; x++) {
+        for(int y = startY ; y < endY ; y++) {
+            for(int x = startX ; x < endX ; x++) {
                 // compute offsets for surface
                 if(isTransparent(this.bufferedImage, x - 0, y - 0) &&
-                        !isTransparent(collidable.getBufferedImage(), x - collidable.getX(), y - collidable.getY())) {
+                        !isTransparent(collidable.getBufferedImage(), x - position.getX(), y - position.getY())) {
                     return false;
                 }
             }

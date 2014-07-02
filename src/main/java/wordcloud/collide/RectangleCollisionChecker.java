@@ -6,11 +6,14 @@ package wordcloud.collide;
 public class RectangleCollisionChecker implements CollisionChecker {
 
     @Override
-    public boolean collide(final Collidable c1, Collidable c2) {
-        if((c1.getX() + c1.getWidth() < c2.getX()) || (c2.getX() + c2.getWidth() < c1.getX())) {
+    public boolean collide(final Collidable collidable, Collidable collidable2) {
+        final Vector2d position = collidable.getPosition();
+        final Vector2d position2 = collidable2.getPosition();
+
+        if((position.getX() + collidable.getWidth() < position2.getX()) || (position2.getX() + collidable2.getWidth() < position.getX())) {
             return false;
         }
-        if((c1.getY() + c1.getHeight() < c2.getY()) || (c2.getY() + c2.getHeight() < c1.getY())) {
+        if((position.getY() + collidable.getHeight() < position2.getY()) || (position2.getY() + collidable2.getHeight() < position.getY())) {
             return false;
         }
         return true;

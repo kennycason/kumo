@@ -1,13 +1,14 @@
 package wordcloud.image;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
  * Created by kenny on 6/29/14.
  */
 public class ImageRotation {
+
+    private ImageRotation() {}
 
     public static BufferedImage rotate90(final BufferedImage bufferedImage) {
         return rotate(bufferedImage, Math.PI / 2);
@@ -17,18 +18,20 @@ public class ImageRotation {
         return rotate(bufferedImage, -Math.PI / 2);
     }
 
-    public static BufferedImage rotate(final BufferedImage bufferedImage, double theta) {
-        final int width = bufferedImage.getWidth();
-        final int height = bufferedImage.getHeight();
-        BufferedImage rotatedImage = new BufferedImage(height, width, BufferedImage.TYPE_INT_ARGB);
-        AffineTransform xform = new AffineTransform();
-        xform.translate(0.5 * height, 0.5 * width);
-        xform.rotate(theta);
-        xform.translate(-0.5 * width, -0.5 * height);
+    public static BufferedImage rotate(BufferedImage image, double theta) {
+        final double sin = Math.abs(Math.sin(theta)), cos = Math.abs(Math.cos(theta));
+        final int w = image.getWidth();
+        final int h = image.getHeight();
+        final int neww = (int) Math.floor(w * cos + h * sin);
+        final int newh = (int) Math.floor(h * cos + w * sin);
+        BufferedImage result = new BufferedImage(neww, newh, image.getType());
+        Graphics2D g = result.createGraphics();
+        g.translate((neww - w) / 2, (newh - h) / 2);
+        g.rotate(theta, w / 2, h / 2);
+        g.drawRenderedImage(image, null);
+        g.dispose();
 
-        Graphics2D graphics2D = (Graphics2D) rotatedImage.getGraphics();
-        graphics2D.drawImage(bufferedImage, xform, null);
-        return rotatedImage;
+        return result;
     }
 
 }

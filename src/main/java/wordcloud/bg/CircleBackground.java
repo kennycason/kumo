@@ -1,6 +1,7 @@
 package wordcloud.bg;
 
 import wordcloud.collide.Collidable;
+import wordcloud.collide.Vector2d;
 
 /**
  * Created by kenny on 6/30/14.
@@ -15,10 +16,11 @@ public class CircleBackground implements Background {
 
     @Override
     public boolean isInBounds(Collidable collidable) {
-        return inCircle(collidable.getX(), collidable.getY()) &&
-                inCircle(collidable.getX() + collidable.getWidth(), collidable.getY()) &&
-                inCircle(collidable.getX(), collidable.getY() + collidable.getHeight()) &&
-                inCircle(collidable.getX() + collidable.getWidth(), collidable.getY() + collidable.getHeight());
+        final Vector2d position = collidable.getPosition();
+        return inCircle(position.getX(), position.getY()) &&
+                inCircle(position.getX() + collidable.getWidth(), position.getY()) &&
+                inCircle(position.getX(), position.getY() + collidable.getHeight()) &&
+                inCircle(position.getX() + collidable.getWidth(), position.getY() + collidable.getHeight());
     }
 
     private boolean inCircle(int x, int y) {

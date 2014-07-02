@@ -1,6 +1,7 @@
 package wordcloud.bg;
 
 import wordcloud.collide.Collidable;
+import wordcloud.collide.Vector2d;
 
 /**
  * Created by kenny on 6/30/14.
@@ -18,10 +19,11 @@ public class RectangleBackground implements Background {
 
     @Override
     public boolean isInBounds(Collidable collidable) {
-        return collidable.getX() >= 0 &&
-                collidable.getX() + collidable.getWidth() < width &&
-                collidable.getY() >= 0 &&
-                collidable.getY() + collidable.getHeight() < height;
+        final Vector2d position = collidable.getPosition();
+        return position.getX() >= 0 &&
+                position.getX() + collidable.getWidth() < width &&
+                position.getY() >= 0 &&
+                position.getY() + collidable.getHeight() < height;
     }
 
 }

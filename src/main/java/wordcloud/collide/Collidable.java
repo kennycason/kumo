@@ -7,8 +7,7 @@ import java.awt.image.BufferedImage;
  */
 public interface Collidable {
     boolean collide(Collidable collidable);
-    int getX();
-    int getY();
+    Vector2d getPosition();
     int getWidth();
     int getHeight();
     BufferedImage getBufferedImage();

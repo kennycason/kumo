@@ -2,6 +2,7 @@ package wordcloud;
 
 import wordcloud.collide.Collidable;
 import wordcloud.collide.CollisionChecker;
+import wordcloud.collide.Vector2d;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,9 +18,7 @@ public class Word implements Collidable {
 
     private final Color color;
 
-    private int x = 0;
-
-    private int y = 0;
+    private Vector2d position = new Vector2d(0, 0);
 
     private BufferedImage bufferedImage;
 
@@ -53,20 +52,24 @@ public class Word implements Collidable {
         return word;
     }
 
+    public Vector2d getPosition() {
+        return position;
+    }
+
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public void setX(int x) {
-        this.x = x;
+        position.setX(x);
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     public void setY(int y) {
-        this.y = y;
+        position.setY(y);
     }
 
     public int getWidth() {
@@ -84,7 +87,7 @@ public class Word implements Collidable {
 
     public void draw(Graphics graphics) {
         graphics.setColor(color);
-        graphics.drawImage(bufferedImage, x, y, null);
+        graphics.drawImage(bufferedImage, position.getX(), position.getY(), null);
     }
 
     @Override
@@ -92,8 +95,8 @@ public class Word implements Collidable {
         return "WordRectangle{" +
                 "word='" + word + '\'' +
                 ", color=" + color +
-                ", x=" + x +
-                ", y=" + y +
+                ", x=" + getX() +
+                ", y=" + getY() +
                 ", width=" + bufferedImage.getWidth() +
                 ", height=" + bufferedImage.getHeight() +
                 '}';

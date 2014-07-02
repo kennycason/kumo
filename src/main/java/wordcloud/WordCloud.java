@@ -9,6 +9,8 @@ import wordcloud.collide.RectangleCollisionChecker;
 import wordcloud.font.FontScalar;
 import wordcloud.font.LinearFontScalar;
 import wordcloud.image.ImageRotation;
+import wordcloud.padding.Padder;
+import wordcloud.padding.RectanglePadder;
 import wordcloud.palette.ColorPalette;
 
 import javax.imageio.ImageIO;
@@ -42,7 +44,11 @@ public class WordCloud {
 
     private Background background;
 
-    private Color bgColor = Color.BLACK;
+    private Color backgroundColor = Color.BLACK;
+
+    private int padding = 0;
+
+    private Padder padder = new RectanglePadder();
 
     private ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
 
@@ -98,7 +104,7 @@ public class WordCloud {
 
     private void drawBackground() {
         final Graphics graphics = this.bufferedImage.getGraphics();
-        graphics.setColor(bgColor);
+        graphics.setColor(backgroundColor);
         graphics.fillRect(0, 0, width, height);
     }
 
@@ -147,7 +153,7 @@ public class WordCloud {
             }
         }
         if(!collided) {
-            LOGGER.info("placing: " + word.getWord());
+            LOGGER.info("placed: " + word.getWord());
             placedWords.add(word);
             return true;
         }
@@ -173,13 +179,15 @@ public class WordCloud {
         final Font font = new Font("Comic Sans MS", Font.BOLD, fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
+        if(padding > 0) {
+            padder.pad(word, padding, backgroundColor);
+        }
         return word;
     }
 
     private int maxFrequency(final Collection<WordFrequency> wordFrequencies) {
         return Lambda.max(wordFrequencies, on(WordFrequency.class).getFrequency());
     }
-
 
     private static final Comparator<WordFrequency> WORD_FREQUENCE_COMPARATOR = new Comparator<WordFrequency>() {
         @Override
@@ -188,8 +196,16 @@ public class WordCloud {
         }
     };
 
-    public void setBgColor(Color bgColor) {
-        this.bgColor = bgColor;
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public void setPadding(int padding) {
+        this.padding = padding;
+    }
+
+    public void setPadder(Padder padder) {
+        this.padder = padder;
     }
 
     public void setCollisionChecker(CollisionChecker collisionChecker) {
@@ -208,4 +224,7 @@ public class WordCloud {
         this.fontScalar = fontScalar;
     }
 
+    public void setThetas(double[] thetas) {
+        this.thetas = thetas;
+    }
 }
