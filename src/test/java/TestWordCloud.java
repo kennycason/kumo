@@ -172,7 +172,7 @@ public class TestWordCloud {
     @Test
     public void chineseCircle() throws IOException {
         final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(750);
+        frequencyAnalizer.setWordFrequencesToReturn(600);
         frequencyAnalizer.setMinWordLength(2);
         frequencyAnalizer.setWordTokenizer(new ChineseWordTokenizer());
 
@@ -181,7 +181,7 @@ public class TestWordCloud {
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setColorPalette(new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5)));
-        wordCloud.setFontScalar(new SqrtFontScalar(13, 45));
+        wordCloud.setFontScalar(new SqrtFontScalar(12, 45));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
