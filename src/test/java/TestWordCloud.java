@@ -132,14 +132,14 @@ public class TestWordCloud {
     @Test
     public void datarankCircle() throws IOException {
         final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(500);
+        frequencyAnalizer.setWordFrequencesToReturn(750);
         frequencyAnalizer.setMinWordLength(4);
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(500, 500, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionType.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setBackground(new CircleBackground(250));
+        wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();

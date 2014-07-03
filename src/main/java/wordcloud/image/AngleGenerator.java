@@ -1,6 +1,5 @@
 package wordcloud.image;
 
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -36,12 +35,10 @@ public class AngleGenerator {
 
     private double[] calculateThetas(final double to, final double from) {
         final double stepSize = (to - from) / (steps - 1);
-        System.out.println(stepSize);
         final double[] thetas = new double[steps];
         for(int i = 0; i < steps; i++) {
             thetas[i] = degreesToRadians(from + (i * stepSize));
         }
-        System.out.println(Arrays.toString(thetas));
         return thetas;
     }
 
