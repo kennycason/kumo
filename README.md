@@ -1,8 +1,22 @@
-WordCloud
+Kumo
 ==============
 
-Java Implementation of a fully functional Word Cloud.
-Currently It's pretty slow, but work is being done to speed it up.
+My main goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do). Kumo, with the exception of it's maven dependencies should be easy to integegrate into current Java Maven projects. 
+
+Please feel free to jump in and help improve Kumo! There are many places for performance optimization in Kumo!
+
+Current Features
+- Draw Rectangle, Circle or Image Overlay word clouds. Image Overlay will draw words over all non-transparent pixels.
+- Linear, Square-Root Font Scalars. Fully extendible.
+- Variable Font Sizes.
+- Word Rotation. Just provide a Start Angle, End Angle, and number of slices.
+- Custom BackGround Color. Fully customizable BackGrounds coming soon.
+- Word Padding.
+- Load Custom Color Pallettes.
+- Two Modes that of Colision and Padding: PIXEL_PERFECT and RECTANGLE.
+- Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
+- WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
+- Frequency Analyzer to tokenize, filter and compute word counts.
 
 <table>
 <tr><td>
@@ -52,7 +66,7 @@ wordCloud.writeToFile("output/whale_wordcloud_small.png");
 
 Example to generate a circular Word Cloud.
 
-```
+```java
 final List<WordFrequency> wordFrequencies = buildWordFrequences().subList(0, 150);
 
 final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
@@ -66,7 +80,7 @@ wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
 
 Example to generate a rectangle Word Cloud
 
-```
+```java
 final List<WordFrequency> wordFrequencies = buildWordFrequences().subList(0, 150);
 
 final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.RECTANGLE);
@@ -80,7 +94,7 @@ wordCloud.writeToFile("output/wordcloud_rectangle.png");
 
 Example of tokenizing chinese text into a circle
 
-```
+```java
 final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
 frequencyAnalizer.setWordFrequencesToReturn(600);
 frequencyAnalizer.setMinWordLength(2);
@@ -98,7 +112,7 @@ wordCloud.writeToFile("output/chinese_language_circle.png");
 
 Create a polarity word cloud to contrast two datasets
 
-```
+```java
 final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
 frequencyAnalizer.setWordFrequencesToReturn(750);
 frequencyAnalizer.setMinWordLength(4);
