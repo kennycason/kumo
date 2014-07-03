@@ -7,9 +7,11 @@ import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.LinearFontScalar;
+import wordcloud.font.scale.LinearFontScalar;
+import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.image.AngleGenerator;
 import wordcloud.nlp.FrequencyAnalizer;
+import wordcloud.nlp.tokenizer.ChineseWordTokenizer;
 import wordcloud.palette.ColorPalette;
 
 import java.awt.*;
@@ -70,7 +72,7 @@ public class TestWordCloud {
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 50));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
 //        wordCloud.setThetas(new double[] { 0 });
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/whale_wordcloud_large3.png");
@@ -141,11 +143,11 @@ public class TestWordCloud {
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        wordCloud.writeToFile("output/datarank_wordcloud_circle4.png");
+        wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
     }
 
     @Test
@@ -160,12 +162,32 @@ public class TestWordCloud {
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(500));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 50));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
         wordCloud.writeToFile("output/datarank_wordcloud_circle_large2.png");
     }
+
+    @Test
+    public void chineseCircle() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(750);
+        frequencyAnalizer.setMinWordLength(2);
+        frequencyAnalizer.setWordTokenizer(new ChineseWordTokenizer());
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/chinese_language.txt"));
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(2);
+        wordCloud.setBackground(new CircleBackground(300));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5)));
+        wordCloud.setFontScalar(new SqrtFontScalar(13, 45));
+        final long startTime = System.currentTimeMillis();
+        wordCloud.build(wordFrequencies);
+        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        wordCloud.writeToFile("output/chinese_language_circle.png");
+    }
+
 
     private static ColorPalette buildRandomColorPallete(int n) {
         final Color[] colors = new Color[n];

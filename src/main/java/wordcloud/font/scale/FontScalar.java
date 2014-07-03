@@ -1,4 +1,4 @@
-package wordcloud.font;
+package wordcloud.font.scale;
 
 /**
  * Created by kenny on 6/30/14.

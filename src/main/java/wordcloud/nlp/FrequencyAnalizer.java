@@ -33,6 +33,8 @@ public class FrequencyAnalizer {
 
     private Sanitizer sanitizer = new BasicTextSanitizer();
 
+    private WordTokenizer wordTokenizer = new WhiteSpaceWordTokenizer();
+
     private static final int DEFAULT_WORD_FREQUENCIES_TO_RETURN = 50;
 
     private int wordFrequencesToReturn = DEFAULT_WORD_FREQUENCIES_TO_RETURN;
@@ -40,16 +42,14 @@ public class FrequencyAnalizer {
     private int minWordLength = 3;
 
     public List<WordFrequency> load(InputStream fileInputStream) throws IOException {
-        final WordTokenizer wordTokenizer = new WhiteSpaceWordTokenizer();
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
         final List<String> texts = IOUtils.readLines(fileInputStream);
 
         // generate all word counts
         final Map<String, Integer> cloud = calculateCloud(texts, wordTokenizer);
         for(String key : cloud.keySet()) {
-            if(key.length() > minWordLength
+            if(key.length() >= minWordLength
                     && key.length() < MAX_LENGTH) {
-
                 wordFrequencies.add(new WordFrequency(key, cloud.get(key)));
             }
         }
@@ -97,5 +97,9 @@ public class FrequencyAnalizer {
 
     public void setSanitizer(Sanitizer sanitizer) {
         this.sanitizer = sanitizer;
+    }
+
+    public void setWordTokenizer(WordTokenizer wordTokenizer) {
+        this.wordTokenizer = wordTokenizer;
     }
 }

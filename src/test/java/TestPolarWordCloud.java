@@ -8,8 +8,11 @@ import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.LinearFontScalar;
+import wordcloud.font.scale.LinearFontScalar;
+import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.nlp.FrequencyAnalizer;
+import wordcloud.nlp.tokenizer.ChineseWordTokenizer;
+import wordcloud.palette.ColorPalette;
 
 import java.awt.*;
 import java.io.IOException;
@@ -40,7 +43,7 @@ public class TestPolarWordCloud {
         wordCloud.setPadding(2);
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 50));
+        wordCloud.setFontScalar(new LinearFontScalar(15, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
@@ -60,11 +63,11 @@ public class TestPolarWordCloud {
         final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        wordCloud.writeToFile("output/polar_newyork_circle_blur.png");
+        wordCloud.writeToFile("output/polar_newyork_circle_blur_sqrt_font.png");
     }
 
     @Test
@@ -80,11 +83,40 @@ public class TestPolarWordCloud {
         final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new RectangleBackground(800, 600));
-        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
         wordCloud.writeToFile("output/polar_newyork_rectangle_blur.png");
+    }
+
+    @Test
+    public void chineseVsEnglishTideComments() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(750);
+        frequencyAnalizer.setMinWordLength(3);
+        frequencyAnalizer.setStopWords(loadStopWords());
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/english_tide.txt"));
+
+        final FrequencyAnalizer chineseFrequencyAnalizer = new FrequencyAnalizer();
+        chineseFrequencyAnalizer.setWordFrequencesToReturn(750);
+        chineseFrequencyAnalizer.setMinWordLength(2);
+        chineseFrequencyAnalizer.setWordTokenizer(new ChineseWordTokenizer());
+        final List<WordFrequency> wordFrequencies2 = chineseFrequencyAnalizer.load(getInputStream("text/chinese_tide.txt"));
+
+        final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+        wordCloud.setPadding(2);
+        wordCloud.setBackground(new RectangleBackground(800, 600));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
+
+        final ColorPalette colorPalette = new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5));
+        final ColorPalette colorPalette2 = new ColorPalette(new Color(0xFA8E8E), new Color(0xF77979), new Color(0xF55F5F), new Color(0xF24949));
+        wordCloud.setColorPalettes(colorPalette, colorPalette2);
+
+        final long startTime = System.currentTimeMillis();
+        wordCloud.build(wordFrequencies, wordFrequencies2);
+        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        wordCloud.writeToFile("output/polar_tide_chinese_vs_english2.png");
     }
 
     private static Set<String> loadStopWords() {
