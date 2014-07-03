@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import wordcloud.bg.Background;
 import wordcloud.bg.RectangleBackground;
 import wordcloud.collide.RectanglePixelCollidable;
+import wordcloud.collide.Vector2d;
 import wordcloud.collide.checkers.CollisionChecker;
 import wordcloud.collide.checkers.RectangleCollisionChecker;
 import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
@@ -26,8 +27,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -37,24 +38,19 @@ import static ch.lambdaj.Lambda.on;
 /**
  * Created by kenny on 6/29/14.
  */
-public class WordCloud {
+public class PolarWordCloud {
 
-    private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(PolarWordCloud.class);
 
     private static final Random RANDOM = new Random();
-
-    protected static final Comparator<WordFrequency> WORD_FREQUENCE_COMPARATOR = new Comparator<WordFrequency>() {
-        @Override
-        public int compare(WordFrequency o1, WordFrequency o2) {
-            return o2.getFrequency() - o1.getFrequency();
-        }
-    };
 
     private final int width;
 
     private final int height;
 
     private final CollisionMode collisionMode;
+
+    private final PolarBlendMode polarBlendMode;
 
     private final Padder padder;
 
@@ -68,7 +64,9 @@ public class WordCloud {
 
     private int padding = 0;
 
-    private ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
+    private ColorPalette colorPalette = new ColorPalette(new Color(0x1BE000), new Color(0x1AC902), new Color(0x15B000), new Color(0x129400), new Color(0x0F7A00), new Color(0x0B5E00));
+
+    private ColorPalette colorPalette2 = new ColorPalette(new Color(0xF50000), new Color(0xDE0000), new Color(0xC90202), new Color(0xB50202), new Color(0x990202), new Color(0x800101));
 
     private FontScalar fontScalar = new LinearFontScalar(10, 40);
 
@@ -82,10 +80,15 @@ public class WordCloud {
 
     private final Set<Word> skipped = new HashSet<>();
 
-    public WordCloud(int width, int height, CollisionMode collisionMode) {
+    public PolarWordCloud(int width, int height, CollisionMode collisionMode) {
+        this(width, height, collisionMode, PolarBlendMode.EVEN);
+    }
+
+    public PolarWordCloud(int width, int height, CollisionMode collisionMode, PolarBlendMode polarBlendMode) {
         this.width = width;
         this.height = height;
         this.collisionMode = collisionMode;
+        this.polarBlendMode = polarBlendMode;
         switch(collisionMode) {
             case PIXEL_PERFECT:
                 this.padder = new WordPixelPadder();
@@ -103,20 +106,74 @@ public class WordCloud {
         this.background = new RectangleBackground(width, height);
     }
 
-    public void build(List<WordFrequency> wordFrequencies) {
-        Collections.sort(wordFrequencies, WORD_FREQUENCE_COMPARATOR);
+    public void build(List<WordFrequency> wordFrequencies, List<WordFrequency> wordFrequencies2) {
+        Collections.sort(wordFrequencies, WordCloud.WORD_FREQUENCE_COMPARATOR);
+        Collections.sort(wordFrequencies2, WordCloud.WORD_FREQUENCE_COMPARATOR);
 
-        for(final Word word : buildwords(wordFrequencies)) {
-            final double theta = angleGenerator.randomNext();
-            if(theta != 0) {
+        final List<Word> words = buildwords(wordFrequencies, colorPalette);
+        final List<Word> words2 = buildwords(wordFrequencies2, colorPalette2);
+
+        final Iterator<Word> wordIterator = words.iterator();
+        final Iterator<Word> wordIterator2 = words2.iterator();
+
+        final Vector2d[] poles = getRandomPoles();
+        final Vector2d pole1 = poles[0];
+        final Vector2d pole2 = poles[1];
+
+        while(wordIterator.hasNext() || wordIterator2.hasNext()) {
+
+            if(wordIterator.hasNext()) {
+                final Word word = wordIterator.next();
+                final Vector2d startPosition = getStartPosition(pole1);
+
+                final double theta = angleGenerator.randomNext();
                 word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
+                place(word, startPosition.getX(), startPosition.getY());
             }
-            final int startX = RANDOM.nextInt(width - word.getWidth());
-            final int startY = RANDOM.nextInt(height - word.getHeight());
-            place(word, startX, startY);
+            if(wordIterator2.hasNext()) {
+                final Word word = wordIterator2.next();
+                final Vector2d startPosition = getStartPosition(pole2);
 
+                final double theta = angleGenerator.randomNext();
+                word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
+                place(word, startPosition.getX(), startPosition.getY());
+            }
         }
+
         drawForgroundToBackground();
+    }
+
+    private Vector2d getStartPosition(Vector2d pole) {
+        switch(polarBlendMode) {
+            case BLUR:
+                final int blurX = width / 2;
+                final int blurY = height / 2;
+                return new Vector2d(
+                    pole.getX() + -blurX + RANDOM.nextInt(blurX * 2),
+                    pole.getY() + -blurY + RANDOM.nextInt(blurY * 2)
+                );
+            case EVEN:
+            default:
+                return pole;
+        }
+    }
+
+    private Vector2d[] getRandomPoles() {
+        final Vector2d[] max = new Vector2d[2];
+        double maxDistance = 0.0;
+        for(int i = 0; i < 100; i++) {
+            final int x = RANDOM.nextInt(width);
+            final int y = RANDOM.nextInt(height);
+            final int x2 = RANDOM.nextInt(width);
+            final int y2 = RANDOM.nextInt(height);
+            final double distance = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
+            if(distance > maxDistance) {
+                maxDistance = distance;
+                max[0] = new Vector2d(x, y);
+                max[1] = new Vector2d(x2, y2);
+            }
+        }
+        return max;
     }
 
     public void writeToFile(final String outputFileName) {
@@ -161,8 +218,11 @@ public class WordCloud {
 
         final Graphics graphics = this.bufferedImage.getGraphics();
 
+
         for(int r = 0; r < maxRadius; r += 2) {
-            for(int x = -r; x <= r && startX + x >= 0 && startX + x < width; x++) {
+            for(int x = -r; x <= r; x++) {
+                if(startX + x < 0 || startX + x >= width) { continue; }
+
                 boolean placed = false;
                 word.setX(startX + x);
 
@@ -213,17 +273,17 @@ public class WordCloud {
         return false;
     }
 
-    private List<Word> buildwords(final List<WordFrequency> wordFrequencies) {
+    private List<Word> buildwords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
         final List<Word> words = new ArrayList<>();
         for(final WordFrequency wordFrequency : wordFrequencies) {
-            words.add(buildWord(wordFrequency, maxFrequency));
+            words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
         }
         return words;
     }
 
-    private Word buildWord(final WordFrequency wordFrequency, int maxFrequency) {
+    private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int frequency = wordFrequency.getFrequency();
@@ -250,8 +310,9 @@ public class WordCloud {
         this.padding = padding;
     }
 
-    public void setColorPalette(ColorPalette colorPalette) {
+    public void setColorPalettes(ColorPalette colorPalette, ColorPalette colorPalette2) {
         this.colorPalette = colorPalette;
+        this.colorPalette2 = colorPalette2;
     }
 
     public void setBackground(Background background) {
@@ -273,4 +334,5 @@ public class WordCloud {
     public Set<Word> getSkipped() {
         return skipped;
     }
+
 }

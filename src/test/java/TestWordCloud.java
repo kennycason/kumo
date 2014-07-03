@@ -1,7 +1,7 @@
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import wordcloud.CollisionType;
+import wordcloud.CollisionMode;
 import wordcloud.WordCloud;
 import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
@@ -35,7 +35,7 @@ public class TestWordCloud {
     public void simpleCircleTest() throws IOException {
         final List<WordFrequency> wordFrequencies = buildWordFrequences().subList(0, 150);
 
-        final WordCloud wordCloud = new WordCloud(600, 600, CollisionType.RECTANGLE);
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setColorPalette(buildRandomColorPallete(20));
@@ -48,7 +48,7 @@ public class TestWordCloud {
     public void simpleRectangleTest() throws IOException {
         final List<WordFrequency> wordFrequencies = buildWordFrequences().subList(0, 150);
 
-        final WordCloud wordCloud = new WordCloud(600, 600, CollisionType.RECTANGLE);
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setBackground(new RectangleBackground(600, 600));
         wordCloud.setColorPalette(buildRandomColorPallete(20));
@@ -65,7 +65,7 @@ public class TestWordCloud {
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(990, 618, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(990, 618, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
@@ -84,7 +84,7 @@ public class TestWordCloud {
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(500, 312, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(500, 312, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
@@ -101,7 +101,7 @@ public class TestWordCloud {
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(500, 312, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(500, 312, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setAngleGenerator(new AngleGenerator(-90, 90, 10));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
@@ -119,7 +119,7 @@ public class TestWordCloud {
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(990, 618, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(990, 618, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setAngleGenerator(new AngleGenerator(-90, 90, 10));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
@@ -137,7 +137,7 @@ public class TestWordCloud {
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(600, 600, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
@@ -156,7 +156,7 @@ public class TestWordCloud {
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(1000, 1000, CollisionType.PIXEL_PERFECT);
+        final WordCloud wordCloud = new WordCloud(1000, 1000, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(500));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
