@@ -119,6 +119,14 @@ public class WordCloud {
         drawForgroundToBackground();
     }
 
+    public BufferedImage writeToBufferedImage() {
+        final Graphics graphics = bufferedImage.getGraphics();
+        final BufferedImage copyOfWordCloud = new BufferedImage(width, height, this.bufferedImage.getType());
+        graphics.drawImage(copyOfWordCloud, 0, 0, null);
+
+        return copyOfWordCloud;
+    }
+
     public void writeToFile(final String outputFileName) {
         String extension = "";
         int i = outputFileName.lastIndexOf('.');
