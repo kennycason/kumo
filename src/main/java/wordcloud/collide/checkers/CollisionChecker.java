@@ -1,4 +1,6 @@
-package wordcloud.collide;
+package wordcloud.collide.checkers;
+
+import wordcloud.collide.Collidable;
 
 /**
  * Created by kenny on 7/1/14.

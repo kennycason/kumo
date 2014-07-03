@@ -1,4 +1,7 @@
-package wordcloud.collide;
+package wordcloud.collide.checkers;
+
+import wordcloud.collide.Collidable;
+import wordcloud.collide.Vector2d;
 
 import java.awt.image.BufferedImage;
 

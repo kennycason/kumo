@@ -1,5 +1,7 @@
 package wordcloud.collide;
 
+import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
+
 import java.awt.image.BufferedImage;
 
 /**

@@ -1,4 +1,7 @@
-package wordcloud.collide;
+package wordcloud.collide.checkers;
+
+import wordcloud.collide.Collidable;
+import wordcloud.collide.Vector2d;
 
 /**
  * Created by kenny on 6/29/14.

@@ -4,12 +4,14 @@ import ch.lambdaj.Lambda;
 import org.apache.log4j.Logger;
 import wordcloud.bg.Background;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.collide.CollisionChecker;
-import wordcloud.collide.RectangleCollisionChecker;
 import wordcloud.collide.RectanglePixelCollidable;
-import wordcloud.collide.RectanglePixelCollisionChecker;
+import wordcloud.collide.checkers.CollisionChecker;
+import wordcloud.collide.checkers.RectangleCollisionChecker;
+import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
+import wordcloud.font.FontOptions;
 import wordcloud.font.FontScalar;
 import wordcloud.font.LinearFontScalar;
+import wordcloud.image.AngleGenerator;
 import wordcloud.image.ImageRotation;
 import wordcloud.padding.Padder;
 import wordcloud.padding.RectanglePadder;
@@ -70,7 +72,13 @@ public class WordCloud {
 
     private FontScalar fontScalar = new LinearFontScalar(10, 40);
 
-    private double[] thetas = new double[] {0, -Math.PI / 2, Math.PI / 2};
+    private FontOptions fontOptions = new FontOptions("Comic Sans MS", Font.BOLD);
+
+    public void setAngleGenerator(AngleGenerator angleGenerator) {
+        this.angleGenerator = angleGenerator;
+    }
+
+    private AngleGenerator angleGenerator = new AngleGenerator();
 
     private final BufferedImage bufferedImage;
 
@@ -102,16 +110,13 @@ public class WordCloud {
     public void build(List<WordFrequency> wordFrequencies) {
         Collections.sort(wordFrequencies, WORD_FREQUENCE_COMPARATOR);
 
-        final List<Word> words = buildwords(wordFrequencies);
-
-        int i = 0;
-        for(final Word word : words) {
-            final double theta = thetas[i % thetas.length];
+        for(final Word word : buildwords(wordFrequencies)) {
+            final double theta = angleGenerator.randomNext();
             if(theta != 0) {
                 word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
             }
             place(word);
-            i++;
+
         }
         drawForgroundToBackground();
     }
@@ -123,6 +128,7 @@ public class WordCloud {
             extension = outputFileName.substring(i + 1);
         }
         try {
+            LOGGER.info("Saving WordCloud to " + outputFileName);
             ImageIO.write(bufferedImage, extension, new File(outputFileName));
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
@@ -226,8 +232,8 @@ public class WordCloud {
 
         final int frequency = wordFrequency.getFrequency();
         final int fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
+        final Font font = new Font(fontOptions.getType(), fontOptions.getWeight(), fontHeight);
 
-        final Font font = new Font("Comic Sans MS", Font.BOLD, fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
         if(padding > 0) {
@@ -260,8 +266,8 @@ public class WordCloud {
         this.fontScalar = fontScalar;
     }
 
-    public void setThetas(double[] thetas) {
-        this.thetas = thetas;
+    public void setFontOptions(FontOptions fontOptions) {
+        this.fontOptions = fontOptions;
     }
 
     public Set<Word> getSkipped() {

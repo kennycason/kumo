@@ -8,6 +8,7 @@ import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
 import wordcloud.font.LinearFontScalar;
+import wordcloud.image.AngleGenerator;
 import wordcloud.nlp.FrequencyAnalizer;
 import wordcloud.palette.ColorPalette;
 
@@ -59,16 +60,18 @@ public class TestWordCloud {
     @Test
     public void whaleImgLargeTest() throws IOException {
         final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(750);
+        frequencyAnalizer.setWordFrequencesToReturn(600);
         frequencyAnalizer.setMinWordLength(4);
         frequencyAnalizer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(990, 618, CollisionType.PIXEL_PERFECT);
         wordCloud.setPadding(2);
+        wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
-        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new LinearFontScalar(10, 50));
+//        wordCloud.setThetas(new double[] { 0 });
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/whale_wordcloud_large3.png");
     }
@@ -100,12 +103,12 @@ public class TestWordCloud {
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(500, 312, CollisionType.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setThetas(new double[] {0, -Math.PI / 4, -Math.PI / 2, -Math.PI / 3, Math.PI / 3, Math.PI / 2, Math.PI / 4});
+        wordCloud.setAngleGenerator(new AngleGenerator(-90, 90, 10));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
-        wordCloud.setFontScalar(new LinearFontScalar(20, 35));
+        wordCloud.setFontScalar(new LinearFontScalar(10, 30));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/whale_wordcloud_small_angles2.png");
+        wordCloud.writeToFile("output/whale_wordcloud_small_angles3.png");
     }
 
     @Test
@@ -118,7 +121,7 @@ public class TestWordCloud {
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(990, 618, CollisionType.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setThetas(new double[]{0, -Math.PI / 4, -Math.PI / 2, -Math.PI / 3, Math.PI / 3, Math.PI / 2, Math.PI / 4});
+        wordCloud.setAngleGenerator(new AngleGenerator(-90, 90, 10));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new LinearFontScalar(20, 50));

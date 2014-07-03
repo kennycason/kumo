@@ -1,7 +1,7 @@
 package wordcloud;
 
 import wordcloud.collide.Collidable;
-import wordcloud.collide.CollisionChecker;
+import wordcloud.collide.checkers.CollisionChecker;
 import wordcloud.collide.Vector2d;
 
 import java.awt.*;
@@ -34,7 +34,10 @@ public class Word implements Collidable {
         fontMetrics.getHeight();
 
         this.bufferedImage = new BufferedImage(width, maxAscent, BufferedImage.TYPE_INT_ARGB);
-        final Graphics graphics = this.bufferedImage.getGraphics();
+        final Graphics2D graphics = (Graphics2D) this.bufferedImage.getGraphics();
+        graphics.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         graphics.setColor(color);
         graphics.setFont(fontMetrics.getFont());
         graphics.drawString(word, 0, maxAscent - maxDescent);
