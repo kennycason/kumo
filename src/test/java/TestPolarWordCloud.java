@@ -8,6 +8,7 @@ import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
+import wordcloud.font.FontOptions;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.nlp.FrequencyAnalizer;
@@ -117,6 +118,34 @@ public class TestPolarWordCloud {
         wordCloud.build(wordFrequencies, wordFrequencies2);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
         wordCloud.writeToFile("output/polar_tide_chinese_vs_english2.png");
+    }
+
+    @Test
+    public void tidyCatLitter() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(200);
+        frequencyAnalizer.setMinWordLength(4);
+        frequencyAnalizer.setStopWords(loadStopWords());
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/tidy_cat_litter_positive.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/tidy_cat_litter_negative.txt"));
+
+        final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+        wordCloud.setPadding(2);
+        wordCloud.setFontOptions(new FontOptions("Cairo", Font.BOLD));
+        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
+        final long startTime = System.currentTimeMillis();
+        wordCloud.build(wordFrequencies, wordFrequencies2);
+        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        wordCloud.writeToFile("output/tidy_cat_litter_cat_shape3.png");
+
+        // horrible times, total 800 words
+        // pixel perfect
+        // loading from png 1335661ms
+        // loading from bmp 359172ms
+        // rectangle
+        // loading from bmp 464401ms
     }
 
     private static Set<String> loadStopWords() {
