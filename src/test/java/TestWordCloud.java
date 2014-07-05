@@ -220,6 +220,7 @@ public class TestWordCloud {
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setFontOptions(new FontOptions("LICENSE PLATE", Font.BOLD));
+        //wordCloud.setAngleGenerator(new AngleGenerator(0));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setColorPalette(buildRandomColorPallete(3));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));

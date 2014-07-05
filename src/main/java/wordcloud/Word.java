@@ -3,6 +3,7 @@ package wordcloud;
 import wordcloud.collide.Collidable;
 import wordcloud.collide.checkers.CollisionChecker;
 import wordcloud.collide.Vector2d;
+import wordcloud.image.CollisionRaster;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -21,6 +22,8 @@ public class Word implements Collidable {
     private Vector2d position = new Vector2d(0, 0);
 
     private BufferedImage bufferedImage;
+
+    private CollisionRaster collisionRaster;
 
     public Word(String word, Color color, FontMetrics fontMetrics, CollisionChecker collisionChecker) {
         this.word = word;
@@ -41,6 +44,8 @@ public class Word implements Collidable {
         graphics.setColor(color);
         graphics.setFont(fontMetrics.getFont());
         graphics.drawString(word, 0, maxAscent - maxDescent);
+
+        this.collisionRaster = new CollisionRaster(this.bufferedImage);
     }
 
     public BufferedImage getBufferedImage() {
@@ -49,6 +54,7 @@ public class Word implements Collidable {
 
     public void setBufferedImage(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
+        this.collisionRaster = new CollisionRaster(bufferedImage);
     }
 
     public String getWord() {
@@ -84,13 +90,17 @@ public class Word implements Collidable {
     }
 
     @Override
+    public CollisionRaster getCollisionRaster() {
+        return collisionRaster;
+    }
+
+    @Override
     public boolean collide(Collidable collidable) {
         return collisionChecker.collide(this, collidable);
     }
 
-    public void draw(Graphics graphics) {
-        graphics.setColor(color);
-        graphics.drawImage(bufferedImage, position.getX(), position.getY(), null);
+    public void draw(CollisionRaster collisionRaster) {
+        collisionRaster.mask(collisionRaster, position.getX(), position.getY());
     }
 
     @Override

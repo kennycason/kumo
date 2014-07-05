@@ -2,8 +2,7 @@ package wordcloud.collide.checkers;
 
 import wordcloud.collide.Collidable;
 import wordcloud.collide.Vector2d;
-
-import java.awt.image.BufferedImage;
+import wordcloud.image.CollisionRaster;
 
 /**
  * Created by kenny on 7/1/14.
@@ -32,6 +31,8 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
 
         final Vector2d position = collidable.getPosition();
         final Vector2d position2 = collidable2.getPosition();
+        final CollisionRaster collisionRaster = collidable.getCollisionRaster();
+        final CollisionRaster collisionRaster2 = collidable2.getCollisionRaster();
 
         // get the overlapping box
         int startX = Math.max(position.getX(), position2.getX());
@@ -43,19 +44,11 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         for(int y = startY ; y < endY ; y++) {
             for(int x = startX ; x < endX ; x++) {
                 // compute offsets for surface
-                if((!isTransparent(collidable2.getBufferedImage(), x - position2.getX(), y - position2.getY()))
-                        && (!isTransparent(collidable.getBufferedImage(), x - position.getX(), y - position.getY()))) {
+                if((!collisionRaster2.isTransparent(x - position2.getX(), y - position2.getY()))
+                        && (!collisionRaster.isTransparent(x - position.getX(), y - position.getY()))) {
                     return true;
                 }
             }
-        }
-        return false;
-    }
-
-    private boolean isTransparent(BufferedImage bufferedImage, int x, int y) {
-        int pixel = bufferedImage.getRGB(x, y);
-        if((pixel & 0xFF000000) == 0x00000000) {
-            return true;
         }
         return false;
     }

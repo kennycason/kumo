@@ -13,6 +13,7 @@ import wordcloud.font.FontOptions;
 import wordcloud.font.scale.FontScalar;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.image.AngleGenerator;
+import wordcloud.image.CollisionRaster;
 import wordcloud.image.ImageRotation;
 import wordcloud.padding.Padder;
 import wordcloud.padding.RectanglePadder;
@@ -74,7 +75,9 @@ public class PolarWordCloud {
 
     private AngleGenerator angleGenerator = new AngleGenerator();
 
-    private final BufferedImage bufferedImage;
+    private final CollisionRaster collisionRaster;
+
+    private final BufferedImage bufferedImage; // only used for getting graphics to render font
 
     private final Set<Word> placedWords = new HashSet<>();
 
@@ -101,8 +104,9 @@ public class PolarWordCloud {
                 this.collisionChecker = new RectangleCollisionChecker();
                 break;
         }
+        this.collisionRaster = new CollisionRaster(width, height);
         this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        this.backgroundCollidable = new RectanglePixelCollidable(bufferedImage, 0, 0);
+        this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, 0, 0);
         this.background = new RectangleBackground(width, height);
     }
 
@@ -176,14 +180,6 @@ public class PolarWordCloud {
         return max;
     }
 
-    public BufferedImage writeToBufferedImage() {
-        final Graphics graphics = bufferedImage.getGraphics();
-        final BufferedImage copyOfWordCloud = new BufferedImage(width, height, this.bufferedImage.getType());
-        graphics.drawImage(copyOfWordCloud, 0, 0, null);
-
-        return copyOfWordCloud;
-    }
-
     public void writeToFile(final String outputFileName) {
         String extension = "";
         int i = outputFileName.lastIndexOf('.');
@@ -247,7 +243,8 @@ public class PolarWordCloud {
                     placed = tryToPlace(word);
                 }
                 if(placed) {
-                    word.draw(graphics);
+                    collisionRaster.mask(word.getCollisionRaster(), word.getX(), word.getY());
+                    graphics.drawImage(word.getBufferedImage(), word.getX(), word.getY(), null);
                     return;
                 }
 

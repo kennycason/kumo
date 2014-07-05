@@ -12,6 +12,7 @@ import wordcloud.font.FontOptions;
 import wordcloud.font.scale.FontScalar;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.image.AngleGenerator;
+import wordcloud.image.CollisionRaster;
 import wordcloud.image.ImageRotation;
 import wordcloud.padding.Padder;
 import wordcloud.padding.RectanglePadder;
@@ -76,6 +77,8 @@ public class WordCloud {
 
     private AngleGenerator angleGenerator = new AngleGenerator();
 
+    private final CollisionRaster collisionRaster;
+
     private final BufferedImage bufferedImage;
 
     private final Set<Word> placedWords = new HashSet<>();
@@ -98,8 +101,9 @@ public class WordCloud {
                 this.collisionChecker = new RectangleCollisionChecker();
                 break;
         }
+        this.collisionRaster = new CollisionRaster(width, height);
         this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        this.backgroundCollidable = new RectanglePixelCollidable(bufferedImage, 0, 0);
+        this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, 0, 0);
         this.background = new RectangleBackground(width, height);
     }
 
@@ -117,14 +121,6 @@ public class WordCloud {
 
         }
         drawForgroundToBackground();
-    }
-
-    public BufferedImage writeToBufferedImage() {
-        final Graphics graphics = bufferedImage.getGraphics();
-        final BufferedImage copyOfWordCloud = new BufferedImage(width, height, this.bufferedImage.getType());
-        graphics.drawImage(copyOfWordCloud, 0, 0, null);
-
-        return copyOfWordCloud;
     }
 
     public void writeToFile(final String outputFileName) {
@@ -165,9 +161,9 @@ public class WordCloud {
      * @param word
      */
     private void place(final Word word, final int startX, final int startY) {
-        final int maxRadius = width;
-
         final Graphics graphics = this.bufferedImage.getGraphics();
+
+        final int maxRadius = width;
 
         for(int r = 0; r < maxRadius; r += 2) {
             for(int x = -r; x <= r && startX + x >= 0 && startX + x < width; x++) {
@@ -187,7 +183,8 @@ public class WordCloud {
                     placed = tryToPlace(word);
                 }
                 if(placed) {
-                    word.draw(graphics);
+                    collisionRaster.mask(word.getCollisionRaster(), word.getX(), word.getY());
+                    graphics.drawImage(word.getBufferedImage(), word.getX(), word.getY(), null);
                     return;
                 }
 

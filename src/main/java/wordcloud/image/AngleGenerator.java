@@ -20,6 +20,11 @@ public class AngleGenerator {
         thetas = calculateThetas(-90, 90);
     }
 
+    public AngleGenerator(int degrees) {
+        this.steps = 1;
+        this.thetas = new double[] { degreesToRadians(degrees) };
+    }
+
     public AngleGenerator(double fromDegrees, double toDegrees, int steps) {
         this.steps = steps;
         thetas = calculateThetas(fromDegrees, toDegrees);

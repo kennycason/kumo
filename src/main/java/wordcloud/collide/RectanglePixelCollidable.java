@@ -1,8 +1,7 @@
 package wordcloud.collide;
 
 import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
-
-import java.awt.image.BufferedImage;
+import wordcloud.image.CollisionRaster;
 
 /**
  * Created by kenny on 7/2/14.
@@ -13,10 +12,10 @@ public class RectanglePixelCollidable implements Collidable {
 
     private final Vector2d position;
 
-    private final BufferedImage bufferedImage;
+    private final CollisionRaster collisionRaster;
 
-    public RectanglePixelCollidable(BufferedImage bufferedImage, int x, int y) {
-        this.bufferedImage = bufferedImage;
+    public RectanglePixelCollidable(CollisionRaster collisionRaster, int x, int y) {
+        this.collisionRaster = collisionRaster;
         this.position = new Vector2d(x, y);
     }
 
@@ -38,17 +37,19 @@ public class RectanglePixelCollidable implements Collidable {
         return position;
     }
 
+    @Override
     public int getWidth() {
-        return bufferedImage.getWidth();
-    }
-
-    public int getHeight() {
-        return bufferedImage.getHeight();
+        return collisionRaster.getWidth();
     }
 
     @Override
-    public BufferedImage getBufferedImage() {
-        return bufferedImage;
+    public int getHeight() {
+        return collisionRaster.getHeight();
+    }
+
+    @Override
+    public CollisionRaster getCollisionRaster() {
+        return collisionRaster;
     }
 
 }

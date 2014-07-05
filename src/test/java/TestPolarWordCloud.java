@@ -123,7 +123,7 @@ public class TestPolarWordCloud {
     @Test
     public void tidyCatLitter() throws IOException {
         final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(200);
+        frequencyAnalizer.setWordFrequencesToReturn(400);
         frequencyAnalizer.setMinWordLength(4);
         frequencyAnalizer.setStopWords(loadStopWords());
 
@@ -140,12 +140,16 @@ public class TestPolarWordCloud {
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
         wordCloud.writeToFile("output/tidy_cat_litter_cat_shape3.png");
 
-        // horrible times, total 800 words
+        // horrible times, 400 words, total 800 words
         // pixel perfect
         // loading from png 1335661ms
         // loading from bmp 359172ms
         // rectangle
         // loading from bmp 464401ms
+
+        // after optimization one
+        // pixel perfect
+        // loading from bmp 35213ms
     }
 
     private static Set<String> loadStopWords() {

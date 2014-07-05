@@ -1,6 +1,6 @@
 package wordcloud.collide;
 
-import java.awt.image.BufferedImage;
+import wordcloud.image.CollisionRaster;
 
 /**
  * Created by kenny on 6/29/14.
@@ -10,5 +10,5 @@ public interface Collidable {
     Vector2d getPosition();
     int getWidth();
     int getHeight();
-    BufferedImage getBufferedImage();
+    CollisionRaster getCollisionRaster();
 }

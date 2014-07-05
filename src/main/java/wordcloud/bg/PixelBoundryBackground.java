@@ -2,6 +2,7 @@ package wordcloud.bg;
 
 import wordcloud.collide.Collidable;
 import wordcloud.collide.Vector2d;
+import wordcloud.image.CollisionRaster;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,13 +14,14 @@ import java.io.InputStream;
  */
 public class PixelBoundryBackground implements Background {
 
-    private final BufferedImage bufferedImage;
+    private final CollisionRaster collisionRaster;
 
     private final RectangleBackground rectangleBackground;
 
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
-        this.bufferedImage = ImageIO.read(imageInputStream);
-        this.rectangleBackground = new RectangleBackground(this.bufferedImage.getWidth(), this.bufferedImage.getHeight());
+        final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
+        this.collisionRaster = new CollisionRaster(bufferedImage);
+        this.rectangleBackground = new RectangleBackground(bufferedImage.getWidth(), bufferedImage.getHeight());
     }
 
     @Override
@@ -31,16 +33,16 @@ public class PixelBoundryBackground implements Background {
         final Vector2d position = collidable.getPosition();
         // get the overlapping box
         int startX = Math.max(position.getX(), 0);
-        int endX = Math.min(position.getX() + collidable.getWidth(), this.bufferedImage.getWidth());
+        int endX = Math.min(position.getX() + collidable.getWidth(), collisionRaster.getWidth());
 
         int startY = Math.max(position.getY(), 0);
-        int endY = Math.min(position.getY() + collidable.getHeight(), this.bufferedImage.getHeight());
+        int endY = Math.min(position.getY() + collidable.getHeight(), collisionRaster.getHeight());
 
         for(int y = startY ; y < endY ; y++) {
             for(int x = startX ; x < endX ; x++) {
                 // compute offsets for surface
-                if(isTransparent(this.bufferedImage, x - 0, y - 0) &&
-                        !isTransparent(collidable.getBufferedImage(), x - position.getX(), y - position.getY())) {
+                if(collisionRaster.isTransparent(x - 0, y - 0) &&
+                        !collidable.getCollisionRaster().isTransparent(x - position.getX(), y - position.getY())) {
                     return false;
                 }
             }
@@ -48,11 +50,4 @@ public class PixelBoundryBackground implements Background {
         return true;
     }
 
-    private static boolean isTransparent(BufferedImage bufferedImage, int x, int y) {
-        int pixel = bufferedImage.getRGB(x, y);
-        if((pixel & 0xFF000000) == 0x00000000) {
-            return true;
-        }
-        return false;
-    }
 }
