@@ -15,6 +15,7 @@ Current Features
 - Load Custom Color Pallettes.
 - Two Modes that of Colision and Padding: PIXEL_PERFECT and RECTANGLE.
 - Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
+- Layered Word Clouds. Overlay multiple word clouds.
 - WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
 - Frequency Analyzer to tokenize, filter and compute word counts.
 
@@ -37,7 +38,7 @@ Current Features
 <tr><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large_angles.png" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_small_angles3.png" width="300"/>
+<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_word_cloud.png" width="300"/>
 </td></tr>
 <tr><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/polar_newyork_whale_large_blur.png" width="300"/>
@@ -127,5 +128,39 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies, wordFrequencies2);
 wordCloud.writeToFile("output/polar_newyork_circle_blur_sqrt_font.png");
+```
+
+
+Create a Layered Word Cloud from two images/two word sets
+
+```java
+final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+frequencyAnalizer.setWordFrequencesToReturn(300);
+frequencyAnalizer.setMinWordLength(5);
+frequencyAnalizer.setStopWords(loadStopWords());
+
+final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/new_york_positive.txt"));
+final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/new_york_negative.txt"));
+
+final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, CollisionMode.PIXEL_PERFECT);
+
+layeredWordCloud.setPadding(0, 1);
+layeredWordCloud.setPadding(1, 1);
+
+layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", Font.BOLD));
+layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", Font.BOLD));
+
+layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
+layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
+
+layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xABEDFF), new Color(0x82E4FF), new Color(0x55D6FA)));
+layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0xFFFFFF), new Color(0xDCDDDE), new Color(0xCCCCCC)));
+
+layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 40));
+layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
+
+layeredWordCloud.build(0, wordFrequencies);
+layeredWordCloud.build(1, wordFrequencies2);
+layeredWordCloud.writeToFile("output/layered_word_cloud.png");
 ```
 
