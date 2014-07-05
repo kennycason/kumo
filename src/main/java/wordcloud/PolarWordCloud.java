@@ -130,16 +130,12 @@ public class PolarWordCloud {
                 final Word word = wordIterator.next();
                 final Vector2d startPosition = getStartPosition(pole1);
 
-                final double theta = angleGenerator.randomNext();
-                word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
                 place(word, startPosition.getX(), startPosition.getY());
             }
             if(wordIterator2.hasNext()) {
                 final Word word = wordIterator2.next();
                 final Vector2d startPosition = getStartPosition(pole2);
 
-                final double theta = angleGenerator.randomNext();
-                word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
                 place(word, startPosition.getX(), startPosition.getY());
             }
         }
@@ -297,8 +293,12 @@ public class PolarWordCloud {
 
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
+        final double theta = angleGenerator.randomNext();
+        if(theta != 0) {
+            word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
+        }
         if(padding > 0) {
-            padder.pad(word, padding, backgroundColor);
+            padder.pad(word, padding);
         }
         return word;
     }
@@ -334,6 +334,10 @@ public class PolarWordCloud {
 
     public void setAngleGenerator(AngleGenerator angleGenerator) {
         this.angleGenerator = angleGenerator;
+    }
+
+    public BufferedImage getBufferedImage() {
+        return bufferedImage;
     }
 
     public Set<Word> getSkipped() {

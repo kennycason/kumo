@@ -88,7 +88,7 @@ public class TestWordCloud {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(500, 312, CollisionMode.PIXEL_PERFECT);
-        wordCloud.setPadding(2);
+        wordCloud.setPadding(1);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));

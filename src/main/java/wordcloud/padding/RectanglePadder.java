@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class RectanglePadder implements Padder {
 
     @Override
-    public void pad(Word word, int padding, Color color) {
+    public void pad(Word word, int padding) {
         if(padding <= 0) { return; }
 
         final BufferedImage bufferedImage = word.getBufferedImage();

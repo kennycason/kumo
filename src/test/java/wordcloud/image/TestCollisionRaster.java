@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by kenny on 7/4/14.
  */
-public class TestImageData {
+public class TestCollisionRaster {
 
     @Test
     public void basicTests() {

@@ -34,6 +34,10 @@ public class CollisionRaster {
         return data[x][y];
     }
 
+    public void setRGB(int x, int y, int rgb) {
+        data[x][y] = rgb;
+    }
+
     public void mask(final CollisionRaster collisionRaster, int x, int y) {
         final int maxHeight = Math.min(y + collisionRaster.getHeight(), height);
         final int maxWidth = Math.min(x + collisionRaster.getWidth(), width);

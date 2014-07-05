@@ -111,12 +111,8 @@ public class WordCloud {
         Collections.sort(wordFrequencies, WORD_FREQUENCE_COMPARATOR);
 
         for(final Word word : buildwords(wordFrequencies)) {
-            final double theta = angleGenerator.randomNext();
-            if(theta != 0) {
-                word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
-            }
-            final int startX = RANDOM.nextInt(width - word.getWidth());
-            final int startY = RANDOM.nextInt(height - word.getHeight());
+            final int startX = RANDOM.nextInt(Math.max(width - word.getWidth(), width));
+            final int startY = RANDOM.nextInt(Math.max(height - word.getHeight(), height));
             place(word, startX, startY);
 
         }
@@ -143,6 +139,8 @@ public class WordCloud {
      * for a more flexible pixel perfect collision
      */
     private void drawForgroundToBackground() {
+        if(backgroundColor == null) { return; }
+
         final BufferedImage backgroundBufferedImage = new BufferedImage(width, height, this.bufferedImage.getType());
         final Graphics graphics = backgroundBufferedImage.getGraphics();
 
@@ -237,8 +235,13 @@ public class WordCloud {
 
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
+
+        final double theta = angleGenerator.randomNext();
+        if(theta != 0) {
+            word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
+        }
         if(padding > 0) {
-            padder.pad(word, padding, backgroundColor);
+            padder.pad(word, padding);
         }
         return word;
     }
@@ -273,6 +276,10 @@ public class WordCloud {
 
     public void setAngleGenerator(AngleGenerator angleGenerator) {
         this.angleGenerator = angleGenerator;
+    }
+
+    public BufferedImage getBufferedImage() {
+        return bufferedImage;
     }
 
     public Set<Word> getSkipped() {
