@@ -6,6 +6,6 @@ package wordcloud.nlp.sanitize;
 public class BasicTextSanitizer implements Sanitizer {
     @Override
     public String sanitize(String text) {
-        return text.replaceAll("\\.|:|\"|,|\\?|,|!|<|>|/", " ");
+        return text.replaceAll("\\.|:|;|\\(|\\)|\"|,|\\?|,|!|<|>|/", " ");
     }
 }

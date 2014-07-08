@@ -47,6 +47,7 @@ public class FrequencyAnalizer {
 
         // generate all word counts
         final Map<String, Integer> cloud = calculateCloud(texts, wordTokenizer);
+
         for(String key : cloud.keySet()) {
             if(key.length() >= minWordLength
                     && key.length() < MAX_LENGTH) {
@@ -61,7 +62,7 @@ public class FrequencyAnalizer {
         for(String text : texts) {
             final List<String> words = Lambda.filter(stopWordFilter, tokenizer.tokenize(sanitizer.sanitize(text)));
             for(String word : words) {
-                word = word.toLowerCase();
+                word = StringUtils.trimToEmpty(word).toLowerCase();
                 if(StringUtils.isNotBlank(word)) {
                     if(cloud.containsKey(word)) {
                         cloud.put(word, cloud.get(word) + 1);

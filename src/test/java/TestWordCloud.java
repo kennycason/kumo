@@ -16,6 +16,7 @@ import wordcloud.nlp.tokenizer.ChineseWordTokenizer;
 import wordcloud.palette.ColorPalette;
 
 import java.awt.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -228,6 +229,26 @@ public class TestWordCloud {
         wordCloud.build(wordFrequencies);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
         wordCloud.writeToFile("output/tidy_cat_litter.png");
+    }
+
+
+    @Test
+    public void datarankCode() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(600);
+        frequencyAnalizer.setMinWordLength(5);
+        frequencyAnalizer.setStopWords(loadStopWords());
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(new FileInputStream("/tmp/code.txt"));
+        final WordCloud wordCloud = new WordCloud(990, 618, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(2);
+        wordCloud.setBackgroundColor(Color.WHITE);
+        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
+        wordCloud.setColorPalette(buildRandomColorPallete(3));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
+//        wordCloud.setThetas(new double[] { 0 });
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("/tmp/datarank_code.png");
     }
 
     private static ColorPalette buildRandomColorPallete(int n) {
