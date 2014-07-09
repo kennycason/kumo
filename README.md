@@ -45,7 +45,12 @@ Current Features
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_rectangle.png" width="300"/>
 </td></tr>
+<tr><td>
+<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_haskell.png" width="300"/>
+</td><td>
+</td></tr>
 </table>
+
 
 Example to generate a Word Cloud on top of an image.
 
