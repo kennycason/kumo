@@ -62,6 +62,41 @@ public class TestLayeredWordCloud {
         layeredWordCloud.writeToFile("output/layered_word_cloud.png");
     }
 
+    @Test
+    public void layeredHaskellExample() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(300);
+        frequencyAnalizer.setMinWordLength(5);
+        frequencyAnalizer.setStopWords(loadStopWords());
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/haskell_hate.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/haskell_love.txt"));
+
+        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 424, CollisionMode.PIXEL_PERFECT);
+        layeredWordCloud.setBackgroundColor(Color.WHITE);
+
+        layeredWordCloud.setPadding(0, 1);
+        layeredWordCloud.setPadding(1, 1);
+
+        layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", Font.BOLD));
+        layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", Font.BOLD));
+
+        layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/haskell_1.bmp")));
+        layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/haskell_2.bmp")));
+
+        layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xFA6C07), new Color(0xFF7614), new Color(0xFF8936)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x080706), new Color(0x3B3029), new Color(0x47362A)));
+
+        layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 40));
+        layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
+
+        final long startTime = System.currentTimeMillis();
+        layeredWordCloud.build(0, wordFrequencies);
+        layeredWordCloud.build(1, wordFrequencies2);
+        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        layeredWordCloud.writeToFile("output/layered_haskell.png");
+    }
+
     private static Set<String> loadStopWords() {
         try {
             final List<String> lines = IOUtils.readLines(getInputStream("text/stop_words.txt"));
