@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -75,7 +76,6 @@ public class TestWordCloud {
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
-//        wordCloud.setThetas(new double[] { 0 });
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/whale_wordcloud_large3.png");
     }
@@ -246,9 +246,28 @@ public class TestWordCloud {
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setColorPalette(buildRandomColorPallete(3));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
-//        wordCloud.setThetas(new double[] { 0 });
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("/tmp/datarank_code.png");
+    }
+
+    @Test
+    public void dragonChinese() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordTokenizer(new ChineseWordTokenizer());
+        frequencyAnalizer.setWordFrequencesToReturn(900);
+        frequencyAnalizer.setMinWordLength(1);
+        frequencyAnalizer.setStopWords(Arrays.asList("是", "不", "了", "的", "个", "子"));
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/chinese_dragon.txt"));
+        final WordCloud wordCloud = new WordCloud(555, 555, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackgroundColor(new Color(0xE35A05));
+        wordCloud.setAngleGenerator(new AngleGenerator(0));
+        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/dragon.png")));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0x0), new Color(0x333333), new Color(0x555555)));
+        wordCloud.setFontScalar(new SqrtFontScalar(6, 50));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/dragon_chinese.png");
     }
 
     private static ColorPalette buildRandomColorPallete(int n) {
