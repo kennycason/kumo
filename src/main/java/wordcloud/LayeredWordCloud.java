@@ -2,7 +2,7 @@ package wordcloud;
 
 import org.apache.log4j.Logger;
 import wordcloud.bg.Background;
-import wordcloud.font.FontOptions;
+import wordcloud.font.CloudFont;
 import wordcloud.font.scale.FontScalar;
 import wordcloud.image.AngleGenerator;
 import wordcloud.palette.ColorPalette;
@@ -63,8 +63,8 @@ public class LayeredWordCloud {
         this.wordClouds.get(layer).setFontScalar(fontScalar);
     }
 
-    public void setFontOptions(int layer, FontOptions fontOptions) {
-        this.wordClouds.get(layer).setFontOptions(fontOptions);
+    public void setFontOptions(int layer, CloudFont cloudFont) {
+        this.wordClouds.get(layer).setCloudFont(cloudFont);
     }
 
     public void setAngleGenerator(int layer, AngleGenerator angleGenerator) {

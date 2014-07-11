@@ -9,7 +9,8 @@ import wordcloud.collide.Vector2d;
 import wordcloud.collide.checkers.CollisionChecker;
 import wordcloud.collide.checkers.RectangleCollisionChecker;
 import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
-import wordcloud.font.FontOptions;
+import wordcloud.font.CloudFont;
+import wordcloud.font.FontWeight;
 import wordcloud.font.scale.FontScalar;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.image.AngleGenerator;
@@ -71,7 +72,7 @@ public class PolarWordCloud {
 
     private FontScalar fontScalar = new LinearFontScalar(10, 40);
 
-    private FontOptions fontOptions = new FontOptions("Comic Sans MS", Font.BOLD);
+    private CloudFont cloudFont = new CloudFont("Comic Sans MS", FontWeight.BOLD);
 
     private AngleGenerator angleGenerator = new AngleGenerator();
 
@@ -289,7 +290,7 @@ public class PolarWordCloud {
 
         final int frequency = wordFrequency.getFrequency();
         final int fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
-        final Font font = new Font(fontOptions.getType(), fontOptions.getWeight(), fontHeight);
+        final Font font = new Font(cloudFont.getType(), cloudFont.getWeight(), fontHeight);
 
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
@@ -328,8 +329,8 @@ public class PolarWordCloud {
         this.fontScalar = fontScalar;
     }
 
-    public void setFontOptions(FontOptions fontOptions) {
-        this.fontOptions = fontOptions;
+    public void setCloudFont(CloudFont cloudFont) {
+        this.cloudFont = cloudFont;
     }
 
     public void setAngleGenerator(AngleGenerator angleGenerator) {

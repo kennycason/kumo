@@ -3,13 +3,13 @@ package wordcloud.font;
 /**
  * Created by kenny on 7/3/14.
  */
-public class FontOptions {
+public class CloudFont {
 
     private final String type;
 
-    private final int weight;
+    private final FontWeight weight;
 
-    public FontOptions(String type, int weight) {
+    public CloudFont(String type, FontWeight weight) {
         this.type = type;
         this.weight = weight;
     }
@@ -19,7 +19,7 @@ public class FontOptions {
     }
 
     public int getWeight() {
-        return weight;
+        return weight.getWeight();
     }
 
 }

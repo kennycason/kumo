@@ -5,7 +5,8 @@ import wordcloud.CollisionMode;
 import wordcloud.LayeredWordCloud;
 import wordcloud.WordFrequency;
 import wordcloud.bg.PixelBoundryBackground;
-import wordcloud.font.FontOptions;
+import wordcloud.font.CloudFont;
+import wordcloud.font.FontWeight;
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.nlp.FrequencyAnalizer;
 import wordcloud.palette.ColorPalette;
@@ -43,8 +44,8 @@ public class TestLayeredWordCloud {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", Font.BOLD));
-        layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", Font.BOLD));
+        layeredWordCloud.setFontOptions(0, new CloudFont("LICENSE PLATE", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
@@ -78,8 +79,8 @@ public class TestLayeredWordCloud {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", Font.BOLD));
-        layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", Font.BOLD));
+        layeredWordCloud.setFontOptions(0, new CloudFont("LICENSE PLATE", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/haskell_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/haskell_2.bmp")));

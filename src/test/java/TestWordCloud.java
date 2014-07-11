@@ -7,7 +7,8 @@ import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.FontOptions;
+import wordcloud.font.CloudFont;
+import wordcloud.font.FontWeight;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.image.AngleGenerator;
@@ -200,7 +201,7 @@ public class TestWordCloud {
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setFontOptions(new FontOptions("Simple Slumg__G", Font.BOLD));
+        wordCloud.setCloudFont(new CloudFont("Simple Slumg__G", FontWeight.BOLD));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/earth.bmp")));
         wordCloud.setColorPalette(buildRandomColorPallete(3));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
@@ -220,7 +221,7 @@ public class TestWordCloud {
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/tidy_cat_litter_top.txt"));
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setFontOptions(new FontOptions("LICENSE PLATE", Font.BOLD));
+        wordCloud.setCloudFont(new CloudFont("LICENSE PLATE", FontWeight.BOLD));
         //wordCloud.setAngleGenerator(new AngleGenerator(0));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setColorPalette(buildRandomColorPallete(3));

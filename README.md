@@ -152,8 +152,8 @@ final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, Coll
 layeredWordCloud.setPadding(0, 1);
 layeredWordCloud.setPadding(1, 1);
 
-layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", Font.BOLD));
-layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", Font.BOLD));
+layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", FontWeight.BOLD));
+layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", FontWeight.BOLD));
 
 layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
 layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));

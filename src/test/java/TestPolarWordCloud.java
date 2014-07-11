@@ -8,7 +8,8 @@ import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.FontOptions;
+import wordcloud.font.CloudFont;
+import wordcloud.font.FontWeight;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.nlp.FrequencyAnalizer;
@@ -132,7 +133,7 @@ public class TestPolarWordCloud {
 
         final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
-        wordCloud.setFontOptions(new FontOptions("Cairo", Font.BOLD));
+        wordCloud.setCloudFont(new CloudFont("Cairo", FontWeight.BOLD));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
