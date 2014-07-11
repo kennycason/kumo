@@ -14,14 +14,14 @@ public class LinearFontScalar implements FontScalar {
     }
 
     @Override
-    public int scale(int value, int minValue, int maxValue) {
-        int leftSpan = maxValue - minValue;
-        int rightSpan = maxFont - minFont;
+    public float scale(int value, int minValue, int maxValue) {
+        float leftSpan = maxValue - minValue;
+        float rightSpan = maxFont - minFont;
 
         // Convert the left range into a 0-1 range
-        double valueScaled = (double)(value - minValue) / (double)leftSpan;
+        float valueScaled = (value - minValue) / leftSpan;
 
         // Convert the 0-1 range into a value in the right range.
-        return (int)(minFont + (valueScaled * rightSpan));
+        return (minFont + (valueScaled * rightSpan));
     }
 }

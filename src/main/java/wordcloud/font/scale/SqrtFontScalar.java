@@ -14,14 +14,14 @@ public class SqrtFontScalar implements FontScalar {
     }
 
     @Override
-    public int scale(int value, int minValue, int maxValue) {
-        int leftSpan = (int)(Math.sqrt(maxValue) - Math.sqrt(minValue));
-        int rightSpan = maxFont - minFont;
+    public float scale(int value, int minValue, int maxValue) {
+        double leftSpan = Math.sqrt(maxValue) - Math.sqrt(minValue);
+        double rightSpan = maxFont - minFont;
 
         // Convert the left range into a 0-1 range
-        double valueScaled = (Math.sqrt(value) - Math.sqrt(minValue)) / (double)leftSpan;
+        double valueScaled = (Math.sqrt(value) - Math.sqrt(minValue)) / leftSpan;
 
         // Convert the 0-1 range into a value in the right range.
-        return (int)(minFont + (valueScaled * rightSpan));
+        return (float)(minFont + (valueScaled * rightSpan));
     }
 }

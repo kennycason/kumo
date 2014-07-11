@@ -231,8 +231,8 @@ public class WordCloud {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int frequency = wordFrequency.getFrequency();
-        final int fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
-        final Font font = new Font(cloudFont.getType(), cloudFont.getWeight(), fontHeight);
+        final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
+        final Font font = cloudFont.getFont().deriveFont(fontHeight);
 
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);

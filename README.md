@@ -48,6 +48,7 @@ Current Features
 <tr><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_haskell.png" width="300"/>
 </td><td>
+<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_pho_bowl.png" width="300"/>
 </td></tr>
 </table>
 

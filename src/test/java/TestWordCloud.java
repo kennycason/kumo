@@ -78,7 +78,7 @@ public class TestWordCloud {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/whale_wordcloud_large3.png");
+        wordCloud.writeToFile("output/whale_wordcloud_large.png");
     }
 
     @Test
@@ -220,16 +220,17 @@ public class TestWordCloud {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/tidy_cat_litter_top.txt"));
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
-        wordCloud.setPadding(2);
-        wordCloud.setCloudFont(new CloudFont("LICENSE PLATE", FontWeight.BOLD));
+        wordCloud.setPadding(1);
+        wordCloud.setCloudFont(new CloudFont("Marker Felt", FontWeight.PLAIN));
         //wordCloud.setAngleGenerator(new AngleGenerator(0));
+        wordCloud.setBackgroundColor(Color.BLACK);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
-        wordCloud.setColorPalette(buildRandomColorPallete(3));
-        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0xcccccc), new Color(0xdddddd), new Color(0xffffff)));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        wordCloud.writeToFile("output/tidy_cat_litter.png");
+        wordCloud.writeToFile("output/tidy_cat_litter_black_cat.png");
     }
 
 
@@ -269,6 +270,23 @@ public class TestWordCloud {
         wordCloud.setFontScalar(new SqrtFontScalar(6, 50));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/dragon_chinese.png");
+    }
+
+    @Test
+    public void largeCircleTest() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(5000);
+        frequencyAnalizer.setMinWordLength(2);
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(new FileInputStream("/tmp/code.txt"));
+
+        final WordCloud wordCloud = new WordCloud(1000, 1000, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackground(new CircleBackground(500));
+        wordCloud.setColorPalette(buildRandomColorPallete(20));
+        wordCloud.setFontScalar(new LinearFontScalar(10, 100));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/wordcloud_large_code_circle.png");
     }
 
     private static ColorPalette buildRandomColorPallete(int n) {
