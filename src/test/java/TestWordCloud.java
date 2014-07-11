@@ -72,13 +72,14 @@ public class TestWordCloud {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(990, 618, CollisionMode.PIXEL_PERFECT);
-        wordCloud.setPadding(2);
+        wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
+        wordCloud.setCloudFont(new CloudFont("helvitica", FontWeight.BOLD));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/whale_wordcloud_large.png");
+        wordCloud.writeToFile("output/whale_wordcloud_large2.png");
     }
 
     @Test
@@ -287,6 +288,25 @@ public class TestWordCloud {
         wordCloud.setFontScalar(new LinearFontScalar(10, 100));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/wordcloud_large_code_circle.png");
+    }
+
+    @Test
+    public void matchOnlineExample() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(600);
+        frequencyAnalizer.setMinWordLength(5);
+        frequencyAnalizer.setStopWords(loadStopWords());
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(new FileInputStream("/tmp/code.txt"));
+
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackground(new CircleBackground(300));
+        wordCloud.setBackgroundColor(Color.WHITE);
+        wordCloud.setColorPalette(buildRandomColorPallete(2));
+        wordCloud.setCloudFont(new CloudFont("Helvitica", FontWeight.PLAIN));
+        wordCloud.setFontScalar(new LinearFontScalar(8, 130));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/wordcloud_match_online_example.png");
     }
 
     private static ColorPalette buildRandomColorPallete(int n) {
