@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -43,48 +42,41 @@ public class WordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
 
-    private static final Random RANDOM = new Random();
+    protected static final Random RANDOM = new Random();
 
-    protected static final Comparator<WordFrequency> WORD_FREQUENCE_COMPARATOR = new Comparator<WordFrequency>() {
-        @Override
-        public int compare(WordFrequency o1, WordFrequency o2) {
-            return o2.getFrequency() - o1.getFrequency();
-        }
-    };
+    protected final int width;
 
-    private final int width;
+    protected final int height;
 
-    private final int height;
+    protected final CollisionMode collisionMode;
 
-    private final CollisionMode collisionMode;
+    protected final CollisionChecker collisionChecker;
 
-    private final Padder padder;
+    protected final Padder padder;
 
-    private final CollisionChecker collisionChecker;
+    protected int padding = 0;
 
-    private Background background;
+    protected Background background;
 
-    private final RectanglePixelCollidable backgroundCollidable;
+    protected final RectanglePixelCollidable backgroundCollidable;
 
-    private Color backgroundColor = Color.BLACK;
+    protected Color backgroundColor = Color.BLACK;
 
-    private int padding = 0;
+    protected FontScalar fontScalar = new LinearFontScalar(10, 40);
+
+    protected CloudFont cloudFont = new CloudFont("Comic Sans MS", FontWeight.BOLD);
+
+    protected AngleGenerator angleGenerator = new AngleGenerator();
+
+    protected final CollisionRaster collisionRaster;
+
+    protected final BufferedImage bufferedImage;
+
+    protected final Set<Word> placedWords = new HashSet<>();
+
+    protected final Set<Word> skipped = new HashSet<>();
 
     private ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
-
-    private FontScalar fontScalar = new LinearFontScalar(10, 40);
-
-    private CloudFont cloudFont = new CloudFont("Comic Sans MS", FontWeight.BOLD);
-
-    private AngleGenerator angleGenerator = new AngleGenerator();
-
-    private final CollisionRaster collisionRaster;
-
-    private final BufferedImage bufferedImage;
-
-    private final Set<Word> placedWords = new HashSet<>();
-
-    private final Set<Word> skipped = new HashSet<>();
 
     public WordCloud(int width, int height, CollisionMode collisionMode) {
         this.width = width;
@@ -109,9 +101,9 @@ public class WordCloud {
     }
 
     public void build(List<WordFrequency> wordFrequencies) {
-        Collections.sort(wordFrequencies, WORD_FREQUENCE_COMPARATOR);
+        Collections.sort(wordFrequencies);
 
-        for(final Word word : buildwords(wordFrequencies)) {
+        for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
             final int startX = RANDOM.nextInt(Math.max(width - word.getWidth(), width));
             final int startY = RANDOM.nextInt(Math.max(height - word.getHeight(), height));
             place(word, startX, startY);
@@ -139,7 +131,7 @@ public class WordCloud {
      * Doing it this way preserves the transparency of the this.bufferedImage's pixels
      * for a more flexible pixel perfect collision
      */
-    private void drawForgroundToBackground() {
+    protected void drawForgroundToBackground() {
         if(backgroundColor == null) { return; }
 
         final BufferedImage backgroundBufferedImage = new BufferedImage(width, height, this.bufferedImage.getType());
@@ -159,7 +151,7 @@ public class WordCloud {
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word
      */
-    private void place(final Word word, final int startX, final int startY) {
+    protected void place(final Word word, final int startX, final int startY) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int maxRadius = width;
@@ -217,17 +209,17 @@ public class WordCloud {
         return false;
     }
 
-    private List<Word> buildwords(final List<WordFrequency> wordFrequencies) {
+    protected List<Word> buildwords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
         final List<Word> words = new ArrayList<>();
         for(final WordFrequency wordFrequency : wordFrequencies) {
-            words.add(buildWord(wordFrequency, maxFrequency));
+            words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
         }
         return words;
     }
 
-    private Word buildWord(final WordFrequency wordFrequency, int maxFrequency) {
+    private Word buildWord(final WordFrequency wordFrequency, int maxFrequency, final ColorPalette colorPalette) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int frequency = wordFrequency.getFrequency();

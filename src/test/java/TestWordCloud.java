@@ -60,7 +60,7 @@ public class TestWordCloud {
         wordCloud.setColorPalette(buildRandomColorPallete(20));
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/wordcloud_rectangle.png");
+        wordCloud.writeToFile("output/wordcloud_rectangle2.png");
     }
 
     @Test

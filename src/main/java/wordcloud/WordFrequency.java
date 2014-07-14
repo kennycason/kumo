@@ -3,7 +3,7 @@ package wordcloud;
 /**
  * Created by kenny on 6/29/14.
  */
-public class WordFrequency {
+public class WordFrequency implements Comparable<WordFrequency> {
 
     private final String word;
 
@@ -21,4 +21,10 @@ public class WordFrequency {
     public int getFrequency() {
         return frequency;
     }
+
+    @Override
+    public int compareTo(WordFrequency wordFrequency) {
+        return wordFrequency.frequency - frequency;
+    }
+
 }

@@ -109,7 +109,7 @@ public class TestPolarWordCloud {
         final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new RectangleBackground(800, 600));
-        wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 70));
 
         final ColorPalette colorPalette = new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5));
         final ColorPalette colorPalette2 = new ColorPalette(new Color(0xFA8E8E), new Color(0xF77979), new Color(0xF55F5F), new Color(0xF24949));
@@ -151,6 +151,7 @@ public class TestPolarWordCloud {
         // after optimization one
         // pixel perfect
         // loading from bmp 35213ms
+        // now, 18110ms
     }
 
     private static Set<String> loadStopWords() {
