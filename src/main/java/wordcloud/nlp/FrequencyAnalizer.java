@@ -3,6 +3,8 @@ package wordcloud.nlp;
 import ch.lambdaj.Lambda;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import wordcloud.WordFrequency;
 import wordcloud.nlp.filter.StopWordFilter;
 import wordcloud.nlp.sanitize.BasicTextSanitizer;
@@ -12,7 +14,9 @@ import wordcloud.nlp.tokenizer.WordTokenizer;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,9 +46,16 @@ public class FrequencyAnalizer {
     private int minWordLength = 3;
 
     public List<WordFrequency> load(InputStream fileInputStream) throws IOException {
-        final List<WordFrequency> wordFrequencies = new ArrayList<>();
-        final List<String> texts = IOUtils.readLines(fileInputStream);
+        return load(IOUtils.readLines(fileInputStream));
+    }
 
+    public List<WordFrequency> load(URL url) throws IOException {
+        final Document doc = Jsoup.parse(url, 3 * 1000);
+        return load(Arrays.asList(doc.body().text()));
+    }
+
+    public List<WordFrequency> load(final List<String> texts) {
+        final List<WordFrequency> wordFrequencies = new ArrayList<>();
         // generate all word counts
         final Map<String, Integer> cloud = calculateCloud(texts, wordTokenizer);
 

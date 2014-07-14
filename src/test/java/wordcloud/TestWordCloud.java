@@ -19,6 +19,7 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,6 +64,42 @@ public class TestWordCloud {
     }
 
     @Test
+    public void loadCatInTheHatFromUrl() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(500);
+        frequencyAnalizer.setMinWordLength(3);
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(new URL("http://www.jasondavies.com/wordtree/cat-in-the-hat.txt"));
+        final WordCloud wordCloud = new WordCloud(400, 400, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackground(new RectangleBackground(400, 400));
+        wordCloud.setCloudFont(new CloudFont("Impact", FontWeight.PLAIN));
+       // wordCloud.setAngleGenerator(new AngleGenerator(-60, 60, 5));
+        wordCloud.setColorPalette(buildRandomColorPallete(5));
+        wordCloud.setFontScalar(new LinearFontScalar(18, 70));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/cat_in_the_hat.png");
+    }
+
+    @Test
+    public void readCNN() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(500);
+        frequencyAnalizer.setMinWordLength(3);
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(new URL("http://www.cnn.com/"));
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackground(new RectangleBackground(600, 600));
+        wordCloud.setCloudFont(new CloudFont("Impact", FontWeight.PLAIN));
+        // wordCloud.setAngleGenerator(new AngleGenerator(-60, 60, 5));
+        wordCloud.setColorPalette(buildRandomColorPallete(5));
+        wordCloud.setFontScalar(new LinearFontScalar(18, 70));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/cnn.png");
+    }
+
+    @Test
     public void whaleImgLargeTest() throws IOException {
         final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
         frequencyAnalizer.setWordFrequencesToReturn(600);
@@ -74,11 +111,11 @@ public class TestWordCloud {
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
-        wordCloud.setCloudFont(new CloudFont("helvitica", FontWeight.BOLD));
+        wordCloud.setCloudFont(new CloudFont("Impact", FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/whale_wordcloud_large2.png");
+        wordCloud.writeToFile("output/whale_wordcloud_large_impact.png");
     }
 
     @Test
@@ -113,7 +150,7 @@ public class TestWordCloud {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
         wordCloud.setFontScalar(new LinearFontScalar(10, 30));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/whale_wordcloud_small_angles3.png");
+        wordCloud.writeToFile("output/whale_wordcloud_small_angles4.png");
     }
 
     @Test
