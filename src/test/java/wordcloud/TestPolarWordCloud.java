@@ -1,10 +1,8 @@
+package wordcloud;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import wordcloud.CollisionMode;
-import wordcloud.PolarBlendMode;
-import wordcloud.PolarWordCloud;
-import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
@@ -113,7 +111,8 @@ public class TestPolarWordCloud {
 
         final ColorPalette colorPalette = new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5));
         final ColorPalette colorPalette2 = new ColorPalette(new Color(0xFA8E8E), new Color(0xF77979), new Color(0xF55F5F), new Color(0xF24949));
-        wordCloud.setColorPalettes(colorPalette, colorPalette2);
+        wordCloud.setColorPalette(colorPalette);
+        wordCloud.setColorPalette2(colorPalette2);
 
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);

@@ -1,9 +1,8 @@
+package wordcloud;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import wordcloud.CollisionMode;
-import wordcloud.WordCloud;
-import wordcloud.WordFrequency;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;

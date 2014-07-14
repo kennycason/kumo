@@ -1,6 +1,5 @@
 package wordcloud;
 
-import org.apache.log4j.Logger;
 import wordcloud.collide.Vector2d;
 import wordcloud.palette.ColorPalette;
 
@@ -14,21 +13,25 @@ import java.util.List;
  */
 public class PolarWordCloud extends WordCloud {
 
-    private static final Logger LOGGER = Logger.getLogger(PolarWordCloud.class);
+    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(new Color(0x1BE000), new Color(0x1AC902), new Color(0x15B000), new Color(0x129400), new Color(0x0F7A00), new Color(0x0B5E00));
+
+    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(new Color(0xF50000), new Color(0xDE0000), new Color(0xC90202), new Color(0xB50202), new Color(0x990202), new Color(0x800101));
 
     private final PolarBlendMode polarBlendMode;
 
-    private ColorPalette colorPalette = new ColorPalette(new Color(0x1BE000), new Color(0x1AC902), new Color(0x15B000), new Color(0x129400), new Color(0x0F7A00), new Color(0x0B5E00));
-
-    private ColorPalette colorPalette2 = new ColorPalette(new Color(0xF50000), new Color(0xDE0000), new Color(0xC90202), new Color(0xB50202), new Color(0x990202), new Color(0x800101));
+    private ColorPalette colorPalette2;
 
     public PolarWordCloud(int width, int height, CollisionMode collisionMode) {
         this(width, height, collisionMode, PolarBlendMode.EVEN);
+        this.colorPalette = DEFAULT_POSITIVE_COLORS;
+        this.colorPalette2 = DEFAULT_NEGATIVE_COLORS;
     }
 
     public PolarWordCloud(int width, int height, CollisionMode collisionMode, PolarBlendMode polarBlendMode) {
         super(width, height, collisionMode);
         this.polarBlendMode = polarBlendMode;
+        this.colorPalette = DEFAULT_POSITIVE_COLORS;
+        this.colorPalette2 = DEFAULT_NEGATIVE_COLORS;
     }
 
     public void build(List<WordFrequency> wordFrequencies, List<WordFrequency> wordFrequencies2) {
@@ -97,8 +100,7 @@ public class PolarWordCloud extends WordCloud {
         return max;
     }
 
-    public void setColorPalettes(ColorPalette colorPalette, ColorPalette colorPalette2) {
-        this.colorPalette = colorPalette;
+    public void setColorPalette2(ColorPalette colorPalette2) {
         this.colorPalette2 = colorPalette2;
     }
 

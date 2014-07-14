@@ -1,9 +1,8 @@
+package wordcloud;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import wordcloud.CollisionMode;
-import wordcloud.LayeredWordCloud;
-import wordcloud.WordFrequency;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.font.CloudFont;
 import wordcloud.font.FontWeight;
@@ -17,7 +16,6 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -26,8 +24,6 @@ import java.util.Set;
 public class TestLayeredWordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(TestLayeredWordCloud.class);
-
-    private static final Random RANDOM = new Random();
 
     @Test
     public void layeredExample() throws IOException {

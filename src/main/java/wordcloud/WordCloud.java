@@ -76,7 +76,7 @@ public class WordCloud {
 
     protected final Set<Word> skipped = new HashSet<>();
 
-    private ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
+    protected ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
 
     public WordCloud(int width, int height, CollisionMode collisionMode) {
         this.width = width;
