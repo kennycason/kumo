@@ -26,7 +26,7 @@ Current Features
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/chinese_language_circle.png" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large2.png" width="300"/>
+<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large_impact.png" width="300"/>
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large3.png" width="300"/>
 </td></tr>
