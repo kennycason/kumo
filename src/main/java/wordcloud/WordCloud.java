@@ -157,7 +157,10 @@ public class WordCloud {
         final int maxRadius = width;
 
         for(int r = 0; r < maxRadius; r += 2) {
-            for(int x = -r; x <= r && startX + x >= 0 && startX + x < width; x++) {
+            for(int x = -r; x <= r; x++) {
+                if(startX + x < 0) { continue; }
+                if(startX + x >= width) { continue; }
+
                 boolean placed = false;
                 word.setX(startX + x);
 
@@ -240,6 +243,7 @@ public class WordCloud {
     }
 
     private int maxFrequency(final Collection<WordFrequency> wordFrequencies) {
+        if(wordFrequencies.isEmpty()) { return 1; }
         return Lambda.max(wordFrequencies, on(WordFrequency.class).getFrequency());
     }
 
