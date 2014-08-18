@@ -69,16 +69,12 @@ public class Word implements Collidable {
         return position.getX();
     }
 
-    public void setX(int x) {
-        position.setX(x);
-    }
-
     public int getY() {
         return position.getY();
     }
 
-    public void setY(int y) {
-        position.setY(y);
+    public void setXY(Vector2d position) {
+        this.position = position;
     }
 
     public int getWidth() {

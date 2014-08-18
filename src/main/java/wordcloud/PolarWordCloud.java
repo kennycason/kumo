@@ -54,13 +54,13 @@ public class PolarWordCloud extends WordCloud {
                 final Word word = wordIterator.next();
                 final Vector2d startPosition = getStartPosition(pole1);
 
-                place(word, startPosition.getX(), startPosition.getY());
+                place(word, startPosition);
             }
             if(wordIterator2.hasNext()) {
                 final Word word = wordIterator2.next();
                 final Vector2d startPosition = getStartPosition(pole2);
 
-                place(word, startPosition.getX(), startPosition.getY());
+                place(word, startPosition);
             }
         }
 

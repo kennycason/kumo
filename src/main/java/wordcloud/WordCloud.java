@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import wordcloud.bg.Background;
 import wordcloud.bg.RectangleBackground;
 import wordcloud.collide.RectanglePixelCollidable;
+import wordcloud.collide.Vector2d;
 import wordcloud.collide.checkers.CollisionChecker;
 import wordcloud.collide.checkers.RectangleCollisionChecker;
 import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
@@ -19,6 +20,8 @@ import wordcloud.padding.Padder;
 import wordcloud.padding.RectanglePadder;
 import wordcloud.padding.WordPixelPadder;
 import wordcloud.palette.ColorPalette;
+import wordcloud.spiral.RectangleSpiralFunction;
+import wordcloud.spiral.SpiralFunction;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -52,6 +55,14 @@ public class WordCloud {
 
     protected final CollisionChecker collisionChecker;
 
+    protected final CollisionRaster collisionRaster;
+
+    protected final BufferedImage bufferedImage;
+
+    protected final Set<Word> placedWords = new HashSet<>();
+
+    protected final Set<Word> skipped = new HashSet<>();
+
     protected final Padder padder;
 
     protected int padding = 0;
@@ -67,14 +78,6 @@ public class WordCloud {
     protected CloudFont cloudFont = new CloudFont("Comic Sans MS", FontWeight.BOLD);
 
     protected AngleGenerator angleGenerator = new AngleGenerator();
-
-    protected final CollisionRaster collisionRaster;
-
-    protected final BufferedImage bufferedImage;
-
-    protected final Set<Word> placedWords = new HashSet<>();
-
-    protected final Set<Word> skipped = new HashSet<>();
 
     protected ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
 
@@ -106,7 +109,7 @@ public class WordCloud {
         for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
             final int startX = RANDOM.nextInt(Math.max(width - word.getWidth(), width));
             final int startY = RANDOM.nextInt(Math.max(height - word.getHeight(), height));
-            place(word, startX, startY);
+            place(word, new Vector2d(startX, startY));
 
         }
         drawForgroundToBackground();
@@ -151,37 +154,25 @@ public class WordCloud {
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word
      */
-    protected void place(final Word word, final int startX, final int startY) {
+    protected void place(final Word word, final Vector2d start) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
-        final int maxRadius = width;
+        final SpiralFunction spiralFunction = new RectangleSpiralFunction(start, width);
 
-        for(int r = 0; r < maxRadius; r += 2) {
-            for(int x = -r; x <= r; x++) {
-                if(startX + x < 0) { continue; }
-                if(startX + x >= width) { continue; }
+        while(spiralFunction.hasNext()) {
+            final Vector2d point = spiralFunction.next();
+            if(point.getX() < 0 ||
+                    point.getX() >= width ||
+                    point.getY() < 0 ||
+                    point.getY() >= height) {
+                continue;
+            }
 
-                boolean placed = false;
-                word.setX(startX + x);
-
-                // try positive root
-                int y1 = (int) Math.sqrt(r * r - x * x);
-                if(startY + y1 >= 0 && startY + y1 < height) {
-                    word.setY(startY + y1);
-                    placed = tryToPlace(word);
-                }
-                // try negative root
-                int y2 = -y1;
-                if(!placed && startY + y2 >= 0 && startY + y2 < height) {
-                    word.setY(startY + y2);
-                    placed = tryToPlace(word);
-                }
-                if(placed) {
-                    collisionRaster.mask(word.getCollisionRaster(), word.getX(), word.getY());
-                    graphics.drawImage(word.getBufferedImage(), word.getX(), word.getY(), null);
-                    return;
-                }
-
+            word.setXY(point);
+            if(tryToPlace(word)) {
+                collisionRaster.mask(word.getCollisionRaster(), word.getX(), word.getY());
+                graphics.drawImage(word.getBufferedImage(), word.getX(), word.getY(), null);
+                return;
             }
         }
         LOGGER.info("skipped: " + word.getWord());

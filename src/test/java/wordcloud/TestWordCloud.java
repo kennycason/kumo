@@ -342,7 +342,7 @@ public class TestWordCloud {
         wordCloud.setCloudFont(new CloudFont("Helvitica", FontWeight.PLAIN));
         wordCloud.setFontScalar(new LinearFontScalar(8, 130));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/wordcloud_match_online_example.png");
+        wordCloud.writeToFile("/tmp/wordcloud_match_online_example.png");
     }
 
     private static ColorPalette buildRandomColorPallete(int n) {

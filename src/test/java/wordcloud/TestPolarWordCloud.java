@@ -138,7 +138,7 @@ public class TestPolarWordCloud {
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        wordCloud.writeToFile("output/tidy_cat_litter_cat_shape3.png");
+        wordCloud.writeToFile("/tmp/tidy_cat_litter_cat_shape3.png");
 
         // horrible times, 400 words, total 800 words
         // pixel perfect
