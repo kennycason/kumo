@@ -21,9 +21,9 @@ import java.util.Set;
 /**
  * Created by kenny on 7/5/14.
  */
-public class TestLayeredWordCloud {
+public class ITestLayeredWordCloud {
 
-    private static final Logger LOGGER = Logger.getLogger(TestLayeredWordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(ITestLayeredWordCloud.class);
 
     @Test
     public void layeredExample() throws IOException {

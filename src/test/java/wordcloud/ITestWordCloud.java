@@ -31,9 +31,9 @@ import java.util.Set;
 /**
  * Created by kenny on 6/29/14.
  */
-public class TestWordCloud {
+public class ITestWordCloud {
 
-    private static final Logger LOGGER = Logger.getLogger(TestWordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(ITestWordCloud.class);
 
     private static final Random RANDOM = new Random();
 

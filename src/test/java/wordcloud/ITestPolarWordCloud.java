@@ -25,9 +25,9 @@ import java.util.Set;
 /**
  * Created by kenny on 6/29/14.
  */
-public class TestPolarWordCloud {
+public class ITestPolarWordCloud {
 
-    private static final Logger LOGGER = Logger.getLogger(TestWordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(ITestWordCloud.class);
 
     @Test
     public void whaleImgLargePolarTest() throws IOException {
