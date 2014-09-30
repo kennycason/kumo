@@ -74,7 +74,8 @@ wordCloud.writeToFile("output/whale_wordcloud_small.png");
 Example to generate a circular Word Cloud.
 
 ```java
-final List<WordFrequency> wordFrequencies = buildWordFrequences().subList(0, 150);
+final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/my_text_file.txt"));
 
 final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
@@ -88,7 +89,8 @@ wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
 Example to generate a rectangle Word Cloud
 
 ```java
-final List<WordFrequency> wordFrequencies = buildWordFrequences().subList(0, 150);
+final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/my_text_file.txt"));
 
 final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.RECTANGLE);
 wordCloud.setPadding(0);
@@ -153,8 +155,8 @@ final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, Coll
 layeredWordCloud.setPadding(0, 1);
 layeredWordCloud.setPadding(1, 1);
 
-layeredWordCloud.setFontOptions(0, new FontOptions("LICENSE PLATE", FontWeight.BOLD));
-layeredWordCloud.setFontOptions(1, new FontOptions("Comic Sans MS", FontWeight.BOLD));
+layeredWordCloud.setFontOptions(0, new CloudFont("LICENSE PLATE", FontWeight.BOLD));
+layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
 
 layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
 layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
