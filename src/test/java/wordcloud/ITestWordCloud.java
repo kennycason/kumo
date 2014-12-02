@@ -345,6 +345,23 @@ public class ITestWordCloud {
         wordCloud.writeToFile("output/wordcloud_match_online_example.png");
     }
 
+    @Test
+    public void anotherRectangleTest() throws IOException {
+        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
+        frequencyAnalizer.setWordFrequencesToReturn(250);
+        frequencyAnalizer.setMinWordLength(5);
+        frequencyAnalizer.setStopWords(loadStopWords());
+        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/sample.txt"));
+
+        final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(2);
+        wordCloud.setBackground(new RectangleBackground(600, 600));
+        wordCloud.setColorPalette(buildRandomColorPallete(4));
+        wordCloud.setFontScalar(new LinearFontScalar(30, 60));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/random_sample.png");
+    }
+
     private static ColorPalette buildRandomColorPallete(int n) {
         final Color[] colors = new Color[n];
         for(int i = 0; i < colors.length; i++) {
@@ -363,7 +380,7 @@ public class ITestWordCloud {
     }
 
     private static List<String> getPokemonNames() throws IOException {
-        return IOUtils.readLines(getInputStream("pokemon.txt"));
+        return IOUtils.readLines(getInputStream("text/pokemon.txt"));
     }
 
     private static Set<String> loadStopWords() {
