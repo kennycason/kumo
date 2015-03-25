@@ -25,6 +25,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -123,6 +124,32 @@ public class WordCloud {
             ImageIO.write(bufferedImage, extension, new File(outputFileName));
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Write to output stream as PNG
+     *
+     * @param outputStream the output stream to write the image data to
+     */
+    public void writeToStreamAsPNG(final OutputStream outputStream) {
+        writeToStream("png", outputStream);
+    }
+
+    /**
+     * Write wordcloud image data to stream in the given format
+     *
+     * @param format       the image format
+     * @param outputStream the output stream to write image data to
+     */
+    public void writeToStream(final String format, final OutputStream outputStream) {
+        try {
+            LOGGER.debug("Writing WordCloud image data to output stream");
+            ImageIO.write(bufferedImage, format, outputStream);
+            LOGGER.debug("Done writing WordCloud image data to output stream");
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException("Could not write wordcloud to outputstream due to an IOException", e);
         }
     }
 
