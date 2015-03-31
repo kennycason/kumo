@@ -19,6 +19,15 @@ Current Features
 - WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
 - Frequency Analyzer to tokenize, filter and compute word counts.
 
+Available from Maven Central
+```xml
+<dependency>
+    <groupId>com.kennycason</groupId>
+    <artifactId>kumo</artifactId>
+    <version>1.0</version>
+</dependency>
+```
+
 <table>
 <tr><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/datarank_wordcloud_circle_sqrt_font.png" width="300"/>
