@@ -1,7 +1,7 @@
 Kumo
 ==============
 
-My main goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do). Kumo, with the exception of it's maven dependencies should be easy to integegrate into current Java Maven projects. 
+Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).
 
 Please feel free to jump in and help improve Kumo! There are many places for performance optimization in Kumo!
 
