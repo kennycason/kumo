@@ -1,11 +1,11 @@
 Kumo
 ==============
 
-Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).
+Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet as many other libraries do.
 
 Please feel free to jump in and help improve Kumo! There are many places for performance optimization in Kumo!
 
-Current Features
+**Current Features**
 - Draw Rectangle, Circle or Image Overlay word clouds. Image Overlay will draw words over all non-transparent pixels.
 - Linear, Square-Root Font Scalars. Fully extendible.
 - Variable Font Sizes.
@@ -19,7 +19,7 @@ Current Features
 - WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
 - Frequency Analyzer to tokenize, filter and compute word counts.
 
-Available from Maven Central
+**Available from Maven Central**
 ```xml
 <dependency>
     <groupId>com.kennycason</groupId>
@@ -28,6 +28,7 @@ Available from Maven Central
 </dependency>
 ```
 
+**Screenshots**
 <table>
 <tr><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/datarank_wordcloud_circle_sqrt_font.png" width="300"/>
@@ -61,6 +62,7 @@ Available from Maven Central
 </td></tr>
 </table>
 
+**Examples**
 
 Example to generate a Word Cloud on top of an image.
 
