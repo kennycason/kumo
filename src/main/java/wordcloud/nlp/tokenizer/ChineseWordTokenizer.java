@@ -1,71 +1,26 @@
 package wordcloud.nlp.tokenizer;
 
-import wordcloud.nlp.tokenizer.trie.StringTrie;
+import org.languagetool.language.Chinese;
+import org.languagetool.tokenizers.Tokenizer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kenny on 7/3/14.
- */
 public class ChineseWordTokenizer implements WordTokenizer {
 
-    private StringTrie library;
+    private static final Chinese CHINESE = new Chinese();
 
-    private boolean loadTraditional;
-
-    public ChineseWordTokenizer() {
-        this(true);
-    }
-
-    public ChineseWordTokenizer(boolean loadTraditional) {
-        loadLibrary();
-        this.loadTraditional = loadTraditional;
-    }
+    public ChineseWordTokenizer() {}
 
     @Override
     public List<String> tokenize(String sentence) {
-        List<String> words = new ArrayList<>();
-        String word;
-        int maxMisses = 6;
-        for (int i = 0; i < sentence.length(); i++) {
-            int len = 1;
-            boolean loop;
-            int misses = 0;
-            int lastCorrectLen = 1;
-            boolean somethingFound = false;
-            do {
-                word = sentence.substring(i, i + len);
-                if (library.contains(word)) {
-                    somethingFound = true;
-                    lastCorrectLen = len;
-                    loop = true;
-                } else {
-                    misses++;
-                    loop = misses < maxMisses;
-                }
-                len++;
-                if(i + len > sentence.length()) {
-                    loop = false;
-                }
-            } while (loop);
-            if(somethingFound) {
-                word = sentence.substring(i, i + lastCorrectLen);
-                if (!"".equals(word)) {
-                    words.add(word);
-                    i += lastCorrectLen - 1;
-                }
-            }
+        final Tokenizer tokenizer = CHINESE.getWordTokenizer();
+        final List<String> rawTokens = tokenizer.tokenize(sentence);
+        final List<String> tokens = new ArrayList<>();
+        for(String rawToken : rawTokens) {   // parse parts-of-speech tags away (政府/n, 依照/p, 法律/n, 行/ng, 使/v, 执法/vn)
+            tokens.add(rawToken.substring(0, rawToken.indexOf('/')));
         }
-        return words;
-    }
-
-    private void loadLibrary() {
-        library = new StringTrie();
-        library.loadFile("nlp/dict/chinese_simple.list");
-        if(loadTraditional) {
-            library.loadFile("nlp/dict/chinese_traditional.list");
-        }
+        return tokens;
     }
 
 }
