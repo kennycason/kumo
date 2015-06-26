@@ -1,0 +1,6 @@
+satish 90
+krishna 10
+home 10
+varun 23
+hello 13
+go 2
