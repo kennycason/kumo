@@ -48,6 +48,10 @@ public class FrequencyAnalizer {
     public List<WordFrequency> load(InputStream fileInputStream) throws IOException {
         return load(IOUtils.readLines(fileInputStream));
     }
+    
+    public List<WordFrequency> load(InputStream fileInputStream,FileType fileType) throws IOException {
+        return load(IOUtils.readLines(fileInputStream),fileType);
+    }
 
     public List<WordFrequency> load(URL url) throws IOException {
         final Document doc = Jsoup.parse(url, 3 * 1000);
@@ -95,7 +99,39 @@ public class FrequencyAnalizer {
         return sorted.subList(0, Math.min(sorted.size(), wordFrequencesToReturn));
     }
 
-    public void setStopWords(Collection<String> stopWords) {
+    public List<WordFrequency> load(final List<String> texts,FileType fileType) {
+    	if(fileType == FileType.REGULAR)
+    		return load(texts);
+    	
+        final List<WordFrequency> wordFrequencies = new ArrayList<>();
+        // generate all word counts
+        final Map<String, Integer> cloud = calculateCloud(texts, wordTokenizer, fileType);
+
+        for(String key : cloud.keySet()) {
+            if(key.length() >= minWordLength
+                    && key.length() < MAX_LENGTH) {
+                wordFrequencies.add(new WordFrequency(key, cloud.get(key)));
+            }
+        }
+        return takeTopFrequencies(wordFrequencies);
+    }
+    
+    private Map<String, Integer> calculateCloud(List<String> texts, WordTokenizer tokenizer, FileType fileType) {
+    	final Map<String, Integer> cloud = new HashMap<>();
+        for(String text : texts) {
+            final List<String> words = Lambda.filter(stopWordFilter, tokenizer.tokenize(sanitizer.sanitize(text)));
+            int sz = words.size();
+            if(sz > 2)
+            	continue;
+            for(int i=0; i<sz; i++){
+            	int freq = Integer.parseInt(words.get(1));
+            	cloud.put(words.get(0), freq);
+            }
+        }
+        return cloud;
+	}
+
+	public void setStopWords(Collection<String> stopWords) {
         this.stopWordFilter = new StopWordFilter(stopWords);
     }
 
