@@ -10,7 +10,7 @@ import wordcloud.font.CloudFont;
 import wordcloud.font.FontWeight;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
-import wordcloud.nlp.FrequencyAnalizer;
+import wordcloud.nlp.FrequencyAnalyzer;
 import wordcloud.nlp.tokenizer.ChineseWordTokenizer;
 import wordcloud.palette.ColorPalette;
 
@@ -31,13 +31,13 @@ public class ITestPolarWordCloud {
 
     @Test
     public void whaleImgLargePolarTest() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(600);
-        frequencyAnalizer.setMinWordLength(4);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(600);
+        frequencyAnalyzer.setMinWordLength(4);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/new_york_positive.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/new_york_negative.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
         final PolarWordCloud wordCloud = new PolarWordCloud(990, 618, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
@@ -52,13 +52,13 @@ public class ITestPolarWordCloud {
 
     @Test
     public void newyorkPolarCircle() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(750);
-        frequencyAnalizer.setMinWordLength(4);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(750);
+        frequencyAnalyzer.setMinWordLength(4);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/new_york_positive.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/new_york_negative.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
         final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
@@ -72,13 +72,13 @@ public class ITestPolarWordCloud {
 
     @Test
     public void newyorkPolarRectangle() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(750);
-        frequencyAnalizer.setMinWordLength(4);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(750);
+        frequencyAnalyzer.setMinWordLength(4);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/new_york_positive.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/new_york_negative.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
         final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
@@ -92,17 +92,17 @@ public class ITestPolarWordCloud {
 
     @Test
     public void chineseVsEnglishTideComments() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(750);
-        frequencyAnalizer.setMinWordLength(3);
-        frequencyAnalizer.setStopWords(loadStopWords());
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/english_tide.txt"));
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(750);
+        frequencyAnalyzer.setMinWordLength(3);
+        frequencyAnalyzer.setStopWords(loadStopWords());
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/english_tide.txt"));
 
-        final FrequencyAnalizer chineseFrequencyAnalizer = new FrequencyAnalizer();
-        chineseFrequencyAnalizer.setWordFrequencesToReturn(750);
-        chineseFrequencyAnalizer.setMinWordLength(2);
-        chineseFrequencyAnalizer.setWordTokenizer(new ChineseWordTokenizer());
-        final List<WordFrequency> wordFrequencies2 = chineseFrequencyAnalizer.load(getInputStream("text/chinese_tide.txt"));
+        final FrequencyAnalyzer chineseFrequencyAnalyzer = new FrequencyAnalyzer();
+        chineseFrequencyAnalyzer.setWordFrequencesToReturn(750);
+        chineseFrequencyAnalyzer.setMinWordLength(2);
+        chineseFrequencyAnalyzer.setWordTokenizer(new ChineseWordTokenizer());
+        final List<WordFrequency> wordFrequencies2 = chineseFrequencyAnalyzer.load(getInputStream("text/chinese_tide.txt"));
 
         final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
@@ -122,13 +122,13 @@ public class ITestPolarWordCloud {
 
     @Test
     public void tidyCatLitter() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(400);
-        frequencyAnalizer.setMinWordLength(4);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(400);
+        frequencyAnalyzer.setMinWordLength(4);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/tidy_cat_litter_positive.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/tidy_cat_litter_negative.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_positive.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_negative.txt"));
 
         final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
