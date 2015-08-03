@@ -9,7 +9,7 @@
     <name>${project.artifactId}</name>
     <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).</description>
     <url>https://github.com/kennycason/kumo</url>
-    <version>1.1</version>
+    <version>1.2</version>
 
     <dependencies>
         <dependency>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.16</version>
+            <version>1.2.17</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -30,22 +30,37 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>3.4</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.7.3</version>
+            <version>1.8.2</version>
         </dependency>
+
+        <!-- nlp -->
+        <!-- TODO remove from kumo core -->
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>language-en</artifactId>
             <version>2.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.languagetool</groupId>
             <artifactId>language-zh</artifactId>
             <version>2.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -55,9 +70,11 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <prerequisites>
         <maven>3.3.0</maven>
     </prerequisites>
+
     <developers>
         <developer>
             <id>kennycason</id>
@@ -68,10 +85,12 @@
             <url>https://github.com/kennycason</url>
         </developer>
     </developers>
+
     <issueManagement>
         <system>github</system>
         <url>https://github.com/kennycason/kumo/issues</url>
     </issueManagement>
+
     <licenses>
         <license>
             <name>GNU General Public License, version 3 (GPL-3.0)</name>
@@ -79,11 +98,13 @@
             <url>http://opensource.org/licenses/GPL-3.0</url>
         </license>
     </licenses>
+
     <scm>
         <connection>scm:git:git@github.com:kennycason/kumo.git</connection>
         <developerConnection>scm:git:git@github.com:kennycason/kumo.git</developerConnection>
         <url>https://github.com/kennycason/kumo</url>
     </scm>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -94,6 +115,7 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+
     <profiles>
         <profile>
             <id>release</id>
@@ -117,6 +139,7 @@
             </build>
         </profile>
     </profiles>
+
     <build>
         <plugins>
             <plugin>

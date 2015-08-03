@@ -7,7 +7,7 @@ import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.font.CloudFont;
 import wordcloud.font.FontWeight;
 import wordcloud.font.scale.SqrtFontScalar;
-import wordcloud.nlp.FrequencyAnalizer;
+import wordcloud.nlp.FrequencyAnalyzer;
 import wordcloud.palette.ColorPalette;
 
 import java.awt.*;
@@ -27,13 +27,13 @@ public class ITestLayeredWordCloud {
 
     @Test
     public void layeredExample() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(300);
-        frequencyAnalizer.setMinWordLength(5);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(300);
+        frequencyAnalyzer.setMinWordLength(5);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/new_york_positive.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/new_york_negative.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, CollisionMode.PIXEL_PERFECT);
 
@@ -61,13 +61,13 @@ public class ITestLayeredWordCloud {
 
     @Test
     public void layeredHaskellExample() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(300);
-        frequencyAnalizer.setMinWordLength(5);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(300);
+        frequencyAnalyzer.setMinWordLength(5);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/haskell_hate.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/haskell_love.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/haskell_hate.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/haskell_love.txt"));
 
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 424, CollisionMode.PIXEL_PERFECT);
         layeredWordCloud.setBackgroundColor(Color.WHITE);
@@ -97,15 +97,15 @@ public class ITestLayeredWordCloud {
 
     @Test
     public void layeredPhoBowl() throws IOException {
-        final FrequencyAnalizer frequencyAnalizer = new FrequencyAnalizer();
-        frequencyAnalizer.setWordFrequencesToReturn(1000);
-        frequencyAnalizer.setMinWordLength(3);
-        frequencyAnalizer.setStopWords(loadStopWords());
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequencesToReturn(1000);
+        frequencyAnalyzer.setMinWordLength(3);
+        frequencyAnalyzer.setStopWords(loadStopWords());
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalizer.load(getInputStream("text/pho_history.txt"));
-        final List<WordFrequency> wordFrequencies2 = frequencyAnalizer.load(getInputStream("text/pho_history_viet.txt"));
-        final List<WordFrequency> wordFrequencies3 = frequencyAnalizer.load(getInputStream("text/pho_recipee.txt"));
-        final List<WordFrequency> wordFrequencies4 = frequencyAnalizer.load(getInputStream("text/pho_chopsticks.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/pho_history.txt"));
+        final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/pho_history_viet.txt"));
+        final List<WordFrequency> wordFrequencies3 = frequencyAnalyzer.load(getInputStream("text/pho_recipee.txt"));
+        final List<WordFrequency> wordFrequencies4 = frequencyAnalyzer.load(getInputStream("text/pho_chopsticks.txt"));
 
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, 1000, 976, CollisionMode.PIXEL_PERFECT);
         layeredWordCloud.setBackgroundColor(new Color(0x333333));
