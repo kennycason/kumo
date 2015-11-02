@@ -1,6 +1,46 @@
-satish 90
-krishna 10
-home 10
-varun 23
-hello 13
-go 2
+@selenagomez    :   6
+@zaynpapacito:  :   6
+@xstrology: :   7
+@ollyofficial   :   7
+@movienotebook  :   7
+artist)"@justinbieber   :   7
+@notebook   :   7
+@marilynmonroeid    :   7
+@zahraa_bieberr :   7
+@scooterbraun   :   7
+@meganbata  :   7
+@ddlovato   :   7
+@jlo    :   7
+@allfollowmax   :   8
+@tfb_roberta    :   8
+@oliverlaaance  :   8
+@bellathorne    :   9
+@officialvbravo :   11
+@codysimpson    :   12
+@beelinegames   :   13
+@thewanted  :   13
+@unionjworld    :   13
+@ladygaga   :   14
+@nathanthewanted    :   14
+@siwon407   :   14
+@britawards :   14
+@ashleytisdale  :   14
+@austinmahone   :   15
+@rihanna    :   17
+@iamwill    :   18
+@rednoseday :   22
+@carlyraejepsen :   23
+@bieberstimtam  :   24
+@awwswaag   :   26
+@jbieberfanr5   :   32
+@arianagrande   :   36
+@fearnecotton   :   41
+@youtube    :   41
+@zaynmalik  :   48
+@onedirection   :   57
+@real_liam_payne    :   64
+@louis_tomlinson:   :   110
+@harry_styles   :   117
+@louis_tomlinson    :   151
+@niallofficial  :   277
+@justinbieber   :   405

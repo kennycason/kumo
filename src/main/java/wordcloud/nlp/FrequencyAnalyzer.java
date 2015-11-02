@@ -13,6 +13,7 @@ import wordcloud.nlp.normalize.CharacterStrippingNormalizer;
 import wordcloud.nlp.normalize.LowerCaseNormalizer;
 import wordcloud.nlp.normalize.Normalizer;
 import wordcloud.nlp.normalize.TrimToEmptyNormalizer;
+import wordcloud.nlp.tokenizer.ColonTokenizer;
 import wordcloud.nlp.tokenizer.WhiteSpaceWordTokenizer;
 import wordcloud.nlp.tokenizer.WordTokenizer;
 
@@ -74,6 +75,10 @@ public class FrequencyAnalyzer {
         return load(IOUtils.readLines(fileInputStream, characterEncoding));
     }
 
+    public List<WordFrequency> load(InputStream fileInputStream, FileType fileType) throws IOException {
+        return load(IOUtils.readLines(fileInputStream, characterEncoding), fileType);
+    }
+
     public List<WordFrequency> load(URL url) throws IOException {
         final Document doc = Jsoup.parse(url, (int) urlLoadTimeout);
         return load(Collections.singletonList(doc.body().text()));
@@ -83,18 +88,53 @@ public class FrequencyAnalyzer {
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
 
         final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
-        for(Map.Entry<String, Integer> wordCount : cloud.entrySet()) {
+        for (Map.Entry<String, Integer> wordCount : cloud.entrySet()) {
             wordFrequencies.add(new WordFrequency(wordCount.getKey(), wordCount.getValue()));
         }
         return takeTopFrequencies(wordFrequencies);
     }
 
+    public List<WordFrequency> load(final List<String> texts, FileType fileType) {
+        if (fileType == FileType.REGULAR) {
+            return load(texts);
+        }
+
+        final List<WordFrequency> wordFrequencies = new ArrayList<>();
+
+        final Map<String, Integer> cloud = buildKeyValueWordFrequencies(texts, new ColonTokenizer());
+        for (Map.Entry<String, Integer> wordCount : cloud.entrySet()) {
+            wordFrequencies.add(new WordFrequency(wordCount.getKey(), wordCount.getValue()));
+        }
+        return takeTopFrequencies(wordFrequencies);
+    }
+
+    private Map<String, Integer> buildKeyValueWordFrequencies(List<String> texts, WordTokenizer tokenizer) {
+        final Map<String, Integer> wordFrequencies = new HashMap<>();
+        for (final String text : texts) {
+            final List<String> words = filter(tokenizer.tokenize(text));
+            int size = words.size();
+            if (size > 2) {
+                continue;
+            }
+            for (int i = 0; i < size; i++) {
+                int frequency = Integer.parseInt(words.get(1).trim());
+                final String normalized = normalize(words.get(0));
+                if (!wordFrequencies.containsKey(normalized)) {
+                    wordFrequencies.put(normalized, frequency);
+                } else {
+                    wordFrequencies.put(normalized, wordFrequencies.get(normalized) + frequency);
+                }
+            }
+        }
+        return wordFrequencies;
+    }
+
     private Map<String, Integer> buildWordFrequencies(List<String> texts, WordTokenizer tokenizer) {
         final Map<String, Integer> wordFrequencies = new HashMap<>();
-        for(final String text : texts) {
+        for (final String text : texts) {
             final List<String> words = filter(tokenizer.tokenize(text));
 
-            for(final String word : words) {
+            for (final String word : words) {
                 final String normalized = normalize(word);
                 if (!wordFrequencies.containsKey(normalized)) {
                     wordFrequencies.put(normalized, 1);
@@ -116,14 +156,16 @@ public class FrequencyAnalyzer {
 
     private String normalize(final String word) {
         String normalized = word;
-        for(Normalizer normalizer : normalizers) {
+        for (Normalizer normalizer : normalizers) {
             normalized = normalizer.normalize(normalized);
         }
         return normalized;
     }
 
     private List<WordFrequency> takeTopFrequencies(Collection<WordFrequency> wordCloudEntities) {
-        if(wordCloudEntities.isEmpty()) { return Collections.emptyList(); }
+        if (wordCloudEntities.isEmpty()) {
+            return Collections.emptyList();
+        }
         final List<WordFrequency> sorted = sort(wordCloudEntities, on(WordFrequency.class).getFrequency());
         Collections.reverse(sorted);
         return sorted.subList(0, Math.min(sorted.size(), wordFrequencesToReturn));
