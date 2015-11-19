@@ -9,8 +9,8 @@ import java.util.List;
  * 
  * @author &#64;wolfposd
  */
-public class LinearGradientColorPalette extends ColorPalette
-{
+public class LinearGradientColorPalette extends ColorPalette {
+
     /**
      * <p>
      * Creates a ColorPalette using a linear gradient between the two colors
@@ -32,8 +32,7 @@ public class LinearGradientColorPalette extends ColorPalette
      * @param color2
      *            end color
      */
-    public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2)
-    {
+    public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2) {
         this.colors = createLinearGradient(color1, color2, betweenC1andC2).toArray(new Color[] {});
     }
 
@@ -52,23 +51,23 @@ public class LinearGradientColorPalette extends ColorPalette
      * @param color3
      *            end color
      */
-    public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2, int betweenC2andC3, Color color3)
-    {
-        ArrayList<Color> cs = new ArrayList<>();
+    public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2, int betweenC2andC3, Color color3) {
+        List<Color> cs = new ArrayList<>();
 
-        for (Color c : createLinearGradient(color1, color2, betweenC1andC2))
-        {
-            cs.add(c);
-        }
-
-        for (Color c : createLinearGradient(color2, color3, betweenC2andC3))
-        {
-            if (c.equals(color2)) // already being added by first gradient
-                continue;
+        // adding colors [c1,c2]
+        for (Color c : createLinearGradient(color1, color2, betweenC1andC2)) {
             cs.add(c);
         }
         
-        this.colors = cs.toArray(new Color[]{});
+        // adding colors ]c2,c3]
+        for (Color c : createLinearGradient(color2, color3, betweenC2andC3)) {
+            if (c.equals(color2)) { // already being added by first gradient
+                continue;
+            }
+            cs.add(c);
+        }
+
+        this.colors = cs.toArray(new Color[] {});
     }
 
     /**
@@ -79,15 +78,14 @@ public class LinearGradientColorPalette extends ColorPalette
      * @param color2
      *            end color
      * @param amountBetweenC1andC2
-     *            specifies the amount of colors in this gradient between color1 and color2
+     *            specifies the amount of colors in this gradient between color1
+     *            and color2
      * @return List of colors in this gradient
      */
-    public static List<Color> createLinearGradient(Color color1, Color color2, int amountBetweenC1andC2)
-    {
-        ArrayList<Color> cols = new ArrayList<>();
+    public static List<Color> createLinearGradient(Color color1, Color color2, int amountBetweenC1andC2) {
+        List<Color> cols = new ArrayList<>();
 
-        for (int i = 0; i <= amountBetweenC1andC2; i++)
-        {
+        for (int i = 0; i <= amountBetweenC1andC2; i++) {
             float ratio = (float) i / (float) amountBetweenC1andC2;
 
             int red = (int) (color2.getRed() * ratio + color1.getRed() * (1 - ratio));
