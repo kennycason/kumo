@@ -56,13 +56,11 @@ public class LinearGradientColorPalette extends ColorPalette
     {
         ArrayList<Color> cs = new ArrayList<>();
 
-        // add 2, to include c1 and c2
         for (Color c : createLinearGradient(color1, color2, betweenC1andC2))
         {
             cs.add(c);
         }
 
-        // add 2, to include c2 and c3
         for (Color c : createLinearGradient(color2, color3, betweenC2andC3))
         {
             if (c.equals(color2)) // already being added by first gradient
