@@ -60,6 +60,10 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_pho_bowl.png" width="300"/>
 </td></tr>
+<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_redbluegreen.png" width="300"/>
+</td><td>
+<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
+</td></tr>
 </table>
 
 **Examples**
@@ -113,7 +117,7 @@ wordCloud.writeToFile("output/wordcloud_rectangle.png");
 ```
 
 
-Example using ColorGradients
+Example using Linear Color Gradients
 
 ```java
 FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
