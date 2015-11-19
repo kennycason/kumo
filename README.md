@@ -60,6 +60,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_pho_bowl.png" width="300"/>
 </td></tr>
+<tr><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_redbluegreen.png" width="300"/>
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
