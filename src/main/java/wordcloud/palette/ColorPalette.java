@@ -10,8 +10,7 @@ public class ColorPalette {
 
     private static final Random RANDOM = new Random();
 
-
-    private final Color[] colors;
+    protected Color[] colors = {};
 
     private int next = 0;
 
