@@ -112,6 +112,24 @@ wordCloud.build(wordFrequencies);
 wordCloud.writeToFile("output/wordcloud_rectangle.png");
 ```
 
+
+Example using ColorGradients
+
+```java
+FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+frequencyAnalyzer.setWordFrequencesToReturn(500);
+frequencyAnalyzer.setMinWordLength(4); 
+List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
+
+WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+wordCloud.setPadding(2);
+wordCloud.setBackground(new CircleBackground(300));
+wordCloud.setColorPalette(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN));
+wordCloud.setFontScalar( new SqrtFontScalar(10, 40));
+wordCloud.build(wordFrequencies);
+wordCloud.writeToFile("output/wordcloud_gradient_redbluegreen.png");
+```
+
 Example of tokenizing chinese text into a circle
 
 ```java
