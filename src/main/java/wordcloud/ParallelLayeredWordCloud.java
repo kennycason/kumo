@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
  * A LayeredWordCloud which can process each layer in its own Thread, thus
  * minimizing processing time.
  * 
- * @author wolfposd
+ * @author &#64;wolfposd
  */
 public class ParallelLayeredWordCloud extends LayeredWordCloud {
 

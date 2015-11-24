@@ -5,6 +5,11 @@ import java.awt.Point;
 
 import wordcloud.Word;
 
+/**
+ * Always returns the Center of the image
+ * 
+ * @author &#64;wolfposd
+ */
 public class CenterWordSpread implements WordSpreadScheme {
 
     @Override

@@ -30,7 +30,7 @@ public class AngleGenerator {
         thetas = calculateThetas(fromDegrees, toDegrees);
     }
     
-    public AngleGenerator(double... degrees) {
+    public AngleGenerator(double[] degrees) {
         thetas = degrees;
         steps = degrees.length;
     }

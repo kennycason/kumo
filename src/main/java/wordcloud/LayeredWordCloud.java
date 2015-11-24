@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -41,10 +42,6 @@ public class LayeredWordCloud {
             wordCloud.setBackgroundColor(null);
             wordClouds.add(wordCloud);
         }
-    }
-
-    public WordCloud getCloudLayer(int layer) {
-        return wordClouds.get(layer);
     }
 
     public void build(int layer, List<WordFrequency> wordFrequencies) {
@@ -89,6 +86,14 @@ public class LayeredWordCloud {
         }
 
         return bufferedImage;
+    }
+    
+    public WordCloud getCloudLayer(int layer) {
+        return wordClouds.get(layer);
+    }
+    
+    public Set<Word> getSkipped(int layer) {
+        return wordClouds.get(layer).getSkipped();
     }
 
     public void writeToFile(final String outputFileName) {

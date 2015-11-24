@@ -6,6 +6,11 @@ import java.util.Random;
 
 import wordcloud.Word;
 
+/**
+ * Always returns a random point in the image as starting point
+ * 
+ * @author &#64;wolfposd
+ */
 public class RandomWordSpread implements WordSpreadScheme {
 
     private static final Random RANDOM = new Random();
