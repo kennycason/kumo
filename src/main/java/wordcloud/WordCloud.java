@@ -44,7 +44,7 @@ import static ch.lambdaj.Lambda.on;
 public class WordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
-    
+
     protected final Random RANDOM = new Random();
 
     protected final int width;
