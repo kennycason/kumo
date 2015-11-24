@@ -11,7 +11,7 @@ import wordcloud.Word;
  * 
  * @author &#64;wolfposd
  */
-public class RandomWordSpread implements WordSpreadScheme {
+public class RandomWordStart implements WordStartScheme {
 
     private static final Random RANDOM = new Random();
 

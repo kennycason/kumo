@@ -12,7 +12,7 @@ import wordcloud.Word;
  * @author &#64;wolfposd
  *
  */
-public interface WordSpreadScheme {
+public interface WordStartScheme {
 
     /**
      * Calculate a starting point for the given word. The returned Point is not

@@ -19,8 +19,8 @@ import wordcloud.padding.Padder;
 import wordcloud.padding.RectanglePadder;
 import wordcloud.padding.WordPixelPadder;
 import wordcloud.palette.ColorPalette;
-import wordcloud.wsc.RandomWordSpread;
-import wordcloud.wsc.WordSpreadScheme;
+import wordcloud.wsc.RandomWordStart;
+import wordcloud.wsc.WordStartScheme;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -81,7 +81,7 @@ public class WordCloud {
 
     protected ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
     
-    protected WordSpreadScheme spreadscheme = new RandomWordSpread();
+    protected WordStartScheme startscheme = new RandomWordStart();
     
     public WordCloud(int width, int height, CollisionMode collisionMode) {
         this.width = width;
@@ -110,7 +110,7 @@ public class WordCloud {
         int curword = 1;
         final Dimension dimensions = new Dimension(width, height);
         for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
-            final Point p = spreadscheme.getStartingPoint(dimensions, word);
+            final Point p = startscheme.getStartingPoint(dimensions, word);
             boolean placed = place(word, p.x, p.y);
 
             if (placed)
@@ -320,7 +320,7 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordSpreadScheme(WordSpreadScheme spreadscheme) {
-        this.spreadscheme = spreadscheme;
+    public void setWordStartScheme(WordStartScheme startscheme) {
+        this.startscheme = startscheme;
     }
 }

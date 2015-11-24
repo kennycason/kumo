@@ -10,7 +10,7 @@ import wordcloud.Word;
  * 
  * @author &#64;wolfposd
  */
-public class CenterWordSpread implements WordSpreadScheme {
+public class CenterWordStart implements WordStartScheme {
 
     @Override
     public Point getStartingPoint(Dimension imagedimensions, Word word) {
