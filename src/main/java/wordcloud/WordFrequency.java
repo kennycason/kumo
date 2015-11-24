@@ -27,4 +27,8 @@ public class WordFrequency implements Comparable<WordFrequency> {
         return wordFrequency.frequency - frequency;
     }
 
+    @Override
+    public String toString() {
+        return "WordFrequency [word=" + word + ", frequency=" + frequency + "]";
+    }
 }

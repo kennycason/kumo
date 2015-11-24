@@ -19,6 +19,8 @@ import wordcloud.padding.Padder;
 import wordcloud.padding.RectanglePadder;
 import wordcloud.padding.WordPixelPadder;
 import wordcloud.palette.ColorPalette;
+import wordcloud.wsc.RandomWordSpread;
+import wordcloud.wsc.WordSpreadScheme;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -42,8 +44,8 @@ import static ch.lambdaj.Lambda.on;
 public class WordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
-
-    protected static final Random RANDOM = new Random();
+    
+    protected final Random RANDOM = new Random();
 
     protected final int width;
 
@@ -78,7 +80,9 @@ public class WordCloud {
     protected final Set<Word> skipped = new HashSet<>();
 
     protected ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
-
+    
+    protected WordSpreadScheme spreadscheme = new RandomWordSpread();
+    
     public WordCloud(int width, int height, CollisionMode collisionMode) {
         this.width = width;
         this.height = height;
@@ -103,12 +107,18 @@ public class WordCloud {
 
     public void build(List<WordFrequency> wordFrequencies) {
         Collections.sort(wordFrequencies);
-
+        int curword = 1;
+        final Dimension dimensions = new Dimension(width, height);
         for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
-            final int startX = RANDOM.nextInt(Math.max(width - word.getWidth(), width));
-            final int startY = RANDOM.nextInt(Math.max(height - word.getHeight(), height));
-            place(word, startX, startY);
+            final Point p = spreadscheme.getStartingPoint(dimensions, word);
+            boolean placed = place(word, p.x, p.y);
 
+            if (placed)
+                LOGGER.info("placed: " + word.getWord() + " (" + curword + "/" + wordFrequencies.size() + ")");
+            else
+                LOGGER.info("skipped: " + word.getWord()+ " (" + curword + "/" + wordFrequencies.size() + ")");
+                
+            curword++;
         }
         drawForgroundToBackground();
     }
@@ -178,7 +188,7 @@ public class WordCloud {
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word
      */
-    protected void place(final Word word, final int startX, final int startY) {
+    protected boolean place(final Word word, final int startX, final int startY) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int maxRadius = width;
@@ -206,13 +216,13 @@ public class WordCloud {
                 if(placed) {
                     collisionRaster.mask(word.getCollisionRaster(), word.getX(), word.getY());
                     graphics.drawImage(word.getBufferedImage(), word.getX(), word.getY(), null);
-                    return;
+                    return true;
                 }
 
             }
         }
-        LOGGER.info("skipped: " + word.getWord());
         skipped.add(word);
+        return false;
     }
 
     private boolean tryToPlace(final Word word) {
@@ -225,13 +235,11 @@ public class WordCloud {
                         return false;
                     }
                 }
-                LOGGER.info("place: " + word.getWord());
                 placedWords.add(word);
                 return true;
 
             case PIXEL_PERFECT:
                 if(backgroundCollidable.collide(word)) { return false; }
-                LOGGER.info("place: " + word.getWord());
                 placedWords.add(word);
                 return true;
 
@@ -244,7 +252,9 @@ public class WordCloud {
 
         final List<Word> words = new ArrayList<>();
         for(final WordFrequency wordFrequency : wordFrequencies) {
-            words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
+            if(!wordFrequency.getWord().isEmpty()) {
+                words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
+            }
         }
         return words;
     }
@@ -308,5 +318,9 @@ public class WordCloud {
 
     public Set<Word> getSkipped() {
         return skipped;
+    }
+    
+    public void setWordSpreadScheme(WordSpreadScheme spreadscheme) {
+        this.spreadscheme = spreadscheme;
     }
 }
