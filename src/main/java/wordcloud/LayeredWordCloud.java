@@ -18,6 +18,7 @@ import wordcloud.font.CloudFont;
 import wordcloud.font.scale.FontScalar;
 import wordcloud.image.AngleGenerator;
 import wordcloud.palette.ColorPalette;
+import wordcloud.wsc.WordStartScheme;
 
 /**
  * Created by kenny on 7/5/14.
@@ -108,6 +109,10 @@ public class LayeredWordCloud {
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
+    }
+    
+    public void setStartScheme(int layer, WordStartScheme scheme) {
+        wordClouds.get(layer).setWordStartScheme(scheme);
     }
 
 }
