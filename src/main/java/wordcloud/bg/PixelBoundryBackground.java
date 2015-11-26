@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by kenny on 6/30/14.
+ * Class creates a Background Mode based on the transparent Pixel-boundaries of a loaded image
+ * @author kenny
+ * @version 2014.06.30
  */
 public class PixelBoundryBackground implements Background {
 
@@ -21,16 +23,37 @@ public class PixelBoundryBackground implements Background {
 
     private final RectangleBackground rectangleBackground;
 
+    /**
+     * Creates a PixelBoundaryBackground using an InputStream to load an image
+     * 
+     * @param imageInputStream
+     *            InputStream containing an image file
+     * @throws IOException
+     */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
         final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
         this.rectangleBackground = new RectangleBackground(bufferedImage.getWidth(), bufferedImage.getHeight());
     }
     
+    /**
+     * Creates a PixelBoundaryBackground using an image from the input file
+     * 
+     * @param file
+     *            a File pointing to an image
+     * @throws IOException
+     */
     public PixelBoundryBackground(final File file) throws IOException {
         this(new FileInputStream(file));
     }
-    
+
+    /**
+     * Creates a PixelBoundaryBackground using an image-path
+     * 
+     * @param filepath
+     *            path to an image file
+     * @throws IOException
+     */
     public PixelBoundryBackground(final String filepath) throws IOException {
         this(new File(filepath));
     }
