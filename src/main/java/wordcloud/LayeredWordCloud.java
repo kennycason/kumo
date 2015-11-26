@@ -93,6 +93,10 @@ public class LayeredWordCloud {
         return wordClouds.get(layer);
     }
     
+    public WordCloud getAt(int layer) {
+        return getCloudLayer(layer);
+    }
+
     public Set<Word> getSkipped(int layer) {
         return wordClouds.get(layer).getSkipped();
     }
@@ -113,6 +117,10 @@ public class LayeredWordCloud {
     
     public void setStartScheme(int layer, WordStartScheme scheme) {
         wordClouds.get(layer).setWordStartScheme(scheme);
+    }
+    
+    public int getLayers() {
+        return wordClouds.size();
     }
 
 }

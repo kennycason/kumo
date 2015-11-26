@@ -5,7 +5,10 @@ import wordcloud.collide.Vector2d;
 import wordcloud.image.CollisionRaster;
 
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,6 +25,14 @@ public class PixelBoundryBackground implements Background {
         final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
         this.rectangleBackground = new RectangleBackground(bufferedImage.getWidth(), bufferedImage.getHeight());
+    }
+    
+    public PixelBoundryBackground(final File file) throws IOException {
+        this(new FileInputStream(file));
+    }
+    
+    public PixelBoundryBackground(final String filepath) throws IOException {
+        this(new File(filepath));
     }
 
     @Override
