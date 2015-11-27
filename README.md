@@ -65,6 +65,12 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
 </td></tr>
+<tr>
+<td>
+<img src="output/bubbletext.png?raw=true" width="300"/>
+</td>
+<td></td>
+</tr>
 </table>
 
 **Examples**
@@ -206,7 +212,7 @@ layeredWordCloud.build(1, wordFrequencies2);
 layeredWordCloud.writeToFile("output/layered_word_cloud.png");
 ```
 
-**Normalizers**
+**Tokenizers**
 
 Tokenizers are the code that splits a sentence/text into a list of words. Currently only two tokenizers are built into Kumo.
 To add your own just create a class that override the `Tokenizer` interface and call the `FrequencyAnalyzer.setTokenizer()` or `FrequencyAnalyzer.addTokenizer()`.
@@ -247,3 +253,4 @@ To add set the normalizer, call `FrequencyAnalyzer.setNormalizer()` or `Frequenc
 | UpsideDownNormalizer | Converts A-Z,a-z,0-9 character to an upside-down variant. |
 | StringToHexNormalizer | Converts each character to it's hex value and concatenates them. |
 | DefaultNormalizer | Combines the TrimToEmptyNormalizer, CharacterStrippingNormalizer, and LowerCaseNormalizer. |
+| BubbleTextNormalizer | Replaces A-Z,a-z with characters enclosed in Bubbles ⓐ-ⓩⒶ-Ⓩ (requires a supporting font) |

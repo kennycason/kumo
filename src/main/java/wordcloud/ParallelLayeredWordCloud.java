@@ -20,9 +20,9 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(ParallelLayeredWordCloud.class);
 
-    private List<Future<?>> executorFutures = new ArrayList<>();
+    private final List<Future<?>> executorFutures = new ArrayList<>();
 
-    private ExecutorService executorservice;
+    private final ExecutorService executorservice;
 
     public ParallelLayeredWordCloud(int layers, int width, int height, CollisionMode collisionMode) {
         super(layers, width, height, collisionMode);
@@ -41,14 +41,14 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      */
     @Override
     public void build(final int layer, final List<WordFrequency> wordFrequencies) {
-        Future<?> f = executorservice.submit(new Runnable() {
+        Future<?> completionFuture = executorservice.submit(new Runnable() {
             public void run() {
                 LOGGER.info("Starting to build WordCloud Layer " + layer + " in new Thread");
                 ParallelLayeredWordCloud.super.build(layer, wordFrequencies);
             }
         });
 
-        executorFutures.add(f);
+        executorFutures.add(completionFuture);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
                     LOGGER.info("Performing get on Future:" + (i + 1) + "/" + executorFutures.size());
                     f.get();
                 } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
+                    LOGGER.error("Error while waiting for Future of Layer " + i, e);
                 }
             }
             executorFutures.clear();

@@ -16,6 +16,8 @@ import wordcloud.nlp.normalize.TrimToEmptyNormalizer;
 import wordcloud.nlp.tokenizer.WhiteSpaceWordTokenizer;
 import wordcloud.nlp.tokenizer.WordTokenizer;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -74,6 +76,14 @@ public class FrequencyAnalyzer {
         return load(IOUtils.readLines(fileInputStream, characterEncoding));
     }
 
+    public List<WordFrequency> load(File file) throws IOException {
+        return this.load(new FileInputStream(file));
+    }
+
+    public List<WordFrequency> load(String filePath) throws IOException {
+        return this.load(new File(filePath));
+    }
+
     public List<WordFrequency> load(URL url) throws IOException {
         final Document doc = Jsoup.parse(url, (int) urlLoadTimeout);
         return load(Collections.singletonList(doc.body().text()));
@@ -88,7 +98,11 @@ public class FrequencyAnalyzer {
         }
         return takeTopFrequencies(wordFrequencies);
     }
-
+    
+    public List<WordFrequency> loadWordFrequencies(final List<WordFrequency> wflist) {
+        return takeTopFrequencies(wflist);
+    }
+    
     private Map<String, Integer> buildWordFrequencies(List<String> texts, WordTokenizer tokenizer) {
         final Map<String, Integer> wordFrequencies = new HashMap<>();
         for(final String text : texts) {

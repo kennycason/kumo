@@ -19,7 +19,7 @@ public class BubbleTextNormalizer implements Normalizer {
             final int index = normal.indexOf(letter);
             stringBuilder.append((index != -1) ? bubbles.charAt(index) : letter);
         }
-        return stringBuilder.reverse().toString();
+        return stringBuilder.toString();
     }
 
 }

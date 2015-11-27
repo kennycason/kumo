@@ -108,12 +108,13 @@ public class WordCloud {
         final Dimension dimensions = new Dimension(width, height);
         for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
             final Point p = startscheme.getStartingPoint(dimensions, word);
-            boolean placed = place(word, p.x, p.y);
+            final boolean placed = place(word, p.x, p.y);
 
-            if (placed)
+            if (placed) {
                 LOGGER.info("placed: " + word.getWord() + " (" + curword + "/" + wordFrequencies.size() + ")");
-            else
-                LOGGER.info("skipped: " + word.getWord()+ " (" + curword + "/" + wordFrequencies.size() + ")");
+            } else {
+                LOGGER.info("skipped: " + word.getWord() + " (" + curword + "/" + wordFrequencies.size() + ")");
+            }
                 
             curword++;
         }
