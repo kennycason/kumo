@@ -214,7 +214,7 @@ layeredWordCloud.build(1, wordFrequencies2);
 layeredWordCloud.writeToFile("output/layered_word_cloud.png");
 ```
 
-Create a ParallelLayeredWordCloud using 4 distinct Rectangles
+Create a ParallelLayeredWordCloud using 4 distinct Rectangles.<br>
 Every Rectangle will be processed in a separate thread, thus minimizing build-time significantly
 
 ```groovy
@@ -229,13 +229,13 @@ def FONTS  = [new Font("Lucida Sans", Font.PLAIN, 10),
     
 def listOfWordFreqs = []
 def positions = [[0, 0], [0, 1000], [1000, 0], [1000, 1000]]
-def colors = [Color.RED, Color.WHITE, new Color(0x008080), Color.GREEN]
+def colors = [Color.RED, Color.WHITE, new Color(0x008080)/* TEAL */, Color.GREEN]
  
 for (int i = 0; i < lwc.getLayers(); i++) {
     def freq = new FrequencyAnalyzer()
-    freq.setMinWordLength(3)
-    freq.setNormalizer(NORMALIZERS[i])
-    freq.setWordFrequencesToReturn(1000)
+    freq.minWordLength = 3
+    freq.normalizer = NORMALIZERS[i]
+    freq.wordFrequencesToReturn = 1000
     listOfWordFreqs.add(freq.load("text/english_tide.txt"))
         
     def cloud = lwc[i]
@@ -254,7 +254,7 @@ for (int i = 0; i < lwc.getLayers(); i++) {
     lwc.build(i,listOfWordFreqs[i])
 }
  
-lwc.writeToFile("parallelBubbleText.png")
+lwc.writeToFile("output/parallelBubbleText.png")
 ```
 
 **Tokenizers**
