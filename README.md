@@ -13,7 +13,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 - Custom BackGround Color. Fully customizable BackGrounds coming soon.
 - Word Padding.
 - Load Custom Color Pallettes.
-- Two Modes that of Colision and Padding: PIXEL_PERFECT and RECTANGLE.
+- Two Modes that of Collision and Padding: PIXEL_PERFECT and RECTANGLE.
 - Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
 - Layered Word Clouds. Overlay multiple word clouds.
 - WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
@@ -66,10 +66,12 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
 </td></tr>
 <tr>
-<td>
-<img src="output/bubbletext.png?raw=true" width="300"/>
-</td>
-<td></td>
+	<td>
+        <img src="output/bubbletext.png?raw=true" width="300"/>
+	</td>
+	<td>
+        <img src="output/parallelBubbleText.png?raw=true" width="300"/>
+	</td>
 </tr>
 </table>
 
@@ -210,6 +212,49 @@ layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
 layeredWordCloud.build(0, wordFrequencies);
 layeredWordCloud.build(1, wordFrequencies2);
 layeredWordCloud.writeToFile("output/layered_word_cloud.png");
+```
+
+Create a ParallelLayeredWordCloud using 4 distinct Rectangles
+Every Rectangle will be processed in a separate thread, thus minimizing build-time significantly
+
+```groovy
+def lwc = new ParallelLayeredWordCloud(4, 2000, 2000, CollisionMode.PIXEL_PERFECT)
+
+def NORMALIZERS = [new UpperCaseNormalizer(), new LowerCaseNormalizer(),
+                   new BubbleTextNormalizer(), new StringToHexNormalizer()]
+def FONTS  = [new Font("Lucida Sans", Font.PLAIN, 10),
+              new Font("Comic Sans", Font.PLAIN, 10),
+              new Font("Yu Gothic Light", Font.PLAIN, 10),
+              new Font("Meiryo", Font.PLAIN, 10)]
+    
+def listOfWordFreqs = []
+def positions = [[0, 0], [0, 1000], [1000, 0], [1000, 1000]]
+def colors = [Color.RED, Color.WHITE, new Color(0x008080), Color.GREEN]
+ 
+for (int i = 0; i < lwc.getLayers(); i++) {
+    def freq = new FrequencyAnalyzer()
+    freq.setMinWordLength(3)
+    freq.setNormalizer(NORMALIZERS[i])
+    freq.setWordFrequencesToReturn(1000)
+    listOfWordFreqs.add(freq.load("text/english_tide.txt"))
+        
+    def cloud = lwc[i]
+    cloud.angleGenerator = new AngleGenerator(0)
+    cloud.padding = 3
+    cloud.startscheme = new CenterWordStart()
+    cloud.cloudFont = new CloudFont(FONTS[i])
+    cloud.colorPalette = new ColorPalette(colors[i])
+ 
+    def pos = positions[i]
+    cloud.background =  new RectangleBackground(pos[0], pos[1], 1000, 1000)
+    cloud.fontScalar = new LinearFontScalar(10,40)
+}
+ 
+for (int i = 0; i < lwc.getLayers(); i++) {
+    lwc.build(i,listOfWordFreqs[i])
+}
+ 
+lwc.writeToFile("parallelBubbleText.png")
 ```
 
 **Tokenizers**

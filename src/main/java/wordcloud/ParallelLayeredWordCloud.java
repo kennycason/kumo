@@ -60,7 +60,21 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      */
     @Override
     public void writeToFile(String outputFileName) {
-        writeToFile(outputFileName, true);
+        writeToFile(outputFileName, true, true);
+    }
+
+    /**
+     * Writes the wordcloud to an imagefile.<br>
+     * Terminates the executor afterwards. See
+     * {@link #writeToFile(String, boolean, boolean)} for a non-terminating call
+     * 
+     * @param outputFileName
+     *            some file like "test.png"
+     * @param blockThread
+     *            should the current thread be blocked
+     */
+    public void writeToFile(String outputFileName, boolean blockThread) {
+        this.writeToFile(outputFileName, blockThread, true);
     }
 
     /**
@@ -70,29 +84,43 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      *            some file like "test.png"
      * @param blockThread
      *            should the current thread be blocked
+     * @param shutdownExecutor
+     *            should the executor be shutdown afterwards. if
+     *            <code>false</code> this PLWC can still be used to build other
+     *            layers. if <code>true</code> this will become a blocking
+     *            Thread no matter what was specified in blockThread.
      */
-    public void writeToFile(String outputFileName, boolean blockThread) {
+    public void writeToFile(String outputFileName, boolean blockThread, boolean shutdownExecutor) {
         if (blockThread) {
-            // we're not shutting down the executor as this would render it
-            // non-functional afterwards. this way it can still be used if we
-            // plan on building another layer on top of the previous ones
-            LOGGER.info("Awaiting Termination of Executors");
-            for(int i = 0; i < executorFutures.size(); i++) {
-                Future<?> f = executorFutures.get(i);
-                try {
-                    // cycle through all futures, invoking get() will block
-                    // current task until the future can return a result
-                    LOGGER.info("Performing get on Future:" + (i + 1) + "/" + executorFutures.size());
-                    f.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    LOGGER.error("Error while waiting for Future of Layer " + i, e);
-                }
-            }
-            executorFutures.clear();
-            LOGGER.info("Termination Complete, Processing to File now");
+            waitForFuturesToBlockCurrentThread();
         }
 
         super.writeToFile(outputFileName);
+
+        if (shutdownExecutor) {
+            this.shutdown();
+        }
+
+    }
+
+    private void waitForFuturesToBlockCurrentThread() {
+        // we're not shutting down the executor as this would render it
+        // non-functional afterwards. this way it can still be used if we
+        // plan on building another layer on top of the previous ones
+        LOGGER.info("Awaiting Termination of Executors");
+        for(int i = 0; i < executorFutures.size(); i++) {
+            Future<?> f = executorFutures.get(i);
+            try {
+                // cycle through all futures, invoking get() will block
+                // current task until the future can return a result
+                LOGGER.info("Performing get on Future:" + (i + 1) + "/" + executorFutures.size());
+                f.get();
+            } catch (InterruptedException | ExecutionException e) {
+                LOGGER.error("Error while waiting for Future of Layer " + i, e);
+            }
+        }
+        executorFutures.clear();
+        LOGGER.info("Termination Complete, Processing to File now");
     }
 
     /**
