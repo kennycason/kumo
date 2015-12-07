@@ -29,6 +29,11 @@ public class AngleGenerator {
         this.steps = steps;
         thetas = calculateThetas(fromDegrees, toDegrees);
     }
+    
+    public AngleGenerator(double[] degrees) {
+        thetas = degrees;
+        steps = degrees.length;
+    }
 
     public double next() {
         return thetas[next++ % steps];

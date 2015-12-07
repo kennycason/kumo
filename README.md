@@ -13,7 +13,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 - Custom BackGround Color. Fully customizable BackGrounds coming soon.
 - Word Padding.
 - Load Custom Color Pallettes.
-- Two Modes that of Colision and Padding: PIXEL_PERFECT and RECTANGLE.
+- Two Modes that of Collision and Padding: PIXEL_PERFECT and RECTANGLE.
 - Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
 - Layered Word Clouds. Overlay multiple word clouds.
 - WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
@@ -65,6 +65,14 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 </td><td>
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
 </td></tr>
+<tr>
+	<td>
+        <img src="output/bubbletext.png?raw=true" width="300"/>
+	</td>
+	<td>
+        <img src="output/parallelBubbleText.png?raw=true" width="300"/>
+	</td>
+</tr>
 </table>
 
 **Examples**
@@ -206,7 +214,53 @@ layeredWordCloud.build(1, wordFrequencies2);
 layeredWordCloud.writeToFile("output/layered_word_cloud.png");
 ```
 
-**Normalizers**
+Create a ParallelLayeredWordCloud using 4 distinct Rectangles.<br>
+Every Rectangle will be processed in a separate thread, thus minimizing build-time significantly
+
+```java
+ParallelLayeredWordCloud lwc = new ParallelLayeredWordCloud(4, 2000, 2000, CollisionMode.PIXEL_PERFECT);
+
+// Setup parts for word clouds
+Normalizer[] NORMALIZERS = new Normalizer[] { new UpperCaseNormalizer(), new LowerCaseNormalizer(), new BubbleTextNormalizer(),
+        new StringToHexNormalizer() };
+Font[] FONTS = new Font[] { new Font("Lucida Sans", Font.PLAIN, 10), new Font("Comic Sans", Font.PLAIN, 10),
+        new Font("Yu Gothic Light", Font.PLAIN, 10), new Font("Meiryo", Font.PLAIN, 10) };
+
+List<List<WordFrequency>> listOfWordFreqs = new ArrayList<>();
+int[][] positions = new int[][] { { 0, 0 }, { 0, 1000 }, { 1000, 0 }, { 1000, 1000 } };
+Color[] colors = new Color[] { Color.RED, Color.WHITE, new Color(0x008080)/* TEAL */, Color.GREEN };
+
+// set up word clouds
+for (int i = 0; i < lwc.getLayers(); i++)
+{
+    FrequencyAnalyzer freq = new FrequencyAnalyzer();
+    freq.setMinWordLength(3);
+    freq.setNormalizer(NORMALIZERS[i]);
+    freq.setWordFrequencesToReturn(1000);
+    listOfWordFreqs.add(freq.load("text/english_tide.txt"));
+
+    WordCloud cloud = lwc.getAt(i);
+    cloud.setAngleGenerator(new AngleGenerator(0));
+    cloud.setPadding(3);
+    cloud.setWordStartScheme(new CenterWordStart());
+    cloud.setCloudFont(new CloudFont(FONTS[i]));
+    cloud.setColorPalette(new ColorPalette(colors[i]));
+
+    int[] pos = positions[i];
+    cloud.setBackground(new RectangleBackground(pos[0], pos[1], 1000, 1000));
+    cloud.setFontScalar(new LinearFontScalar(10, 40));
+}
+
+// start building
+for (int i = 0; i < lwc.getLayers(); i++)
+{
+    lwc.build(i, listOfWordFreqs.get(i));
+}
+
+lwc.writeToFile("parallelBubbleText.png");
+```
+
+**Tokenizers**
 
 Tokenizers are the code that splits a sentence/text into a list of words. Currently only two tokenizers are built into Kumo.
 To add your own just create a class that override the `Tokenizer` interface and call the `FrequencyAnalyzer.setTokenizer()` or `FrequencyAnalyzer.addTokenizer()`.
@@ -247,3 +301,4 @@ To add set the normalizer, call `FrequencyAnalyzer.setNormalizer()` or `Frequenc
 | UpsideDownNormalizer | Converts A-Z,a-z,0-9 character to an upside-down variant. |
 | StringToHexNormalizer | Converts each character to it's hex value and concatenates them. |
 | DefaultNormalizer | Combines the TrimToEmptyNormalizer, CharacterStrippingNormalizer, and LowerCaseNormalizer. |
+| BubbleTextNormalizer | Replaces A-Z,a-z with characters enclosed in Bubbles ⓐ-ⓩⒶ-Ⓩ (requires a supporting font) |

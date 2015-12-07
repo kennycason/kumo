@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by kenny on 6/29/14.
@@ -20,6 +21,8 @@ public class PolarWordCloud extends WordCloud {
     private final PolarBlendMode polarBlendMode;
 
     private ColorPalette colorPalette2;
+    
+    private Random RANDOM = new Random();
 
     public PolarWordCloud(int width, int height, CollisionMode collisionMode) {
         this(width, height, collisionMode, PolarBlendMode.EVEN);

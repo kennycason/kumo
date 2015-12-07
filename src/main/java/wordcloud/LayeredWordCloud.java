@@ -1,19 +1,24 @@
 package wordcloud;
 
-import org.apache.log4j.Logger;
-import wordcloud.bg.Background;
-import wordcloud.font.CloudFont;
-import wordcloud.font.scale.FontScalar;
-import wordcloud.image.AngleGenerator;
-import wordcloud.palette.ColorPalette;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.imageio.ImageIO;
+
+import org.apache.log4j.Logger;
+
+import wordcloud.bg.Background;
+import wordcloud.font.CloudFont;
+import wordcloud.font.scale.FontScalar;
+import wordcloud.image.AngleGenerator;
+import wordcloud.palette.ColorPalette;
+import wordcloud.wsc.WordStartScheme;
 
 /**
  * Created by kenny on 7/5/14.
@@ -21,8 +26,6 @@ import java.util.List;
 public class LayeredWordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(LayeredWordCloud.class);
-
-    private final int layers;
 
     private final int width;
 
@@ -33,7 +36,6 @@ public class LayeredWordCloud {
     private Color backgroundColor = Color.BLACK;
 
     public LayeredWordCloud(int layers, int width, int height, CollisionMode collisionMode) {
-        this.layers = layers;
         this.width = width;
         this.height = height;
         for(int i = 0; i < layers; i++) {
@@ -86,6 +88,18 @@ public class LayeredWordCloud {
 
         return bufferedImage;
     }
+    
+    public WordCloud getCloudLayer(int layer) {
+        return wordClouds.get(layer);
+    }
+    
+    public WordCloud getAt(int layer) {
+        return getCloudLayer(layer);
+    }
+
+    public Set<Word> getSkipped(int layer) {
+        return wordClouds.get(layer).getSkipped();
+    }
 
     public void writeToFile(final String outputFileName) {
         String extension = "";
@@ -99,6 +113,14 @@ public class LayeredWordCloud {
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
+    }
+    
+    public void setStartScheme(int layer, WordStartScheme scheme) {
+        wordClouds.get(layer).setWordStartScheme(scheme);
+    }
+    
+    public int getLayers() {
+        return wordClouds.size();
     }
 
 }
