@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by kenny on 7/4/14.
  */
-public class TestCollisionRaster {
+public class CollisionRasterTest {
 
     @Test
     public void basicTests() {
@@ -18,8 +18,8 @@ public class TestCollisionRaster {
 
         assertEquals(width, collisionRaster.getWidth());
         assertEquals(height, collisionRaster.getHeight());
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 assertTrue(collisionRaster.isTransparent(x, y));
             }
         }

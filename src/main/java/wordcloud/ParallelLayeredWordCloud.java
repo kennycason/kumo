@@ -1,14 +1,10 @@
 package wordcloud;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.log4j.Logger;
+import java.util.concurrent.*;
 
 /**
  * A LayeredWordCloud which can process each layer in its own Thread, thus
@@ -24,7 +20,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
 
     private final ExecutorService executorservice;
 
-    public ParallelLayeredWordCloud(int layers, int width, int height, CollisionMode collisionMode) {
+    public ParallelLayeredWordCloud(final int layers, final int width, final int height, final CollisionMode collisionMode) {
         super(layers, width, height, collisionMode);
         executorservice = Executors.newFixedThreadPool(layers);
     }
@@ -41,7 +37,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      */
     @Override
     public void build(final int layer, final List<WordFrequency> wordFrequencies) {
-        Future<?> completionFuture = executorservice.submit(new Runnable() {
+        final Future<?> completionFuture = executorservice.submit(new Runnable() {
             public void run() {
                 LOGGER.info("Starting to build WordCloud Layer " + layer + " in new Thread");
                 ParallelLayeredWordCloud.super.build(layer, wordFrequencies);
@@ -59,7 +55,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      *            some file like "test.png"
      */
     @Override
-    public void writeToFile(String outputFileName) {
+    public void writeToFile(final String outputFileName) {
         writeToFile(outputFileName, true, true);
     }
 
@@ -73,7 +69,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      * @param blockThread
      *            should the current thread be blocked
      */
-    public void writeToFile(String outputFileName, boolean blockThread) {
+    public void writeToFile(final String outputFileName, final boolean blockThread) {
         this.writeToFile(outputFileName, blockThread, true);
     }
 
@@ -90,7 +86,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      *            layers. if <code>true</code> this will become a blocking
      *            Thread no matter what was specified in blockThread.
      */
-    public void writeToFile(String outputFileName, boolean blockThread, boolean shutdownExecutor) {
+    public void writeToFile(final String outputFileName, final boolean blockThread, final boolean shutdownExecutor) {
         if (blockThread) {
             waitForFuturesToBlockCurrentThread();
         }
@@ -100,7 +96,6 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
         if (shutdownExecutor) {
             this.shutdown();
         }
-
     }
 
     private void waitForFuturesToBlockCurrentThread() {
@@ -109,7 +104,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
         // plan on building another layer on top of the previous ones
         LOGGER.info("Awaiting Termination of Executors");
         for(int i = 0; i < executorFutures.size(); i++) {
-            Future<?> f = executorFutures.get(i);
+            final Future<?> f = executorFutures.get(i);
             try {
                 // cycle through all futures, invoking get() will block
                 // current task until the future can return a result

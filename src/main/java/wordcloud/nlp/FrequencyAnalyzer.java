@@ -21,14 +21,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.Map.Entry;
 
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.sort;
@@ -72,19 +66,19 @@ public class FrequencyAnalyzer {
         this.normalizers.add(new LowerCaseNormalizer());
     }
 
-    public List<WordFrequency> load(InputStream fileInputStream) throws IOException {
+    public List<WordFrequency> load(final InputStream fileInputStream) throws IOException {
         return load(IOUtils.readLines(fileInputStream, characterEncoding));
     }
 
-    public List<WordFrequency> load(File file) throws IOException {
+    public List<WordFrequency> load(final File file) throws IOException {
         return this.load(new FileInputStream(file));
     }
 
-    public List<WordFrequency> load(String filePath) throws IOException {
+    public List<WordFrequency> load(final String filePath) throws IOException {
         return this.load(new File(filePath));
     }
 
-    public List<WordFrequency> load(URL url) throws IOException {
+    public List<WordFrequency> load(final URL url) throws IOException {
         final Document doc = Jsoup.parse(url, (int) urlLoadTimeout);
         return load(Collections.singletonList(doc.body().text()));
     }
@@ -93,7 +87,7 @@ public class FrequencyAnalyzer {
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
 
         final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
-        for(Map.Entry<String, Integer> wordCount : cloud.entrySet()) {
+        for (final Entry<String, Integer> wordCount : cloud.entrySet()) {
             wordFrequencies.add(new WordFrequency(wordCount.getKey(), wordCount.getValue()));
         }
         return takeTopFrequencies(wordFrequencies);
@@ -103,12 +97,12 @@ public class FrequencyAnalyzer {
         return takeTopFrequencies(wflist);
     }
     
-    private Map<String, Integer> buildWordFrequencies(List<String> texts, WordTokenizer tokenizer) {
+    private Map<String, Integer> buildWordFrequencies(final List<String> texts, final WordTokenizer tokenizer) {
         final Map<String, Integer> wordFrequencies = new HashMap<>();
-        for(final String text : texts) {
+        for (final String text : texts) {
             final List<String> words = filter(tokenizer.tokenize(text));
 
-            for(final String word : words) {
+            for (final String word : words) {
                 final String normalized = normalize(word);
                 if (!wordFrequencies.containsKey(normalized)) {
                     wordFrequencies.put(normalized, 1);
@@ -130,29 +124,29 @@ public class FrequencyAnalyzer {
 
     private String normalize(final String word) {
         String normalized = word;
-        for(Normalizer normalizer : normalizers) {
+        for (Normalizer normalizer : normalizers) {
             normalized = normalizer.normalize(normalized);
         }
         return normalized;
     }
 
-    private List<WordFrequency> takeTopFrequencies(Collection<WordFrequency> wordCloudEntities) {
-        if(wordCloudEntities.isEmpty()) { return Collections.emptyList(); }
+    private List<WordFrequency> takeTopFrequencies(final Collection<WordFrequency> wordCloudEntities) {
+        if (wordCloudEntities.isEmpty()) { return Collections.emptyList(); }
         final List<WordFrequency> sorted = sort(wordCloudEntities, on(WordFrequency.class).getFrequency());
         Collections.reverse(sorted);
         return sorted.subList(0, Math.min(sorted.size(), wordFrequencesToReturn));
     }
 
-    public void setStopWords(Collection<String> stopWords) {
+    public void setStopWords(final Collection<String> stopWords) {
         this.stopWords.clear();
         this.stopWords.addAll(stopWords);
     }
 
-    public void setWordFrequencesToReturn(int wordFrequencesToReturn) {
+    public void setWordFrequencesToReturn(final int wordFrequencesToReturn) {
         this.wordFrequencesToReturn = wordFrequencesToReturn;
     }
 
-    public void setMinWordLength(int minWordLength) {
+    public void setMinWordLength(final int minWordLength) {
         this.minWordLength = minWordLength;
     }
 
@@ -160,7 +154,7 @@ public class FrequencyAnalyzer {
         this.maxWordLength = maxWordLength;
     }
 
-    public void setWordTokenizer(WordTokenizer wordTokenizer) {
+    public void setWordTokenizer(final WordTokenizer wordTokenizer) {
         this.wordTokenizer = wordTokenizer;
     }
 
@@ -190,7 +184,7 @@ public class FrequencyAnalyzer {
         this.normalizers.add(normalizer);
     }
 
-    public void setCharacterEncoding(String characterEncoding) {
+    public void setCharacterEncoding(final String characterEncoding) {
         this.characterEncoding = characterEncoding;
     }
 

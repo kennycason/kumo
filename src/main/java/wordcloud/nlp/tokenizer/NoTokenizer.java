@@ -1,9 +1,7 @@
 package wordcloud.nlp.tokenizer;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import wordcloud.nlp.tokenizer.WordTokenizer;
 
 /**
  * Disables tokenization
@@ -13,8 +11,8 @@ import wordcloud.nlp.tokenizer.WordTokenizer;
  */
 public class NoTokenizer implements WordTokenizer {
 
-    public List<String> tokenize(String sentence) {
-        return Arrays.asList(new String[] { sentence });
+    public List<String> tokenize(final String sentence) {
+        return Collections.singletonList(sentence);
     }
 
 }

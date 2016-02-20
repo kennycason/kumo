@@ -25,7 +25,8 @@ public class Word implements Collidable {
 
     private CollisionRaster collisionRaster;
 
-    public Word(String word, Color color, FontMetrics fontMetrics, CollisionChecker collisionChecker) {
+    public Word(final String word, final Color color,
+                final FontMetrics fontMetrics, final CollisionChecker collisionChecker) {
         this.word = word;
         this.color = color;
         this.collisionChecker = collisionChecker;
@@ -52,7 +53,7 @@ public class Word implements Collidable {
         return bufferedImage;
     }
 
-    public void setBufferedImage(BufferedImage bufferedImage) {
+    public void setBufferedImage(final BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
         this.collisionRaster = new CollisionRaster(bufferedImage);
     }
@@ -95,11 +96,11 @@ public class Word implements Collidable {
     }
 
     @Override
-    public boolean collide(Collidable collidable) {
+    public boolean collide(final Collidable collidable) {
         return collisionChecker.collide(this, collidable);
     }
 
-    public void draw(CollisionRaster collisionRaster) {
+    public void draw(final CollisionRaster collisionRaster) {
         collisionRaster.mask(collisionRaster, position.getX(), position.getY());
     }
 

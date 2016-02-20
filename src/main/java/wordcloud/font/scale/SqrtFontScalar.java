@@ -8,20 +8,21 @@ public class SqrtFontScalar implements FontScalar {
     private final int minFont;
     private final int maxFont;
 
-    public SqrtFontScalar(int minFont, int maxFont) {
+    public SqrtFontScalar(final int minFont, final int maxFont) {
         this.minFont = minFont;
         this.maxFont = maxFont;
     }
 
     @Override
-    public float scale(int value, int minValue, int maxValue) {
-        double leftSpan = Math.sqrt(maxValue) - Math.sqrt(minValue);
-        double rightSpan = maxFont - minFont;
+    public float scale(final int value, final int minValue, final int maxValue) {
+        final double leftSpan = Math.sqrt(maxValue) - Math.sqrt(minValue);
+        final double rightSpan = maxFont - minFont;
 
         // Convert the left range into a 0-1 range
-        double valueScaled = (Math.sqrt(value) - Math.sqrt(minValue)) / leftSpan;
+        final double valueScaled = (Math.sqrt(value) - Math.sqrt(minValue)) / leftSpan;
 
         // Convert the 0-1 range into a value in the right range.
-        return (float)(minFont + (valueScaled * rightSpan));
+        return (float) (minFont + (valueScaled * rightSpan));
     }
+
 }

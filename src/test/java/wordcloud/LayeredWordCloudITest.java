@@ -4,7 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import wordcloud.bg.PixelBoundryBackground;
-import wordcloud.font.CloudFont;
+import wordcloud.font.KumoFont;
 import wordcloud.font.FontWeight;
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.nlp.FrequencyAnalyzer;
@@ -21,9 +21,9 @@ import java.util.Set;
 /**
  * Created by kenny on 7/5/14.
  */
-public class ITestLayeredWordCloud {
+public class LayeredWordCloudITest {
 
-    private static final Logger LOGGER = Logger.getLogger(ITestLayeredWordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(LayeredWordCloudITest.class);
 
     @Test
     public void layeredExample() throws IOException {
@@ -40,8 +40,8 @@ public class ITestLayeredWordCloud {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new CloudFont("LICENSE PLATE", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
@@ -75,8 +75,8 @@ public class ITestLayeredWordCloud {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new CloudFont("LICENSE PLATE", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/haskell_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/haskell_2.bmp")));
@@ -115,10 +115,10 @@ public class ITestLayeredWordCloud {
         layeredWordCloud.setPadding(2, 1);
         layeredWordCloud.setPadding(3, 1);
 
-        layeredWordCloud.setFontOptions(0, new CloudFont("Comic Sans MS", FontWeight.PLAIN));
-        layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(2, new CloudFont("Comic Sans MS", FontWeight.ITALIC));
-        layeredWordCloud.setFontOptions(3, new CloudFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(0, new KumoFont("Comic Sans MS", FontWeight.PLAIN));
+        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setFontOptions(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
+        layeredWordCloud.setFontOptions(3, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/pho_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/pho_2.bmp")));
@@ -155,7 +155,7 @@ public class ITestLayeredWordCloud {
         return Collections.emptySet();
     }
 
-    private static InputStream getInputStream(String path) {
+    private static InputStream getInputStream(final String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
     }
 

@@ -5,17 +5,17 @@ import java.awt.*;
 /**
  * Created by kenny on 7/3/14.
  */
-public class CloudFont {
+public class KumoFont {
 
     private static final int DEFAULT_WEIGHT = 10;
 
     private final Font font;
 
-    public CloudFont(String type, FontWeight weight) {
+    public KumoFont(final String type, final FontWeight weight) {
         this.font = new Font(type, weight.getWeight(), DEFAULT_WEIGHT);
     }
 
-    public CloudFont(Font font) {
+    public KumoFont(final Font font) {
         this.font = font;
     }
 

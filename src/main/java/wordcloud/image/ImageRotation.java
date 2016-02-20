@@ -18,20 +18,22 @@ public class ImageRotation {
         return rotate(bufferedImage, -Math.PI / 2);
     }
 
-    public static BufferedImage rotate(BufferedImage bufferedImage, double theta) {
-        if(theta == 0) { return bufferedImage; }
+    public static BufferedImage rotate(final BufferedImage bufferedImage, final double theta) {
+        if(theta == 0.0) { return bufferedImage; }
 
-        final double sin = Math.abs(Math.sin(theta)), cos = Math.abs(Math.cos(theta));
-        final int w = bufferedImage.getWidth();
-        final int h = bufferedImage.getHeight();
-        final int neww = (int) Math.floor(w * cos + h * sin);
-        final int newh = (int) Math.floor(h * cos + w * sin);
-        BufferedImage result = new BufferedImage(neww, newh, bufferedImage.getType());
-        Graphics2D g = result.createGraphics();
-        g.translate((neww - w) / 2, (newh - h) / 2);
-        g.rotate(theta, w / 2, h / 2);
-        g.drawRenderedImage(bufferedImage, null);
-        g.dispose();
+        final double sin = Math.abs(Math.sin(theta));
+        final double cos = Math.abs(Math.cos(theta));
+        final int weight = bufferedImage.getWidth();
+        final int height = bufferedImage.getHeight();
+        final int newWeight = (int) Math.floor(weight * cos + height * sin);
+        final int newHeight = (int) Math.floor(height * cos + weight * sin);
+
+        final BufferedImage result = new BufferedImage(newWeight, newHeight, bufferedImage.getType());
+        final Graphics2D graphics = result.createGraphics();
+        graphics.translate((newWeight - weight) / 2, (newHeight - height) / 2);
+        graphics.rotate(theta, weight / 2, height / 2);
+        graphics.drawRenderedImage(bufferedImage, null);
+        graphics.dispose();
 
         return result;
     }

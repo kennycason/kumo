@@ -6,7 +6,7 @@ import org.junit.Test;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.CloudFont;
+import wordcloud.font.KumoFont;
 import wordcloud.font.FontWeight;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
@@ -31,9 +31,9 @@ import java.util.Set;
 /**
  * Created by kenny on 6/29/14.
  */
-public class ITestWordCloud {
+public class WordCloudITest {
 
-    private static final Logger LOGGER = Logger.getLogger(ITestWordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);
 
     private static final Random RANDOM = new Random();
 
@@ -73,7 +73,7 @@ public class ITestWordCloud {
         final WordCloud wordCloud = new WordCloud(400, 400, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackground(new RectangleBackground(400, 400));
-        wordCloud.setCloudFont(new CloudFont("Impact", FontWeight.PLAIN));
+        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
        // wordCloud.setAngleGenerator(new AngleGenerator(-60, 60, 5));
         wordCloud.setColorPalette(buildRandomColorPallete(5));
         wordCloud.setFontScalar(new LinearFontScalar(18, 70));
@@ -91,7 +91,7 @@ public class ITestWordCloud {
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackground(new RectangleBackground(600, 600));
-        wordCloud.setCloudFont(new CloudFont("Impact", FontWeight.PLAIN));
+        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
         // wordCloud.setAngleGenerator(new AngleGenerator(-60, 60, 5));
         wordCloud.setColorPalette(buildRandomColorPallete(5));
         wordCloud.setFontScalar(new LinearFontScalar(18, 70));
@@ -111,7 +111,7 @@ public class ITestWordCloud {
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
-        wordCloud.setCloudFont(new CloudFont("Impact", FontWeight.PLAIN));
+        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
@@ -238,7 +238,7 @@ public class ITestWordCloud {
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setCloudFont(new CloudFont("Simple Slumg__G", FontWeight.BOLD));
+        wordCloud.setKumoFont(new KumoFont("Simple Slumg__G", FontWeight.BOLD));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/earth.bmp")));
         wordCloud.setColorPalette(buildRandomColorPallete(3));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
@@ -258,7 +258,7 @@ public class ITestWordCloud {
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_top.txt"));
         final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
-        wordCloud.setCloudFont(new CloudFont("Marker Felt", FontWeight.PLAIN));
+        wordCloud.setKumoFont(new KumoFont("Marker Felt", FontWeight.PLAIN));
         //wordCloud.setAngleGenerator(new AngleGenerator(0));
         wordCloud.setBackgroundColor(Color.BLACK);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
@@ -339,7 +339,7 @@ public class ITestWordCloud {
         wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setColorPalette(buildRandomColorPallete(2));
-        wordCloud.setCloudFont(new CloudFont("Helvitica", FontWeight.PLAIN));
+        wordCloud.setKumoFont(new KumoFont("Helvitica", FontWeight.PLAIN));
         wordCloud.setFontScalar(new LinearFontScalar(8, 130));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/wordcloud_match_online_example.png");

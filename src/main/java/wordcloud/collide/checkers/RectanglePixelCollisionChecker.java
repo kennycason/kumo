@@ -23,9 +23,9 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
              by + height
           */
     @Override
-    public boolean collide(Collidable collidable, Collidable collidable2) {
+    public boolean collide(final Collidable collidable, final Collidable collidable2) {
 	    // check if bounding boxes intersect
-        if(!RECTANGLE_COLLISION_CHECKER.collide(collidable, collidable2)) {
+        if (!RECTANGLE_COLLISION_CHECKER.collide(collidable, collidable2)) {
             return false;
         }
 
@@ -41,11 +41,11 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         int startY = Math.max(position.getY(), position2.getY());
         int endY = Math.min(position.getY() + collidable.getHeight(), position2.getY() + collidable2.getHeight());
 
-        for(int y = startY ; y < endY ; y++) {
-            for(int x = startX ; x < endX ; x++) {
+        for (int y = startY ; y < endY ; y++) {
+            for (int x = startX ; x < endX ; x++) {
                 // compute offsets for surface
-                if((!collisionRaster2.isTransparent(x - position2.getX(), y - position2.getY()))
-                        && (!collisionRaster.isTransparent(x - position.getX(), y - position.getY()))) {
+                if (!collisionRaster2.isTransparent(x - position2.getX(), y - position2.getY())
+                        && !collisionRaster.isTransparent(x - position.getX(), y - position.getY())) {
                     return true;
                 }
             }

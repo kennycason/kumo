@@ -14,7 +14,7 @@ public class RectanglePixelCollidable implements Collidable {
 
     private final CollisionRaster collisionRaster;
 
-    public RectanglePixelCollidable(CollisionRaster collisionRaster, int x, int y) {
+    public RectanglePixelCollidable(final CollisionRaster collisionRaster, final int x, final int y) {
         this.collisionRaster = collisionRaster;
         this.position = new Vector2d(x, y);
     }

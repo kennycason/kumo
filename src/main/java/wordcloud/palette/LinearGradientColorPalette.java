@@ -33,7 +33,7 @@ public class LinearGradientColorPalette extends ColorPalette {
      *            end color
      */
     public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2) {
-        this.colors = createLinearGradient(color1, color2, betweenC1andC2).toArray(new Color[] {});
+        super(createLinearGradient(color1, color2, betweenC1andC2));
     }
 
     /**
@@ -42,32 +42,38 @@ public class LinearGradientColorPalette extends ColorPalette {
      * 
      * @param color1
      *            start color
-     * @param betweenC1andC2
-     *            number of colors to be generated between color1 and color2
      * @param color2
      *            middle color
-     * @param betweenC2andC3
-     *            number of colors to be generated between color2 and color3
      * @param color3
      *            end color
+     * @param numberOfColorsC1AndC2
+     *            number of colors to be generated between color1 and color2
+     * @param numberOfColorsC2AndC3
+     *            number of colors to be generated between color2 and color3
      */
-    public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2, int betweenC2andC3, Color color3) {
-        List<Color> cs = new ArrayList<>();
+    public LinearGradientColorPalette(final Color color1,
+                                      final Color color2,
+                                      final Color color3,
+                                      final int numberOfColorsC1AndC2,
+                                      final int numberOfColorsC2AndC3) {
+        super(createTwoLinearGradients(color1, color2, color3, numberOfColorsC1AndC2, numberOfColorsC2AndC3));
+    }
 
-        // adding colors [c1,c2]
-        for (Color c : createLinearGradient(color1, color2, betweenC1andC2)) {
-            cs.add(c);
-        }
-        
-        // adding colors ]c2,c3]
-        for (Color c : createLinearGradient(color2, color3, betweenC2andC3)) {
-            if (c.equals(color2)) { // already being added by first gradient
-                continue;
-            }
-            cs.add(c);
-        }
+    private static List<Color> createTwoLinearGradients(final Color color1,
+                                                        final Color color2,
+                                                        final Color color3,
+                                                        final int numberOfColorsC1AndC2,
+                                                        final int numberOfColorsC2AndC3) {
+        final List<Color> colors = new ArrayList<>();
 
-        this.colors = cs.toArray(new Color[] {});
+        final List<Color> gradient1 = createLinearGradient(color1, color2, numberOfColorsC1AndC2);
+        final List<Color> gradient2 = createLinearGradient(color2, color3, numberOfColorsC2AndC3);
+
+        colors.addAll(gradient1);
+        // the first item will overlap with the color2, so ignore it
+        colors.addAll(gradient2.subList(1, gradient2.size()));
+
+        return colors;
     }
 
     /**
@@ -77,24 +83,24 @@ public class LinearGradientColorPalette extends ColorPalette {
      *            start color
      * @param color2
      *            end color
-     * @param amountBetweenC1andC2
+     * @param numberOfColors
      *            specifies the amount of colors in this gradient between color1
      *            and color2
      * @return List of colors in this gradient
      */
-    public static List<Color> createLinearGradient(Color color1, Color color2, int amountBetweenC1andC2) {
-        List<Color> cols = new ArrayList<>();
+    private static List<Color> createLinearGradient(final Color color1, final Color color2, final int numberOfColors) {
+        final List<Color> colors = new ArrayList<>(numberOfColors);
 
-        for (int i = 0; i <= amountBetweenC1andC2; i++) {
-            float ratio = (float) i / (float) amountBetweenC1andC2;
+        for (int i = 0; i < numberOfColors; i++) {
+            float ratio = (float) i / (float) numberOfColors;
 
             int red = (int) (color2.getRed() * ratio + color1.getRed() * (1 - ratio));
             int green = (int) (color2.getGreen() * ratio + color1.getGreen() * (1 - ratio));
             int blue = (int) (color2.getBlue() * ratio + color1.getBlue() * (1 - ratio));
 
-            cols.add(new Color(red, green, blue));
+            colors.add(new Color(red, green, blue));
         }
-        cols.add(color2);
-        return cols;
+
+        return colors;
     }
 }

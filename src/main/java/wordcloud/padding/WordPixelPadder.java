@@ -21,7 +21,7 @@ public class WordPixelPadder implements Padder {
     private RectanglePadder rectanglePadder = new RectanglePadder();
 
     public void pad(final Word word, final int padding) {
-        if(padding <= 0) { return; }
+        if (padding <= 0) { return; }
         rectanglePadder.pad(word, padding);
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
@@ -30,9 +30,9 @@ public class WordPixelPadder implements Padder {
         final int width = collisionRaster.getWidth();
         final int height = collisionRaster.getHeight();
 
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                if(shouldPad(collisionRaster, x, y, padding)) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (shouldPad(collisionRaster, x, y, padding)) {
                     toPad.add(new Vector2d(x, y));
                 }
             }
@@ -43,13 +43,13 @@ public class WordPixelPadder implements Padder {
     }
 
     private boolean shouldPad(final CollisionRaster collisionRaster, final int cx, final int cy, final int padding) {
-        if(!collisionRaster.isTransparent(cx, cy)) { return false; }
+        if (!collisionRaster.isTransparent(cx, cy)) { return false; }
 
-        for(int y = cy - padding; y <= cy + padding; y++) {
-            for(int x = cx - padding; x <= cx + padding; x++) {
-                if(x == cx && y == cy) { continue; }
-                if(inBounds(collisionRaster, x, y)) {
-                    if(!collisionRaster.isTransparent(x, y)) {
+        for (int y = cy - padding; y <= cy + padding; y++) {
+            for (int x = cx - padding; x <= cx + padding; x++) {
+                if (x == cx && y == cy) { continue; }
+                if (inBounds(collisionRaster, x, y)) {
+                    if (!collisionRaster.isTransparent(x, y)) {
                         return true;
                     }
                 }

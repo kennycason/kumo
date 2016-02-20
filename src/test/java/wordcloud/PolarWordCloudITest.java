@@ -6,7 +6,7 @@ import org.junit.Test;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.CloudFont;
+import wordcloud.font.KumoFont;
 import wordcloud.font.FontWeight;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
@@ -25,9 +25,9 @@ import java.util.Set;
 /**
  * Created by kenny on 6/29/14.
  */
-public class ITestPolarWordCloud {
+public class PolarWordCloudITest {
 
-    private static final Logger LOGGER = Logger.getLogger(ITestWordCloud.class);
+    private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);
 
     @Test
     public void whaleImgLargePolarTest() throws IOException {
@@ -132,7 +132,7 @@ public class ITestPolarWordCloud {
 
         final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
-        wordCloud.setCloudFont(new CloudFont("Cairo", FontWeight.BOLD));
+        wordCloud.setKumoFont(new KumoFont("Cairo", FontWeight.BOLD));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();

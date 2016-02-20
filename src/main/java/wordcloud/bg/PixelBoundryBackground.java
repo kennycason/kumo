@@ -61,7 +61,7 @@ public class PixelBoundryBackground implements Background {
     @Override
     public boolean isInBounds(Collidable collidable) {
         // check if bounding boxes intersect
-        if(!this.rectangleBackground.isInBounds(collidable)) {
+        if (!this.rectangleBackground.isInBounds(collidable)) {
             return false;
         }
         final Vector2d position = collidable.getPosition();
@@ -72,10 +72,10 @@ public class PixelBoundryBackground implements Background {
         int startY = Math.max(position.getY(), 0);
         int endY = Math.min(position.getY() + collidable.getHeight(), collisionRaster.getHeight());
 
-        for(int y = startY ; y < endY ; y++) {
-            for(int x = startX ; x < endX ; x++) {
+        for (int y = startY ; y < endY ; y++) {
+            for (int x = startX ; x < endX ; x++) {
                 // compute offsets for surface
-                if(collisionRaster.isTransparent(x - 0, y - 0) &&
+                if (collisionRaster.isTransparent(x - 0, y - 0) &&
                         !collidable.getCollisionRaster().isTransparent(x - position.getX(), y - position.getY())) {
                     return false;
                 }

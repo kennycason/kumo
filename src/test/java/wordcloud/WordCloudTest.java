@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class TestWordCloud {
+public class WordCloudTest {
 
     public static final List<WordFrequency> WORD_FREQUENCIES = Arrays.asList(new WordFrequency("apple", 22),
                                                                              new WordFrequency("baby", 3),

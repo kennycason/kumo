@@ -8,7 +8,7 @@ import wordcloud.collide.RectanglePixelCollidable;
 import wordcloud.collide.checkers.CollisionChecker;
 import wordcloud.collide.checkers.RectangleCollisionChecker;
 import wordcloud.collide.checkers.RectanglePixelCollisionChecker;
-import wordcloud.font.CloudFont;
+import wordcloud.font.KumoFont;
 import wordcloud.font.FontWeight;
 import wordcloud.font.scale.FontScalar;
 import wordcloud.font.scale.LinearFontScalar;
@@ -64,7 +64,7 @@ public class WordCloud {
 
     protected FontScalar fontScalar = new LinearFontScalar(10, 40);
 
-    protected CloudFont cloudFont = new CloudFont("Comic Sans MS", FontWeight.BOLD);
+    protected KumoFont kumoFont = new KumoFont("Comic Sans MS", FontWeight.BOLD);
 
     protected AngleGenerator angleGenerator = new AngleGenerator();
 
@@ -262,7 +262,7 @@ public class WordCloud {
 
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
-        final Font font = cloudFont.getFont().deriveFont(fontHeight);
+        final Font font = kumoFont.getFont().deriveFont(fontHeight);
 
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
@@ -302,8 +302,8 @@ public class WordCloud {
         this.fontScalar = fontScalar;
     }
 
-    public void setCloudFont(CloudFont cloudFont) {
-        this.cloudFont = cloudFont;
+    public void setKumoFont(KumoFont kumoFont) {
+        this.kumoFont = kumoFont;
     }
 
     public void setAngleGenerator(AngleGenerator angleGenerator) {

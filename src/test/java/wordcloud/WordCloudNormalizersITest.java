@@ -16,9 +16,9 @@ import java.util.List;
 /**
  * Created by kenny on 6/29/14.
  */
-public class ITestWordCloudNormalizers {
+public class WordCloudNormalizersITest {
 
-    private static final Logger LOGGER = Logger.getLogger(ITestWordCloudNormalizers.class);
+    private static final Logger LOGGER = Logger.getLogger(WordCloudNormalizersITest.class);
 
     @Test
     public void upperCaseNormalizer() throws IOException {

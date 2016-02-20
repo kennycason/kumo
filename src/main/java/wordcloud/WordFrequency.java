@@ -9,7 +9,7 @@ public class WordFrequency implements Comparable<WordFrequency> {
 
     private final int frequency;
 
-    public WordFrequency(String word, int frequency) {
+    public WordFrequency(final String word, final int frequency) {
         this.word = word;
         this.frequency = frequency;
     }
@@ -23,7 +23,7 @@ public class WordFrequency implements Comparable<WordFrequency> {
     }
 
     @Override
-    public int compareTo(WordFrequency wordFrequency) {
+    public int compareTo(final WordFrequency wordFrequency) {
         return wordFrequency.frequency - frequency;
     }
 

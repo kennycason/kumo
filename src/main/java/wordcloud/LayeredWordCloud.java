@@ -1,24 +1,21 @@
 package wordcloud;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import org.apache.log4j.Logger;
+import wordcloud.bg.Background;
+import wordcloud.font.KumoFont;
+import wordcloud.font.scale.FontScalar;
+import wordcloud.image.AngleGenerator;
+import wordcloud.palette.ColorPalette;
+import wordcloud.wsc.WordStartScheme;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.imageio.ImageIO;
-
-import org.apache.log4j.Logger;
-
-import wordcloud.bg.Background;
-import wordcloud.font.CloudFont;
-import wordcloud.font.scale.FontScalar;
-import wordcloud.image.AngleGenerator;
-import wordcloud.palette.ColorPalette;
-import wordcloud.wsc.WordStartScheme;
 
 /**
  * Created by kenny on 7/5/14.
@@ -65,8 +62,8 @@ public class LayeredWordCloud {
         this.wordClouds.get(layer).setFontScalar(fontScalar);
     }
 
-    public void setFontOptions(int layer, CloudFont cloudFont) {
-        this.wordClouds.get(layer).setCloudFont(cloudFont);
+    public void setFontOptions(int layer, KumoFont kumoFont) {
+        this.wordClouds.get(layer).setKumoFont(kumoFont);
     }
 
     public void setAngleGenerator(int layer, AngleGenerator angleGenerator) {

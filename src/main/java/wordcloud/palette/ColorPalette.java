@@ -1,6 +1,8 @@
 package wordcloud.palette;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -10,20 +12,27 @@ public class ColorPalette {
 
     private static final Random RANDOM = new Random();
 
-    protected Color[] colors = {};
+    private final List<Color> colors;
 
-    private int next = 0;
+    private int next;
 
-    public ColorPalette(Color... colors) {
+    public ColorPalette(final Color... colors) {
+        this.colors = new ArrayList<>();
+        for (final Color color : colors) {
+            this.colors.add(color);
+        }
+    }
+
+    public ColorPalette(final List<Color> colors) {
         this.colors = colors;
     }
 
     public Color next() {
-        return colors[next++ % colors.length];
+        return colors.get(next++ % colors.size());
     }
 
     public Color randomNext() {
-        return colors[RANDOM.nextInt(colors.length)];
+        return colors.get(RANDOM.nextInt(colors.size()));
     }
 
 }

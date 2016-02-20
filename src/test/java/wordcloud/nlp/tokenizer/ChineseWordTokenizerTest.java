@@ -11,15 +11,15 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by kenny on 4/27/15.
  */
-public class TestChineseWordTokenizer {
+public class ChineseWordTokenizerTest {
 
-    private static final Logger LOGGER = Logger.getLogger(TestChineseWordTokenizer.class);
+    private static final Logger LOGGER = Logger.getLogger(ChineseWordTokenizerTest.class);
 
     @Test
     public void test() {
-        long time = System.currentTimeMillis();
-        WordTokenizer parser = new ChineseWordTokenizer();
-        System.out.println("load time: " + (System.currentTimeMillis() - time) + " ms");
+        final long time = System.currentTimeMillis();
+        final WordTokenizer parser = new ChineseWordTokenizer();
+        LOGGER.info("load time: " + (System.currentTimeMillis() - time) + " ms");
 
         List<String> words = parser.tokenize("弹道导弹");
         LOGGER.info(Lambda.join(words));
