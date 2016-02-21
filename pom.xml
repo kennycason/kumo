@@ -41,6 +41,11 @@
             <artifactId>jsoup</artifactId>
             <version>1.8.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.davidmoten</groupId>
+            <artifactId>rtree</artifactId>
+            <version>0.7.5</version>
+        </dependency>
 
         <!-- nlp -->
         <!-- TODO remove from kumo core -->

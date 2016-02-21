@@ -3,7 +3,7 @@ package com.kennycason.kumo;
 import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
-import com.kennycason.kumo.wordstart.WordStartScheme;
+import com.kennycason.kumo.wordstart.WordStartStrategy;
 import org.apache.log4j.Logger;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.image.AngleGenerator;
@@ -113,7 +113,7 @@ public class LayeredWordCloud {
         }
     }
     
-    public void setStartScheme(final int layer, final WordStartScheme scheme) {
+    public void setStartScheme(final int layer, final WordStartStrategy scheme) {
         wordClouds.get(layer).setWordStartScheme(scheme);
     }
     

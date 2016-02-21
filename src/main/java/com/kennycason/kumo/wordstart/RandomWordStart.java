@@ -10,7 +10,7 @@ import java.util.Random;
  * 
  * @author &#64;wolfposd
  */
-public class RandomWordStart implements WordStartScheme {
+public class RandomWordStart implements WordStartStrategy {
 
     private static final Random RANDOM = new Random();
 
