@@ -54,7 +54,7 @@ public class WordCloud {
 
     protected final Padder padder;
 
-    protected int padding = 0;
+    protected int padding;
 
     protected Background background;
 
@@ -80,7 +80,7 @@ public class WordCloud {
     
     protected WordStartScheme startscheme = new RandomWordStart();
     
-    public WordCloud(int width, int height, CollisionMode collisionMode) {
+    public WordCloud(final int width, final int height, final CollisionMode collisionMode) {
         this.width = width;
         this.height = height;
         this.collisionMode = collisionMode;
@@ -102,21 +102,21 @@ public class WordCloud {
         this.background = new RectangleBackground(width, height);
     }
 
-    public void build(List<WordFrequency> wordFrequencies) {
+    public void build(final List<WordFrequency> wordFrequencies) {
         Collections.sort(wordFrequencies);
-        int curword = 1;
+        int currentWord = 1;
         final Dimension dimensions = new Dimension(width, height);
         for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
             final Point p = startscheme.getStartingPoint(dimensions, word);
             final boolean placed = place(word, p.x, p.y);
 
             if (placed) {
-                LOGGER.info("placed: " + word.getWord() + " (" + curword + "/" + wordFrequencies.size() + ")");
+                LOGGER.info("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
             } else {
-                LOGGER.info("skipped: " + word.getWord() + " (" + curword + "/" + wordFrequencies.size() + ")");
+                LOGGER.info("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
             }
                 
-            curword++;
+            currentWord++;
         }
         drawForgroundToBackground();
     }

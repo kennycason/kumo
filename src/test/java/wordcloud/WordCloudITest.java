@@ -6,8 +6,8 @@ import org.junit.Test;
 import wordcloud.bg.CircleBackground;
 import wordcloud.bg.PixelBoundryBackground;
 import wordcloud.bg.RectangleBackground;
-import wordcloud.font.KumoFont;
 import wordcloud.font.FontWeight;
+import wordcloud.font.KumoFont;
 import wordcloud.font.scale.LinearFontScalar;
 import wordcloud.font.scale.SqrtFontScalar;
 import wordcloud.image.AngleGenerator;
@@ -20,13 +20,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 /**
  * Created by kenny on 6/29/14.

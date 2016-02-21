@@ -35,4 +35,8 @@ public class ColorPalette {
         return colors.get(RANDOM.nextInt(colors.size()));
     }
 
+    public List<Color> getColors() {
+        return colors;
+    }
+
 }

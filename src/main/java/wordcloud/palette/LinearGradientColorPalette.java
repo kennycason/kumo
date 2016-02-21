@@ -26,14 +26,16 @@ public class LinearGradientColorPalette extends ColorPalette {
      * 
      * @param color1
      *            start color
-     * @param betweenC1andC2
-     *            specifies the amount of colors for this gradient between
-     *            color1 and color2
      * @param color2
      *            end color
+     * @param gradientSteps
+     *            specifies the amount of colors for this gradient between
+     *            color1 and color2
      */
-    public LinearGradientColorPalette(Color color1, int betweenC1andC2, Color color2) {
-        super(createLinearGradient(color1, color2, betweenC1andC2));
+    public LinearGradientColorPalette(final Color color1,
+                                      final Color color2,
+                                      final int gradientSteps) {
+        super(createLinearGradient(color1, color2, gradientSteps));
     }
 
     /**
@@ -46,28 +48,30 @@ public class LinearGradientColorPalette extends ColorPalette {
      *            middle color
      * @param color3
      *            end color
-     * @param numberOfColorsC1AndC2
+     * @param gradientStepsC1AndC2
      *            number of colors to be generated between color1 and color2
-     * @param numberOfColorsC2AndC3
+     *            this includes both color1 and color2
+     * @param gradientStepsC2AndC3
      *            number of colors to be generated between color2 and color3
+     *            this includes both color2 and color3
      */
     public LinearGradientColorPalette(final Color color1,
                                       final Color color2,
                                       final Color color3,
-                                      final int numberOfColorsC1AndC2,
-                                      final int numberOfColorsC2AndC3) {
-        super(createTwoLinearGradients(color1, color2, color3, numberOfColorsC1AndC2, numberOfColorsC2AndC3));
+                                      final int gradientStepsC1AndC2,
+                                      final int gradientStepsC2AndC3) {
+        super(createTwoLinearGradients(color1, color2, color3, gradientStepsC1AndC2, gradientStepsC2AndC3));
     }
 
     private static List<Color> createTwoLinearGradients(final Color color1,
                                                         final Color color2,
                                                         final Color color3,
-                                                        final int numberOfColorsC1AndC2,
-                                                        final int numberOfColorsC2AndC3) {
+                                                        final int gradientStepsC1AndC2,
+                                                        final int gradientStepsC2AndC3) {
         final List<Color> colors = new ArrayList<>();
 
-        final List<Color> gradient1 = createLinearGradient(color1, color2, numberOfColorsC1AndC2);
-        final List<Color> gradient2 = createLinearGradient(color2, color3, numberOfColorsC2AndC3);
+        final List<Color> gradient1 = createLinearGradient(color1, color2, gradientStepsC1AndC2);
+        final List<Color> gradient2 = createLinearGradient(color2, color3, gradientStepsC2AndC3);
 
         colors.addAll(gradient1);
         // the first item will overlap with the color2, so ignore it
@@ -83,23 +87,28 @@ public class LinearGradientColorPalette extends ColorPalette {
      *            start color
      * @param color2
      *            end color
-     * @param numberOfColors
+     * @param gradientSteps
      *            specifies the amount of colors in this gradient between color1
-     *            and color2
+     *            and color2, this includes both color1 and color2
      * @return List of colors in this gradient
      */
-    private static List<Color> createLinearGradient(final Color color1, final Color color2, final int numberOfColors) {
-        final List<Color> colors = new ArrayList<>(numberOfColors);
+    private static List<Color> createLinearGradient(final Color color1, final Color color2, final int gradientSteps) {
+        final List<Color> colors = new ArrayList<>(gradientSteps + 1);
 
-        for (int i = 0; i < numberOfColors; i++) {
-            float ratio = (float) i / (float) numberOfColors;
+        // add beginning color to the gradient
+        colors.add(color1);
 
-            int red = (int) (color2.getRed() * ratio + color1.getRed() * (1 - ratio));
-            int green = (int) (color2.getGreen() * ratio + color1.getGreen() * (1 - ratio));
-            int blue = (int) (color2.getBlue() * ratio + color1.getBlue() * (1 - ratio));
+        for (int i = 1; i < gradientSteps; i++) {
+            float ratio = (float) i / (float) gradientSteps;
 
-            colors.add(new Color(red, green, blue));
+            final float red =color2.getRed() * ratio + color1.getRed() * (1 - ratio);
+            final float green = color2.getGreen() * ratio + color1.getGreen() * (1 - ratio);
+            final float blue = color2.getBlue() * ratio + color1.getBlue() * (1 - ratio);
+
+            colors.add(new Color(Math.round(red), Math.round(green), Math.round(blue)));
         }
+        // add end color to the gradient
+        colors.add(color2);
 
         return colors;
     }

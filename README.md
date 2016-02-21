@@ -24,7 +24,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
-    <version>1.4</version>
+    <version>1.5</version>
 </dependency>
 ```
 
@@ -197,8 +197,8 @@ final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, Coll
 layeredWordCloud.setPadding(0, 1);
 layeredWordCloud.setPadding(1, 1);
 
-layeredWordCloud.setFontOptions(0, new CloudFont("LICENSE PLATE", FontWeight.BOLD));
-layeredWordCloud.setFontOptions(1, new CloudFont("Comic Sans MS", FontWeight.BOLD));
+layeredWordCloud.setFontOptions(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
+layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
 layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
 layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
@@ -242,7 +242,7 @@ for (int i = 0; i < lwc.getLayers(); i++) {
     cloud.setAngleGenerator(new AngleGenerator(0));
     cloud.setPadding(3);
     cloud.setWordStartScheme(new CenterWordStart());
-    cloud.setCloudFont(new CloudFont(FONTS[i]));
+    cloud.setKumoFont(new KumoFont(FONTS[i]));
     cloud.setColorPalette(new ColorPalette(colors[i]));
 
     final int[] pos = positions[i];

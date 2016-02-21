@@ -8,6 +8,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -23,13 +24,12 @@ public class WordCloudTest {
                                                                              new WordFrequency("boy", 26));
 
     @Test
-    public void testWriteToStreamAsPNG() throws Exception {
+    public void testWriteToStreamAsPNG() throws IOException {
 
         final WordCloud wordCloud = new WordCloud(200, 200, CollisionMode.PIXEL_PERFECT);
         wordCloud.build(WORD_FREQUENCIES);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new RectangleBackground(120, 120));
-
 
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         wordCloud.writeToStreamAsPNG(byteArrayOutputStream);
@@ -44,6 +44,5 @@ public class WordCloudTest {
         final ImageReader imageReader = imageReaders.next();
         assertEquals("png", imageReader.getFormatName());
     }
-
 
 }
