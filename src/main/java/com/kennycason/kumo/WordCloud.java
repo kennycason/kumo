@@ -1,26 +1,28 @@
 package com.kennycason.kumo;
 
 import ch.lambdaj.Lambda;
-import com.kennycason.kumo.collide.checkers.CollisionChecker;
-import com.kennycason.kumo.collide.checkers.RectangleCollisionChecker;
-import com.kennycason.kumo.font.KumoFont;
-import com.kennycason.kumo.font.scale.FontScalar;
-import com.kennycason.kumo.image.ImageRotation;
-import com.kennycason.kumo.wordstart.RandomWordStart;
-import com.kennycason.kumo.wordstart.WordStartScheme;
-import org.apache.log4j.Logger;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.RectangleBackground;
 import com.kennycason.kumo.collide.RectanglePixelCollidable;
+import com.kennycason.kumo.collide.checkers.CollisionChecker;
+import com.kennycason.kumo.collide.checkers.RectangleCollisionChecker;
 import com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker;
 import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.font.KumoFont;
+import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.image.CollisionRaster;
+import com.kennycason.kumo.image.ImageRotation;
 import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
 import com.kennycason.kumo.padding.WordPixelPadder;
 import com.kennycason.kumo.palette.ColorPalette;
+import com.kennycason.kumo.placement.LinearWordPlacer;
+import com.kennycason.kumo.placement.RectangleWordPlacer;
+import com.kennycason.kumo.wordstart.RandomWordStart;
+import com.kennycason.kumo.wordstart.WordStartStrategy;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -28,12 +30,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 import static ch.lambdaj.Lambda.on;
 
@@ -70,13 +68,13 @@ public class WordCloud {
 
     protected final BufferedImage bufferedImage;
 
-    protected final Set<Word> placedWords = new HashSet<>();
+    protected RectangleWordPlacer wordPlacer = new LinearWordPlacer();
 
     protected final Set<Word> skipped = new HashSet<>();
 
     protected ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
     
-    protected WordStartScheme startscheme = new RandomWordStart();
+    protected WordStartStrategy wordStartStrategy = new RandomWordStart();
     
     public WordCloud(final Dimension dimension, final CollisionMode collisionMode) {
         this.collisionMode = collisionMode;
@@ -100,16 +98,23 @@ public class WordCloud {
     }
 
     public void build(final List<WordFrequency> wordFrequencies) {
+        wordPlacer.reset();
+        skipped.clear();
+
         Collections.sort(wordFrequencies);
         int currentWord = 1;
         for (final Word word : buildwords(wordFrequencies, this.colorPalette)) {
-            final Point point = startscheme.getStartingPoint(dimension, word);
+            final Point point = wordStartStrategy.getStartingPoint(dimension, word);
             final boolean placed = place(word, point);
 
             if (placed) {
-                LOGGER.debug("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                }
             } else {
-                LOGGER.debug("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                }
                 skipped.add(word);
             }
             currentWord++;
@@ -227,17 +232,11 @@ public class WordCloud {
 
         switch (this.collisionMode) {
             case RECTANGLE:
-                for (final Word placeWord : this.placedWords) {
-                    if (placeWord.collide(word)) {
-                        return false;
-                    }
-                }
-                placedWords.add(word);
-                return true;
+                return wordPlacer.place(word);
 
             case PIXEL_PERFECT:
                 if (backgroundCollidable.collide(word)) { return false; }
-                placedWords.add(word);
+                //placedWords.add(word);
                 return true;
 
         }
@@ -318,7 +317,12 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordStartScheme(WordStartScheme startscheme) {
-        this.startscheme = startscheme;
+    public void setWordStartScheme(WordStartStrategy startscheme) {
+        this.wordStartStrategy = startscheme;
     }
+
+    public void setWordPlacer(RectangleWordPlacer wordPlacer) {
+        this.wordPlacer = wordPlacer;
+    }
+
 }

@@ -11,7 +11,7 @@ import java.awt.*;
  * @author &#64;wolfposd
  *
  */
-public interface WordStartScheme {
+public interface WordStartStrategy {
 
     /**
      * Calculate a starting point for the given word. The returned Point is not

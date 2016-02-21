@@ -9,7 +9,7 @@ import java.awt.*;
  * 
  * @author &#64;wolfposd
  */
-public class CenterWordStart implements WordStartScheme {
+public class CenterWordStart implements WordStartStrategy {
 
     @Override
     public Point getStartingPoint(final Dimension dimension, final Word word) {
