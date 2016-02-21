@@ -1,8 +1,9 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
-import com.kennycason.kumo.wsc.WordStartScheme;
+import com.kennycason.kumo.wordstart.WordStartScheme;
 import org.apache.log4j.Logger;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.image.AngleGenerator;
@@ -24,95 +25,95 @@ public class LayeredWordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(LayeredWordCloud.class);
 
-    private final int width;
-
-    private final int height;
+    private final Dimension dimension;
 
     private final List<WordCloud> wordClouds = new ArrayList<>();
 
     private Color backgroundColor = Color.BLACK;
 
-    public LayeredWordCloud(int layers, int width, int height, CollisionMode collisionMode) {
-        this.width = width;
-        this.height = height;
+    public LayeredWordCloud(final int layers, final Dimension dimension, final CollisionMode collisionMode) {
+        this.dimension = dimension;
+
         for(int i = 0; i < layers; i++) {
-            final WordCloud wordCloud = new WordCloud(width, height, collisionMode);
+            final WordCloud wordCloud = new WordCloud(dimension, collisionMode);
             wordCloud.setBackgroundColor(null);
             wordClouds.add(wordCloud);
         }
     }
 
-    public void build(int layer, List<WordFrequency> wordFrequencies) {
+    public void build(final int layer, final List<WordFrequency> wordFrequencies) {
         wordClouds.get(layer).build(wordFrequencies);
     }
 
-    public void setPadding(int layer, int padding) {
+    public void setPadding(final int layer, final int padding) {
         this.wordClouds.get(layer).setPadding(padding);
     }
 
-    public void setColorPalette(int layer, ColorPalette colorPalette) {
+    public void setColorPalette(final int layer, final ColorPalette colorPalette) {
         this.wordClouds.get(layer).setColorPalette(colorPalette);
     }
 
-    public void setBackground(int layer, Background background) {
+    public void setBackground(final int layer, final Background background) {
         this.wordClouds.get(layer).setBackground(background);
     }
 
-    public void setFontScalar(int layer, FontScalar fontScalar) {
+    public void setFontScalar(final int layer, final FontScalar fontScalar) {
         this.wordClouds.get(layer).setFontScalar(fontScalar);
     }
 
-    public void setFontOptions(int layer, KumoFont kumoFont) {
+    public void setFontOptions(final int layer, final KumoFont kumoFont) {
         this.wordClouds.get(layer).setKumoFont(kumoFont);
     }
 
-    public void setAngleGenerator(int layer, AngleGenerator angleGenerator) {
+    public void setAngleGenerator(final int layer, final AngleGenerator angleGenerator) {
         this.wordClouds.get(layer).setAngleGenerator(angleGenerator);
     }
 
-    public void setBackgroundColor(Color backgroundColor) {
+    public void setBackgroundColor(final Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
     public BufferedImage getBufferedImage() {
-        final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage bufferedImage = new BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB);
         final Graphics graphics = bufferedImage.getGraphics();
         graphics.setColor(backgroundColor);
-        graphics.fillRect(0, 0, width, height);
-        for(WordCloud wordCloud : wordClouds) {
+        graphics.fillRect(0, 0, dimension.width, dimension.height);
+
+        for (WordCloud wordCloud : wordClouds) {
             graphics.drawImage(wordCloud.getBufferedImage(), 0, 0, null);
         }
 
         return bufferedImage;
     }
     
-    public WordCloud getCloudLayer(int layer) {
+    public WordCloud getCloudLayer(final int layer) {
         return wordClouds.get(layer);
     }
     
-    public WordCloud getAt(int layer) {
+    public WordCloud getAt(final int layer) {
         return getCloudLayer(layer);
     }
 
-    public Set<Word> getSkipped(int layer) {
+    public Set<Word> getSkipped(final int layer) {
         return wordClouds.get(layer).getSkipped();
     }
 
     public void writeToFile(final String outputFileName) {
         String extension = "";
-        int i = outputFileName.lastIndexOf('.');
+        final int i = outputFileName.lastIndexOf('.');
         if (i > 0) {
             extension = outputFileName.substring(i + 1);
         }
         try {
             LOGGER.info("Saving Layered WordCloud to " + outputFileName);
             ImageIO.write(getBufferedImage(), extension, new File(outputFileName));
+
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
+            throw new KumoException(e);
         }
     }
     
-    public void setStartScheme(int layer, WordStartScheme scheme) {
+    public void setStartScheme(final int layer, final WordStartScheme scheme) {
         wordClouds.get(layer).setWordStartScheme(scheme);
     }
     

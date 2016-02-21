@@ -16,7 +16,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 - Two Modes that of Collision and Padding: PIXEL_PERFECT and RECTANGLE.
 - Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
 - Layered Word Clouds. Overlay multiple word clouds.
-- WhiteSpace and Chinese Word Tokenizer. Fully extendible. 
+- WhiteSpace and Chinese Word Tokenizer. Fully extendable. 
 - Frequency Analyzer to tokenize, filter and compute word counts.
 
 **Available from Maven Central**
@@ -66,12 +66,12 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
 </td></tr>
 <tr>
-	<td>
+    <td>
         <img src="output/bubbletext.png?raw=true" width="300"/>
-	</td>
-	<td>
+    </td>
+    <td>
         <img src="output/parallelBubbleText.png?raw=true" width="300"/>
-	</td>
+    </td>
 </tr>
 </table>
 
@@ -81,12 +81,13 @@ Example to generate a Word Cloud on top of an image.
 
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-frequencyAnalyzer.setWordFrequencesToReturn(300);
+frequencyAnalyzer.setWordFrequenciesToReturn(300);
 frequencyAnalyzer.setMinWordLength(4);
 frequencyAnalyzer.setStopWords(loadStopWords());
 
 final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-final WordCloud wordCloud = new WordCloud(500, 312, CollisionMode.PIXEL_PERFECT);
+final Dimension dimension = new Dimension(500, 312);
+final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
 wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
@@ -100,8 +101,8 @@ Example to generate a circular Word Cloud.
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
-
-final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+final Dimension dimension = new Dimension(600, 600);
+final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
@@ -115,11 +116,11 @@ Example to generate a rectangle Word Cloud
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
-
-final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.RECTANGLE);
+final Dimension dimension = new Dimension(600, 600);
+final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
 wordCloud.setPadding(0);
-wordCloud.setBackground(new RectangleBackground(600, 600));
-wordCloud.setColorPalette(buildRandomColorPallete(20));
+wordCloud.setBackground(new RectangleBackground(dimension));
+wordCloud.setColorPalette(buildRandomColorPalette(20));
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
 wordCloud.writeToFile("output/wordcloud_rectangle.png");
@@ -129,12 +130,12 @@ wordCloud.writeToFile("output/wordcloud_rectangle.png");
 Example using Linear Color Gradients
 
 ```java
-FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-frequencyAnalyzer.setWordFrequencesToReturn(500);
+final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+frequencyAnalyzer.setWordFrequenciesToReturn(500);
 frequencyAnalyzer.setMinWordLength(4); 
-List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
-
-WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
+final Dimension dimension = new Dimension(600, 600);
+final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN));
@@ -147,12 +148,13 @@ Example of tokenizing chinese text into a circle
 
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-frequencyAnalyzer.setWordFrequencesToReturn(600);
+frequencyAnalyzer.setWordFrequenciesToReturn(600);
 frequencyAnalyzer.setMinWordLength(2);
 frequencyAnalyzer.setWordTokenizer(new ChineseWordTokenizer());
 
 final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/chinese_language.txt"));
-final WordCloud wordCloud = new WordCloud(600, 600, CollisionMode.PIXEL_PERFECT);
+final Dimension dimension = new Dimension(600, 600);
+final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5)));
@@ -165,14 +167,14 @@ Create a polarity word cloud to contrast two datasets
 
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-frequencyAnalyzer.setWordFrequencesToReturn(750);
+frequencyAnalyzer.setWordFrequenciesToReturn(750);
 frequencyAnalyzer.setMinWordLength(4);
 frequencyAnalyzer.setStopWords(loadStopWords());
 
 final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
 final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
-
-final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+final Dimension dimension = new Dimension(600, 600);
+final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
 wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
@@ -185,14 +187,14 @@ Create a Layered Word Cloud from two images/two word sets
 
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-frequencyAnalyzer.setWordFrequencesToReturn(300);
+frequencyAnalyzer.setWordFrequenciesToReturn(300);
 frequencyAnalyzer.setMinWordLength(5);
 frequencyAnalyzer.setStopWords(loadStopWords());
 
 final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
 final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
-
-final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, CollisionMode.PIXEL_PERFECT);
+final Dimension dimension = new Dimension(600, 386);
+final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT);
 
 layeredWordCloud.setPadding(0, 1);
 layeredWordCloud.setPadding(1, 1);
@@ -218,44 +220,51 @@ Create a ParallelLayeredWordCloud using 4 distinct Rectangles.<br>
 Every Rectangle will be processed in a separate thread, thus minimizing build-time significantly
 
 ```java
-ParallelLayeredWordCloud lwc = new ParallelLayeredWordCloud(4, 2000, 2000, CollisionMode.PIXEL_PERFECT);
+final Dimension dimension = new Dimension(2000, 2000);
+ParallelLayeredWordCloud parallelLayeredWordCloud = new ParallelLayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
 
 // Setup parts for word clouds
-final Normalizer[] NORMALIZERS = new Normalizer[] { new UpperCaseNormalizer(), new LowerCaseNormalizer(), new BubbleTextNormalizer(),
-        new StringToHexNormalizer() };
-final Font[] FONTS = new Font[] { new Font("Lucida Sans", Font.PLAIN, 10), new Font("Comic Sans", Font.PLAIN, 10),
-        new Font("Yu Gothic Light", Font.PLAIN, 10), new Font("Meiryo", Font.PLAIN, 10) };
-
-final List<List<WordFrequency>> listOfWordFreqs = new ArrayList<>();
-final int[][] positions = new int[][] { { 0, 0 }, { 0, 1000 }, { 1000, 0 }, { 1000, 1000 } };
+final Normalizer[] NORMALIZERS = new Normalizer[] { 
+    new UpperCaseNormalizer(), 
+    new LowerCaseNormalizer(),
+    new BubbleTextNormalizer(),
+    new StringToHexNormalizer() 
+};
+final Font[] FONTS = new Font[] { 
+            new Font("Lucida Sans", Font.PLAIN, 10), 
+            new Font("Comic Sans", Font.PLAIN, 10),
+            new Font("Yu Gothic Light", Font.PLAIN, 10), 
+            new Font("Meiryo", Font.PLAIN, 10) 
+};
+final List<List<WordFrequency>> listOfWordFrequencies = new ArrayList<>();
+final Point[] positions = new Point][] { new Point(0, 0), new Point(0, 1000), new Point(1000, 0), new Point(1000, 1000) };
 final Color[] colors = new Color[] { Color.RED, Color.WHITE, new Color(0x008080)/* TEAL */, Color.GREEN };
 
 // set up word clouds
 for (int i = 0; i < lwc.getLayers(); i++) {
-    final FrequencyAnalyzer freq = new FrequencyAnalyzer();
-    freq.setMinWordLength(3);
-    freq.setNormalizer(NORMALIZERS[i]);
-    freq.setWordFrequencesToReturn(1000);
-    listOfWordFreqs.add(freq.load("text/english_tide.txt"));
+    final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+    frequencyAnalyzer.setMinWordLength(3);
+    frequencyAnalyzer.setNormalizer(NORMALIZERS[i]);
+    frequencyAnalyzer.setWordFrequenciesToReturn(1000);
+    listOfWordFrequencies.add(frequencyAnalyzer.load("text/english_tide.txt"));
 
-    final WordCloud cloud = lwc.getAt(i);
-    cloud.setAngleGenerator(new AngleGenerator(0));
-    cloud.setPadding(3);
-    cloud.setWordStartScheme(new CenterWordStart());
-    cloud.setKumoFont(new KumoFont(FONTS[i]));
-    cloud.setColorPalette(new ColorPalette(colors[i]));
+    final WordCloud worldCloud = parallelLayeredWordCloud.getAt(i);
+    worldCloud.setAngleGenerator(new AngleGenerator(0));
+    worldCloud.setPadding(3);
+    worldCloud.setWordStartScheme(new CenterWordStart());
+    worldCloud.setKumoFont(new KumoFont(FONTS[i]));
+    worldCloud.setColorPalette(new ColorPalette(colors[i]));
 
-    final int[] pos = positions[i];
-    cloud.setBackground(new RectangleBackground(pos[0], pos[1], 1000, 1000));
-    cloud.setFontScalar(new LinearFontScalar(10, 40));
+    worldCloud.setBackground(new RectangleBackground(positions[i], dimension));
+    worldCloud.setFontScalar(new LinearFontScalar(10, 40));
 }
 
 // start building
 for (int i = 0; i < lwc.getLayers(); i++) {
-    lwc.build(i, listOfWordFreqs.get(i));
+    parallelLayeredWordCloud.build(i, listOfWordFreqs.get(i));
 }
 
-lwc.writeToFile("parallelBubbleText.png");
+parallelLayeredWordCloud.writeToFile("parallelBubbleText.png");
 ```
 
 **Tokenizers**

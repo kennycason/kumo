@@ -1,14 +1,15 @@
 package com.kennycason.kumo;
 
 import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
+import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.kennycason.kumo.font.FontWeight;
-import com.kennycason.kumo.nlp.FrequencyAnalyzer;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.util.Set;
 /**
  * Created by kenny on 7/5/14.
  */
+@Category(IntegrationTest.class)
 public class LayeredWordCloudITest {
 
     private static final Logger LOGGER = Logger.getLogger(LayeredWordCloudITest.class);
@@ -28,14 +30,14 @@ public class LayeredWordCloudITest {
     @Test
     public void layeredExample() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(300);
+        frequencyAnalyzer.setWordFrequenciesToReturn(300);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
-
-        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 386, CollisionMode.PIXEL_PERFECT);
+        final Dimension dimension = new Dimension(600, 386);
+        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT);
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
@@ -62,14 +64,14 @@ public class LayeredWordCloudITest {
     @Test
     public void layeredHaskellExample() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(300);
+        frequencyAnalyzer.setWordFrequenciesToReturn(300);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/haskell_hate.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/haskell_love.txt"));
-
-        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, 600, 424, CollisionMode.PIXEL_PERFECT);
+        final Dimension dimension = new Dimension(600, 424);
+        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT);
         layeredWordCloud.setBackgroundColor(Color.WHITE);
 
         layeredWordCloud.setPadding(0, 1);
@@ -98,7 +100,7 @@ public class LayeredWordCloudITest {
     @Test
     public void layeredPhoBowl() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(1000);
+        frequencyAnalyzer.setWordFrequenciesToReturn(1000);
         frequencyAnalyzer.setMinWordLength(3);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
@@ -107,7 +109,8 @@ public class LayeredWordCloudITest {
         final List<WordFrequency> wordFrequencies3 = frequencyAnalyzer.load(getInputStream("text/pho_recipee.txt"));
         final List<WordFrequency> wordFrequencies4 = frequencyAnalyzer.load(getInputStream("text/pho_chopsticks.txt"));
 
-        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, 1000, 976, CollisionMode.PIXEL_PERFECT);
+        final Dimension dimension = new Dimension(1000, 976);
+        final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
         layeredWordCloud.setBackgroundColor(new Color(0x333333));
 
         layeredWordCloud.setPadding(0, 1);

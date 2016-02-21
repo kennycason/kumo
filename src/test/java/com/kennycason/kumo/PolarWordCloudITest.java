@@ -2,17 +2,18 @@ package com.kennycason.kumo;
 
 import com.kennycason.kumo.bg.CircleBackground;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
-import com.kennycason.kumo.font.KumoFont;
-import com.kennycason.kumo.font.scale.SqrtFontScalar;
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import org.junit.Test;
 import com.kennycason.kumo.bg.RectangleBackground;
 import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
+import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.nlp.tokenizer.ChineseWordTokenizer;
 import com.kennycason.kumo.palette.ColorPalette;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.util.Set;
 /**
  * Created by kenny on 6/29/14.
  */
+@Category(IntegrationTest.class)
 public class PolarWordCloudITest {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);
@@ -32,14 +34,15 @@ public class PolarWordCloudITest {
     @Test
     public void whaleImgLargePolarTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(600);
+        frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(4);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
-        final PolarWordCloud wordCloud = new PolarWordCloud(990, 618, CollisionMode.PIXEL_PERFECT);
+        final Dimension dimension = new Dimension(990, 618);
+        final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setBackgroundColor(Color.WHITE);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
@@ -53,14 +56,15 @@ public class PolarWordCloudITest {
     @Test
     public void newyorkPolarCircle() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(750);
+        frequencyAnalyzer.setWordFrequenciesToReturn(750);
         frequencyAnalyzer.setMinWordLength(4);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
-        final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+        final Dimension dimension = new Dimension(600, 600);
+        final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
@@ -73,16 +77,17 @@ public class PolarWordCloudITest {
     @Test
     public void newyorkPolarRectangle() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(750);
+        frequencyAnalyzer.setWordFrequenciesToReturn(750);
         frequencyAnalyzer.setMinWordLength(4);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
-        final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+        final Dimension dimension = new Dimension(800, 600);
+        final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
-        wordCloud.setBackground(new RectangleBackground(800, 600));
+        wordCloud.setBackground(new RectangleBackground(dimension));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
@@ -93,20 +98,21 @@ public class PolarWordCloudITest {
     @Test
     public void chineseVsEnglishTideComments() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(750);
+        frequencyAnalyzer.setWordFrequenciesToReturn(750);
         frequencyAnalyzer.setMinWordLength(3);
         frequencyAnalyzer.setStopWords(loadStopWords());
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/english_tide.txt"));
 
         final FrequencyAnalyzer chineseFrequencyAnalyzer = new FrequencyAnalyzer();
-        chineseFrequencyAnalyzer.setWordFrequencesToReturn(750);
+        chineseFrequencyAnalyzer.setWordFrequenciesToReturn(750);
         chineseFrequencyAnalyzer.setMinWordLength(2);
         chineseFrequencyAnalyzer.setWordTokenizer(new ChineseWordTokenizer());
         final List<WordFrequency> wordFrequencies2 = chineseFrequencyAnalyzer.load(getInputStream("text/chinese_tide.txt"));
 
-        final PolarWordCloud wordCloud = new PolarWordCloud(800, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+        final Dimension dimension = new Dimension(800, 600);
+        final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
-        wordCloud.setBackground(new RectangleBackground(800, 600));
+        wordCloud.setBackground(new RectangleBackground(dimension));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 70));
 
         final ColorPalette colorPalette = new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5));
@@ -123,14 +129,15 @@ public class PolarWordCloudITest {
     @Test
     public void tidyCatLitter() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequencesToReturn(400);
+        frequencyAnalyzer.setWordFrequenciesToReturn(400);
         frequencyAnalyzer.setMinWordLength(4);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_negative.txt"));
 
-        final PolarWordCloud wordCloud = new PolarWordCloud(600, 600, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
+        final Dimension dimension = new Dimension(600, 600);
+        final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setKumoFont(new KumoFont("Cairo", FontWeight.BOLD));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
@@ -157,6 +164,7 @@ public class PolarWordCloudITest {
         try {
             final List<String> lines = IOUtils.readLines(getInputStream("text/stop_words.txt"));
             return new HashSet<>(lines);
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }

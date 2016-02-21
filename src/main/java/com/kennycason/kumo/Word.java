@@ -2,7 +2,6 @@ package com.kennycason.kumo;
 
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.collide.Collidable;
-import com.kennycason.kumo.collide.Vector2d;
 import com.kennycason.kumo.image.CollisionRaster;
 
 import java.awt.*;
@@ -19,7 +18,7 @@ public class Word implements Collidable {
 
     private final Color color;
 
-    private Vector2d position = new Vector2d(0, 0);
+    private Point position = new Point(0, 0);
 
     private BufferedImage bufferedImage;
 
@@ -62,32 +61,12 @@ public class Word implements Collidable {
         return word;
     }
 
-    public Vector2d getPosition() {
+    public Point getPosition() {
         return position;
     }
 
-    public int getX() {
-        return position.getX();
-    }
-
-    public void setX(int x) {
-        position.setX(x);
-    }
-
-    public int getY() {
-        return position.getY();
-    }
-
-    public void setY(int y) {
-        position.setY(y);
-    }
-
-    public int getWidth() {
-        return bufferedImage.getWidth();
-    }
-
-    public int getHeight() {
-        return bufferedImage.getHeight();
+    public Dimension getDimension() {
+        return collisionRaster.getDimension();
     }
 
     @Override
@@ -101,7 +80,7 @@ public class Word implements Collidable {
     }
 
     public void draw(final CollisionRaster collisionRaster) {
-        collisionRaster.mask(collisionRaster, position.getX(), position.getY());
+        collisionRaster.mask(collisionRaster, position);
     }
 
     @Override
@@ -109,8 +88,8 @@ public class Word implements Collidable {
         return "WordRectangle{" +
                 "word='" + word + '\'' +
                 ", color=" + color +
-                ", x=" + getX() +
-                ", y=" + getY() +
+                ", x=" + position.x +
+                ", y=" + position.y +
                 ", width=" + bufferedImage.getWidth() +
                 ", height=" + bufferedImage.getHeight() +
                 '}';

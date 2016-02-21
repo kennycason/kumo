@@ -1,11 +1,10 @@
 package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
-import com.kennycason.kumo.collide.Vector2d;
 import com.kennycason.kumo.image.CollisionRaster;
 
 import javax.imageio.ImageIO;
-
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +32,7 @@ public class PixelBoundryBackground implements Background {
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
         final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
-        this.rectangleBackground = new RectangleBackground(bufferedImage.getWidth(), bufferedImage.getHeight());
+        this.rectangleBackground = new RectangleBackground(new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
     }
     
     /**
@@ -64,19 +63,19 @@ public class PixelBoundryBackground implements Background {
         if (!this.rectangleBackground.isInBounds(collidable)) {
             return false;
         }
-        final Vector2d position = collidable.getPosition();
+        final Point position = collidable.getPosition();
         // get the overlapping box
-        int startX = Math.max(position.getX(), 0);
-        int endX = Math.min(position.getX() + collidable.getWidth(), collisionRaster.getWidth());
+        final int startX = Math.max(position.x, 0);
+        final int endX = Math.min(position.x + collidable.getDimension().width, collisionRaster.getDimension().width);
 
-        int startY = Math.max(position.getY(), 0);
-        int endY = Math.min(position.getY() + collidable.getHeight(), collisionRaster.getHeight());
+        final int startY = Math.max(position.y, 0);
+        final int endY = Math.min(position.y + collidable.getDimension().height, collisionRaster.getDimension().height);
 
         for (int y = startY ; y < endY ; y++) {
             for (int x = startX ; x < endX ; x++) {
                 // compute offsets for surface
-                if (collisionRaster.isTransparent(x - 0, y - 0) &&
-                        !collidable.getCollisionRaster().isTransparent(x - position.getX(), y - position.getY())) {
+                if (collisionRaster.isTransparent(x, y) &&
+                        !collidable.getCollisionRaster().isTransparent(x - position.x, y - position.y)) {
                     return false;
                 }
             }

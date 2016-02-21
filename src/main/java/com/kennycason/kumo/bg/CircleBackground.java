@@ -1,7 +1,8 @@
 package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
-import com.kennycason.kumo.collide.Vector2d;
+
+import java.awt.*;
 
 /**
  * Created by kenny on 6/30/14.
@@ -16,11 +17,11 @@ public class CircleBackground implements Background {
 
     @Override
     public boolean isInBounds(final Collidable collidable) {
-        final Vector2d position = collidable.getPosition();
-        return inCircle(position.getX(), position.getY())
-                && inCircle(position.getX() + collidable.getWidth(), position.getY())
-                && inCircle(position.getX(), position.getY() + collidable.getHeight())
-                && inCircle(position.getX() + collidable.getWidth(), position.getY() + collidable.getHeight());
+        final Point position = collidable.getPosition();
+        return inCircle(position.x, position.y)
+                && inCircle(position.x + collidable.getDimension().width, position.y)
+                && inCircle(position.x, position.y + collidable.getDimension().height)
+                && inCircle(position.x + collidable.getDimension().width, position.y + collidable.getDimension().height);
     }
 
     private boolean inCircle(final int x, final int y) {

@@ -50,7 +50,7 @@ public class FrequencyAnalyzer {
 
     private final List<Normalizer> normalizers = new ArrayList<>();
 
-    private int wordFrequencesToReturn = DEFAULT_WORD_FREQUENCIES_TO_RETURN;
+    private int wordFrequenciesToReturn = DEFAULT_WORD_FREQUENCIES_TO_RETURN;
 
     private int maxWordLength = DEFAULT_WORD_MAX_LENGTH;
 
@@ -134,7 +134,7 @@ public class FrequencyAnalyzer {
         if (wordCloudEntities.isEmpty()) { return Collections.emptyList(); }
         final List<WordFrequency> sorted = sort(wordCloudEntities, on(WordFrequency.class).getFrequency());
         Collections.reverse(sorted);
-        return sorted.subList(0, Math.min(sorted.size(), wordFrequencesToReturn));
+        return sorted.subList(0, Math.min(sorted.size(), wordFrequenciesToReturn));
     }
 
     public void setStopWords(final Collection<String> stopWords) {
@@ -142,8 +142,8 @@ public class FrequencyAnalyzer {
         this.stopWords.addAll(stopWords);
     }
 
-    public void setWordFrequencesToReturn(final int wordFrequencesToReturn) {
-        this.wordFrequencesToReturn = wordFrequencesToReturn;
+    public void setWordFrequenciesToReturn(final int wordFrequenciesToReturn) {
+        this.wordFrequenciesToReturn = wordFrequenciesToReturn;
     }
 
     public void setMinWordLength(final int minWordLength) {

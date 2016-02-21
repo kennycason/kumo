@@ -1,7 +1,9 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.exception.KumoException;
 import org.apache.log4j.Logger;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -20,8 +22,8 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
 
     private final ExecutorService executorservice;
 
-    public ParallelLayeredWordCloud(final int layers, final int width, final int height, final CollisionMode collisionMode) {
-        super(layers, width, height, collisionMode);
+    public ParallelLayeredWordCloud(final int layers, final Dimension dimension, final CollisionMode collisionMode) {
+        super(layers, dimension, collisionMode);
         executorservice = Executors.newFixedThreadPool(layers);
     }
 
@@ -90,7 +92,6 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
         if (blockThread) {
             waitForFuturesToBlockCurrentThread();
         }
-
         super.writeToFile(outputFileName);
 
         if (shutdownExecutor) {
@@ -104,14 +105,15 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
         // plan on building another layer on top of the previous ones
         LOGGER.info("Awaiting Termination of Executors");
         for(int i = 0; i < executorFutures.size(); i++) {
-            final Future<?> f = executorFutures.get(i);
+            final Future<?> future = executorFutures.get(i);
             try {
                 // cycle through all futures, invoking get() will block
                 // current task until the future can return a result
                 LOGGER.info("Performing get on Future:" + (i + 1) + "/" + executorFutures.size());
-                f.get();
+                future.get();
+
             } catch (InterruptedException | ExecutionException e) {
-                LOGGER.error("Error while waiting for Future of Layer " + i, e);
+                throw new KumoException("Error while waiting for Future of Layer " + i, e);
             }
         }
         executorFutures.clear();
@@ -127,7 +129,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
         try {
             executorservice.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
-            LOGGER.error("Executor awaitTermination was interrupted, consider manual termination", e);
+            throw new KumoException("Executor awaitTermination was interrupted, consider manual termination", e);
         }
     }
 

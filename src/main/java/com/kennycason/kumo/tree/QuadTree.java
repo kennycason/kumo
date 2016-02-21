@@ -37,16 +37,16 @@ public class QuadTree {
     private void add(final Word word, final Node node) {
         if(word.equals(node.word)) { return; }
 
-        addByVertix(word, word.getX(), word.getY(), node);
-        addByVertix(word, word.getX() + word.getWidth(), word.getY(), node);
-        addByVertix(word, word.getX(), word.getY() + word.getHeight(), node);
-        addByVertix(word, word.getX() + word.getWidth(), word.getY() + word.getHeight(), node);
+        addByVertix(word, word.getPosition().x, word.getPosition().y, node);
+        addByVertix(word, word.getPosition().x + word.getDimension().width, word.getPosition().y, node);
+        addByVertix(word, word.getPosition().x, word.getPosition().y + word.getDimension().height, node);
+        addByVertix(word, word.getPosition().x + word.getDimension().width, word.getPosition().y + word.getDimension().height, node);
     }
 
     private void addByVertix(final Word word, int x2, int y2, Node node) {
 
-        final int x = node.word.getX();
-        final int y = node.word.getY();
+        final int x = node.word.getPosition().x;
+        final int y = node.word.getPosition().y;
 
         if(x2 < x) {
             if(y2 < y) {
@@ -93,15 +93,15 @@ public class QuadTree {
 
         nearby.add(node.word);
 
-        getNearbyByVertix(word, word.getX(), word.getY(), node, nearby);
-        getNearbyByVertix(word, word.getX() + word.getWidth(), word.getY(), node, nearby);
-        getNearbyByVertix(word, word.getX(), word.getY() + word.getHeight(), node, nearby);
-        getNearbyByVertix(word, word.getX() + word.getWidth(), word.getY() + word.getHeight(), node, nearby);
+        getNearbyByVertix(word, word.getPosition().x, word.getPosition().y, node, nearby);
+        getNearbyByVertix(word, word.getPosition().x + word.getDimension().width, word.getPosition().y, node, nearby);
+        getNearbyByVertix(word, word.getPosition().x, word.getPosition().y + word.getDimension().height, node, nearby);
+        getNearbyByVertix(word, word.getPosition().x + word.getDimension().width, word.getPosition().y + word.getDimension().height, node, nearby);
     }
 
     private void getNearbyByVertix(Word word, int x2, int y2, Node node, Set<Word> nearby) {
-        final int x = node.word.getX();
-        final int y = node.word.getY();
+        final int x = node.word.getPosition().x;
+        final int y = node.word.getPosition().y;
 
         if(x2 < x) {
             if(y2 < y) {

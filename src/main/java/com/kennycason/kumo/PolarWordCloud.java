@@ -1,6 +1,5 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.collide.Vector2d;
 import com.kennycason.kumo.palette.ColorPalette;
 
 import java.awt.*;
@@ -24,15 +23,15 @@ public class PolarWordCloud extends WordCloud {
 
     private ColorPalette colorPalette2;
 
-    public PolarWordCloud(final int width, final int height, final CollisionMode collisionMode) {
-        this(width, height, collisionMode, PolarBlendMode.EVEN);
+    public PolarWordCloud(final Dimension dimension, final CollisionMode collisionMode) {
+        this(dimension, collisionMode, PolarBlendMode.EVEN);
         this.colorPalette = DEFAULT_POSITIVE_COLORS;
         this.colorPalette2 = DEFAULT_NEGATIVE_COLORS;
     }
 
-    public PolarWordCloud(final int width, final int height,
+    public PolarWordCloud(final Dimension dimension,
                           final CollisionMode collisionMode, final PolarBlendMode polarBlendMode) {
-        super(width, height, collisionMode);
+        super(dimension, collisionMode);
         this.polarBlendMode = polarBlendMode;
         this.colorPalette = DEFAULT_POSITIVE_COLORS;
         this.colorPalette2 = DEFAULT_NEGATIVE_COLORS;
@@ -48,37 +47,37 @@ public class PolarWordCloud extends WordCloud {
         final Iterator<Word> wordIterator = words.iterator();
         final Iterator<Word> wordIterator2 = words2.iterator();
 
-        final Vector2d[] poles = getRandomPoles();
-        final Vector2d pole1 = poles[0];
-        final Vector2d pole2 = poles[1];
+        final Point[] poles = getRandomPoles();
+        final Point pole1 = poles[0];
+        final Point pole2 = poles[1];
 
         while (wordIterator.hasNext() || wordIterator2.hasNext()) {
 
             if (wordIterator.hasNext()) {
                 final Word word = wordIterator.next();
-                final Vector2d startPosition = getStartPosition(pole1);
+                final Point startPosition = getStartPosition(pole1);
 
-                place(word, startPosition.getX(), startPosition.getY());
+                place(word, startPosition);
             }
             if (wordIterator2.hasNext()) {
                 final Word word = wordIterator2.next();
-                final Vector2d startPosition = getStartPosition(pole2);
+                final Point startPosition = getStartPosition(pole2);
 
-                place(word, startPosition.getX(), startPosition.getY());
+                place(word, startPosition);
             }
         }
 
         drawForgroundToBackground();
     }
 
-    private Vector2d getStartPosition(final Vector2d pole) {
+    private Point getStartPosition(final Point pole) {
         switch (polarBlendMode) {
             case BLUR:
-                final int blurX = width / 2;
-                final int blurY = height / 2;
-                return new Vector2d(
-                    pole.getX() + -blurX + RANDOM.nextInt(blurX * 2),
-                    pole.getY() + -blurY + RANDOM.nextInt(blurY * 2)
+                final int blurX = dimension.width / 2;
+                final int blurY = dimension.height / 2;
+                return new Point(
+                    pole.x + -blurX + RANDOM.nextInt(blurX * 2),
+                    pole.y + -blurY + RANDOM.nextInt(blurY * 2)
                 );
 
             case EVEN:
@@ -87,19 +86,19 @@ public class PolarWordCloud extends WordCloud {
         }
     }
 
-    private Vector2d[] getRandomPoles() {
-        final Vector2d[] max = new Vector2d[2];
+    private Point[] getRandomPoles() {
+        final Point[] max = new Point[2];
         double maxDistance = 0.0;
         for (int i = 0; i < 100; i++) {
-            final int x = RANDOM.nextInt(width);
-            final int y = RANDOM.nextInt(height);
-            final int x2 = RANDOM.nextInt(width);
-            final int y2 = RANDOM.nextInt(height);
+            final int x = RANDOM.nextInt(dimension.width);
+            final int y = RANDOM.nextInt(dimension.height);
+            final int x2 = RANDOM.nextInt(dimension.width);
+            final int y2 = RANDOM.nextInt(dimension.height);
             final double distance = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
             if (distance > maxDistance) {
                 maxDistance = distance;
-                max[0] = new Vector2d(x, y);
-                max[1] = new Vector2d(x2, y2);
+                max[0] = new Point(x, y);
+                max[1] = new Point(x2, y2);
             }
         }
         return max;

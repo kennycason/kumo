@@ -6,8 +6,8 @@ import com.kennycason.kumo.collide.checkers.RectangleCollisionChecker;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.image.ImageRotation;
-import com.kennycason.kumo.wsc.RandomWordStart;
-import com.kennycason.kumo.wsc.WordStartScheme;
+import com.kennycason.kumo.wordstart.RandomWordStart;
+import com.kennycason.kumo.wordstart.WordStartScheme;
 import org.apache.log4j.Logger;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.RectangleBackground;
@@ -44,9 +44,7 @@ public class WordCloud {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
 
-    protected final int width;
-
-    protected final int height;
+    protected final Dimension dimension;
 
     protected final CollisionMode collisionMode;
 
@@ -80,9 +78,7 @@ public class WordCloud {
     
     protected WordStartScheme startscheme = new RandomWordStart();
     
-    public WordCloud(final int width, final int height, final CollisionMode collisionMode) {
-        this.width = width;
-        this.height = height;
+    public WordCloud(final Dimension dimension, final CollisionMode collisionMode) {
         this.collisionMode = collisionMode;
         switch(collisionMode) {
             case PIXEL_PERFECT:
@@ -96,26 +92,26 @@ public class WordCloud {
                 this.collisionChecker = new RectangleCollisionChecker();
                 break;
         }
-        this.collisionRaster = new CollisionRaster(width, height);
-        this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, 0, 0);
-        this.background = new RectangleBackground(width, height);
+        this.collisionRaster = new CollisionRaster(dimension);
+        this.bufferedImage = new BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB);
+        this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, new Point(0, 0));
+        this.dimension = dimension;
+        this.background = new RectangleBackground(dimension);
     }
 
     public void build(final List<WordFrequency> wordFrequencies) {
         Collections.sort(wordFrequencies);
         int currentWord = 1;
-        final Dimension dimensions = new Dimension(width, height);
-        for(final Word word : buildwords(wordFrequencies, this.colorPalette)) {
-            final Point p = startscheme.getStartingPoint(dimensions, word);
-            final boolean placed = place(word, p.x, p.y);
+        for (final Word word : buildwords(wordFrequencies, this.colorPalette)) {
+            final Point point = startscheme.getStartingPoint(dimension, word);
+            final boolean placed = place(word, point);
 
             if (placed) {
-                LOGGER.info("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                LOGGER.debug("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
             } else {
-                LOGGER.info("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                LOGGER.debug("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                skipped.add(word);
             }
-                
             currentWord++;
         }
         drawForgroundToBackground();
@@ -130,6 +126,7 @@ public class WordCloud {
         try {
             LOGGER.info("Saving WordCloud to " + outputFileName);
             ImageIO.write(bufferedImage, extension, new File(outputFileName));
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -155,6 +152,7 @@ public class WordCloud {
             LOGGER.debug("Writing WordCloud image data to output stream");
             ImageIO.write(bufferedImage, format, outputStream);
             LOGGER.debug("Done writing WordCloud image data to output stream");
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException("Could not write wordcloud to outputstream due to an IOException", e);
@@ -167,14 +165,14 @@ public class WordCloud {
      * for a more flexible pixel perfect collision
      */
     protected void drawForgroundToBackground() {
-        if(backgroundColor == null) { return; }
+        if (backgroundColor == null) { return; }
 
-        final BufferedImage backgroundBufferedImage = new BufferedImage(width, height, this.bufferedImage.getType());
+        final BufferedImage backgroundBufferedImage = new BufferedImage(dimension.width, dimension.height, this.bufferedImage.getType());
         final Graphics graphics = backgroundBufferedImage.getGraphics();
 
         // draw current color
         graphics.setColor(backgroundColor);
-        graphics.fillRect(0, 0, width, height);
+        graphics.fillRect(0, 0, dimension.width, dimension.height);
         graphics.drawImage(bufferedImage, 0, 0, null);
 
         // draw back to original
@@ -186,50 +184,50 @@ public class WordCloud {
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word
      */
-    protected boolean place(final Word word, final int startX, final int startY) {
+    protected boolean place(final Word word, final Point start) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
-        final int maxRadius = width;
+        final int maxRadius = dimension.width;
 
-        for(int r = 0; r < maxRadius; r += 2) {
-            for(int x = -r; x <= r; x++) {
-                if(startX + x < 0) { continue; }
-                if(startX + x >= width) { continue; }
+        for (int r = 0; r < maxRadius; r += 2) {
+            for (int x = -r; x <= r; x++) {
+                if (start.x + x < 0) { continue; }
+                if (start.x + x >= maxRadius) { continue; }
 
                 boolean placed = false;
-                word.setX(startX + x);
+                word.getPosition().x = start.x + x;
 
                 // try positive root
-                int y1 = (int) Math.sqrt(r * r - x * x);
-                if(startY + y1 >= 0 && startY + y1 < height) {
-                    word.setY(startY + y1);
+                final int y1 = (int) Math.sqrt(r * r - x * x);
+                if (start.y + y1 >= 0 && start.y + y1 < dimension.height) {
+                    word.getPosition().y = start.y + y1;
                     placed = tryToPlace(word);
                 }
                 // try negative root
-                int y2 = -y1;
-                if(!placed && startY + y2 >= 0 && startY + y2 < height) {
-                    word.setY(startY + y2);
+                final int y2 = -y1;
+                if (!placed && start.y + y2 >= 0 && start.y + y2 < dimension.height) {
+                    word.getPosition().y = start.y + y2;
                     placed = tryToPlace(word);
                 }
-                if(placed) {
-                    collisionRaster.mask(word.getCollisionRaster(), word.getX(), word.getY());
-                    graphics.drawImage(word.getBufferedImage(), word.getX(), word.getY(), null);
+                if (placed) {
+                    collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
+                    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
                     return true;
                 }
 
             }
         }
-        skipped.add(word);
+
         return false;
     }
 
     private boolean tryToPlace(final Word word) {
-        if(!background.isInBounds(word)) { return false; }
+        if (!background.isInBounds(word)) { return false; }
 
-        switch(this.collisionMode) {
+        switch (this.collisionMode) {
             case RECTANGLE:
-                for(Word placeWord : this.placedWords) {
-                    if(placeWord.collide(word)) {
+                for (final Word placeWord : this.placedWords) {
+                    if (placeWord.collide(word)) {
                         return false;
                     }
                 }
@@ -237,7 +235,7 @@ public class WordCloud {
                 return true;
 
             case PIXEL_PERFECT:
-                if(backgroundCollidable.collide(word)) { return false; }
+                if (backgroundCollidable.collide(word)) { return false; }
                 placedWords.add(word);
                 return true;
 
@@ -249,15 +247,15 @@ public class WordCloud {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
         final List<Word> words = new ArrayList<>();
-        for(final WordFrequency wordFrequency : wordFrequencies) {
-            if(!wordFrequency.getWord().isEmpty()) {
+        for (final WordFrequency wordFrequency : wordFrequencies) {
+            if (!wordFrequency.getWord().isEmpty()) {
                 words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
             }
         }
         return words;
     }
 
-    private Word buildWord(final WordFrequency wordFrequency, int maxFrequency, final ColorPalette colorPalette) {
+    private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int frequency = wordFrequency.getFrequency();
@@ -268,17 +266,17 @@ public class WordCloud {
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
 
         final double theta = angleGenerator.randomNext();
-        if(theta != 0) {
+        if (theta != 0.0) {
             word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
         }
-        if(padding > 0) {
+        if (padding > 0) {
             padder.pad(word, padding);
         }
         return word;
     }
 
     private int maxFrequency(final Collection<WordFrequency> wordFrequencies) {
-        if(wordFrequencies.isEmpty()) { return 1; }
+        if (wordFrequencies.isEmpty()) { return 1; }
         return Lambda.max(wordFrequencies, on(WordFrequency.class).getFrequency());
     }
 

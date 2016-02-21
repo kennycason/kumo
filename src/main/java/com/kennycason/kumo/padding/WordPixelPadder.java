@@ -1,7 +1,6 @@
 package com.kennycason.kumo.padding;
 
 import com.kennycason.kumo.Word;
-import com.kennycason.kumo.collide.Vector2d;
 import com.kennycason.kumo.image.CollisionRaster;
 
 import java.awt.*;
@@ -26,19 +25,19 @@ public class WordPixelPadder implements Padder {
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
 
-        final Set<Vector2d> toPad = new HashSet<>();
-        final int width = collisionRaster.getWidth();
-        final int height = collisionRaster.getHeight();
+        final Set<Point> toPad = new HashSet<>();
+        final int width = collisionRaster.getDimension().width;
+        final int height = collisionRaster.getDimension().height;
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (shouldPad(collisionRaster, x, y, padding)) {
-                    toPad.add(new Vector2d(x, y));
+                    toPad.add(new Point(x, y));
                 }
             }
         }
-        for(Vector2d padPoint : toPad) {
-            collisionRaster.setRGB(padPoint.getX(), padPoint.getY(), PAD_COLOR.getRGB());
+        for (final Point padPoint : toPad) {
+            collisionRaster.setRGB(padPoint.x, padPoint.y, PAD_COLOR.getRGB());
         }
     }
 
@@ -61,8 +60,8 @@ public class WordPixelPadder implements Padder {
     private boolean inBounds(final CollisionRaster collisionRaster, final int x, final int y) {
         return x >= 0
                 && y >= 0
-                && x < collisionRaster.getWidth()
-                && y < collisionRaster.getHeight();
+                && x < collisionRaster.getDimension().width
+                && y < collisionRaster.getDimension().height;
     }
 
 }
