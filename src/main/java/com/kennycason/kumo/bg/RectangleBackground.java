@@ -19,7 +19,7 @@ public class RectangleBackground implements Background {
 
     /**
      * Creates a rectangle background starting at (0|0) with specified width/height
-     * @param dimension
+     * @param dimension dimension of background
      */
     public RectangleBackground(final Dimension dimension) {
         this(ZERO, dimension);
@@ -27,8 +27,8 @@ public class RectangleBackground implements Background {
 
     /**
      * Creates a rectangle background using {@link Point} and {@link Dimension} for starting points and width/height
-     * @param position
-     * @param dimensions
+     * @param position the point where the rectangle lives on screen
+     * @param dimension dimension of background
      */
     public RectangleBackground(final Point position, final Dimension dimension) {
         this.position = position;

@@ -27,7 +27,7 @@ public class PixelBoundryBackground implements Background {
      * 
      * @param imageInputStream
      *            InputStream containing an image file
-     * @throws IOException
+     * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
         final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
@@ -40,7 +40,7 @@ public class PixelBoundryBackground implements Background {
      * 
      * @param file
      *            a File pointing to an image
-     * @throws IOException
+     * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final File file) throws IOException {
         this(new FileInputStream(file));
@@ -51,7 +51,7 @@ public class PixelBoundryBackground implements Background {
      * 
      * @param filepath
      *            path to an image file
-     * @throws IOException
+     * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final String filepath) throws IOException {
         this(new File(filepath));

@@ -119,7 +119,7 @@ public class WordCloud {
 
     public void writeToFile(final String outputFileName) {
         String extension = "";
-        int i = outputFileName.lastIndexOf('.');
+        final int i = outputFileName.lastIndexOf('.');
         if (i > 0) {
             extension = outputFileName.substring(i + 1);
         }
@@ -182,7 +182,8 @@ public class WordCloud {
 
     /**
      * try to place in center, build out in a spiral trying to place words for N steps
-     * @param word
+     * @param word the word being placed
+     * @param start the place to start trying to place the word
      */
     protected boolean place(final Word word, final Point start) {
         final Graphics graphics = this.bufferedImage.getGraphics();
@@ -248,6 +249,7 @@ public class WordCloud {
 
         final List<Word> words = new ArrayList<>();
         for (final WordFrequency wordFrequency : wordFrequencies) {
+            // the text shouldn't be empty, however, in case of bad normalizers/tokenizers, this may happen
             if (!wordFrequency.getWord().isEmpty()) {
                 words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
             }

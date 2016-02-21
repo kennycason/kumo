@@ -61,13 +61,13 @@ public class WordCloudITest {
     }
 
     @Test
-    public void loadCatInTheHatFromUrl() throws IOException {
+    public void loadWikipediaFromUrl() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequenciesToReturn(500);
-        frequencyAnalyzer.setMinWordLength(3);
+        frequencyAnalyzer.setWordFrequenciesToReturn(1000);
+        frequencyAnalyzer.setMinWordLength(1);
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://www.jasondavies.com/wordtree/cat-in-the-hat.txt"));
-        final Dimension dimension = new Dimension(400, 400);
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://en.wikipedia.org/wiki/Main_Page"));
+        final Dimension dimension = new Dimension(1000, 1000);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackground(new RectangleBackground(dimension));
@@ -76,7 +76,7 @@ public class WordCloudITest {
         wordCloud.setColorPalette(buildRandomColorPalette(5));
         wordCloud.setFontScalar(new LinearFontScalar(18, 70));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/cat_in_the_hat.png");
+        wordCloud.writeToFile("output/wikipedia.png");
     }
 
     @Test
