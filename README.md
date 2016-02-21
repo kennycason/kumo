@@ -218,6 +218,7 @@ layeredWordCloud.writeToFile("output/layered_word_cloud.png");
 
 Create a ParallelLayeredWordCloud using 4 distinct Rectangles.<br>
 Every Rectangle will be processed in a separate thread, thus minimizing build-time significantly
+NOTE: This will eventually be natively handled along with better internal data structures.
 
 ```java
 final Dimension dimension = new Dimension(2000, 2000);
@@ -266,6 +267,8 @@ for (int i = 0; i < lwc.getLayers(); i++) {
 
 parallelLayeredWordCloud.writeToFile("parallelBubbleText.png");
 ```
+
+Refer to JPanelDemo.java for an example integrating into a JPanel.
 
 **Tokenizers**
 
