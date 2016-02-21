@@ -7,12 +7,12 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 
 **Current Features**
 - Draw Rectangle, Circle or Image Overlay word clouds. Image Overlay will draw words over all non-transparent pixels.
-- Linear, Square-Root Font Scalars. Fully extendible.
+- Linear, Square-Root Font Scalars. Fully extendable.
 - Variable Font Sizes.
 - Word Rotation. Just provide a Start Angle, End Angle, and number of slices.
 - Custom BackGround Color. Fully customizable BackGrounds coming soon.
 - Word Padding.
-- Load Custom Color Pallettes.
+- Load Custom Color Palettes.
 - Two Modes that of Collision and Padding: PIXEL_PERFECT and RECTANGLE.
 - Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
 - Layered Word Clouds. Overlay multiple word clouds.
