@@ -38,7 +38,7 @@ public class SimplyMeasuredWordCloudITest {
 
         final Dimension dimension = new Dimension(600, 454);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(Color.WHITE);
+        layeredWordCloud.setBackgroundColor(new Color(0x000000FF, true));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
