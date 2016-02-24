@@ -7,6 +7,7 @@ import com.kennycason.kumo.collide.RectanglePixelCollidable;
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.collide.checkers.RectangleCollisionChecker;
 import com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker;
+import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
@@ -160,7 +161,7 @@ public class WordCloud {
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new RuntimeException("Could not write wordcloud to outputstream due to an IOException", e);
+            throw new KumoException("Could not write wordcloud to outputstream due to an IOException", e);
         }
     }
 
