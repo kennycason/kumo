@@ -31,48 +31,45 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 **Screenshots**
 <table>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/datarank_wordcloud_circle_sqrt_font.png" width="300"/>
+<img src="output/datarank_wordcloud_circle_sqrt_font.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/chinese_language_circle.png" width="300"/>
+<img src="output/chinese_language_circle.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large_impact.png" width="300"/>
+<img src="output/whale_wordcloud_large_impact.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large3.png" width="300"/>
+<img src="output/simplymeasured.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/polar_newyork_rectangle_blur.png" width="300"/>
+<img src="output/polar_newyork_rectangle_blur.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/polar_tide_chinese_vs_english2.png" width="300"/>
+<img src="output/polar_tide_chinese_vs_english2.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/whale_wordcloud_large_angles.png" width="300"/>
+<img src="output/whale_wordcloud_large_angles.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_word_cloud.png" width="300"/>
+<img src="output/layered_word_cloud.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/polar_newyork_whale_large_blur.png" width="300"/>
+<img src="output/polar_newyork_whale_large_blur.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_rectangle.png" width="300"/>
+<img src="output/wordcloud_rectangle.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_haskell.png" width="300"/>
+<img src="output/layered_haskell.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/layered_pho_bowl.png" width="300"/>
+<img src="output/layered_pho_bowl.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_redbluegreen.png" width="300"/>
+<img src="output/wordcloud_gradient_redbluegreen.png?raw=true" width="300"/>
 </td><td>
-<img src="https://raw.githubusercontent.com/kennycason/kumo/master/output/wordcloud_gradient_whiteredblue.png" width="300"/>
+<img src="output/wordcloud_gradient_whiteredblue.png?raw=true" width="300"/>
 </td></tr>
-<tr>
-    <td>
-        <img src="output/bubbletext.png?raw=true" width="300"/>
-    </td>
-    <td>
-        <img src="output/parallelBubbleText.png?raw=true" width="300"/>
-    </td>
-</tr>
+<tr><td>
+<img src="output/bubbletext.png?raw=true" width="300"/>
+</td><td>
+<img src="output/parallelBubbleText.png?raw=true" width="300"/>
+</td></tr>
 </table>
 
 **Examples**
