@@ -12,7 +12,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 - Word Rotation. Just provide a Start Angle, End Angle, and number of slices.
 - Custom BackGround Color. Fully customizable BackGrounds coming soon.
 - Word Padding.
-- Load Custom Color Palettes.
+- Load Custom Color Palettes. Also supports color gradients.
 - Two Modes that of Collision and Padding: PIXEL_PERFECT and RECTANGLE.
 - Polar Word Clouds. Draw two opposing word clouds in one image to easily compare/contrast date sets.
 - Layered Word Clouds. Overlay multiple word clouds.
