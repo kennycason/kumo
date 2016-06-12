@@ -19,7 +19,7 @@ import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
 import com.kennycason.kumo.padding.WordPixelPadder;
 import com.kennycason.kumo.palette.ColorPalette;
-import com.kennycason.kumo.placement.LinearWordPlacer;
+import com.kennycason.kumo.placement.RTreeWordPlacer;
 import com.kennycason.kumo.placement.RectangleWordPlacer;
 import com.kennycason.kumo.wordstart.RandomWordStart;
 import com.kennycason.kumo.wordstart.WordStartStrategy;
@@ -69,7 +69,7 @@ public class WordCloud {
 
     protected final BufferedImage bufferedImage;
 
-    protected RectangleWordPlacer wordPlacer = new LinearWordPlacer();
+    protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
 
     protected final Set<Word> skipped = new HashSet<>();
 
