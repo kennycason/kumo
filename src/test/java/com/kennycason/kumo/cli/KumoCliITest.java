@@ -124,7 +124,7 @@ public class KumoCliITest {
     @Test
     public void polar() {
         KumoCli.main(new String[] {
-                "--input", "https://en.wikipedia.org/wiki/Nintendo,https://en.wikipedia.org/wiki/PlayStation",
+                "--input", "https://en.wikipedia.org/wiki/Nintendo, https://en.wikipedia.org/wiki/PlayStation",
                 "--output", "/tmp/nintendo_vs_playstation.png",
                 "--type", "polar",
                 "--color", "(0x00ff00),(0x00dd00),(0x007700)|(0xff0000),(0xdd0000),(0x770000)"
@@ -134,7 +134,7 @@ public class KumoCliITest {
     @Test
     public void layered() {
         KumoCli.main(new String[] {
-                "--input", "https://www.haskell.org/,https://en.wikipedia.org/wiki/Haskell_(programming_language)",
+                "--input", "https://www.haskell.org/, https://en.wikipedia.org/wiki/Haskell_(programming_language)",
                 "--output", "/tmp/haskell_layered.png",
                 "--background", "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_1.bmp,https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_2.bmp",
                 "--type", "layered",

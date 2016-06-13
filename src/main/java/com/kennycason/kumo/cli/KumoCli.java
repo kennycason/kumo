@@ -45,6 +45,12 @@ public class KumoCli {
 
     public void runWithArguments(final String[] args) {
         new JCommander(cliParameters).parse(args);
+
+        if (cliParameters.isPrintVersion()) {
+            System.out.println("Kumo Version 1.6"); // TODO do not hard code.
+            return;
+        }
+
         switch (cliParameters.getType()) {
             case STANDARD:
                 buildStandardWordCloud();
