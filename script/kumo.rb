@@ -2,7 +2,7 @@ class Kumo < Formula
   desc "Kumo: Word Clouds in Java"
   homepage "https://github.com/kennycason/kumo"
   url "http://search.maven.org/remotecontent?filepath=com/kennycason/kumo/1.7/kumo-1.7.jar"
-  sha256 "a48586f75baa79a0ff0b798d7a80248494e76df676cbd0f39ca2f500c0354f7d"
+  sha256 "83379e63cbd515c320acdffdc241e709378f1e8977b1feaef04059931110e7c2"
 
   def install
     libexec.install "kumo-1.7.jar"
