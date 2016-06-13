@@ -318,7 +318,7 @@ To add set the normalizer, call `FrequencyAnalyzer.setNormalizer()` or `Frequenc
 
 Kumo can now be accessed via CLI. It is not quite as flexible as the programmatic interface yet but should support most of the common needs.
 
-The CLI Documentation can be found [here](https://raw.githubusercontent.com/kennycason/kumo/master/CLI.md).
+The CLI Documentation can be found [here](https://github.com/kennycason/kumo/blob/master/CLI.md).
 
 The below examples assume you have the jar installed under the name of "kumo". To install via Brew run the following command.
 
