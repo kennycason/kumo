@@ -30,6 +30,10 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 </dependency>
 ```
 
+#### CLI Install via Brew (NEW!)
+
+`brew install https://raw.githubusercontent.com/kennycason/kumo/master/script/brew.rb`
+
 ### Screenshots
 
 <table>
