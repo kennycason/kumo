@@ -133,7 +133,7 @@ public class WordCloud {
             LOGGER.info("Saving WordCloud to " + outputFileName);
             ImageIO.write(bufferedImage, extension, new File(outputFileName));
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
@@ -159,7 +159,7 @@ public class WordCloud {
             ImageIO.write(bufferedImage, format, outputStream);
             LOGGER.debug("Done writing WordCloud image data to output stream");
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.error(e.getMessage(), e);
             throw new KumoException("Could not write wordcloud to outputstream due to an IOException", e);
         }
@@ -282,31 +282,31 @@ public class WordCloud {
         return Lambda.max(wordFrequencies, on(WordFrequency.class).getFrequency());
     }
 
-    public void setBackgroundColor(Color backgroundColor) {
+    public void setBackgroundColor(final Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
-    public void setPadding(int padding) {
+    public void setPadding(final int padding) {
         this.padding = padding;
     }
 
-    public void setColorPalette(ColorPalette colorPalette) {
+    public void setColorPalette(final ColorPalette colorPalette) {
         this.colorPalette = colorPalette;
     }
 
-    public void setBackground(Background background) {
+    public void setBackground(final Background background) {
         this.background = background;
     }
 
-    public void setFontScalar(FontScalar fontScalar) {
+    public void setFontScalar(final FontScalar fontScalar) {
         this.fontScalar = fontScalar;
     }
 
-    public void setKumoFont(KumoFont kumoFont) {
+    public void setKumoFont(final KumoFont kumoFont) {
         this.kumoFont = kumoFont;
     }
 
-    public void setAngleGenerator(AngleGenerator angleGenerator) {
+    public void setAngleGenerator(final AngleGenerator angleGenerator) {
         this.angleGenerator = angleGenerator;
     }
 
@@ -318,11 +318,11 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordStartScheme(WordStartStrategy startscheme) {
+    public void setWordStartScheme(final WordStartStrategy startscheme) {
         this.wordStartStrategy = startscheme;
     }
 
-    public void setWordPlacer(RectangleWordPlacer wordPlacer) {
+    public void setWordPlacer(final RectangleWordPlacer wordPlacer) {
         this.wordPlacer = wordPlacer;
     }
 

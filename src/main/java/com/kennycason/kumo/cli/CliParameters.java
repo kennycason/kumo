@@ -5,11 +5,15 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.font.FontWeight;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * Created by kenny on 6/11/16.
@@ -22,14 +26,14 @@ public class CliParameters {
     @Parameter(names = { "--type", "-t" }, description = "The type of word cloud to generate.", converter = TypeConverter.class)
     private Type type = Type.STANDARD;
 
-    @Parameter(names = { "--input", "-i" }, description = "One ore more input sources. Input sources may be local files or Urls. If more than one input source is provided they must be comma separated. For standard word clouds only the first input source will be analyzed. Multiple input sources are only relevant for polar or layered word clouds.")
+    @Parameter(names = { "--input", "-i" }, required = true, description = "One ore more input sources. Input sources may be local files or Urls. If more than one input source is provided they must be comma separated. For standard word clouds only the first input source will be analyzed. Multiple input sources are only relevant for polar or layered word clouds.")
     private List<String> inputSources = new ArrayList<>();
 
-    @Parameter(names = { "--output", "-o" }, description = "Output file for the generated word cloud.")
-    private List<String> outputSources = new ArrayList<>();
+    @Parameter(names = { "--output", "-o" }, required = true, description = "Output file for the generated word cloud.")
+    private String outputSource;
 
     @Parameter(names = { "--min-word-length", "-mwl" }, description = "The minimum word length required to be allowed in the word cloud.")
-    private int minWordLength = 4;
+    private int minWordLength = 2;
 
     @Parameter(names = { "--word-count", "-wc" }, description = "Number of words from data set to draw to word cloud. After the words are sorted by frequency, the words are attempted to be placed in descending order.")
     private int wordCount = 1000;
@@ -56,13 +60,14 @@ public class CliParameters {
     private List<String> backgrounds = new ArrayList<>();
 
     @Parameter(names = { "--background-color", "-bgc" }, description = "Background color. Default is Black.", converter = ColorConverter.class)
-    private Color color = Color.BLACK;
+    private Color backgroundColor = Color.BLACK;
 
-    @Parameter(names = { "--color", "-c" }, description = "A comma separated list of colors to use in the word cloud. Values most be provided in one of the below formats. Refer to CLI.md for usage examples.", converter = ColorsConverter.class)
-    private List<Color> colors = new ArrayList<>();
+    @Parameter(names = { "--color", "-c" }, description = "A comma separated list of colors to use for the word cloud text. Values most be provided in one of the below formats. Refer to CLI.md for usage examples.")
+    // perform actual parsing in the getter, the commas in our color format cause issues with jCommander
+    private String colorRaw;
 
     @Parameter(names = { "--font-scalar", "-fs" }, description = "Method to scale font. Default is Linear.", converter = FontScaleConverter.class)
-    private FontScale fontScale = FontScale.LINEAR;
+    private FontScalarType fontScalarType = FontScalarType.LINEAR;
 
     @Parameter(names = { "--font-size-min", "-fmin" }, description = "Minimum font size, default is 10px.")
     private int fontSizeMin = 10;
@@ -71,10 +76,13 @@ public class CliParameters {
     private int fontSizeMax = 40;
 
     @Parameter(names = { "--font-weight", "-fw" }, description = "One or more fonts. If more than one font is listed they must be comma separated. Default is Bold")
-    private List<FontWeight> fontWeight = Arrays.asList(FontWeight.BOLD);
+    private List<FontWeight> fontWeights = Arrays.asList(FontWeight.BOLD);
 
     @Parameter(names = { "--font-type", "-ft" }, description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
     private String fontType = "Comic Sans MS";
+
+    @Parameter(names = { "--encoding", "-e" }, description = "Character Encoding. Default is UTF-8")
+    private String characterEncoding = "UTF-8";
 
     @Parameter(names = { "--word-start", "-ws" }, description = "Determine where to start drawing text to the word cloud.")
     private WordStart wordStart = WordStart.CENTER;
@@ -82,7 +90,7 @@ public class CliParameters {
     @Parameter(names = { "--normalizer", "-n" }, description = "One or more normalizers to apply to words in the word cloud.", converter = NormalizerConverter.class)
     private List<NormalizerType> normalizers = new ArrayList<>();
 
-    @Parameter(names = { "--tokenizer", "-t" }, description = "Determine where to start drawing text to the word cloud.", converter = TokenizerConverter.class)
+    @Parameter(names = { "--tokenizer", "-tok" }, description = "Determine where to start drawing text to the word cloud.", converter = TokenizerConverter.class)
     private TokenizerType tokenizer = TokenizerType.WHITE_SPACE;
 
     public List<String> getBackgrounds() {
@@ -93,16 +101,19 @@ public class CliParameters {
         return collisionMode;
     }
 
-    public Color getColor() {
-        return color;
+    public Color getBackgroundColor() {
+        return backgroundColor;
     }
 
     public List<Color> getColors() {
-        return colors;
+        if (isBlank(colorRaw)) {
+            return Collections.emptyList();
+        }
+        return new ColorsConverter().convert(colorRaw);
     }
 
-    public FontScale getFontScale() {
-        return fontScale;
+    public FontScalarType getFontScalarType() {
+        return fontScalarType;
     }
 
     public int getFontSizeMax() {
@@ -117,8 +128,12 @@ public class CliParameters {
         return fontType;
     }
 
-    public List<FontWeight> getFontWeight() {
-        return fontWeight;
+    public List<FontWeight> getFontWeights() {
+        return fontWeights;
+    }
+
+    public String getCharacterEncoding() {
+        return characterEncoding;
     }
 
     public int getHeight() {
@@ -137,8 +152,8 @@ public class CliParameters {
         return normalizers;
     }
 
-    public List<String> getOutputSources() {
-        return outputSources;
+    public String getOutputSource() {
+        return outputSource;
     }
 
     public int getPadding() {
@@ -179,15 +194,10 @@ public class CliParameters {
         POLAR,
         LAYERED
     }
-    public enum FontScale {
+    public enum FontScalarType {
         LINEAR,
         SQRT,
         LOG
-    }
-    public enum FontWeight {
-        PLAIN,
-        BOLD,
-        ITALIC
     }
     public enum WordStart {
         CENTER,
@@ -215,7 +225,7 @@ public class CliParameters {
                 if (input.contains(",")) {
                     return parseRGBValues(input);
                 }
-                return new Color(Integer.parseInt(input));
+                return new Color(parseNumber(input));
 
             } catch (final RuntimeException e) {
                 throw new ParameterException("Failed to parse Color from input: [" + input + "]");
@@ -228,9 +238,16 @@ public class CliParameters {
                 throw new ParameterException("Expected to find 3 numbers (RGB), instead found " + rgb.length + ", when parsing: [" + input + "]");
             }
             return new Color(
-                    Integer.parseInt(rgb[0]),
-                    Integer.parseInt(rgb[1]),
-                    Integer.parseInt(rgb[2]));
+                    parseNumber(rgb[0]),
+                    parseNumber(rgb[1]),
+                    parseNumber(rgb[2]));
+        }
+
+        private static int parseNumber(final String number) {
+            if (number.startsWith("0x")) {
+                return Integer.parseInt(number.substring(2), 16);
+            }
+            return Integer.parseInt(number);
         }
     }
     public static class ColorsConverter implements IStringConverter<List<Color>> {
@@ -257,10 +274,10 @@ public class CliParameters {
             return new EnumConverter<>(CollisionMode.class).convert(input);
         }
     }
-    public static class FontScaleConverter implements IStringConverter<FontScale> {
+    public static class FontScaleConverter implements IStringConverter<FontScalarType> {
         @Override
-        public FontScale convert(final String input) {
-            return new EnumConverter<>(FontScale.class).convert(input);
+        public FontScalarType convert(final String input) {
+            return new EnumConverter<>(FontScalarType.class).convert(input);
         }
     }
     public static class FontWeightConverter implements IStringConverter<FontWeight> {

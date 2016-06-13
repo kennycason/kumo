@@ -22,7 +22,7 @@ Output file for the generated word cloud.
 
 ### --min-word-length, -mwl
 
-The minimum word length required to be allowed in the word cloud. Default is 4.
+The minimum word length required to be allowed in the word cloud. Default is 2.
 
 ### --stop-words, -sw
 
@@ -50,14 +50,14 @@ Height of the word cloud. Default is 480px.
 
 The collision algorithm to use when placing text into the word cloud.
 
-### --padding, -p
-
-The minimum padding allowed between two words in the word cloud. This works with pixel-perfect collision detection as well. Default is 2px.
-
 | Value | Description |
 |-------|-------------|
 | pixel_perfect | (default) When placing text into the word cloud check pixel-by-pixel to determine if text overlaps. |
 | rectangle | Perform simple rectangular collision detection when placing text. This is results in faster generation of word clouds but they may not be aesthetically pleasing. |
+
+### --padding, -p
+
+The minimum padding allowed between two words in the word cloud. This works with pixel-perfect collision detection as well. Default is 2px.
 
 ### --background, -bg
 
@@ -71,7 +71,7 @@ Background color. Default is Black.
 
 ### --color, -c
 
-A comma separated list of colors to use in the word cloud. Values most be provided in one of the below formats
+A comma separated list of colors to use for the word cloud text. Values most be provided in one of the below formats
 
 | Format | Description/Example |
 |--------|-------------|
@@ -111,6 +111,10 @@ One or more fonts. If more than one font is listed they must be comma separated.
 
 The name of the font to use. The system must have the font loaded already. Default is "Comic Sans MS".
 
+### --encoding, -e
+
+Character Encoding. Default is UTF-8
+
 ### --word-start, -ws
 
 Determine where to start drawing text to the word cloud.
@@ -133,7 +137,7 @@ One or more normalizers to apply to words in the word cloud.
 | bubble | replace alphabet characters with bubble representations. e.g. a -> ⓐ |
 | character-stripping | By default this normalizer will remove common punctuation characters. It is programmatically configurable and will eventually be supported in the CLI as well. |
 
-### --tokenizer, -t
+### --tokenizer, -tok
 
 Determine how to tokenize the input text. It is still TBD on the future of tokenization existing in the Kumo core package. 
 
@@ -142,3 +146,9 @@ Determine how to tokenize the input text. It is still TBD on the future of token
 | white-space | (default) Performs a simple white space tokenization of the text. |
 | english | Use an English language aware tokenizer to tokenize. (org.languagetool.language-en) |
 | chinese | Use an Chinese language aware tokenizer to tokenize. (org.languagetool.language-zh) |
+
+
+## TODO
+
+- Add support for word angles.
+- Add support for word placing strategies.
