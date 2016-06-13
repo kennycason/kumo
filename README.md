@@ -26,7 +26,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
 </dependency>
 ```
 

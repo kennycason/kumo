@@ -23,9 +23,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  */
 public class CliParameters {
 
-    @Parameter(names = "--version", description = "Print the current version of Kumo", arity = 1)
-    private boolean printVersion = false;
-
     @Parameter(names = "--type", description = "The type of word cloud to generate.", converter = TypeConverter.class)
     private Type type = Type.STANDARD;
 
@@ -98,10 +95,6 @@ public class CliParameters {
 
     @Parameter(names = "--tokenizer", description = "Determine where to start drawing text to the word cloud.", converter = TokenizerConverter.class)
     private TokenizerType tokenizer = TokenizerType.WHITE_SPACE;
-
-    public boolean isPrintVersion() {
-        return printVersion;
-    }
 
     public List<String> getBackgrounds() {
         return backgrounds;

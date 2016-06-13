@@ -31,7 +31,11 @@ import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.Manifest;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * Created by kenny on 6/12/16.
@@ -44,13 +48,11 @@ public class KumoCli {
     }
 
     public void runWithArguments(final String[] args) {
-        new JCommander(cliParameters).parse(args);
-
-        if (cliParameters.isPrintVersion()) {
-            System.out.println("Kumo Version 1.6"); // TODO do not hard code.
+        if (args.length > 0 && args[0].equals("--version")) {
+            printVersion();
             return;
         }
-
+        new JCommander(cliParameters).parse(args);
         switch (cliParameters.getType()) {
             case STANDARD:
                 buildStandardWordCloud();
@@ -61,9 +63,26 @@ public class KumoCli {
             case LAYERED:
                 buildLayeredWordCloud();
                 break;
-
             default:
                 throw new UnsupportedOperationException("Unsupported type: " + cliParameters.getType());
+        }
+    }
+
+    private void printVersion() {
+        try {
+            final Enumeration<URL> resources = getClass()
+                    .getClassLoader() .getResources("META-INF/MANIFEST.MF");
+            while (resources.hasMoreElements()) {
+                final Manifest manifest = new Manifest(resources.nextElement().openStream());
+                if (isNotBlank(manifest.getMainAttributes().getValue("Implementation-Version"))) {
+                    System.out.println("Kumo Version: " + manifest.getMainAttributes().getValue("Implementation-Version"));
+                    return;
+                }
+            }
+            throw new RuntimeException("Failed to load version from manifest");
+        } catch (final IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
