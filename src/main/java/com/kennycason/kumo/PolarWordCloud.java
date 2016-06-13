@@ -41,8 +41,8 @@ public class PolarWordCloud extends WordCloud {
         Collections.sort(wordFrequencies);
         Collections.sort(wordFrequencies2);
 
-        final List<Word> words = buildwords(wordFrequencies, colorPalette);
-        final List<Word> words2 = buildwords(wordFrequencies2, colorPalette2);
+        final List<Word> words = buildWords(wordFrequencies, colorPalette);
+        final List<Word> words2 = buildWords(wordFrequencies2, colorPalette2);
 
         final Iterator<Word> wordIterator = words.iterator();
         final Iterator<Word> wordIterator2 = words2.iterator();
@@ -67,7 +67,7 @@ public class PolarWordCloud extends WordCloud {
             }
         }
 
-        drawForgroundToBackground();
+        drawForegroundToBackground();
     }
 
     private Point getStartPosition(final Point pole) {

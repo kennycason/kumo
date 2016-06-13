@@ -6,25 +6,9 @@ The type of word cloud to generate.
 
 | Value | Description |
 |-------|-------------|
-| default | (default) Generate a standard word cloud. |
+| standard | (default) Generate a standard word cloud. |
 | polar | Generate a word cloud from two text sources. The two word clouds will be drawn on the same canvas and will bleed into each other. This is ideal for contrasting two pieces of data such as positive and negative sentiment. |
 | layered | Generate multiple word clouds and layer them over one another. This is done by providing layered imaged. The word clouds will be plotted on the non-transparent pixels of the layered images. |
-
-### --min-word-length, -mwl
-
-The minimum word length required to be allowed in the word cloud.
-
-### --stopwords, -sw
-
-A comma separated list of words to exclude from the word cloud.
-
-### --stopwords-file, -swf 
-
-A file of stop words. Format should be one word per line.
-
-### --word-count, -wc
-
-Number of words from data set to draw to word cloud. After the words are sorted by frequency, the words are attempted to be placed in descending order.
 
 ### --input, -i
 
@@ -36,6 +20,24 @@ For standard word clouds only the first input source will be analyzed. Multiple 
 
 Output file for the generated word cloud.
 
+### --min-word-length, -mwl
+
+The minimum word length required to be allowed in the word cloud. Default is 4.
+
+### --stop-words, -sw
+
+A comma separated list of words to exclude from the word cloud.
+
+### --stop-words-file, -swf 
+
+A file of stop words. Format should be one word per line.
+
+### --word-count, -wc
+
+Number of words from data set to draw to word cloud. After the words are sorted by frequency, the words are attempted to be placed in descending order.
+
+Default is 1,000 words.
+
 ### --width, -w
 
 Width of the word cloud. Default is 640px.
@@ -46,20 +48,26 @@ Height of the word cloud. Default is 480px.
 
 ### --collision, -col
 
+The collision algorithm to use when placing text into the word cloud.
+
+### --padding, -p
+
+The minimum padding allowed between two words in the word cloud. This works with pixel-perfect collision detection as well. Default is 2px.
+
 | Value | Description |
 |-------|-------------|
 | pixel_perfect | (default) When placing text into the word cloud check pixel-by-pixel to determine if text overlaps. |
 | rectangle | Perform simple rectangular collision detection when placing text. This is results in faster generation of word clouds but they may not be aesthetically pleasing. |
-
-### --padding, -p
-
-The minimum padding allowed between two words in the word cloud. This works with pixel-perfect collision detection as well. Default 2.
 
 ### --background, -bg
 
 One ore more input sources. Input sources may be local files or Urls of an image used to define the shape of the word cloud. By default the word cloud is drawn onto a rectangle. The word cloud will place text only in places where background image has non-transparent pixels.
 
 For standard word clouds only the first input source will be used. Multiple input sources are only relevant for layered word clouds. Each background image will be applied to a layer in the order they are listed. 
+
+### --background-color, -bgc
+
+Background color. Default is Black.
 
 ### --color, -c
 
@@ -73,7 +81,7 @@ A comma separated list of colors to use in the word cloud. Values most be provid
 
 ### --font-scalar, -fs
 
-Method to scale font
+Method to scale font.
 
 | Value | Description |
 |-------|-------------|
@@ -83,11 +91,11 @@ Method to scale font
 
 ### --font-size-min, -fmin
 
-Minimum font size, default 10
+Minimum font size, default is 10px.
 
 ### -- font-size-max, -fmax
 
-Maximum font size, default 40
+Maximum font size, default is 40px.
 
 ### --font-weight, -fw
 
@@ -95,13 +103,13 @@ One or more fonts. If more than one font is listed they must be comma separated.
 
 | Value |
 |--------|
-| plain (default) |
-| bold |
+| plain |
+| bold (default) |
 | italic |
 
 ### --font-type, -ft
 
-The name of the font to use. The system must have the font loaded already.
+The name of the font to use. The system must have the font loaded already. Default is "Comic Sans MS".
 
 ### --word-start, -ws
 
@@ -125,7 +133,7 @@ One or more normalizers to apply to words in the word cloud.
 | bubble | replace alphabet characters with bubble representations. e.g. a -> ⓐ |
 | character-stripping | By default this normalizer will remove common punctuation characters. It is programmatically configurable and will eventually be supported in the CLI as well. |
 
-### --tokenizer,,m  ,,,, -t
+### --tokenizer, -t
 
 Determine how to tokenize the input text. It is still TBD on the future of tokenization existing in the Kumo core package. 
 

@@ -104,7 +104,7 @@ public class WordCloud {
 
         Collections.sort(wordFrequencies);
         int currentWord = 1;
-        for (final Word word : buildwords(wordFrequencies, this.colorPalette)) {
+        for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
             final boolean placed = place(word, point);
 
@@ -120,7 +120,7 @@ public class WordCloud {
             }
             currentWord++;
         }
-        drawForgroundToBackground();
+        drawForegroundToBackground();
     }
 
     public void writeToFile(final String outputFileName) {
@@ -170,7 +170,7 @@ public class WordCloud {
      * Doing it this way preserves the transparency of the this.bufferedImage's pixels
      * for a more flexible pixel perfect collision
      */
-    protected void drawForgroundToBackground() {
+    protected void drawForegroundToBackground() {
         if (backgroundColor == null) { return; }
 
         final BufferedImage backgroundBufferedImage = new BufferedImage(dimension.width, dimension.height, this.bufferedImage.getType());
@@ -244,7 +244,7 @@ public class WordCloud {
         return false;
     }
 
-    protected List<Word> buildwords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
+    protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
         final List<Word> words = new ArrayList<>();
