@@ -42,8 +42,8 @@ public class LayeredWordCloudITest {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
@@ -77,8 +77,8 @@ public class LayeredWordCloudITest {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/haskell_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/haskell_2.bmp")));
@@ -118,10 +118,10 @@ public class LayeredWordCloudITest {
         layeredWordCloud.setPadding(2, 1);
         layeredWordCloud.setPadding(3, 1);
 
-        layeredWordCloud.setFontOptions(0, new KumoFont("Comic Sans MS", FontWeight.PLAIN));
-        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
-        layeredWordCloud.setFontOptions(3, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontWeight.PLAIN));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
+        layeredWordCloud.setKumoFont(3, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/pho_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/pho_2.bmp")));

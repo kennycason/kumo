@@ -114,7 +114,7 @@ Maximum font size, default is 40px.
 
 ### --font-weight
 
-One or more fonts. If more than one font is listed they must be comma separated.
+A font weight.
 
 | Value |
 |--------|
@@ -168,3 +168,4 @@ Determine how to tokenize the input text. It is still TBD on the future of token
 - Add support for background shapes (circle, rectangle)
 - Add support for word angles.
 - Add support for word placing strategies.
+- Add better support for per-layer settings in layered word cloud.

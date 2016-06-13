@@ -318,7 +318,7 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordStartScheme(final WordStartStrategy startscheme) {
+    public void setWordStartStrategy(final WordStartStrategy startscheme) {
         this.wordStartStrategy = startscheme;
     }
 

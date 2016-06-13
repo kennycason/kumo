@@ -130,4 +130,15 @@ public class KumoCliITest {
                 "--color", "(0x00ff00),(0x00dd00),(0x007700)|(0xff0000),(0xdd0000),(0x770000)"
         });
     }
+
+    @Test
+    public void layered() {
+        KumoCli.main(new String[] {
+                "--input", "https://www.haskell.org/,https://en.wikipedia.org/wiki/Haskell_(programming_language)",
+                "--output", "/tmp/haskell_layered.png",
+                "--background", "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_1.bmp,https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_2.bmp",
+                "--type", "layered",
+                "--color", "(0xFA6C07),(0xFF7614),(0xFF8936)|(0x080706),(0x3B3029),(0x47362A)"
+        });
+    }
 }

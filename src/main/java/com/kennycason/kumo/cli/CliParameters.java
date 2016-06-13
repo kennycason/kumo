@@ -10,7 +10,6 @@ import com.kennycason.kumo.font.FontWeight;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -79,8 +78,8 @@ public class CliParameters {
     @Parameter(names = "--font-size-max", description = "Maximum font size, default is 40px.")
     private int fontSizeMax = 40;
 
-    @Parameter(names = "--font-weight", description = "One or more fonts. If more than one font is listed they must be comma separated. Default is Bold.", converter = FontWeightConverter.class)
-    private List<FontWeight> fontWeights = Arrays.asList(FontWeight.BOLD);
+    @Parameter(names = "--font-weight", description = "A font weight. Default is Bold.", converter = FontWeightConverter.class)
+    private FontWeight fontWeight = FontWeight.BOLD;
 
     @Parameter(names = "--font-type", description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
     private String fontType = "Comic Sans MS";
@@ -147,8 +146,8 @@ public class CliParameters {
         return fontType;
     }
 
-    public List<FontWeight> getFontWeights() {
-        return fontWeights;
+    public FontWeight getFontWeight() {
+        return fontWeight;
     }
 
     public String getCharacterEncoding() {

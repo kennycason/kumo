@@ -249,7 +249,7 @@ for (int i = 0; i < lwc.getLayers(); i++) {
     final WordCloud worldCloud = parallelLayeredWordCloud.getAt(i);
     worldCloud.setAngleGenerator(new AngleGenerator(0));
     worldCloud.setPadding(3);
-    worldCloud.setWordStartScheme(new CenterWordStart());
+    worldCloud.setWordStartStrategy(new CenterWordStart());
     worldCloud.setKumoFont(new KumoFont(FONTS[i]));
     worldCloud.setColorPalette(new ColorPalette(colors[i]));
 

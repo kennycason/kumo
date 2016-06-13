@@ -41,8 +41,8 @@ public class DataRankWordCloudITest {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setFontOptions(0, new KumoFont("Comic Sans MS", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/datarank-1.png")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/datarank-2.png")));

@@ -44,9 +44,9 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.setPadding(1, 1);
         layeredWordCloud.setPadding(2, 1);
 
-        layeredWordCloud.setFontOptions(0, new KumoFont("Comic Sans MS", FontWeight.PLAIN));
-        layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
-        layeredWordCloud.setFontOptions(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontWeight.PLAIN));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
 
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-1.png")));
