@@ -9,7 +9,7 @@
     <name>${project.artifactId}</name>
     <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).</description>
     <url>https://github.com/kennycason/kumo</url>
-    <version>1.5</version>
+    <version>1.6</version>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -40,6 +40,11 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>1.48</version>
         </dependency>
         <dependency>
             <groupId>com.github.davidmoten</groupId>

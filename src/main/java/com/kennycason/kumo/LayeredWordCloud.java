@@ -61,7 +61,7 @@ public class LayeredWordCloud {
         this.wordClouds.get(layer).setFontScalar(fontScalar);
     }
 
-    public void setFontOptions(final int layer, final KumoFont kumoFont) {
+    public void setKumoFont(final int layer, final KumoFont kumoFont) {
         this.wordClouds.get(layer).setKumoFont(kumoFont);
     }
 
@@ -86,12 +86,12 @@ public class LayeredWordCloud {
         return bufferedImage;
     }
     
-    public WordCloud getCloudLayer(final int layer) {
+    public WordCloud getLayer(final int layer) {
         return wordClouds.get(layer);
     }
     
     public WordCloud getAt(final int layer) {
-        return getCloudLayer(layer);
+        return getLayer(layer);
     }
 
     public Set<Word> getSkipped(final int layer) {
@@ -113,8 +113,8 @@ public class LayeredWordCloud {
         }
     }
     
-    public void setStartScheme(final int layer, final WordStartStrategy scheme) {
-        wordClouds.get(layer).setWordStartScheme(scheme);
+    public void setWordStartStrategy(final int layer, final WordStartStrategy scheme) {
+        wordClouds.get(layer).setWordStartStrategy(scheme);
     }
     
     public int getLayers() {

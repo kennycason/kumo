@@ -19,7 +19,7 @@ import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
 import com.kennycason.kumo.padding.WordPixelPadder;
 import com.kennycason.kumo.palette.ColorPalette;
-import com.kennycason.kumo.placement.LinearWordPlacer;
+import com.kennycason.kumo.placement.RTreeWordPlacer;
 import com.kennycason.kumo.placement.RectangleWordPlacer;
 import com.kennycason.kumo.wordstart.RandomWordStart;
 import com.kennycason.kumo.wordstart.WordStartStrategy;
@@ -69,7 +69,7 @@ public class WordCloud {
 
     protected final BufferedImage bufferedImage;
 
-    protected RectangleWordPlacer wordPlacer = new LinearWordPlacer();
+    protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
 
     protected final Set<Word> skipped = new HashSet<>();
 
@@ -104,7 +104,7 @@ public class WordCloud {
 
         Collections.sort(wordFrequencies);
         int currentWord = 1;
-        for (final Word word : buildwords(wordFrequencies, this.colorPalette)) {
+        for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
             final boolean placed = place(word, point);
 
@@ -120,7 +120,7 @@ public class WordCloud {
             }
             currentWord++;
         }
-        drawForgroundToBackground();
+        drawForegroundToBackground();
     }
 
     public void writeToFile(final String outputFileName) {
@@ -133,7 +133,7 @@ public class WordCloud {
             LOGGER.info("Saving WordCloud to " + outputFileName);
             ImageIO.write(bufferedImage, extension, new File(outputFileName));
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
@@ -159,7 +159,7 @@ public class WordCloud {
             ImageIO.write(bufferedImage, format, outputStream);
             LOGGER.debug("Done writing WordCloud image data to output stream");
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.error(e.getMessage(), e);
             throw new KumoException("Could not write wordcloud to outputstream due to an IOException", e);
         }
@@ -170,7 +170,7 @@ public class WordCloud {
      * Doing it this way preserves the transparency of the this.bufferedImage's pixels
      * for a more flexible pixel perfect collision
      */
-    protected void drawForgroundToBackground() {
+    protected void drawForegroundToBackground() {
         if (backgroundColor == null) { return; }
 
         final BufferedImage backgroundBufferedImage = new BufferedImage(dimension.width, dimension.height, this.bufferedImage.getType());
@@ -244,7 +244,7 @@ public class WordCloud {
         return false;
     }
 
-    protected List<Word> buildwords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
+    protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
         final List<Word> words = new ArrayList<>();
@@ -282,31 +282,31 @@ public class WordCloud {
         return Lambda.max(wordFrequencies, on(WordFrequency.class).getFrequency());
     }
 
-    public void setBackgroundColor(Color backgroundColor) {
+    public void setBackgroundColor(final Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
-    public void setPadding(int padding) {
+    public void setPadding(final int padding) {
         this.padding = padding;
     }
 
-    public void setColorPalette(ColorPalette colorPalette) {
+    public void setColorPalette(final ColorPalette colorPalette) {
         this.colorPalette = colorPalette;
     }
 
-    public void setBackground(Background background) {
+    public void setBackground(final Background background) {
         this.background = background;
     }
 
-    public void setFontScalar(FontScalar fontScalar) {
+    public void setFontScalar(final FontScalar fontScalar) {
         this.fontScalar = fontScalar;
     }
 
-    public void setKumoFont(KumoFont kumoFont) {
+    public void setKumoFont(final KumoFont kumoFont) {
         this.kumoFont = kumoFont;
     }
 
-    public void setAngleGenerator(AngleGenerator angleGenerator) {
+    public void setAngleGenerator(final AngleGenerator angleGenerator) {
         this.angleGenerator = angleGenerator;
     }
 
@@ -318,11 +318,11 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordStartScheme(WordStartStrategy startscheme) {
+    public void setWordStartStrategy(final WordStartStrategy startscheme) {
         this.wordStartStrategy = startscheme;
     }
 
-    public void setWordPlacer(RectangleWordPlacer wordPlacer) {
+    public void setWordPlacer(final RectangleWordPlacer wordPlacer) {
         this.wordPlacer = wordPlacer;
     }
 
