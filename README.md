@@ -32,7 +32,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 
 #### CLI Install via Brew (NEW!)
 
-`brew install https://raw.githubusercontent.com/kennycason/kumo/master/script/brew.rb`
+`brew install https://raw.githubusercontent.com/kennycason/kumo/master/script/kumo.rb`
 
 ### Screenshots
 
@@ -326,7 +326,7 @@ The CLI Documentation can be found [here](https://github.com/kennycason/kumo/blo
 
 The below examples assume you have the jar installed under the name of "kumo". To install via Brew run the following command.
 
-`brew install https://raw.githubusercontent.com/kennycason/kumo/master/script/brew.rb`
+`brew install https://raw.githubusercontent.com/kennycason/kumo/master/script/kumo.rb`
 
 Examples:
 
