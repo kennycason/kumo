@@ -1,13 +1,14 @@
 package com.kennycason.kumo.cli;
 
 import com.beust.jcommander.JCommander;
+import com.kennycason.kumo.PolarWordCloud;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.cli.CliParameters.FontScalarType;
 import com.kennycason.kumo.cli.CliParameters.NormalizerType;
-import com.kennycason.kumo.cli.CliParameters.WordStart;
+import com.kennycason.kumo.cli.CliParameters.WordStartType;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
@@ -28,6 +29,7 @@ import com.kennycason.kumo.wordstart.WordStartStrategy;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -47,9 +49,38 @@ public class KumoCli {
                 buildStandardWordCloud();
                 break;
             case POLAR:
+                buildPolarWordCloud();
+                break;
             case LAYERED:
                 throw new UnsupportedOperationException("Unsupported type: " + cliParameters.getType());
         }
+    }
+
+    private void buildPolarWordCloud() {
+        if (cliParameters.getInputSources().size() != 2) {
+            throw new IllegalArgumentException("Polar word clouds require exactly 2 input sources. Found: " + cliParameters.getInputSources().size());
+        }
+        final PolarWordCloud wordCloud = new PolarWordCloud(
+                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                cliParameters.getCollisionMode(),
+                cliParameters.getPolarBlendMode()
+        );
+        if (!cliParameters.getBackgrounds().isEmpty()) {
+            wordCloud.setBackground(buildBackground(cliParameters.getBackgrounds().get(0)));
+        }
+        wordCloud.setBackgroundColor(cliParameters.getBackgroundColor());
+        if (cliParameters.getLayeredColors().size() >= 1) {
+            wordCloud.setColorPalette(new ColorPalette(cliParameters.getLayeredColors().get(0)));
+        }
+        if (cliParameters.getLayeredColors().size() >= 2) {
+            wordCloud.setColorPalette2(new ColorPalette(cliParameters.getLayeredColors().get(1)));
+        }
+        wordCloud.setFontScalar(buildFontScalar(cliParameters.getFontScalarType()));
+        wordCloud.setPadding(cliParameters.getPadding());
+        wordCloud.setWordStartScheme(buildWordStart(cliParameters.getWordStartType()));
+        wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontWeights().get(0)));
+        wordCloud.build(loadFrequencies(cliParameters.getInputSources().get(0)), loadFrequencies(cliParameters.getInputSources().get(1)));
+        wordCloud.writeToFile(cliParameters.getOutputSource());
     }
 
     private void buildStandardWordCloud() {
@@ -66,7 +97,7 @@ public class KumoCli {
         }
         wordCloud.setFontScalar(buildFontScalar(cliParameters.getFontScalarType()));
         wordCloud.setPadding(cliParameters.getPadding());
-        wordCloud.setWordStartScheme(buildWordStart(cliParameters.getWordStart()));
+        wordCloud.setWordStartScheme(buildWordStart(cliParameters.getWordStartType()));
         wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontWeights().get(0)));
         wordCloud.build(loadFrequencies(cliParameters.getInputSources().get(0)));
         wordCloud.writeToFile(cliParameters.getOutputSource());
@@ -79,9 +110,14 @@ public class KumoCli {
             frequencyAnalyzer.setMinWordLength(cliParameters.getMinWordLength());
             frequencyAnalyzer.setStopWords(cliParameters.getStopWords());
             frequencyAnalyzer.setCharacterEncoding(cliParameters.getCharacterEncoding());
-            for (final NormalizerType normalizer : cliParameters.getNormalizers()) {
-                frequencyAnalyzer.setNormalizer(buildNormalizer(normalizer));
+
+            if (cliParameters.getNormalizers().isEmpty()) {
+                cliParameters.getNormalizers().addAll(Arrays.asList(NormalizerType.TRIM, NormalizerType.CHARACTER_STRIPPING, NormalizerType.LOWERCASE));
             }
+            for (final NormalizerType normalizer : cliParameters.getNormalizers()) {
+                frequencyAnalyzer.addNormalizer(buildNormalizer(normalizer));
+            }
+
             frequencyAnalyzer.setWordTokenizer(buildTokenizer());
 
             return frequencyAnalyzer.load(toInputStream(input));
@@ -116,12 +152,12 @@ public class KumoCli {
         return new KumoFont(cliParameters.getFontType(), fontWeight);
     }
 
-    private static WordStartStrategy buildWordStart(final WordStart wordStart) {
-        switch (wordStart) {
+    private static WordStartStrategy buildWordStart(final WordStartType wordStartType) {
+        switch (wordStartType) {
             case CENTER: return new CenterWordStart();
             case RANDOM: return new RandomWordStart();
         }
-        throw new IllegalStateException("Unknown word start: " + wordStart);
+        throw new IllegalStateException("Unknown word start: " + wordStartType);
     }
 
 

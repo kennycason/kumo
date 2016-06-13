@@ -120,4 +120,14 @@ public class KumoCliITest {
                 "--tokenizer", "chinese"
         });
     }
+
+    @Test
+    public void polar() {
+        KumoCli.main(new String[] {
+                "--input", "https://en.wikipedia.org/wiki/Nintendo,https://en.wikipedia.org/wiki/PlayStation",
+                "--output", "/tmp/nintendo_vs_playstation.png",
+                "--type", "polar",
+                "--color", "(0x00ff00),(0x00dd00),(0x007700)|(0xff0000),(0xdd0000),(0x770000)"
+        });
+    }
 }

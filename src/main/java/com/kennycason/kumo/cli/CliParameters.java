@@ -5,6 +5,7 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.PolarBlendMode;
 import com.kennycason.kumo.font.FontWeight;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
  */
 public class CliParameters {
 
-    @Parameter(names = { "--type", "-t" }, description = "The type of word cloud to generate.", converter = TypeConverter.class)
+    @Parameter(names = "--type", description = "The type of word cloud to generate.", converter = TypeConverter.class)
     private Type type = Type.STANDARD;
 
     @Parameter(names = { "--input", "-i" }, required = true, description = "One ore more input sources. Input sources may be local files or Urls. If more than one input source is provided they must be comma separated. For standard word clouds only the first input source will be analyzed. Multiple input sources are only relevant for polar or layered word clouds.")
@@ -32,16 +33,16 @@ public class CliParameters {
     @Parameter(names = { "--output", "-o" }, required = true, description = "Output file for the generated word cloud.")
     private String outputSource;
 
-    @Parameter(names = { "--min-word-length", "-mwl" }, description = "The minimum word length required to be allowed in the word cloud.")
+    @Parameter(names = "--min-word-length", description = "The minimum word length required to be allowed in the word cloud.")
     private int minWordLength = 2;
 
-    @Parameter(names = { "--word-count", "-wc" }, description = "Number of words from data set to draw to word cloud. After the words are sorted by frequency, the words are attempted to be placed in descending order.")
+    @Parameter(names = "--word-count", description = "Number of words from data set to draw to word cloud. After the words are sorted by frequency, the words are attempted to be placed in descending order.")
     private int wordCount = 1000;
 
-    @Parameter(names = { "--stop-words", "-sw" }, description = "A comma separated list of words to exclude from the word cloud.")
+    @Parameter(names = "--stop-words", description = "A comma separated list of words to exclude from the word cloud.")
     private List<String> stopWords = new ArrayList<>();
 
-    @Parameter(names = { "--stop-words-file", "-swf" }, description = "A file of stop words. Format should be one word per line.")
+    @Parameter(names = "--stop-words-file", description = "A file of stop words. Format should be one word per line.")
     private String stopWordsFile;
 
     @Parameter(names = { "--width", "-w" }, description = "Width of the word cloud. Default is 640px.")
@@ -50,47 +51,50 @@ public class CliParameters {
     @Parameter(names = { "--height", "-h" }, description = "Height of the word cloud. Default is 480px.")
     private int height = 480;
 
-    @Parameter(names = { "--collision", "-col" }, description = "The collision algorithm to use when placing text into the word cloud.", converter = CollisionConverter.class)
+    @Parameter(names = "--collision", description = "The collision algorithm to use when placing text into the word cloud.", converter = CollisionConverter.class)
     private CollisionMode collisionMode = CollisionMode.PIXEL_PERFECT;
 
-    @Parameter(names = { "--padding", "-p" }, description = "The minimum padding allowed between two words in the word cloud. This works with pixel-perfect collision detection as well. Default is 2px.")
+    @Parameter(names = "--padding", description = "The minimum padding allowed between two words in the word cloud. This works with pixel-perfect collision detection as well. Default is 2px.")
     private int padding = 2;
 
     @Parameter(names = { "--background", "-bg" }, description = "One ore more input sources. Input sources may be local files or Urls of an image used to define the shape of the word cloud. By default the word cloud is drawn onto a rectangle. The word cloud will place text only in places where background image has non-transparent pixels. For standard word clouds only the first input source will be used. Multiple input sources are only relevant for layered word clouds. Each background image will be applied to a layer in the order they are listed.")
     private List<String> backgrounds = new ArrayList<>();
 
-    @Parameter(names = { "--background-color", "-bgc" }, description = "Background color. Default is Black.", converter = ColorConverter.class)
+    @Parameter(names = "--background-color", description = "Background color. Default is Black.", converter = ColorConverter.class)
     private Color backgroundColor = Color.BLACK;
 
     @Parameter(names = { "--color", "-c" }, description = "A comma separated list of colors to use for the word cloud text. Values most be provided in one of the below formats. Refer to CLI.md for usage examples.")
     // perform actual parsing in the getter, the commas in our color format cause issues with jCommander
     private String colorRaw;
 
-    @Parameter(names = { "--font-scalar", "-fs" }, description = "Method to scale font. Default is Linear.", converter = FontScaleConverter.class)
+    @Parameter(names = "--polar-blend-mode", description = "Determine how to blend the two poles of the word cloud.", converter = PolarBlendModeConverter.class)
+    private PolarBlendMode polarBlendMode = PolarBlendMode.BLUR;
+
+    @Parameter(names = "--font-scalar", description = "Method to scale font. Default is Linear.", converter = FontScaleConverter.class)
     private FontScalarType fontScalarType = FontScalarType.LINEAR;
 
-    @Parameter(names = { "--font-size-min", "-fmin" }, description = "Minimum font size, default is 10px.")
+    @Parameter(names = "--font-size-min", description = "Minimum font size, default is 10px.")
     private int fontSizeMin = 10;
 
-    @Parameter(names = { "--font-size-max", "-fmax" }, description = "Maximum font size, default is 40px.")
+    @Parameter(names = "--font-size-max", description = "Maximum font size, default is 40px.")
     private int fontSizeMax = 40;
 
-    @Parameter(names = { "--font-weight", "-fw" }, description = "One or more fonts. If more than one font is listed they must be comma separated. Default is Bold")
+    @Parameter(names = "--font-weight", description = "One or more fonts. If more than one font is listed they must be comma separated. Default is Bold.", converter = FontWeightConverter.class)
     private List<FontWeight> fontWeights = Arrays.asList(FontWeight.BOLD);
 
-    @Parameter(names = { "--font-type", "-ft" }, description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
+    @Parameter(names = "--font-type", description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
     private String fontType = "Comic Sans MS";
 
-    @Parameter(names = { "--encoding", "-e" }, description = "Character Encoding. Default is UTF-8")
+    @Parameter(names = "--encoding", description = "Character Encoding. Default is UTF-8")
     private String characterEncoding = "UTF-8";
 
-    @Parameter(names = { "--word-start", "-ws" }, description = "Determine where to start drawing text to the word cloud.")
-    private WordStart wordStart = WordStart.CENTER;
+    @Parameter(names = "--word-start", description = "Determine where to start drawing text to the word cloud.", converter = WordStartConverter.class)
+    private WordStartType wordStartType = WordStartType.CENTER;
 
-    @Parameter(names = { "--normalizer", "-n" }, description = "One or more normalizers to apply to words in the word cloud.", converter = NormalizerConverter.class)
+    @Parameter(names = "--normalizer", description = "One or more normalizers to apply to words in the word cloud.", converter = NormalizerConverter.class)
     private List<NormalizerType> normalizers = new ArrayList<>();
 
-    @Parameter(names = { "--tokenizer", "-tok" }, description = "Determine where to start drawing text to the word cloud.", converter = TokenizerConverter.class)
+    @Parameter(names = "--tokenizer", description = "Determine where to start drawing text to the word cloud.", converter = TokenizerConverter.class)
     private TokenizerType tokenizer = TokenizerType.WHITE_SPACE;
 
     public List<String> getBackgrounds() {
@@ -110,6 +114,21 @@ public class CliParameters {
             return Collections.emptyList();
         }
         return new ColorsConverter().convert(colorRaw);
+    }
+
+    public List<List<Color>> getLayeredColors() {
+        if (isBlank(colorRaw)) {
+            return Collections.emptyList();
+        }
+        final List<List<Color>> layeredColors = new ArrayList<>();
+        for (final String layeredColorSet : colorRaw.split("\\|")) {
+            layeredColors.add(new ColorsConverter().convert(layeredColorSet));
+        }
+        return layeredColors;
+    }
+
+    public PolarBlendMode getPolarBlendMode() {
+        return polarBlendMode;
     }
 
     public FontScalarType getFontScalarType() {
@@ -184,8 +203,8 @@ public class CliParameters {
         return wordCount;
     }
 
-    public WordStart getWordStart() {
-        return wordStart;
+    public WordStartType getWordStartType() {
+        return wordStartType;
     }
 
     // enums
@@ -199,7 +218,7 @@ public class CliParameters {
         SQRT,
         LOG
     }
-    public enum WordStart {
+    public enum WordStartType {
         CENTER,
         RANDOM
     }
@@ -286,10 +305,10 @@ public class CliParameters {
             return new EnumConverter<>(FontWeight.class).convert(input);
         }
     }
-    public static class WordStartConverter implements IStringConverter<WordStart> {
+    public static class WordStartConverter implements IStringConverter<WordStartType> {
         @Override
-        public WordStart convert(final String input) {
-            return new EnumConverter<>(WordStart.class).convert(input);
+        public WordStartType convert(final String input) {
+            return new EnumConverter<>(WordStartType.class).convert(input);
         }
     }
     public static class NormalizerConverter implements IStringConverter<NormalizerType> {
@@ -302,6 +321,12 @@ public class CliParameters {
         @Override
         public TokenizerType convert(final String input) {
             return new EnumConverter<>(TokenizerType.class).convert(input);
+        }
+    }
+    public static class PolarBlendModeConverter implements IStringConverter<PolarBlendMode> {
+        @Override
+        public PolarBlendMode convert(final String input) {
+            return new EnumConverter<>(PolarBlendMode.class).convert(input);
         }
     }
     public static class EnumConverter<T extends Enum> implements IStringConverter<T> {
