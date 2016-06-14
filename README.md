@@ -26,7 +26,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
-    <version>1.7</version>
+    <version>1.8</version>
 </dependency>
 ```
 
@@ -75,7 +75,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <tr><td>
 <img src="output/bubbletext.png?raw=true" width="300"/>
 </td><td>
-<img src="output/parallelBubbleText.png?raw=true" width="300"/>
+<img src="output/wordcloud_emoji.png?raw=true" width="300"/>
 </td></tr>
 </table>
 

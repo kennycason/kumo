@@ -40,41 +40,24 @@ import static ch.lambdaj.Lambda.on;
  * Created by kenny on 6/29/14.
  */
 public class WordCloud {
-
     private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
 
     protected final Dimension dimension;
-
     protected final CollisionMode collisionMode;
-
     protected final CollisionChecker collisionChecker;
-
-    protected final Padder padder;
-
-    protected int padding;
-
-    protected Background background;
-
     protected final RectanglePixelCollidable backgroundCollidable;
-
-    protected Color backgroundColor = Color.BLACK;
-
-    protected FontScalar fontScalar = new LinearFontScalar(10, 40);
-
-    protected KumoFont kumoFont = new KumoFont("Comic Sans MS", FontWeight.BOLD);
-
-    protected AngleGenerator angleGenerator = new AngleGenerator();
-
     protected final CollisionRaster collisionRaster;
-
     protected final BufferedImage bufferedImage;
-
-    protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
-
+    protected final Padder padder;
     protected final Set<Word> skipped = new HashSet<>();
-
-    protected ColorPalette colorPalette = new ColorPalette(Color.ORANGE, Color.WHITE, Color.YELLOW, Color.GRAY, Color.GREEN);
-    
+    protected int padding;
+    protected Background background;
+    protected Color backgroundColor = Color.BLACK;
+    protected FontScalar fontScalar = new LinearFontScalar(10, 40);
+    protected KumoFont kumoFont = new KumoFont("Comic Sans MS", FontWeight.BOLD);
+    protected AngleGenerator angleGenerator = new AngleGenerator();
+    protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
+    protected ColorPalette colorPalette = new ColorPalette(0x02B6F2, 0x37C2F0, 0x7CCBE6, 0xC4E7F2, 0xFFFFFF);
     protected WordStartStrategy wordStartStrategy = new RandomWordStart();
     
     public WordCloud(final Dimension dimension, final CollisionMode collisionMode) {
@@ -208,13 +191,13 @@ public class WordCloud {
                 final int y1 = (int) Math.sqrt(r * r - x * x);
                 if (start.y + y1 >= 0 && start.y + y1 < dimension.height) {
                     word.getPosition().y = start.y + y1;
-                    placed = tryToPlace(word);
+                    placed = canPlace(word);
                 }
                 // try negative root
                 final int y2 = -y1;
                 if (!placed && start.y + y2 >= 0 && start.y + y2 < dimension.height) {
                     word.getPosition().y = start.y + y2;
-                    placed = tryToPlace(word);
+                    placed = canPlace(word);
                 }
                 if (placed) {
                     collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
@@ -228,7 +211,7 @@ public class WordCloud {
         return false;
     }
 
-    private boolean tryToPlace(final Word word) {
+    private boolean canPlace(final Word word) {
         if (!background.isInBounds(word)) { return false; }
 
         switch (this.collisionMode) {
@@ -236,10 +219,7 @@ public class WordCloud {
                 return wordPlacer.place(word);
 
             case PIXEL_PERFECT:
-                if (backgroundCollidable.collide(word)) { return false; }
-                //placedWords.add(word);
-                return true;
-
+                return !backgroundCollidable.collide(word);
         }
         return false;
     }
@@ -259,14 +239,11 @@ public class WordCloud {
 
     private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
         final Graphics graphics = this.bufferedImage.getGraphics();
-
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = kumoFont.getFont().deriveFont(fontHeight);
-
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
-
         final double theta = angleGenerator.randomNext();
         if (theta != 0.0) {
             word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));

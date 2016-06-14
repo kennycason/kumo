@@ -23,6 +23,13 @@ public class ColorPalette {
         }
     }
 
+    public ColorPalette(final int... colors) {
+        this.colors = new ArrayList<>();
+        for (final int color : colors) {
+            this.colors.add(new Color (color));
+        }
+    }
+
     public ColorPalette(final List<Color> colors) {
         this.colors = colors;
     }

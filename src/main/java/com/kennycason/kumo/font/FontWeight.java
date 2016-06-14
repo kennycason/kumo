@@ -12,7 +12,7 @@ public enum FontWeight {
 
     private final int weight;
 
-    FontWeight(int weight) {
+    FontWeight(final int weight) {
         this.weight = weight;
     }
 

@@ -3,6 +3,7 @@ package com.kennycason.kumo;
 import com.kennycason.kumo.bg.CircleBackground;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
+import com.kennycason.kumo.nlp.normalize.BubbleTextNormalizer;
 import com.kennycason.kumo.nlp.normalize.StringToHexNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer;
@@ -98,6 +99,23 @@ public class WordCloudNormalizersITest {
         wordCloud.build(wordFrequencies);
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_normalization_or_filter.png");
+    }
+
+    @Test
+    public void bubbleText() throws IOException {
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequenciesToReturn(750);
+        frequencyAnalyzer.addNormalizer(new BubbleTextNormalizer());
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://kennycason.com"));
+        final Dimension dimension = new Dimension(600, 600);
+        final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
+        wordCloud.setPadding(0);
+        wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+        final long startTime = System.currentTimeMillis();
+        wordCloud.build(wordFrequencies);
+        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        wordCloud.writeToFile("output/bubbletext.png");
     }
 
 }

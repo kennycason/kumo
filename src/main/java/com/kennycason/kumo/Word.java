@@ -24,26 +24,27 @@ public class Word implements Collidable {
 
     private CollisionRaster collisionRaster;
 
-    public Word(final String word, final Color color,
-                final FontMetrics fontMetrics, final CollisionChecker collisionChecker) {
+    public Word(final String word,
+                final Color color,
+                final FontMetrics fontMetrics,
+                final CollisionChecker collisionChecker) {
         this.word = word;
         this.color = color;
         this.collisionChecker = collisionChecker;
         // get the height of a line of text in this font and render context
         final int maxDescent = fontMetrics.getMaxDescent();
-        final int maxAscent = fontMetrics.getMaxAscent();
         // get the advance of my text in this font and render context
         final int width = fontMetrics.stringWidth(word);
-        fontMetrics.getHeight();
 
-        this.bufferedImage = new BufferedImage(width, maxAscent, BufferedImage.TYPE_INT_ARGB);
+        this.bufferedImage = new BufferedImage(width, fontMetrics.getHeight(), BufferedImage.TYPE_INT_ARGB);
         final Graphics2D graphics = (Graphics2D) this.bufferedImage.getGraphics();
         graphics.setRenderingHint(
                 RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         graphics.setColor(color);
         graphics.setFont(fontMetrics.getFont());
-        graphics.drawString(word, 0, maxAscent - maxDescent);
+
+        graphics.drawString(word, 0, fontMetrics.getHeight() - maxDescent);
 
         this.collisionRaster = new CollisionRaster(this.bufferedImage);
     }
