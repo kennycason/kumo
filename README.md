@@ -38,44 +38,44 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 
 <table>
 <tr><td>
-<img src="output/whale_wordcloud_large_impact.png?raw=true" width="300"/>
+<img src="kumo-core/output//whale_wordcloud_large_impact.png?raw=true" width="300"/>
 </td><td>
-<img src="output/simplymeasured.png?raw=true" width="300"/>
+<img src="kumo-core/output//simplymeasured.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/layered_haskell.png?raw=true" width="300"/>
+<img src="kumo-core/output//layered_haskell.png?raw=true" width="300"/>
 </td><td>
-<img src="output/layered_pho_bowl.png?raw=true" width="300"/>
+<img src="kumo-core/output//layered_pho_bowl.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/polar_newyork_rectangle_blur.png?raw=true" width="300"/>
+<img src="kumo-core/output//polar_newyork_rectangle_blur.png?raw=true" width="300"/>
 </td><td>
-<img src="output/polar_tide_chinese_vs_english2.png?raw=true" width="300"/>
+<img src="kumo-core/output//polar_tide_chinese_vs_english2.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/datarank_wordcloud_circle_sqrt_font.png?raw=true" width="300"/>
+<img src="kumo-core/output//datarank_wordcloud_circle_sqrt_font.png?raw=true" width="300"/>
 </td><td>
-<img src="output/chinese_language_circle.png?raw=true" width="300"/>
+<img src="kumo-core/output//chinese_language_circle.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/polar_newyork_whale_large_blur.png?raw=true" width="300"/>
+<img src="kumo-core/output//polar_newyork_whale_large_blur.png?raw=true" width="300"/>
 </td><td>
-<img src="output/layered_word_cloud.png?raw=true" width="300"/>
+<img src="kumo-core/output//layered_word_cloud.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/whale_wordcloud_large_angles.png?raw=true" width="300"/>
+<img src="kumo-core/output//whale_wordcloud_large_angles.png?raw=true" width="300"/>
 </td><td>
-<img src="output/wordcloud_rectangle.png?raw=true" width="300"/>
+<img src="kumo-core/output//wordcloud_rectangle.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/wordcloud_gradient_redbluegreen.png?raw=true" width="300"/>
+<img src="kumo-core/output//wordcloud_gradient_redbluegreen.png?raw=true" width="300"/>
 </td><td>
-<img src="output/wordcloud_gradient_whiteredblue.png?raw=true" width="300"/>
+<img src="kumo-core/output//wordcloud_gradient_whiteredblue.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/bubbletext.png?raw=true" width="300"/>
+<img src="kumo-core/output//bubbletext.png?raw=true" width="300"/>
 </td><td>
-<img src="output/wordcloud_emoji.png?raw=true" width="300"/>
+<img src="kumo-core/output//wordcloud_emoji.png?raw=true" width="300"/>
 </td></tr>
 </table>
 
@@ -97,7 +97,7 @@ wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/w
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/whale_wordcloud_small.png");
+wordCloud.writeToFile("kumo-core/output//whale_wordcloud_small.png");
 ```
 
 Example to generate a circular Word Cloud.
@@ -112,7 +112,7 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
+wordCloud.writeToFile("kumo-core/output//datarank_wordcloud_circle_sqrt_font.png");
 ```
 
 Example to generate a rectangle Word Cloud
@@ -127,7 +127,7 @@ wordCloud.setBackground(new RectangleBackground(dimension));
 wordCloud.setColorPalette(buildRandomColorPalette(20));
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/wordcloud_rectangle.png");
+wordCloud.writeToFile("kumo-core/output//wordcloud_rectangle.png");
 ```
 
 
@@ -145,7 +145,7 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN));
 wordCloud.setFontScalar( new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/wordcloud_gradient_redbluegreen.png");
+wordCloud.writeToFile("kumo-core/output//wordcloud_gradient_redbluegreen.png");
 ```
 
 Example of tokenizing chinese text into a circle
@@ -164,7 +164,7 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5)));
 wordCloud.setFontScalar(new SqrtFontScalar(12, 45));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/chinese_language_circle.png");
+wordCloud.writeToFile("kumo-core/output//chinese_language_circle.png");
 ```
 
 Create a polarity word cloud to contrast two datasets
@@ -183,7 +183,7 @@ wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies, wordFrequencies2);
-wordCloud.writeToFile("output/polar_newyork_circle_blur_sqrt_font.png");
+wordCloud.writeToFile("kumo-core/output//polar_newyork_circle_blur_sqrt_font.png");
 ```
 
 
@@ -217,7 +217,7 @@ layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
 
 layeredWordCloud.build(0, wordFrequencies);
 layeredWordCloud.build(1, wordFrequencies2);
-layeredWordCloud.writeToFile("output/layered_word_cloud.png");
+layeredWordCloud.writeToFile("kumo-core/output//layered_word_cloud.png");
 ```
 
 Create a ParallelLayeredWordCloud using 4 distinct Rectangles.<br>
@@ -332,53 +332,53 @@ Examples:
 
 Create a standard word cloud.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png"
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png"
 ```
 
 Create a standard word cloud excluding stop words.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --stop-words "nintendo,the"
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --stop-words "nintendo,the"
 ```
 
 Create a standard word cloud with a limited word count.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --word-count 10
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --word-count 10
 ```
 
 Create a standard word cloud with a custom width and height.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --width 256 --height 256
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --width 256 --height 256
 ```
 
 Create a standard word cloud with custom font configuration.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --font-scalar sqrt --font-type Impact --font-weight plain --font-size-min 4 --font-size-max 60
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --font-scalar sqrt --font-type Impact --font-weight plain --font-size-min 4 --font-size-max 60
 ```
 
 Create a standard word cloud with a custom shape.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --width 990 --height 618 --background "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/whale.png
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --width 990 --height 618 --background "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/whale.png
 ```
 
 Create a standard word cloud with a custom color palette.
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --color "(255,0,0),(0,255,0),(0,0,255)"
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --color "(255,0,0),(0,255,0),(0,0,255)"
 ```
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo" --output "/tmp/wordcloud.png" --color "(0xffffff),(0xcccccc),(0x999999),(0x666666),(0x333333)"
+kumo --input "https://en.wikipedia.org/wiki/Nintendo" --kumo-core/output/ "/tmp/wordcloud.png" --color "(0xffffff),(0xcccccc),(0x999999),(0x666666),(0x333333)"
 ```
 
 Create a standard word cloud using a Chinese tokenizer
 ```
-kumo --input "https://zh.wikipedia.org/wiki/%E4%BB%BB%E5%A4%A9%E5%A0%82" --output "/tmp/wordcloud.png" --tokenizer chinese
+kumo --input "https://zh.wikipedia.org/wiki/%E4%BB%BB%E5%A4%A9%E5%A0%82" --kumo-core/output/ "/tmp/wordcloud.png" --tokenizer chinese
 ```
 
 Create a polar word cloud
 ```
-kumo --input "https://en.wikipedia.org/wiki/Nintendo,https://en.wikipedia.org/wiki/PlayStation" --output "/tmp/nintendo_vs_playstation.png" --type polar --color "(0x00ff00),(0x00dd00),(0x007700)|(0xff0000),(0xdd0000),(0x770000)"
+kumo --input "https://en.wikipedia.org/wiki/Nintendo,https://en.wikipedia.org/wiki/PlayStation" --kumo-core/output/ "/tmp/nintendo_vs_playstation.png" --type polar --color "(0x00ff00),(0x00dd00),(0x007700)|(0xff0000),(0xdd0000),(0x770000)"
 ```
 
 Create a layered word cloud
 ```
-kumo --input "https://www.haskell.org/, https://en.wikipedia.org/wiki/Haskell_(programming_language)" --output "/tmp/nintendo_vs_playstation.png" --type layered --background "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_1.bmp,https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_2.bmp" --color "(0xFA6C07),(0xFF7614),(0xFF8936)|(0x080706),(0x3B3029),(0x47362A)"
+kumo --input "https://www.haskell.org/, https://en.wikipedia.org/wiki/Haskell_(programming_language)" --kumo-core/output/ "/tmp/nintendo_vs_playstation.png" --type layered --background "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_1.bmp,https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_2.bmp" --color "(0xFA6C07),(0xFF7614),(0xFF8936)|(0x080706),(0x3B3029),(0x47362A)"
 ```
