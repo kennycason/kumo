@@ -14,11 +14,10 @@ public class CompositeFilter extends Filter {
     }
 
     @Override
-    public boolean apply(final String word) {
+    public boolean test(String s) {
         for(Filter filter : filters) {
-            if(!filter.apply(word)) { return false; }
+            if(!filter.test(s)) { return false; }
         }
         return true;
     }
-
 }

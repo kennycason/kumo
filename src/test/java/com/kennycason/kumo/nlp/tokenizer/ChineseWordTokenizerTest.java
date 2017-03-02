@@ -1,6 +1,5 @@
 package com.kennycason.kumo.nlp.tokenizer;
 
-import ch.lambdaj.Lambda;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
@@ -22,22 +21,18 @@ public class ChineseWordTokenizerTest {
         LOGGER.info("load time: " + (System.currentTimeMillis() - time) + " ms");
 
         List<String> words = parser.tokenize("弹道导弹");
-        LOGGER.info(Lambda.join(words));
+
         assertEquals(1, words.size());
 
         words = parser.tokenize("美国人的文化.dog");
-        LOGGER.info(Lambda.join(words));
         assertEquals(6, words.size());
 
         words = parser.tokenize("我是美国人");
-        LOGGER.info(Lambda.join(words));
         assertEquals(4, words.size());
 
         words = parser.tokenize("政府依照法律行使执法权，如果超出法律赋予的权限范围，就是“滥用职权”；如果没有完全行使执法权，就是“不作为”。两者都是政府的错误。");
-        LOGGER.info(Lambda.join(words));
 
         words = parser.tokenize("国家都有自己的政府。政府是税收的主体，可以实现福利的合理利用。");
-        LOGGER.info(Lambda.join(words));
     }
 
 }

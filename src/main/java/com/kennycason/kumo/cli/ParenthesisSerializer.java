@@ -1,12 +1,11 @@
 package com.kennycason.kumo.cli;
 
-import ch.lambdaj.Lambda;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.trimToEmpty;
@@ -19,7 +18,12 @@ public class ParenthesisSerializer {
 
     public static <T> String serialize(final Collection<T> collection) {
         if (collection.isEmpty()) { return ""; }
-        return "(" + Lambda.join(collection, "),(") + ")";
+
+        String joined = collection.stream()
+                .map(i -> i.toString())
+                .collect(Collectors.joining("),("));
+
+        return "(" + joined + ")";
     }
 
     public static List<String> deserialize(final String value) {

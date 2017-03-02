@@ -1,6 +1,5 @@
 package com.kennycason.kumo;
 
-import ch.lambdaj.Lambda;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.RectangleBackground;
 import com.kennycason.kumo.collide.RectanglePixelCollidable;
@@ -33,8 +32,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.List;
-
-import static ch.lambdaj.Lambda.on;
 
 /**
  * Created by kenny on 6/29/14.
@@ -256,7 +253,7 @@ public class WordCloud {
 
     private int maxFrequency(final Collection<WordFrequency> wordFrequencies) {
         if (wordFrequencies.isEmpty()) { return 1; }
-        return Lambda.max(wordFrequencies, on(WordFrequency.class).getFrequency());
+        return  wordFrequencies.stream().max(WordFrequency::compareTo).get().getFrequency();
     }
 
     public void setBackgroundColor(final Color backgroundColor) {

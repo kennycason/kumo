@@ -1,20 +1,19 @@
 package com.kennycason.kumo.nlp;
 
-import ch.lambdaj.Lambda;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.nlp.filter.CompositeFilter;
 import com.kennycason.kumo.nlp.filter.Filter;
 import com.kennycason.kumo.nlp.filter.StopWordFilter;
+import com.kennycason.kumo.nlp.filter.WordSizeFilter;
 import com.kennycason.kumo.nlp.normalize.CharacterStrippingNormalizer;
 import com.kennycason.kumo.nlp.normalize.LowerCaseNormalizer;
 import com.kennycason.kumo.nlp.normalize.Normalizer;
+import com.kennycason.kumo.nlp.normalize.TrimToEmptyNormalizer;
 import com.kennycason.kumo.nlp.tokenizer.WhiteSpaceWordTokenizer;
 import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import com.kennycason.kumo.nlp.filter.CompositeFilter;
-import com.kennycason.kumo.nlp.filter.WordSizeFilter;
-import com.kennycason.kumo.nlp.normalize.TrimToEmptyNormalizer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,9 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
-
-import static ch.lambdaj.Lambda.on;
-import static ch.lambdaj.Lambda.sort;
+import java.util.stream.Collectors;
 
 /**
  * Created by kenny on 7/1/14.
@@ -119,7 +116,7 @@ public class FrequencyAnalyzer {
         allFilters.add(new WordSizeFilter(minWordLength, maxWordLength));
         allFilters.addAll(filters);
         final CompositeFilter compositeFilter = new CompositeFilter(allFilters);
-        return Lambda.filter(compositeFilter, words);
+        return  words.stream().filter(compositeFilter).collect(Collectors.toList());
     }
 
     private String normalize(final String word) {
@@ -132,7 +129,8 @@ public class FrequencyAnalyzer {
 
     private List<WordFrequency> takeTopFrequencies(final Collection<WordFrequency> wordCloudEntities) {
         if (wordCloudEntities.isEmpty()) { return Collections.emptyList(); }
-        final List<WordFrequency> sorted = sort(wordCloudEntities, on(WordFrequency.class).getFrequency());
+
+        final List<WordFrequency> sorted =  wordCloudEntities.stream().sorted(WordFrequency::compareTo).collect(Collectors.toList());
         Collections.reverse(sorted);
         return sorted.subList(0, Math.min(sorted.size(), wordFrequenciesToReturn));
     }
