@@ -12,16 +12,27 @@
         an image file without the need to create an applet (as many other libraries do).
     </description>
     <url>https://github.com/kennycason/kumo</url>
+
+
     <modules>
         <module>kumo-nlp</module>
         <module>kumo-core</module>
         <module>kumo-api</module>
         <module>kumo-cli</module>
     </modules>
+
     <version>1.9-SNAPSHOT</version>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Maven specific settings -->
+        <encoding>UTF-8</encoding>
+        <java.source>1.8</java.source>
+        <java.target>1.8</java.target>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.build.resourceEncoding>${encoding}</project.build.resourceEncoding>
+        <maven.compile.encoding>>${encoding}</maven.compile.encoding>
+        <maven.compiler.target>${java.target}</maven.compiler.target>
+
         <cli.main.class>com.kennycason.kumo.cli.KumoCli</cli.main.class>
     </properties>
 
@@ -65,10 +76,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <prerequisites>
-        <maven>3.3.0</maven>
-    </prerequisites>
 
     <developers>
         <developer>
@@ -141,10 +148,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.2</version>
+                    <version>3.5.1</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java.source}</source>
+                        <target>${java.target}</target>
+                        <encoding>${encoding}</encoding>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -161,9 +169,8 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.2</version>
+                    <version>2.10.3</version>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
@@ -172,6 +179,20 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+                        <links>
+                            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                        </links>
+                        <encoding>utf-8</encoding>
+                        <show>public</show>
+                        <!-- Speeds up the build of the javadocs -->
+                        <quiet>true</quiet>
+                        <use>false</use>
+                        <!--
+                        Use this in JDK 8 environment to skip hard java doc syntax check.
+                          <additionalparam>-Xdoclint:none</additionalparam> -->
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.sonatype.plugins</groupId>
@@ -184,7 +205,6 @@
                         <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -200,7 +220,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.4.3</version>
                     <configuration>
                         <transformers>
                             <transformer
@@ -220,20 +240,50 @@
                         </execution>
                     </executions>
                 </plugin>
+                <!-- A maven plugin to check for certain code quality rules -->
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <groupId>de.thetaphi</groupId>
+                    <artifactId>forbiddenapis</artifactId>
+                    <version>2.3</version>
                     <configuration>
-                        <archive>
-                            <manifest>
-                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            </manifest>
-                        </archive>
+                        <!--
+                          if the used Java version is too new,
+                          don't fail, just do nothing:
+                        -->
+                        <failOnUnsupportedJava>false</failOnUnsupportedJava>
+                        <bundledSignatures>
+                            <!--
+                              This will automatically choose the right
+                              signatures based on 'maven.compiler.target':
+                            -->
+                            <bundledSignature>jdk-deprecated</bundledSignature>
+                            <bundledSignature>jdk-internal</bundledSignature>
+                            <!-- disallow undocumented classes like sun.misc.Unsafe: -->
+                            <bundledSignature>jdk-non-portable</bundledSignature>
+                            <!-- interesting, yet inactive for the moment:
+                                <bundledSignature>jdk-unsafe</bundledSignature>
+                                <bundledSignature>jdk-reflection</bundledSignature>
+                            -->
+                        </bundledSignatures>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                                <goal>testCheck</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>de.thetaphi</groupId>
+                <artifactId>forbiddenapis</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 
