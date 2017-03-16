@@ -89,11 +89,11 @@ frequencyAnalyzer.setWordFrequenciesToReturn(300);
 frequencyAnalyzer.setMinWordLength(4);
 frequencyAnalyzer.setStopWords(loadStopWords());
 
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/datarank.txt");
 final Dimension dimension = new Dimension(500, 312);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
-wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
+wordCloud.setBackground(new PixelBoundryBackground("backgrounds/whale_small.png"));
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
@@ -104,7 +104,7 @@ Example to generate a circular Word Cloud.
 
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/my_text_file.txt");
 final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
@@ -119,7 +119,7 @@ Example to generate a rectangle Word Cloud
 
 ```java
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/my_text_file.txt");
 final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
 wordCloud.setPadding(0);
@@ -137,7 +137,7 @@ Example using Linear Color Gradients
 final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 frequencyAnalyzer.setWordFrequenciesToReturn(500);
 frequencyAnalyzer.setMinWordLength(4); 
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/my_text_file.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/my_text_file.txt");
 final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
@@ -156,7 +156,7 @@ frequencyAnalyzer.setWordFrequenciesToReturn(600);
 frequencyAnalyzer.setMinWordLength(2);
 frequencyAnalyzer.setWordTokenizer(new ChineseWordTokenizer());
 
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/chinese_language.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/chinese_language.txt");
 final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
@@ -175,8 +175,8 @@ frequencyAnalyzer.setWordFrequenciesToReturn(750);
 frequencyAnalyzer.setMinWordLength(4);
 frequencyAnalyzer.setStopWords(loadStopWords());
 
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
-final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/new_york_positive.txt");
+final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load("text/new_york_negative.txt");
 final Dimension dimension = new Dimension(600, 600);
 final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
 wordCloud.setPadding(2);
@@ -195,8 +195,8 @@ frequencyAnalyzer.setWordFrequenciesToReturn(300);
 frequencyAnalyzer.setMinWordLength(5);
 frequencyAnalyzer.setStopWords(loadStopWords());
 
-final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
-final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
+final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load("text/new_york_positive.txt");
+final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load("text/new_york_negative.txt");
 final Dimension dimension = new Dimension(600, 386);
 final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT);
 
@@ -206,8 +206,8 @@ layeredWordCloud.setPadding(1, 1);
 layeredWordCloud.setFontOptions(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
 layeredWordCloud.setFontOptions(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
-layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
-layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
+layeredWordCloud.setBackground(0, new PixelBoundryBackground("backgrounds/cloud_bg.bmp"));
+layeredWordCloud.setBackground(1, new PixelBoundryBackground("backgrounds/cloud_fg.bmp"));
 
 layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xABEDFF), new Color(0x82E4FF), new Color(0x55D6FA)));
 layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0xFFFFFF), new Color(0xDCDDDE), new Color(0xCCCCCC)));
