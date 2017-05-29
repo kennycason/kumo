@@ -116,7 +116,7 @@ public class FrequencyAnalyzer {
         allFilters.add(new WordSizeFilter(minWordLength, maxWordLength));
         allFilters.addAll(filters);
         final CompositeFilter compositeFilter = new CompositeFilter(allFilters);
-        return  words.stream().filter(compositeFilter).collect(Collectors.toList());
+        return words.stream().filter(compositeFilter).collect(Collectors.toList());
     }
 
     private String normalize(final String word) {
