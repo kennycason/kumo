@@ -8,11 +8,8 @@
     <artifactId>kumo</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates
-        an image file without the need to create an applet (as many other libraries do).
-    </description>
+    <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).</description>
     <url>https://github.com/kennycason/kumo</url>
-
 
     <modules>
         <module>kumo-nlp</module>
@@ -21,7 +18,7 @@
         <module>kumo-cli</module>
     </modules>
 
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9</version>
 
     <properties>
         <!-- Maven specific settings -->
@@ -285,6 +282,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
