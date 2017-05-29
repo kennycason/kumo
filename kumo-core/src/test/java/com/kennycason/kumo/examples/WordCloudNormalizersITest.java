@@ -1,6 +1,7 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.CircleBackground;
@@ -11,6 +12,8 @@ import com.kennycason.kumo.nlp.normalize.StringToHexNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.IOException;
@@ -20,6 +23,8 @@ import java.util.List;
 /**
  * Created by kenny on 6/29/14.
  */
+@Category(IntegrationTest.class)
+@Ignore
 public class WordCloudNormalizersITest {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloudNormalizersITest.class);

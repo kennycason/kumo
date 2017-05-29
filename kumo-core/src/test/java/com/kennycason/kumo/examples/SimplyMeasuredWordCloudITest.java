@@ -1,6 +1,7 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
@@ -11,6 +12,8 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.IOException;
@@ -22,6 +25,8 @@ import java.util.Set;
 /**
  * Created by kenny on 2/23/16.
  */
+@Category(IntegrationTest.class)
+@Ignore
 public class SimplyMeasuredWordCloudITest {
     private static final Logger LOGGER = Logger.getLogger(SimplyMeasuredWordCloudITest.class);
 

@@ -1,9 +1,6 @@
 package com.kennycason.kumo.examples;
 
-import com.kennycason.kumo.CollisionMode;
-import com.kennycason.kumo.PolarBlendMode;
-import com.kennycason.kumo.PolarWordCloud;
-import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.*;
 import com.kennycason.kumo.bg.CircleBackground;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.bg.RectangleBackground;
@@ -16,7 +13,9 @@ import com.kennycason.kumo.nlp.tokenizer.ChineseWordTokenizer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.IOException;
@@ -29,6 +28,8 @@ import java.util.Set;
 /**
  * Created by kenny on 6/29/14.
  */
+@Category(IntegrationTest.class)
+@Ignore
 public class PolarWordCloudITest {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);

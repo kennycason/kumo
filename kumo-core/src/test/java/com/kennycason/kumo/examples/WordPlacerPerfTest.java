@@ -1,12 +1,15 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.placement.LinearWordPlacer;
 import com.kennycason.kumo.placement.RTreeWordPlacer;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.IOException;
@@ -39,6 +42,8 @@ import java.util.List;
  linear 19596ms to build
  rtree 16798ms to build
  */
+@Category(IntegrationTest.class)
+@Ignore
 public class WordPlacerPerfTest {
     private static final Logger LOGGER = Logger.getLogger(WordPlacerPerfTest.class);
 

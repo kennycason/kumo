@@ -1,6 +1,7 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.CircleBackground;
@@ -16,6 +17,8 @@ import com.kennycason.kumo.nlp.tokenizer.ChineseWordTokenizer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
+import org.junit.experimental.categories.Category;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -28,6 +31,8 @@ import java.util.List;
 /**
  * Created by kenny on 6/29/14.
  */
+@Category(IntegrationTest.class)
+@Ignore
 public class WordCloudITest {
 
     private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);

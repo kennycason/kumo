@@ -1,8 +1,14 @@
 package com.kennycason.kumo.cli;
 
+import com.kennycason.kumo.IntegrationTest;
+import org.junit.Ignore;
+import org.junit.experimental.categories.Category;
+
 /**
  * Created by kenny on 6/12/16.
  */
+@Category(IntegrationTest.class)
+@Ignore
 public class KumoCliITest {
 
     public void simple() {
