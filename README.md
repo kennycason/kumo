@@ -38,44 +38,44 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 
 <table>
 <tr><td>
-<img src="output/whale_wordcloud_large_impact.png?raw=true" width="300"/>
+<img src="kumo-core/output/whale_wordcloud_large_impact.png?raw=true" width="300"/>
 </td><td>
-<img src="output/simplymeasured.png?raw=true" width="300"/>
+<img src="kumo-core/output/simplymeasured.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/layered_haskell.png?raw=true" width="300"/>
+<img src="kumo-core/output/layered_haskell.png?raw=true" width="300"/>
 </td><td>
-<img src="output/layered_pho_bowl.png?raw=true" width="300"/>
+<img src="kumo-core/output/layered_pho_bowl.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/polar_newyork_rectangle_blur.png?raw=true" width="300"/>
+<img src="kumo-core/output/polar_newyork_rectangle_blur.png?raw=true" width="300"/>
 </td><td>
-<img src="output/polar_tide_chinese_vs_english2.png?raw=true" width="300"/>
+<img src="kumo-core/output/polar_tide_chinese_vs_english2.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/datarank_wordcloud_circle_sqrt_font.png?raw=true" width="300"/>
+<img src="kumo-core/output/datarank_wordcloud_circle_sqrt_font.png?raw=true" width="300"/>
 </td><td>
-<img src="output/chinese_language_circle.png?raw=true" width="300"/>
+<img src="kumo-core/output/chinese_language_circle.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/polar_newyork_whale_large_blur.png?raw=true" width="300"/>
+<img src="kumo-core/output/polar_newyork_whale_large_blur.png?raw=true" width="300"/>
 </td><td>
-<img src="output/layered_word_cloud.png?raw=true" width="300"/>
+<img src="kumo-core/output/layered_word_cloud.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/whale_wordcloud_large_angles.png?raw=true" width="300"/>
+<img src="kumo-core/output/whale_wordcloud_large_angles.png?raw=true" width="300"/>
 </td><td>
-<img src="output/wordcloud_rectangle.png?raw=true" width="300"/>
+<img src="kumo-core/output/wordcloud_rectangle.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/wordcloud_gradient_redbluegreen.png?raw=true" width="300"/>
+<img src="kumo-core/output/wordcloud_gradient_redbluegreen.png?raw=true" width="300"/>
 </td><td>
-<img src="output/wordcloud_gradient_whiteredblue.png?raw=true" width="300"/>
+<img src="kumo-core/output/wordcloud_gradient_whiteredblue.png?raw=true" width="300"/>
 </td></tr>
 <tr><td>
-<img src="output/bubbletext.png?raw=true" width="300"/>
+<img src="kumo-core/output/bubbletext.png?raw=true" width="300"/>
 </td><td>
-<img src="output/wordcloud_emoji.png?raw=true" width="300"/>
+<img src="kumo-core/output/wordcloud_emoji.png?raw=true" width="300"/>
 </td></tr>
 </table>
 
@@ -97,7 +97,7 @@ wordCloud.setBackground(new PixelBoundryBackground("backgrounds/whale_small.png"
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/whale_wordcloud_small.png");
+wordCloud.writeToFile("kumo-core/output/whale_wordcloud_small.png");
 ```
 
 Example to generate a circular Word Cloud.
@@ -112,7 +112,7 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
 wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
+wordCloud.writeToFile("kumo-core/output/datarank_wordcloud_circle_sqrt_font.png");
 ```
 
 Example to generate a rectangle Word Cloud
@@ -127,7 +127,7 @@ wordCloud.setBackground(new RectangleBackground(dimension));
 wordCloud.setColorPalette(buildRandomColorPalette(20));
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/wordcloud_rectangle.png");
+wordCloud.writeToFile("kumo-core/output/wordcloud_rectangle.png");
 ```
 
 
@@ -145,7 +145,7 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN));
 wordCloud.setFontScalar( new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/wordcloud_gradient_redbluegreen.png");
+wordCloud.writeToFile("kumo-core/output/wordcloud_gradient_redbluegreen.png");
 ```
 
 Example of tokenizing chinese text into a circle
@@ -164,7 +164,7 @@ wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setColorPalette(new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5)));
 wordCloud.setFontScalar(new SqrtFontScalar(12, 45));
 wordCloud.build(wordFrequencies);
-wordCloud.writeToFile("output/chinese_language_circle.png");
+wordCloud.writeToFile("kumo-core/output/chinese_language_circle.png");
 ```
 
 Create a polarity word cloud to contrast two datasets
@@ -183,7 +183,7 @@ wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
 wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies, wordFrequencies2);
-wordCloud.writeToFile("output/polar_newyork_circle_blur_sqrt_font.png");
+wordCloud.writeToFile("kumo-core/output/polar_newyork_circle_blur_sqrt_font.png");
 ```
 
 
@@ -217,7 +217,7 @@ layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
 
 layeredWordCloud.build(0, wordFrequencies);
 layeredWordCloud.build(1, wordFrequencies2);
-layeredWordCloud.writeToFile("output/layered_word_cloud.png");
+layeredWordCloud.writeToFile("kumo-core/output/layered_word_cloud.png");
 ```
 
 Create a ParallelLayeredWordCloud using 4 distinct Rectangles.<br>
