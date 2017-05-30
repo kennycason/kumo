@@ -15,10 +15,10 @@ public class StopWordFilter extends Filter {
         this.stopWords.addAll(stopWords);
     }
 
-    @Override
-    public boolean apply(String word) {
-        return !this.stopWords.contains(word.toLowerCase());
-    }
 
+    @Override
+    public boolean test(String word) {
+       return !this.stopWords.contains(word.toLowerCase());
+    }
 }
 

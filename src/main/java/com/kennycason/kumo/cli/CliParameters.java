@@ -1,6 +1,5 @@
 package com.kennycason.kumo.cli;
 
-import ch.lambdaj.Lambda;
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
@@ -338,7 +337,7 @@ public class CliParameters {
         public T convert(final String input) {
             final T value = fromString(input);
             if (value == null) {
-                throw new ParameterException("Input value [" + input + "] unknown. Valid values are: [" + Lambda.join(enumClass.getEnumConstants()) + "]");
+                throw new ParameterException("Input value [" + input + "] unknown. Valid values are: [" + enumClass.getEnumConstants().toString() + "]");
             }
             return value;
         }

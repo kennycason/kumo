@@ -8,7 +8,7 @@ public class UrlFilter extends Filter {
     public UrlFilter() {}
 
     @Override
-    public boolean apply(String word) {
+    public boolean test(String word) {
         return !word.startsWith("http://")
                 && word.startsWith("https://")
                 && word.startsWith("www.");
