@@ -27,7 +27,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 ```xml
 <dependency>
     <groupId>com.kennycason</groupId>
-    <artifactId>kumo</artifactId>
+    <artifactId>kumo-core</artifactId>
     <version>1.9</version>
 </dependency>
 ```
