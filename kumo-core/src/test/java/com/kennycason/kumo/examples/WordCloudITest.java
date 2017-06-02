@@ -18,6 +18,7 @@ import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.awt.*;
@@ -39,6 +40,7 @@ public class WordCloudITest {
 
     private static final Random RANDOM = new Random();
 
+    @Test
     public void simpleCircleTest() throws IOException {
         final List<WordFrequency> wordFrequencies = buildWordFrequencies().subList(0, 150);
         final Dimension dimension = new Dimension(600, 600);
@@ -51,6 +53,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/wordcloud_circle.png");
     }
 
+    @Test
     public void simpleRectangleTest() throws IOException {
         final List<WordFrequency> wordFrequencies = buildWordFrequencies().subList(0, 150);
         final Dimension dimension = new Dimension(600, 600);
@@ -63,6 +66,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/wordcloud_rectangle2.png");
     }
 
+    @Test
     public void loadWikipediaFromUrl() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(1000);
@@ -81,6 +85,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/wikipedia.png");
     }
 
+    @Test
     public void readCNN() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(500);
@@ -99,6 +104,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/cnn.png");
     }
 
+    @Test
     public void whaleImgLargeTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
@@ -118,6 +124,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/whale_wordcloud_large_impact.png");
     }
 
+    @Test
     public void whaleImgSmallTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(300);
@@ -135,6 +142,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/whale_wordcloud_small.png");
     }
 
+    @Test
     public void whaleImgSmallAnglesTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(100);
@@ -153,6 +161,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/whale_wordcloud_small_angles4.png");
     }
 
+    @Test
     public void whaleImgLargeAnglesTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
@@ -171,6 +180,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/whale_wordcloud_large_angles2.png");
     }
 
+    @Test
     public void datarankCircle() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);
@@ -190,6 +200,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
     }
 
+    @Test
     public void datarankCircleLarge() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);
@@ -209,6 +220,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/datarank_wordcloud_circle_large2.png");
     }
 
+    @Test
     public void chineseCircle() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
@@ -228,6 +240,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/chinese_language_circle.png");
     }
 
+    @Test
     public void datarankEarthImage() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(300);
@@ -248,6 +261,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/earth_image_word_cloud_different_fonts.png");
     }
 
+    @Test
     public void catImage() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(300);
@@ -270,7 +284,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/tidy_cat_litter_black_cat.png");
     }
 
-
+    @Test
     public void datarankCode() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
@@ -289,6 +303,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("/tmp/datarank_code.png");
     }
 
+    @Test
     public void dragonChinese() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordTokenizer(new ChineseWordTokenizer());
@@ -309,6 +324,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/dragon_chinese.png");
     }
 
+    @Test
     public void largeCircleTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(5000);
@@ -325,7 +341,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/wordcloud_large_code_circle.png");
     }
 
-    
+    @Test
     public void matchOnlineExample() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
@@ -344,7 +360,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/wordcloud_match_online_example.png");
     }
 
-    
+    @Test
     public void anotherRectangleTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(250);
@@ -361,9 +377,9 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/random_sample.png");
     }
 
-    private static ColorPalette buildRandomColorPalette(int n) {
+    private static ColorPalette buildRandomColorPalette(final int n) {
         final Color[] colors = new Color[n];
-        for(int i = 0; i < colors.length; i++) {
+        for (int i = 0; i < colors.length; i++) {
             colors[i] = new Color(RANDOM.nextInt(230) + 25, RANDOM.nextInt(230) + 25, RANDOM.nextInt(230) + 25);
         }
         return new ColorPalette(colors);
@@ -372,7 +388,7 @@ public class WordCloudITest {
     private static List<WordFrequency> buildWordFrequencies() throws IOException {
         final List<String> pokemonNames = getPokemonNames();
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
-        for(String pokemon : pokemonNames) {
+        for (final String pokemon : pokemonNames) {
             wordFrequencies.add(new WordFrequency(pokemon, RANDOM.nextInt(100) + 1));
         }
         return wordFrequencies;
@@ -387,7 +403,7 @@ public class WordCloudITest {
             final List<String> lines = IOUtils.readLines(getInputStream("text/stop_words.txt"));
             return new HashSet<>(lines);
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
         return Collections.emptySet();
@@ -396,4 +412,5 @@ public class WordCloudITest {
     private static InputStream getInputStream(final String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
     }
+
 }

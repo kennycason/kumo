@@ -1,7 +1,6 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
-import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
@@ -12,8 +11,7 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
+import org.junit.Test;
 
 import java.awt.*;
 import java.io.IOException;
@@ -26,12 +24,11 @@ import java.util.Set;
 /**
  * Created by kenny on 7/5/14.
  */
-@Category(IntegrationTest.class)
-@Ignore
 public class LayeredWordCloudITest {
 
     private static final Logger LOGGER = Logger.getLogger(LayeredWordCloudITest.class);
 
+    @Test
     public void layeredExample() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(300);
@@ -65,6 +62,7 @@ public class LayeredWordCloudITest {
         layeredWordCloud.writeToFile("output/layered_word_cloud.png");
     }
 
+    @Test
     public void layeredHaskellExample() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(300);
@@ -99,7 +97,7 @@ public class LayeredWordCloudITest {
         layeredWordCloud.writeToFile("output/layered_haskell.png");
     }
 
-
+    @Test
     public void layeredPhoBowl() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(1000);

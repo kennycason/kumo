@@ -1,15 +1,13 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
-import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.placement.LinearWordPlacer;
 import com.kennycason.kumo.placement.RTreeWordPlacer;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
+import org.junit.Test;
 
 import java.awt.*;
 import java.io.IOException;
@@ -42,14 +40,12 @@ import java.util.List;
  linear 19596ms to build
  rtree 16798ms to build
  */
-@Category(IntegrationTest.class)
-@Ignore
 public class WordPlacerPerfTest {
     private static final Logger LOGGER = Logger.getLogger(WordPlacerPerfTest.class);
 
     private static final int FREQUENCIES_TO_PLACE = 500;
 
-    
+    @Test
     public void linearPlacement() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(FREQUENCIES_TO_PLACE);
@@ -64,7 +60,7 @@ public class WordPlacerPerfTest {
 
     }
 
-    
+    @Test
     public void rTreePlacement() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(FREQUENCIES_TO_PLACE);
@@ -81,4 +77,5 @@ public class WordPlacerPerfTest {
     private static InputStream getInputStream(final String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
-import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
@@ -12,8 +11,7 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
+import org.junit.Test;
 
 import java.awt.*;
 import java.io.IOException;
@@ -25,11 +23,10 @@ import java.util.Set;
 /**
  * Created by kenny on 2/23/16.
  */
-@Category(IntegrationTest.class)
-@Ignore
 public class SimplyMeasuredWordCloudITest {
     private static final Logger LOGGER = Logger.getLogger(SimplyMeasuredWordCloudITest.class);
 
+    @Test
     public void simplymeasured() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(1000);
@@ -52,7 +49,6 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
         layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
 
-
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-1.png")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-2.png")));
         layeredWordCloud.setBackground(2, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-3.png")));
@@ -64,6 +60,10 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 40));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
         layeredWordCloud.setFontScalar(2, new SqrtFontScalar(10, 40));
+
+//        layeredWordCloud.setWordPlacer(0, new LinearWordPlacer());
+//        layeredWordCloud.setWordPlacer(1, new LinearWordPlacer());
+//        layeredWordCloud.setWordPlacer(2, new LinearWordPlacer());
 
         final long startTime = System.currentTimeMillis();
         layeredWordCloud.build(0, wordFrequencies);

@@ -1,7 +1,6 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
-import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
@@ -12,8 +11,7 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
+import org.junit.Test;
 
 import java.awt.*;
 import java.io.IOException;
@@ -25,14 +23,13 @@ import java.util.Set;
 /**
  * Created by kenny on 2/24/16.
  */
-@Category(IntegrationTest.class)
-@Ignore
 public class DataRankWordCloudITest {
     private static final Logger LOGGER = Logger.getLogger(DataRankWordCloudITest.class);
 
+    @Test
     public void datarank() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequenciesToReturn(1000);
+        frequencyAnalyzer.setWordFrequenciesToReturn(20);
         frequencyAnalyzer.setMinWordLength(2);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
@@ -62,7 +59,7 @@ public class DataRankWordCloudITest {
         layeredWordCloud.build(1, wordFrequencies);
 
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        layeredWordCloud.writeToFile("output/datarank.png");
+        layeredWordCloud.writeToFile("output/datarank2.png");
     }
 
     private static Set<String> loadStopWords() throws IOException {

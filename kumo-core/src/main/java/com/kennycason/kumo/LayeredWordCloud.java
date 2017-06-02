@@ -3,6 +3,7 @@ package com.kennycason.kumo;
 import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
+import com.kennycason.kumo.placement.RectangleWordPlacer;
 import com.kennycason.kumo.wordstart.WordStartStrategy;
 import org.apache.log4j.Logger;
 import com.kennycason.kumo.bg.Background;
@@ -69,6 +70,10 @@ public class LayeredWordCloud {
         this.wordClouds.get(layer).setAngleGenerator(angleGenerator);
     }
 
+    public void setWordPlacer(final int layer, final RectangleWordPlacer wordPlacer) {
+        this.wordClouds.get(layer).setWordPlacer(wordPlacer);
+    }
+
     public void setBackgroundColor(final Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
@@ -79,7 +84,7 @@ public class LayeredWordCloud {
         graphics.setColor(backgroundColor);
         graphics.fillRect(0, 0, dimension.width, dimension.height);
 
-        for (WordCloud wordCloud : wordClouds) {
+        for (final WordCloud wordCloud : wordClouds) {
             graphics.drawImage(wordCloud.getBufferedImage(), 0, 0, null);
         }
 
@@ -108,7 +113,7 @@ public class LayeredWordCloud {
             LOGGER.info("Saving Layered WordCloud to " + outputFileName);
             ImageIO.write(getBufferedImage(), extension, new File(outputFileName));
 
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new KumoException(e);
         }
     }

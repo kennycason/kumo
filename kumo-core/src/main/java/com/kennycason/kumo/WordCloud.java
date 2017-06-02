@@ -59,7 +59,7 @@ public class WordCloud {
     
     public WordCloud(final Dimension dimension, final CollisionMode collisionMode) {
         this.collisionMode = collisionMode;
-        switch(collisionMode) {
+        switch (collisionMode) {
             case PIXEL_PERFECT:
                 this.padder = new WordPixelPadder();
                 this.collisionChecker = new RectanglePixelCollisionChecker();
@@ -79,22 +79,23 @@ public class WordCloud {
     }
 
     public void build(final List<WordFrequency> wordFrequencies) {
+        Collections.sort(wordFrequencies);
+
         wordPlacer.reset();
         skipped.clear();
 
-        Collections.sort(wordFrequencies);
         int currentWord = 1;
         for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
             final boolean placed = place(word, point);
 
             if (placed) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
                 }
             } else {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                if (LOGGER.isInfoEnabled()) {
+                    LOGGER.info("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
                 }
                 skipped.add(word);
             }
@@ -251,9 +252,10 @@ public class WordCloud {
         return word;
     }
 
-    private int maxFrequency(final Collection<WordFrequency> wordFrequencies) {
+    private static int maxFrequency(final List<WordFrequency> wordFrequencies) {
         if (wordFrequencies.isEmpty()) { return 1; }
-        return  wordFrequencies.stream().max(WordFrequency::compareTo).get().getFrequency();
+
+        return wordFrequencies.get(0).getFrequency();
     }
 
     public void setBackgroundColor(final Color backgroundColor) {

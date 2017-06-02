@@ -24,7 +24,7 @@ public class WordFrequency implements Comparable<WordFrequency> {
 
     @Override
     public int compareTo(final WordFrequency wordFrequency) {
-        return wordFrequency.frequency - frequency;
+        return  wordFrequency.frequency - frequency;
     }
 
     @Override

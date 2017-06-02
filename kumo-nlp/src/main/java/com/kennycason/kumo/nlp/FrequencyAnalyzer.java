@@ -15,10 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -37,7 +34,7 @@ public class FrequencyAnalyzer {
 
     public static final int DEFAULT_WORD_FREQUENCIES_TO_RETURN = 50;
 
-    public static final long DEFAULT_URL_LOAD_TIMEOUT = 3000; // 3 sec
+    public static final long DEFAULT_URL_LOAD_TIMEOUT = 3000L; // 3 sec
 
     private final Set<String> stopWords = new HashSet<>();
 
@@ -63,8 +60,8 @@ public class FrequencyAnalyzer {
         this.normalizers.add(new LowerCaseNormalizer());
     }
 
-    public List<WordFrequency> load(final InputStream fileInputStream) throws IOException {
-        return load(IOUtils.readLines(fileInputStream, characterEncoding));
+    public List<WordFrequency> load(final InputStream inputStream) throws IOException {
+        return load(IOUtils.readLines(inputStream, characterEncoding));
     }
 
     public List<WordFrequency> load(final File file) throws IOException {
@@ -90,8 +87,8 @@ public class FrequencyAnalyzer {
         return takeTopFrequencies(wordFrequencies);
     }
     
-    public List<WordFrequency> loadWordFrequencies(final List<WordFrequency> wflist) {
-        return takeTopFrequencies(wflist);
+    public List<WordFrequency> loadWordFrequencies(final List<WordFrequency> wordFrequencies) {
+        return takeTopFrequencies(wordFrequencies);
     }
     
     private Map<String, Integer> buildWordFrequencies(final List<String> texts, final WordTokenizer tokenizer) {
@@ -116,12 +113,15 @@ public class FrequencyAnalyzer {
         allFilters.add(new WordSizeFilter(minWordLength, maxWordLength));
         allFilters.addAll(filters);
         final CompositeFilter compositeFilter = new CompositeFilter(allFilters);
-        return words.stream().filter(compositeFilter).collect(Collectors.toList());
+
+        return words.stream()
+                    .filter(compositeFilter)
+                    .collect(Collectors.toList());
     }
 
     private String normalize(final String word) {
         String normalized = word;
-        for (Normalizer normalizer : normalizers) {
+        for (final Normalizer normalizer : normalizers) {
             normalized = normalizer.normalize(normalized);
         }
         return normalized;
@@ -130,8 +130,11 @@ public class FrequencyAnalyzer {
     private List<WordFrequency> takeTopFrequencies(final Collection<WordFrequency> wordCloudEntities) {
         if (wordCloudEntities.isEmpty()) { return Collections.emptyList(); }
 
-        final List<WordFrequency> sorted =  wordCloudEntities.stream().sorted(WordFrequency::compareTo).collect(Collectors.toList());
-        Collections.reverse(sorted);
+        final List<WordFrequency> sorted = wordCloudEntities
+                .stream()
+                .sorted(WordFrequency::compareTo)
+                .collect(Collectors.toList());
+
         return sorted.subList(0, Math.min(sorted.size(), wordFrequenciesToReturn));
     }
 

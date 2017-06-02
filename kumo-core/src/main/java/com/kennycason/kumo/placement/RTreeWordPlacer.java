@@ -2,6 +2,7 @@ package com.kennycason.kumo.placement;
 
 import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.RTree;
+import com.github.davidmoten.rtree.geometry.Geometries;
 import com.github.davidmoten.rtree.geometry.Rectangle;
 import com.kennycason.kumo.Word;
 import rx.Observable;
@@ -15,12 +16,12 @@ public class RTreeWordPlacer implements RectangleWordPlacer {
 
     @Override
     public void reset() {
-        placedWordRTree = RTree.star().create();
+        placedWordRTree = RTree.maxChildren(4).create();
     }
 
     @Override
     public boolean place(final Word word) {
-        final Rectangle wordRectangle = Rectangle.create(
+        final Rectangle wordRectangle = Geometries.rectangle(
                 word.getPosition().getX(),
                 word.getPosition().getY(),
                 word.getPosition().getX() + word.getDimension().getWidth(),

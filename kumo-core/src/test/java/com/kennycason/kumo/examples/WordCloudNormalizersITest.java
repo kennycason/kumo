@@ -1,7 +1,6 @@
 package com.kennycason.kumo.examples;
 
 import com.kennycason.kumo.CollisionMode;
-import com.kennycason.kumo.IntegrationTest;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.CircleBackground;
@@ -12,8 +11,7 @@ import com.kennycason.kumo.nlp.normalize.StringToHexNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
+import org.junit.Test;
 
 import java.awt.*;
 import java.io.IOException;
@@ -23,13 +21,10 @@ import java.util.List;
 /**
  * Created by kenny on 6/29/14.
  */
-@Category(IntegrationTest.class)
-@Ignore
 public class WordCloudNormalizersITest {
-
     private static final Logger LOGGER = Logger.getLogger(WordCloudNormalizersITest.class);
 
-    
+    @Test
     public void upperCaseNormalizer() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);
@@ -48,7 +43,7 @@ public class WordCloudNormalizersITest {
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_uppercase.png");
     }
 
-    
+    @Test
     public void upsideDownNormalizer() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);
@@ -67,7 +62,7 @@ public class WordCloudNormalizersITest {
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_upsidedown.png");
     }
 
-    
+    @Test
     public void hexStringNormalizer() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);
@@ -86,7 +81,7 @@ public class WordCloudNormalizersITest {
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_hex.png");
     }
 
-    
+    @Test
     public void noNormalizationOrFilters() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);
@@ -106,7 +101,7 @@ public class WordCloudNormalizersITest {
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_normalization_or_filter.png");
     }
 
-    
+    @Test
     public void bubbleText() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(750);

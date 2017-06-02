@@ -7,6 +7,7 @@
 .settings/*
 bin
 /target
+*/target/*
 *.log
 .idea/*
 *.iml
