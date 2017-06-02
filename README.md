@@ -24,10 +24,21 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 
 ### Available from Maven Central
 
+*Note* Currently Kumo is being refactored into modules. For now just include `com.kennycason:kumo:1.8`
+
 ```xml
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
+    <version>1.9</version>
+</dependency>
+```
+
+Include `kumo-tokenizers` if you want Chinese serialization. More languages to come.
+```xml
+<dependency>
+    <groupId>com.kennycason</groupId>
+    <artifactId>kumo-tokenizers</artifactId>
     <version>1.9</version>
 </dependency>
 ```
