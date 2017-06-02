@@ -19,11 +19,11 @@ public class ParenthesisSerializer {
     public static <T> String serialize(final Collection<T> collection) {
         if (collection.isEmpty()) { return ""; }
 
-        String joined = collection.stream()
-                .map(i -> i.toString())
-                .collect(Collectors.joining("),("));
+        final String joined = collection.stream()
+                                        .map(i -> i.toString())
+                                        .collect(Collectors.joining("),("));
 
-        return "(" + joined + ")";
+        return '(' + joined + ')';
     }
 
     public static List<String> deserialize(final String value) {

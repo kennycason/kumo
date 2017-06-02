@@ -4,6 +4,8 @@ Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Ku
 
 Please feel free to jump in and help improve Kumo! There are many places for performance optimization in Kumo!
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo)<br/>
+
 ### Current Features
 
 - Draw Rectangle, Circle or Image Overlay word clouds. Image Overlay will draw words over all non-transparent pixels.
@@ -26,7 +28,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
-    <version>1.8</version>
+    <version>1.9</version>
 </dependency>
 ```
 
@@ -382,3 +384,8 @@ Create a layered word cloud
 ```
 kumo --input "https://www.haskell.org/, https://en.wikipedia.org/wiki/Haskell_(programming_language)" --output "/tmp/nintendo_vs_playstation.png" --type layered --background "https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_1.bmp,https://raw.githubusercontent.com/kennycason/kumo/master/src/test/resources/backgrounds/haskell_2.bmp" --color "(0xFA6C07),(0xFF7614),(0xFF8936)|(0x080706),(0x3B3029),(0x47362A)"
 ```
+
+
+### Contributing
+
+My primary IDE of choice is IntelliJ due to their robust tooling as well as code analysis/inspections. If using [IntelliJ IDEA](https://www.jetbrains.com/idea/), I recommend importing `KumoIntelliJInspections.xml`. I am also consiering adding Checkstyle support.

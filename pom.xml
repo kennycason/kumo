@@ -6,19 +6,18 @@
 
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
+    <version>1.9</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).</description>
     <url>https://github.com/kennycason/kumo</url>
 
     <modules>
-        <module>kumo-nlp</module>
-        <module>kumo-core</module>
         <module>kumo-api</module>
+        <module>kumo-core</module>
         <module>kumo-cli</module>
+        <module>kumo-tokenizers</module>
     </modules>
-
-    <version>1.9</version>
 
     <properties>
         <!-- Maven specific settings -->
@@ -30,11 +29,31 @@
         <maven.compile.encoding>>${encoding}</maven.compile.encoding>
         <maven.compiler.target>${java.target}</maven.compiler.target>
 
-        <cli.main.class>com.kennycason.kumo.cli.KumoCli</cli.main.class>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.kennycason</groupId>
+                <artifactId>kumo-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kennycason</groupId>
+                <artifactId>kumo-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kennycason</groupId>
+                <artifactId>kumo-cli</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kennycason</groupId>
+                <artifactId>kumo-tokenizers</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
@@ -209,79 +228,12 @@
                     <configuration>
                         <argLine>-Xms256m -Xmx768m -XX:+CMSClassUnloadingEnabled -Dfile.encoding=UTF-8</argLine>
                         <excludes>
-                            <exclude>**/examples/**</exclude>
-                            <exclude>**/ITest.java</exclude>
+                            <exclude>**ITest.java</exclude>
                         </excludes>
                     </configuration>
                 </plugin>
-                <!-- for cli executable -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.4.3</version>
-                    <configuration>
-                        <transformers>
-                            <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <manifestEntries>
-                                    <Main-Class>${cli.main.class}</Main-Class>
-                                </manifestEntries>
-                            </transformer>
-                        </transformers>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>shade</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <!-- A maven plugin to check for certain code quality rules -->
-                <plugin>
-                    <groupId>de.thetaphi</groupId>
-                    <artifactId>forbiddenapis</artifactId>
-                    <version>2.3</version>
-                    <configuration>
-                        <!--
-                          if the used Java version is too new,
-                          don't fail, just do nothing:
-                        -->
-                        <failOnUnsupportedJava>false</failOnUnsupportedJava>
-                        <bundledSignatures>
-                            <!--
-                              This will automatically choose the right
-                              signatures based on 'maven.compiler.target':
-                            -->
-                            <bundledSignature>jdk-deprecated</bundledSignature>
-                            <bundledSignature>jdk-internal</bundledSignature>
-                            <!-- disallow undocumented classes like sun.misc.Unsafe: -->
-                            <bundledSignature>jdk-non-portable</bundledSignature>
-                            <!-- interesting, yet inactive for the moment:
-                                <bundledSignature>jdk-unsafe</bundledSignature>
-                                <bundledSignature>jdk-reflection</bundledSignature>
-                            -->
-                        </bundledSignatures>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                                <goal>testCheck</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>de.thetaphi</groupId>
-                <artifactId>forbiddenapis</artifactId>
-            </plugin>
-        </plugins>
     </build>
 
 </project>

@@ -1,16 +1,13 @@
 package com.kennycason.kumo.cli;
 
-import com.kennycason.kumo.IntegrationTest;
-import org.junit.Ignore;
-import org.junit.experimental.categories.Category;
+import org.junit.Test;
 
 /**
  * Created by kenny on 6/12/16.
  */
-@Category(IntegrationTest.class)
-@Ignore
 public class KumoCliITest {
 
+    @Test
     public void simple() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -18,6 +15,7 @@ public class KumoCliITest {
         });
     }
 
+    @Test
     public void stopwords() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -26,6 +24,7 @@ public class KumoCliITest {
         });
     }
 
+    @Test
     public void wordCount() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -34,6 +33,7 @@ public class KumoCliITest {
         });
     }
 
+    @Test
     public void widthAndHeight() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -43,6 +43,7 @@ public class KumoCliITest {
         });
     }
 
+    @Test
     public void randomWordStart() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -51,6 +52,7 @@ public class KumoCliITest {
         });
     }
 
+    @Test
     public void font() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -63,7 +65,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void normalizer() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -72,7 +74,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void backgroundImage() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -83,7 +85,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void colorRgb() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -92,7 +94,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void colorRgbHex() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -101,7 +103,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void colorHex() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo",
@@ -110,7 +112,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void chinese() {
         KumoCli.main(new String[] {
                 "--input", "https://zh.wikipedia.org/wiki/%E4%BB%BB%E5%A4%A9%E5%A0%82",
@@ -119,7 +121,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void polar() {
         KumoCli.main(new String[] {
                 "--input", "https://en.wikipedia.org/wiki/Nintendo, https://en.wikipedia.org/wiki/PlayStation",
@@ -129,7 +131,7 @@ public class KumoCliITest {
         });
     }
 
-    
+    @Test
     public void layered() {
         KumoCli.main(new String[] {
                 "--input", "https://www.haskell.org/, https://en.wikipedia.org/wiki/Haskell_(programming_language)",

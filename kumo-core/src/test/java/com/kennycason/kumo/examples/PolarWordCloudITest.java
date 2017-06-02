@@ -12,8 +12,6 @@ import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
-import com.kennycason.kumo.nlp.tokenizer.ChineseWordTokenizer;
-import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -98,36 +96,6 @@ public class PolarWordCloudITest {
     }
 
     @Test
-    public void chineseVsEnglishTideComments() throws IOException {
-        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequenciesToReturn(750);
-        frequencyAnalyzer.setMinWordLength(3);
-        frequencyAnalyzer.setStopWords(loadStopWords());
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/english_tide.txt"));
-
-        final FrequencyAnalyzer chineseFrequencyAnalyzer = new FrequencyAnalyzer();
-        chineseFrequencyAnalyzer.setWordFrequenciesToReturn(750);
-        chineseFrequencyAnalyzer.setMinWordLength(2);
-        chineseFrequencyAnalyzer.setWordTokenizer(new ChineseWordTokenizer());
-        final List<WordFrequency> wordFrequencies2 = chineseFrequencyAnalyzer.load(getInputStream("text/chinese_tide.txt"));
-
-        final Dimension dimension = new Dimension(800, 600);
-        final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
-        wordCloud.setPadding(2);
-        wordCloud.setBackground(new RectangleBackground(dimension));
-        wordCloud.setFontScalar(new SqrtFontScalar(10, 70));
-
-        final ColorPalette colorPalette = new ColorPalette(new Color(0xD5CFFA), new Color(0xBBB1FA), new Color(0x9A8CF5), new Color(0x806EF5));
-        final ColorPalette colorPalette2 = new ColorPalette(new Color(0xFA8E8E), new Color(0xF77979), new Color(0xF55F5F), new Color(0xF24949));
-        wordCloud.setColorPalette(colorPalette);
-        wordCloud.setColorPalette2(colorPalette2);
-
-        final long startTime = System.currentTimeMillis();
-        wordCloud.build(wordFrequencies, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        wordCloud.writeToFile("output/polar_tide_chinese_vs_english2.png");
-    }
-
     public void tidyCatLitter() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(400);

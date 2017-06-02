@@ -1,6 +1,5 @@
-package com.kennycason.kumo.nlp;
+package com.kennycason.kumo.nlp.tokenizers;
 
-import com.kennycason.kumo.nlp.tokenizer.ChineseWordTokenizer;
 import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
 import org.apache.log4j.Logger;
 import org.junit.Test;

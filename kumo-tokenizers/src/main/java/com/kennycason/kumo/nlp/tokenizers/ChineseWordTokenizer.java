@@ -1,5 +1,6 @@
-package com.kennycason.kumo.nlp.tokenizer;
+package com.kennycason.kumo.nlp.tokenizers;
 
+import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
 import org.languagetool.language.Chinese;
 import org.languagetool.tokenizers.Tokenizer;
 
@@ -7,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChineseWordTokenizer implements WordTokenizer {
-
     private static final Chinese CHINESE = new Chinese();
-
-    public ChineseWordTokenizer() {}
 
     @Override
     public List<String> tokenize(final String sentence) {

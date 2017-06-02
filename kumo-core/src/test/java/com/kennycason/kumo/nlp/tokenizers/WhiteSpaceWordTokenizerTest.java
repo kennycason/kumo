@@ -1,4 +1,4 @@
-package com.kennycason.kumo.nlp;
+package com.kennycason.kumo.nlp.tokenizers;
 
 import com.kennycason.kumo.nlp.tokenizer.WhiteSpaceWordTokenizer;
 import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;

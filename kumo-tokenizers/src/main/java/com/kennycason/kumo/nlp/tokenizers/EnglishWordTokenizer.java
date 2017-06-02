@@ -1,5 +1,6 @@
-package com.kennycason.kumo.nlp.tokenizer;
+package com.kennycason.kumo.nlp.tokenizers;
 
+import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
 import org.languagetool.language.English;
 import org.languagetool.tokenizers.Tokenizer;
 
@@ -7,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnglishWordTokenizer implements WordTokenizer {
-
     private static final English ENGLISH = new English();
 
     public EnglishWordTokenizer() {}

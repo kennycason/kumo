@@ -11,21 +11,27 @@
 
     <artifactId>kumo-cli</artifactId>
 
+    <properties>
+        <cli.main.class>com.kennycason.kumo.cli.KumoCli</cli.main.class>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.kennycason</groupId>
-            <artifactId>kumo-api</artifactId>
-            <version>1.9</version>
+            <artifactId>kumo-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.kennycason</groupId>
-            <artifactId>kumo-nlp</artifactId>
-            <version>1.9</version>
-        </dependency>  <dependency>
-            <groupId>com.kennycason</groupId>
-            <artifactId>kumo-core</artifactId>
-            <version>1.9</version>
+            <artifactId>kumo-tokenizers</artifactId>
         </dependency>
+
+        <!-- third party -->
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+        </dependency>
+
+        <!-- test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -51,9 +57,30 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
+
+            <!-- for cli executable -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>${cli.main.class}</Main-Class>
+                            </manifestEntries>
+                        </transformer>
+                    </transformers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
