@@ -4,7 +4,7 @@ Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Ku
 
 Please feel free to jump in and help improve Kumo! There are many places for performance optimization in Kumo!
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo)<br/>
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo-core/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo-core)<br/>
 
 ### Current Features
 
