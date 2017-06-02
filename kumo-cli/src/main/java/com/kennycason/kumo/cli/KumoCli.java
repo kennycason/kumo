@@ -70,12 +70,12 @@ public class KumoCli {
 
     private void printVersion() {
         try {
-            final Enumeration<URL> resources = getClass()
-                    .getClassLoader() .getResources("META-INF/MANIFEST.MF");
+            final Enumeration<URL> resources = getClass().getClassLoader().getResources("META-INF/MANIFEST.MF");
             while (resources.hasMoreElements()) {
                 final Manifest manifest = new Manifest(resources.nextElement().openStream());
-                if (isNotBlank(manifest.getMainAttributes().getValue("Implementation-Version"))) {
-                    System.out.println("Kumo Version: " + manifest.getMainAttributes().getValue("Implementation-Version"));
+                final String version = manifest.getMainAttributes().getValue("Implementation-Version");
+                if (isNotBlank(version)) {
+                    System.out.println("Kumo Version: " + version);
                     return;
                 }
             }
