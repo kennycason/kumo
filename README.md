@@ -24,8 +24,6 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 
 ### Available from Maven Central
 
-*Note* Currently Kumo is being refactored into modules. For now just include `com.kennycason:kumo:1.8`
-
 ```xml
 <dependency>
     <groupId>com.kennycason</groupId>
