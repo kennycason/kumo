@@ -29,7 +29,7 @@ public class DataRankWordCloudITest {
     @Test
     public void datarank() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
-        frequencyAnalyzer.setWordFrequenciesToReturn(20);
+        frequencyAnalyzer.setWordFrequenciesToReturn(200);
         frequencyAnalyzer.setMinWordLength(2);
         frequencyAnalyzer.setStopWords(loadStopWords());
 
@@ -59,7 +59,7 @@ public class DataRankWordCloudITest {
         layeredWordCloud.build(1, wordFrequencies);
 
         LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        layeredWordCloud.writeToFile("output/datarank2.png");
+        layeredWordCloud.writeToFile("output/datarank20.png");
     }
 
     private static Set<String> loadStopWords() throws IOException {

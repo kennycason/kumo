@@ -98,10 +98,8 @@ public class FrequencyAnalyzer {
 
             for (final String word : words) {
                 final String normalized = normalize(word);
-                if (!wordFrequencies.containsKey(normalized)) {
-                    wordFrequencies.put(normalized, 1);
-                }
-                wordFrequencies.put(normalized, wordFrequencies.get(normalized) + 1);
+                wordFrequencies.put(normalized,
+                                    wordFrequencies.getOrDefault(normalized, 0) + 1);
             }
         }
         return wordFrequencies;
