@@ -135,7 +135,7 @@ final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
 wordCloud.setPadding(0);
 wordCloud.setBackground(new RectangleBackground(dimension));
-wordCloud.setColorPalette(buildRandomColorPalette(20));
+wordCloud.setColorPalette(new Color[] { Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE });
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
 wordCloud.writeToFile("kumo-core/output/wordcloud_rectangle.png");
@@ -153,7 +153,8 @@ final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
 wordCloud.setPadding(2);
 wordCloud.setBackground(new CircleBackground(300));
-wordCloud.setColorPalette(new LinearGradientColorPalette(Color.RED, 30, Color.BLUE, 30 , Color.GREEN));
+// colors followed by and steps between
+wordCloud.setColorPalette(new LinearGradientColorPalette(Color.RED, Color.BLUE, Color.GREEN, 30, 30));
 wordCloud.setFontScalar( new SqrtFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
 wordCloud.writeToFile("kumo-core/output/wordcloud_gradient_redbluegreen.png");
