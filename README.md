@@ -135,7 +135,7 @@ final Dimension dimension = new Dimension(600, 600);
 final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
 wordCloud.setPadding(0);
 wordCloud.setBackground(new RectangleBackground(dimension));
-wordCloud.setColorPalette(new Color[] { Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE });
+wordCloud.setColorPalette(Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE);
 wordCloud.setFontScalar(new LinearFontScalar(10, 40));
 wordCloud.build(wordFrequencies);
 wordCloud.writeToFile("kumo-core/output/wordcloud_rectangle.png");
