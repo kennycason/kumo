@@ -1,14 +1,15 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
-import com.kennycason.kumo.placement.RectangleWordPlacer;
-import com.kennycason.kumo.wordstart.WordStartStrategy;
-import org.apache.log4j.Logger;
-import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.palette.ColorPalette;
+import com.kennycason.kumo.placement.RectangleWordPlacer;
+import com.kennycason.kumo.wordstart.WordStartStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,8 +24,7 @@ import java.util.Set;
  * Created by kenny on 7/5/14.
  */
 public class LayeredWordCloud {
-
-    private static final Logger LOGGER = Logger.getLogger(LayeredWordCloud.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LayeredWordCloud.class);
 
     private final Dimension dimension;
 
@@ -110,7 +110,7 @@ public class LayeredWordCloud {
             extension = outputFileName.substring(i + 1);
         }
         try {
-            LOGGER.info("Saving Layered WordCloud to " + outputFileName);
+            LOGGER.info("Saving Layered WordCloud to: {}", outputFileName);
             ImageIO.write(getBufferedImage(), extension, new File(outputFileName));
 
         } catch (final IOException e) {

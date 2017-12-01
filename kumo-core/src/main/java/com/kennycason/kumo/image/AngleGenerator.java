@@ -6,7 +6,6 @@ import java.util.Random;
  * Created by kenny on 7/3/14.
  */
 public class AngleGenerator {
-
     private static final Random RANDOM = new Random();
 
     private final int steps;

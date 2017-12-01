@@ -20,7 +20,7 @@ public class ParenthesisSerializer {
         if (collection.isEmpty()) { return ""; }
 
         final String joined = collection.stream()
-                                        .map(i -> i.toString())
+                                        .map(Object::toString)
                                         .collect(Collectors.joining("),("));
 
         return '(' + joined + ')';

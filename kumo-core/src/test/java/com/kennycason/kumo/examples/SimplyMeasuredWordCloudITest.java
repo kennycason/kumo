@@ -10,7 +10,7 @@ import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.awt.*;
@@ -24,7 +24,7 @@ import java.util.Set;
  * Created by kenny on 2/23/16.
  */
 public class SimplyMeasuredWordCloudITest {
-    private static final Logger LOGGER = Logger.getLogger(SimplyMeasuredWordCloudITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimplyMeasuredWordCloudITest.class);
 
     @Test
     public void simplymeasured() throws IOException {
@@ -70,7 +70,7 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.build(1, wordFrequencies2);
         layeredWordCloud.build(2, wordFrequencies3);
 
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         layeredWordCloud.writeToFile("output/simplymeasured.png");
     }
 

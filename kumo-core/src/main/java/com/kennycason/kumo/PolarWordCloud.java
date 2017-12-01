@@ -12,7 +12,6 @@ import java.util.Random;
  * Created by kenny on 6/29/14.
  */
 public class PolarWordCloud extends WordCloud {
-
     private static final Random RANDOM = new Random();
 
     private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(new Color(0x1BE000), new Color(0x1AC902), new Color(0x15B000), new Color(0x129400), new Color(0x0F7A00), new Color(0x0B5E00));

@@ -6,7 +6,7 @@ import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.placement.LinearWordPlacer;
 import com.kennycason.kumo.placement.RTreeWordPlacer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.awt.*;
@@ -41,7 +41,7 @@ import java.util.List;
  rtree 16798ms to build
  */
 public class WordPlacerPerfTest {
-    private static final Logger LOGGER = Logger.getLogger(WordPlacerPerfTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WordPlacerPerfTest.class);
 
     private static final int FREQUENCIES_TO_PLACE = 500;
 
@@ -56,7 +56,7 @@ public class WordPlacerPerfTest {
 
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("linear " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("linear: {}ms to build", System.currentTimeMillis() - startTime);
 
     }
 
@@ -71,7 +71,7 @@ public class WordPlacerPerfTest {
 
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("rtree " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("rtree: {}ms to build", System.currentTimeMillis() - startTime);
     }
 
     private static InputStream getInputStream(final String path) {

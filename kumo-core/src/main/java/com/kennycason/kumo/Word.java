@@ -18,7 +18,7 @@ public class Word implements Collidable {
 
     private final Color color;
 
-    private Point position = new Point(0, 0);
+    private final Point position = new Point(0, 0);
 
     private BufferedImage bufferedImage;
 

@@ -13,7 +13,7 @@ import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.awt.*;
@@ -28,8 +28,7 @@ import java.util.Set;
  * Created by kenny on 6/29/14.
  */
 public class PolarWordCloudITest {
-
-    private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WordCloudITest.class);
 
     @Test
     public void whaleImgLargePolarTest() throws IOException {
@@ -49,7 +48,7 @@ public class PolarWordCloudITest {
         wordCloud.setFontScalar(new LinearFontScalar(15, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/polar_newyork_whale_large_blur.png");
     }
 
@@ -70,7 +69,7 @@ public class PolarWordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/polar_newyork_circle_blur_sqrt_font.png");
     }
 
@@ -91,7 +90,7 @@ public class PolarWordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/polar_newyork_rectangle_blur.png");
     }
 
@@ -113,7 +112,7 @@ public class PolarWordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/tidy_cat_litter_cat_shape3.png");
 
         // horrible times, 400 words, total 800 words

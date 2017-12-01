@@ -1,7 +1,8 @@
 package com.kennycason.kumo;
 
 import com.kennycason.kumo.exception.KumoException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,8 +16,7 @@ import java.util.concurrent.*;
  * @author &#64;wolfposd
  */
 public class ParallelLayeredWordCloud extends LayeredWordCloud {
-
-    private static final Logger LOGGER = Logger.getLogger(ParallelLayeredWordCloud.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParallelLayeredWordCloud.class);
 
     private final List<Future<?>> executorFutures = new ArrayList<>();
 
@@ -39,11 +39,9 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
      */
     @Override
     public void build(final int layer, final List<WordFrequency> wordFrequencies) {
-        final Future<?> completionFuture = executorservice.submit(new Runnable() {
-            public void run() {
-                LOGGER.info("Starting to build WordCloud Layer " + layer + " in new Thread");
-                ParallelLayeredWordCloud.super.build(layer, wordFrequencies);
-            }
+        final Future<?> completionFuture = executorservice.submit(() -> {
+            LOGGER.info("Starting to build WordCloud Layer {} in new Thread", layer);
+            super.build(layer, wordFrequencies);
         });
 
         executorFutures.add(completionFuture);

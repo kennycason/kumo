@@ -28,11 +28,11 @@
         <project.build.resourceEncoding>${encoding}</project.build.resourceEncoding>
         <maven.compile.encoding>>${encoding}</maven.compile.encoding>
         <maven.compiler.target>${java.target}</maven.compiler.target>
-
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- kumo -->
             <dependency>
                 <groupId>com.kennycason</groupId>
                 <artifactId>kumo-api</artifactId>
@@ -54,11 +54,25 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.25</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.25</version>
+            </dependency>
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>1.2.17</version>
+                <scope>runtime</scope>
             </dependency>
+
+            <!-- misc -->
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
@@ -84,6 +98,8 @@
                 <artifactId>rtree</artifactId>
                 <version>0.8.0.1</version>
             </dependency>
+
+            <!-- test -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

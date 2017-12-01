@@ -10,7 +10,7 @@ import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.awt.*;
@@ -25,8 +25,7 @@ import java.util.Set;
  * Created by kenny on 7/5/14.
  */
 public class LayeredWordCloudITest {
-
-    private static final Logger LOGGER = Logger.getLogger(LayeredWordCloudITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LayeredWordCloudITest.class);
 
     @Test
     public void layeredExample() throws IOException {
@@ -58,7 +57,7 @@ public class LayeredWordCloudITest {
         final long startTime = System.currentTimeMillis();
         layeredWordCloud.build(0, wordFrequencies);
         layeredWordCloud.build(1, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         layeredWordCloud.writeToFile("output/layered_word_cloud.png");
     }
 
@@ -93,7 +92,7 @@ public class LayeredWordCloudITest {
         final long startTime = System.currentTimeMillis();
         layeredWordCloud.build(0, wordFrequencies);
         layeredWordCloud.build(1, wordFrequencies2);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         layeredWordCloud.writeToFile("output/layered_haskell.png");
     }
 
@@ -144,7 +143,7 @@ public class LayeredWordCloudITest {
         layeredWordCloud.build(2, wordFrequencies3);
         layeredWordCloud.build(3, wordFrequencies4);
 
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         layeredWordCloud.writeToFile("output/layered_pho_bowl.png");
     }
 
