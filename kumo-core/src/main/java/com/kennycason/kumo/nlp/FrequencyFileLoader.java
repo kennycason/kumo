@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.lang3.StringUtils.trimToNull;
 
 /**
- * The purpose of this file is to load already computed frequency <-> word pairs from a text file.
+ * The purpose of this file is to load already computed frequency - word pairs from a text file.
  *
  * Sample format:
  * 100: frog

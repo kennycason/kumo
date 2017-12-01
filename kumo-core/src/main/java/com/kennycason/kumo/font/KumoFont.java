@@ -37,7 +37,7 @@ public class KumoFont {
             registerFont(font);
             return font;
 
-        } catch (FontFormatException | IOException e) {
+        } catch (final FontFormatException | IOException e) {
             throw new KumoException(e.getMessage(), e);
         }
     }
@@ -48,7 +48,7 @@ public class KumoFont {
             registerFont(font);
             return font;
 
-        } catch (FontFormatException | IOException e) {
+        } catch (final FontFormatException | IOException e) {
             throw new KumoException(e.getMessage(), e);
         }
     }
