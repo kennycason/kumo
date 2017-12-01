@@ -19,7 +19,7 @@ public class ImageRotation {
     }
 
     public static BufferedImage rotate(final BufferedImage bufferedImage, final double theta) {
-        if(theta == 0.0) { return bufferedImage; }
+        if (theta == 0.0) { return bufferedImage; }
 
         final double sin = Math.abs(Math.sin(theta));
         final double cos = Math.abs(Math.cos(theta));

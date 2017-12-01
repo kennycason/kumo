@@ -60,18 +60,8 @@ public class WordCloud {
     
     public WordCloud(final Dimension dimension, final CollisionMode collisionMode) {
         this.collisionMode = collisionMode;
-        switch (collisionMode) {
-            case PIXEL_PERFECT:
-                this.padder = new WordPixelPadder();
-                this.collisionChecker = new RectanglePixelCollisionChecker();
-                break;
-
-            case RECTANGLE:
-            default:
-                this.padder = new RectanglePadder();
-                this.collisionChecker = new RectangleCollisionChecker();
-                break;
-        }
+        this.padder = derivePadder(collisionMode);
+        this.collisionChecker = deriveCollisionChecker(collisionMode);
         this.collisionRaster = new CollisionRaster(dimension);
         this.bufferedImage = new BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB);
         this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, new Point(0, 0));
@@ -213,10 +203,9 @@ public class WordCloud {
     private boolean canPlace(final Word word) {
         if (!background.isInBounds(word)) { return false; }
 
-        switch (this.collisionMode) {
+        switch (collisionMode) {
             case RECTANGLE:
                 return wordPlacer.place(word);
-
             case PIXEL_PERFECT:
                 return !backgroundCollidable.collide(word);
         }
@@ -257,6 +246,26 @@ public class WordCloud {
         if (wordFrequencies.isEmpty()) { return 1; }
 
         return wordFrequencies.get(0).getFrequency();
+    }
+
+    private static Padder derivePadder(final CollisionMode collisionMode) {
+        switch (collisionMode) {
+            case PIXEL_PERFECT:
+                return new WordPixelPadder();
+            case RECTANGLE:
+                return new RectanglePadder();
+        }
+        throw new IllegalArgumentException("CollisionMode can not be null");
+    }
+
+    private static CollisionChecker deriveCollisionChecker(final CollisionMode collisionMode) {
+        switch (collisionMode) {
+            case PIXEL_PERFECT:
+                return new RectanglePixelCollisionChecker();
+            case RECTANGLE:
+                return new RectangleCollisionChecker();
+        }
+        throw new IllegalArgumentException("CollisionMode can not be null");
     }
 
     public void setBackgroundColor(final Color backgroundColor) {

@@ -12,7 +12,6 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
     private static final RectangleCollisionChecker RECTANGLE_COLLISION_CHECKER = new RectangleCollisionChecker();
 
     /*
-
           ax,ay ___________ax + a.width
             |                 |
             |                 |
@@ -44,8 +43,8 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         final int endY = Math.min(position.y + collidable.getDimension().height,
                                   position2.y + collidable2.getDimension().height);
 
-        for (int y = startY ; y < endY ; y++) {
-            for (int x = startX ; x < endX ; x++) {
+        for (int y = startY; y < endY; y++) {
+            for (int x = startX; x < endX; x++) {
                 // compute offsets for surface
                 if (!collisionRaster2.isTransparent(x - position2.x, y - position2.y)
                         && !collisionRaster.isTransparent(x - position.x, y - position.y)) {

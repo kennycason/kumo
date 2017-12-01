@@ -35,7 +35,7 @@ public class LayeredWordCloud {
     public LayeredWordCloud(final int layers, final Dimension dimension, final CollisionMode collisionMode) {
         this.dimension = dimension;
 
-        for(int i = 0; i < layers; i++) {
+        for (int i = 0; i < layers; i++) {
             final WordCloud wordCloud = new WordCloud(dimension, collisionMode);
             wordCloud.setBackgroundColor(null);
             wordClouds.add(wordCloud);

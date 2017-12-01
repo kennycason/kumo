@@ -29,7 +29,8 @@ public class PolarWordCloud extends WordCloud {
     }
 
     public PolarWordCloud(final Dimension dimension,
-                          final CollisionMode collisionMode, final PolarBlendMode polarBlendMode) {
+                          final CollisionMode collisionMode,
+                          final PolarBlendMode polarBlendMode) {
         super(dimension, collisionMode);
         this.polarBlendMode = polarBlendMode;
         this.colorPalette = DEFAULT_POSITIVE_COLORS;
@@ -80,9 +81,9 @@ public class PolarWordCloud extends WordCloud {
                 );
 
             case EVEN:
-            default:
                 return pole;
         }
+        throw new IllegalArgumentException("PolarBlendMode must not be null");
     }
 
     private Point[] getRandomPoles() {

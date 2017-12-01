@@ -102,7 +102,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
         // non-functional afterwards. this way it can still be used if we
         // plan on building another layer on top of the previous ones
         LOGGER.info("Awaiting Termination of Executors");
-        for(int i = 0; i < executorFutures.size(); i++) {
+        for (int i = 0; i < executorFutures.size(); i++) {
             final Future<?> future = executorFutures.get(i);
             try {
                 // cycle through all futures, invoking get() will block

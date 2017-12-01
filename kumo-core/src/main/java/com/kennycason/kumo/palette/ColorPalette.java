@@ -9,7 +9,6 @@ import java.util.Random;
  * Created by kenny on 6/30/14.
  */
 public class ColorPalette {
-
     private static final Random RANDOM = new Random();
 
     private final List<Color> colors;
