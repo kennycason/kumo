@@ -9,8 +9,8 @@ import java.awt.*;
  * Created by kenny on 7/1/14.
  */
 public class RectanglePixelCollisionChecker implements CollisionChecker {
-
     private static final RectangleCollisionChecker RECTANGLE_COLLISION_CHECKER = new RectangleCollisionChecker();
+
     /*
 
           ax,ay ___________ax + a.width

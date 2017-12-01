@@ -14,8 +14,9 @@ import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.FileInputStream;
@@ -29,8 +30,7 @@ import java.util.List;
  * Created by kenny on 6/29/14.
  */
 public class WordCloudITest {
-
-    private static final Logger LOGGER = Logger.getLogger(WordCloudITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WordCloudITest.class);
 
     private static final Random RANDOM = new Random();
 
@@ -190,7 +190,7 @@ public class WordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/datarank_wordcloud_circle_sqrt_font.png");
     }
 
@@ -210,7 +210,7 @@ public class WordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/datarank_wordcloud_circle_large2.png");
     }
 
@@ -231,7 +231,7 @@ public class WordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/earth_image_word_cloud_different_fonts.png");
     }
 
@@ -254,7 +254,7 @@ public class WordCloudITest {
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/tidy_cat_litter_black_cat.png");
     }
 

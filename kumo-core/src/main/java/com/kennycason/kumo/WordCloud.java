@@ -22,7 +22,8 @@ import com.kennycason.kumo.placement.RTreeWordPlacer;
 import com.kennycason.kumo.placement.RectangleWordPlacer;
 import com.kennycason.kumo.wordstart.RandomWordStart;
 import com.kennycason.kumo.wordstart.WordStartStrategy;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -37,7 +38,7 @@ import java.util.List;
  * Created by kenny on 6/29/14.
  */
 public class WordCloud {
-    private static final Logger LOGGER = Logger.getLogger(WordCloud.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WordCloud.class);
 
     protected final Dimension dimension;
     protected final CollisionMode collisionMode;
@@ -91,11 +92,11 @@ public class WordCloud {
 
             if (placed) {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("placed: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                    LOGGER.info("placed: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
                 }
             } else {
                 if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("skipped: " + word.getWord() + " (" + currentWord + "/" + wordFrequencies.size() + ")");
+                    LOGGER.info("skipped: {} ({}/{})", word.getWord(), currentWord, wordFrequencies.size());
                 }
                 skipped.add(word);
             }
@@ -111,7 +112,7 @@ public class WordCloud {
             extension = outputFileName.substring(i + 1);
         }
         try {
-            LOGGER.info("Saving WordCloud to " + outputFileName);
+            LOGGER.info("Saving WordCloud to: {}", outputFileName);
             ImageIO.write(bufferedImage, extension, new File(outputFileName));
 
         } catch (final IOException e) {

@@ -16,8 +16,7 @@ public class CharacterStrippingNormalizer implements Normalizer {
     private final String replaceWith;
 
     public CharacterStrippingNormalizer() {
-        replacePattern = DEFAULT_PATTERN;
-        replaceWith = DEFAULT_REPLACE_WITH;
+        this(DEFAULT_PATTERN, DEFAULT_REPLACE_WITH);
     }
 
     public CharacterStrippingNormalizer(final Pattern replacePattern, final String replaceWith) {
@@ -26,8 +25,8 @@ public class CharacterStrippingNormalizer implements Normalizer {
     }
 
     @Override
-    public String normalize(String text) {
-        return DEFAULT_PATTERN.matcher(text).replaceAll(DEFAULT_REPLACE_WITH);
+    public String normalize(final String text) {
+        return replacePattern.matcher(text).replaceAll(replaceWith);
     }
 
 }

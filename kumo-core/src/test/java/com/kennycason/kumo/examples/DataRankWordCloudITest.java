@@ -10,8 +10,9 @@ import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.util.Set;
  * Created by kenny on 2/24/16.
  */
 public class DataRankWordCloudITest {
-    private static final Logger LOGGER = Logger.getLogger(DataRankWordCloudITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataRankWordCloudITest.class);
 
     @Test
     public void datarank() throws IOException {
@@ -58,8 +59,8 @@ public class DataRankWordCloudITest {
         layeredWordCloud.build(0, wordFrequencies);
         layeredWordCloud.build(1, wordFrequencies);
 
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
-        layeredWordCloud.writeToFile("output/datarank20.png");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
+        layeredWordCloud.writeToFile("output/datarank.png");
     }
 
     private static Set<String> loadStopWords() throws IOException {

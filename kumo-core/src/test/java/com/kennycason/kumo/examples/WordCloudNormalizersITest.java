@@ -10,7 +10,7 @@ import com.kennycason.kumo.nlp.normalize.BubbleTextNormalizer;
 import com.kennycason.kumo.nlp.normalize.StringToHexNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer;
 import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
 
 import java.awt.*;
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by kenny on 6/29/14.
  */
 public class WordCloudNormalizersITest {
-    private static final Logger LOGGER = Logger.getLogger(WordCloudNormalizersITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WordCloudNormalizersITest.class);
 
     @Test
     public void upperCaseNormalizer() throws IOException {
@@ -39,7 +39,7 @@ public class WordCloudNormalizersITest {
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_uppercase.png");
     }
 
@@ -58,7 +58,7 @@ public class WordCloudNormalizersITest {
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_upsidedown.png");
     }
 
@@ -77,7 +77,7 @@ public class WordCloudNormalizersITest {
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_hex.png");
     }
 
@@ -97,7 +97,7 @@ public class WordCloudNormalizersITest {
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/kennycason_com_wordcloud_circle_normalization_or_filter.png");
     }
 
@@ -114,7 +114,7 @@ public class WordCloudNormalizersITest {
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies);
-        LOGGER.info("Took " + (System.currentTimeMillis() - startTime) + "ms to build");
+        LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
         wordCloud.writeToFile("output/bubbletext.png");
     }
 
