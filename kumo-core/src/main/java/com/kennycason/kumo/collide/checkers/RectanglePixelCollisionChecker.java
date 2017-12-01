@@ -25,7 +25,7 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
           */
     @Override
     public boolean collide(final Collidable collidable, final Collidable collidable2) {
-	    // check if bounding boxes intersect
+        // check if bounding boxes intersect
         if (!RECTANGLE_COLLISION_CHECKER.collide(collidable, collidable2)) {
             return false;
         }
