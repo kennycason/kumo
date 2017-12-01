@@ -1,0 +1,5 @@
+ 100: cat
+25: fish
+  75 :   frog
+
+50: dog

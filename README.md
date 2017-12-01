@@ -286,6 +286,27 @@ parallelLayeredWordCloud.writeToFile("parallelBubbleText.png");
 
 Refer to JPanelDemo.java for an example integrating into a JPanel.
 
+
+### Word Frequency File / Analyzer
+
+The most common way to generate word frequencies is to pass a String of text directly to `FrequencyAnalyzer`.
+The `FrequencyAnalyzer` contains many options to process and normalize input text.
+
+Sometimes the word counts and word frequencies are already known and a consumer would like to load them directly into Kumo.
+To do so, you can manually construct the `List<WordFrequency>` yourself, or you can load in a text file containing the word frequency and word pairs.
+The `FrequencyFileLoader` can be used to load such files. The required format is:
+```
+100: frog
+94: dog
+43: cog
+20: bog
+3: fog
+1: log
+1: pog
+```
+
+Order does not matter as the `FrequencyFileLoader` will automatically sort the pairs.
+
 ### Tokenizers
 
 Tokenizers are the code that splits a sentence/text into a list of words. Currently only two tokenizers are built into Kumo.
