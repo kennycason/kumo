@@ -1,0 +1,7 @@
+100: frog
+94: dog
+43: cog
+20:
+3: fog
+1: log
+1: pog
