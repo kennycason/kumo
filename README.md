@@ -28,7 +28,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo-core</artifactId>
-    <version>1.12</version>
+    <version>1.13</version>
 </dependency>
 ```
 
