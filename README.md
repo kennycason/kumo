@@ -22,6 +22,10 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 - Frequency Analyzer to tokenize, filter and compute word counts.
 - Command Line Interface
 
+#### CLI Install via Brew (NEW!)
+
+`brew install kumo`
+
 ### Available from Maven Central
 
 ```xml
@@ -40,10 +44,6 @@ Include `kumo-tokenizers` if you want Chinese serialization. More languages to c
     <version>1.12</version>
 </dependency>
 ```
-
-#### CLI Install via Brew (NEW!)
-
-`brew install https://raw.githubusercontent.com/kennycason/kumo/master/script/kumo.rb`
 
 ### Screenshots
 
