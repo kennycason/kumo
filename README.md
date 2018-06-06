@@ -41,7 +41,7 @@ Include `kumo-tokenizers` if you want Chinese serialization. More languages to c
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo-tokenizers</artifactId>
-    <version>1.12</version>
+    <version>1.13</version>
 </dependency>
 ```
 
