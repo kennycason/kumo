@@ -1,6 +1,6 @@
 
 
-# <img src="logo/Kumo02.png" alt="Kumo" height="32px"> Kumo
+# <img src="logo/Kumo02.png" alt="Kumo" height="28px"> Kumo
 
 Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet as many other libraries do.
 
