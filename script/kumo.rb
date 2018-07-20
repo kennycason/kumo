@@ -2,7 +2,7 @@ class Kumo < Formula
   desc "Word Clouds in Java"
   homepage "https://github.com/kennycason/kumo"
   url "https://search.maven.org/remotecontent?filepath=com/kennycason/kumo-cli/1.13/kumo-cli-1.13.jar"
-  sha256 "ee811e97e9c23ad91be9e2c15cfbd5717d6dc3281c234d3b20767275142965e6"
+  sha256 "c9ad525f7d6aec9e2c06cf10017e1e533f43b1b3c4df5aa0d4b137f8d563c5c6"
 
   depends_on :java => "1.8+"
 
