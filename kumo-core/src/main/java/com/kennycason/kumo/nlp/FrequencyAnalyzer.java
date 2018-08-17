@@ -98,8 +98,8 @@ public class FrequencyAnalyzer {
         return texts.stream()
                     .map(tokenizer::tokenize)
                     .flatMap(List::stream)
-                    .filter(buildFilter())
                     .map(this::normalize)
+                    .filter(buildFilter())
                     .collect(Collectors.groupingBy(e -> e, reducing(0, e -> 1, Integer::sum)));
     }
 

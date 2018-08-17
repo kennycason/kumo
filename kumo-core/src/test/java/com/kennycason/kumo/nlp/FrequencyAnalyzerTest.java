@@ -1,6 +1,7 @@
 package com.kennycason.kumo.nlp;
 
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.nlp.filter.Filter;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,7 +17,25 @@ import static org.junit.Assert.assertFalse;
 public class FrequencyAnalyzerTest {
 
     @Test
-    public void defaultTokenizerTrimTest() throws IOException {
+    public void normalizeThenFilter() {
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.clearNormalizers();
+        frequencyAnalyzer.clearFilters();
+        frequencyAnalyzer.addNormalizer(s -> s.replace("@", ""));
+        frequencyAnalyzer.addFilter(new Filter() {
+            @Override
+            public boolean test(final String s) {
+                return !s.contains("@");
+            }
+        });
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(Arrays.asList("@datarank"));
+        assertEquals(1, wordFrequencies.size());
+        assertEquals("datarank", wordFrequencies.get(0).getWord());
+    }
+
+    @Test
+    public void defaultTokenizerTrim() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(
                 Thread.currentThread().getContextClassLoader().getResourceAsStream("trim_test.txt"));
