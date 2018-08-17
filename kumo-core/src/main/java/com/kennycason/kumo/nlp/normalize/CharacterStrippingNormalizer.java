@@ -25,7 +25,7 @@ public class CharacterStrippingNormalizer implements Normalizer {
     }
 
     @Override
-    public String normalize(final String text) {
+    public String apply(final String text) {
         return replacePattern.matcher(text).replaceAll(replaceWith);
     }
 

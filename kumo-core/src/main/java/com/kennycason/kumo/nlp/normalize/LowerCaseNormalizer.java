@@ -7,7 +7,7 @@ import static org.apache.commons.lang3.StringUtils.lowerCase;
  */
 public class LowerCaseNormalizer implements Normalizer {
     @Override
-    public String normalize(final String text) {
+    public String apply(final String text) {
         return lowerCase(text);
     }
 }

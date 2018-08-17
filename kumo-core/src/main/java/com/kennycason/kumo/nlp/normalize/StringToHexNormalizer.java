@@ -8,7 +8,7 @@ public class StringToHexNormalizer implements Normalizer {
     public StringToHexNormalizer() {}
 
     @Override
-    public String normalize(final String text) {
+    public String apply(final String text) {
         final StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             final int asciiCode = text.charAt(i);

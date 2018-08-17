@@ -9,7 +9,7 @@ public class UpsideDownNormalizer implements Normalizer {
     private static final String split  = "ɐqɔpǝɟbɥıظʞןɯuodbɹsʇnʌʍxʎz‾'؛˙¿¡/\\," + "∀qϽᗡƎℲƃHIſʞ˥WNOԀὉᴚS⊥∩ΛMXʎZ" + "0ƖᄅƐㄣϛ9ㄥ86";
 
     @Override
-    public String normalize(final String text) {
+    public String apply(final String text) {
         final StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             final char letter = text.charAt(i);

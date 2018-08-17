@@ -17,7 +17,7 @@ public class WordSizeFilter extends Filter {
     }
 
     @Override
-    public boolean test(String word) {
+    public boolean test(final String word) {
         return isNotBlank(word)
                 && word.length() >= minLength
                 && word.length() < maxLength;

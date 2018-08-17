@@ -14,8 +14,8 @@ public class CompositeFilter extends Filter {
     }
 
     @Override
-    public boolean test(String word) {
-        for (Filter filter : filters) {
+    public boolean test(final String word) {
+        for (final Filter filter : filters) {
             if (!filter.test(word)) { return false; }
         }
         return true;

@@ -7,7 +7,7 @@ import static org.apache.commons.lang3.StringUtils.upperCase;
  */
 public class UpperCaseNormalizer implements Normalizer {
     @Override
-    public String normalize(final String text) {
+    public String apply(final String text) {
         return upperCase(text);
     }
 }

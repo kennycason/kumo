@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 public abstract class Filter implements Predicate<String> {
 
     @Override
-    public Predicate<String> and(Predicate<? super String> other) {
+    public Predicate<String> and(final Predicate<? super String> other) {
         throw new UnsupportedOperationException();
     }
 
@@ -19,7 +19,7 @@ public abstract class Filter implements Predicate<String> {
     }
 
     @Override
-    public Predicate<String> or(Predicate<? super String> other) {
+    public Predicate<String> or(final Predicate<? super String> other) {
         throw new UnsupportedOperationException();
     }
 

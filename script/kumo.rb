@@ -16,3 +16,4 @@ class Kumo < Formula
     pipe_output("#{bin}/kumo -i https://wikipedia.org -o /tmp/wikipedia.png", "Generate simple wordcloud")
   end
 end
+ku

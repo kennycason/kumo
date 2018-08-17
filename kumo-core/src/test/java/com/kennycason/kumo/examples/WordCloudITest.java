@@ -14,6 +14,7 @@ import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -258,6 +259,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/tidy_cat_litter_black_cat.png");
     }
 
+    @Ignore
     @Test
     public void datarankCode() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
@@ -277,6 +279,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("/tmp/datarank_code.png");
     }
 
+    @Ignore
     @Test
     public void largeCircleTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
@@ -294,6 +297,7 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/wordcloud_large_code_circle.png");
     }
 
+    @Ignore
     @Test
     public void matchOnlineExample() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();

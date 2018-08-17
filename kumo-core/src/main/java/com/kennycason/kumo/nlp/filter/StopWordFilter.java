@@ -17,7 +17,7 @@ public class StopWordFilter extends Filter {
 
 
     @Override
-    public boolean test(String word) {
+    public boolean test(final String word) {
        return !this.stopWords.contains(word.toLowerCase());
     }
 }
