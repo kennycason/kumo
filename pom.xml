@@ -87,17 +87,17 @@
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>1.8.2</version>
+                <version>1.11.3</version>
             </dependency>
             <dependency>
                 <groupId>com.beust</groupId>
                 <artifactId>jcommander</artifactId>
-                <version>1.48</version>
+                <version>1.72</version>
             </dependency>
             <dependency>
                 <groupId>com.github.davidmoten</groupId>
                 <artifactId>rtree</artifactId>
-                <version>0.8.0.1</version>
+                <version>0.8.6</version>
             </dependency>
 
             <!-- test -->
