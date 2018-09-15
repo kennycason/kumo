@@ -170,6 +170,25 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.5.1</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <serverId>nexus-releases</serverId>
+                            <nexusUrl>http://localhost:8081/nexus/</nexusUrl>
+                            <skipStaging>true</skipStaging>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -247,6 +266,16 @@
                         <excludes>
                             <exclude>**ITest.java</exclude>
                         </excludes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.4.2</version>
+                    <configuration>
+                        <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <releaseProfiles>releases</releaseProfiles>
                     </configuration>
                 </plugin>
             </plugins>
