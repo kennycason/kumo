@@ -12,6 +12,6 @@ bin
 .idea/*
 *.iml
 dependency-reduced-pom.xml
-
+release.properties
 pom.xml.releaseBackup
 
