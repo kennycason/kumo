@@ -4,19 +4,22 @@ import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.PolarBlendMode;
 import com.kennycason.kumo.PolarWordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.awtimpl.ColorImpl;
 import com.kennycason.kumo.bg.CircleBackground;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.bg.RectangleBackground;
-import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
+import com.kennycason.kumo.interfaces.DimensionAbst;
+import com.kennycason.kumo.interfaces.FontAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -40,10 +43,10 @@ public class PolarWordCloudITest {
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
-        final Dimension dimension = new Dimension(990, 618);
+        final DimensionAbst dimension = InstanceCreator.dimension(990, 618);
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setBackgroundColor(Color.WHITE);
+        wordCloud.setBackgroundColor(new ColorImpl(255, 255, 255));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setFontScalar(new LinearFontScalar(15, 50));
         final long startTime = System.currentTimeMillis();
@@ -62,7 +65,7 @@ public class PolarWordCloudITest {
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
-        final Dimension dimension = new Dimension(600, 600);
+        final DimensionAbst dimension = InstanceCreator.dimension(600, 600);
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new CircleBackground(300));
@@ -83,7 +86,7 @@ public class PolarWordCloudITest {
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
 
-        final Dimension dimension = new Dimension(800, 600);
+        final DimensionAbst dimension = InstanceCreator.dimension(800, 600);
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setBackground(new RectangleBackground(dimension));
@@ -104,10 +107,10 @@ public class PolarWordCloudITest {
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_negative.txt"));
 
-        final Dimension dimension = new Dimension(600, 600);
+        final DimensionAbst dimension = InstanceCreator.dimension(600, 600);
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
-        wordCloud.setKumoFont(new KumoFont("Cairo", FontWeight.BOLD));
+        wordCloud.setKumoFont(new KumoFont("Cairo", FontAbst.Face.BOLD));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();

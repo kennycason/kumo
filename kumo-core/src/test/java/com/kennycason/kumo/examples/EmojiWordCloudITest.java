@@ -4,9 +4,10 @@ import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.font.KumoFont;
+import com.kennycason.kumo.interfaces.DimensionAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
 import org.junit.Test;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class EmojiWordCloudITest {
 
     @Test
     public void emojiCloud() throws IOException {
-        final Dimension dimension = new Dimension(250, 250);
+        final DimensionAbst dimension = InstanceCreator.dimension(250, 250);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         // Load font from file
         // wordCloud.setKumoFont(new KumoFont(new File("/Users/kenny/Downloads/OpenSansEmoji.ttf")));

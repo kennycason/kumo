@@ -3,14 +3,14 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.awtimpl.DimensionImpl;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
+import com.kennycason.kumo.interfaces.DimensionAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,11 +48,11 @@ public class JPanelDemo extends JPanel {
         frequencyAnalyzer.setMinWordLength(5);
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final DimensionImpl dimension = new DimensionImpl(500, 312);
+        final DimensionAbst dimension = InstanceCreator.dimension(500, 312);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale_small.png")));
-        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0xFFFFFF)));
+        wordCloud.setColorPalette(new ColorPalette(InstanceCreator.color(0x4055F1), InstanceCreator.color(0x408DF1), InstanceCreator.color(0x40AAF1), InstanceCreator.color(0x40C5F1), InstanceCreator.color(0x40D3F1), InstanceCreator.color(0xFFFFFF)));
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));
         wordCloud.build(wordFrequencies);
 
