@@ -1,10 +1,10 @@
 package com.kennycason.kumo;
 
 import com.kennycason.kumo.exception.KumoException;
+import com.kennycason.kumo.interfaces.DimensionAbst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Dimension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class ParallelLayeredWordCloud extends LayeredWordCloud {
 
     private final ExecutorService executorservice;
 
-    public ParallelLayeredWordCloud(final int layers, final Dimension dimension, final CollisionMode collisionMode) {
+    public ParallelLayeredWordCloud(final int layers, final DimensionAbst dimension, final CollisionMode collisionMode) {
         super(layers, dimension, collisionMode);
         executorservice = Executors.newFixedThreadPool(layers);
     }

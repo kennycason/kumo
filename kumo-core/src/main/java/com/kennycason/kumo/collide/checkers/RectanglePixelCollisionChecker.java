@@ -2,8 +2,7 @@ package com.kennycason.kumo.collide.checkers;
 
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-
-import java.awt.Point;
+import com.kennycason.kumo.interfaces.PointAbst;
 
 /**
  * Created by kenny on 7/1/14.
@@ -29,25 +28,25 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
             return false;
         }
 
-        final Point position = collidable.getPosition();
-        final Point position2 = collidable2.getPosition();
+        final PointAbst position = collidable.getPosition();
+        final PointAbst position2 = collidable2.getPosition();
         final CollisionRaster collisionRaster = collidable.getCollisionRaster();
         final CollisionRaster collisionRaster2 = collidable2.getCollisionRaster();
 
         // get the overlapping box
-        final int startX = Math.max(position.x, position2.x);
-        final int endX = Math.min(position.x + collidable.getDimension().width,
-                                  position2.x + collidable2.getDimension().width);
+        final int startX = Math.max(position.getX(), position2.getX());
+        final int endX = Math.min(position.getX() + collidable.getDimension().getWidth(),
+                                  position2.getX() + collidable2.getDimension().getWidth());
 
-        final int startY = Math.max(position.y, position2.y);
-        final int endY = Math.min(position.y + collidable.getDimension().height,
-                                  position2.y + collidable2.getDimension().height);
+        final int startY = Math.max(position.getY(), position2.getY());
+        final int endY = Math.min(position.getY() + collidable.getDimension().getHeight(),
+                                  position2.getY() + collidable2.getDimension().getHeight());
 
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
                 // compute offsets for surface
-                if (!collisionRaster2.isTransparent(x - position2.x, y - position2.y)
-                        && !collisionRaster.isTransparent(x - position.x, y - position.y)) {
+                if (!collisionRaster2.isTransparent(x - position2.getX(), y - position2.getY())
+                        && !collisionRaster.isTransparent(x - position.getX(), y - position.getY())) {
                     return true;
                 }
             }

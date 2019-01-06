@@ -245,7 +245,7 @@ public class CliParameters {
                 return new Color(parseNumber(input));
 
             } catch (final RuntimeException e) {
-                throw new ParameterException("Failed to parse Color from input: [" + input + "]");
+                throw new ParameterException("Failed to parse ColorAbst from input: [" + input + "]");
             }
         }
 

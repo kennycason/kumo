@@ -2,9 +2,9 @@ package com.kennycason.kumo.padding;
 
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.image.CollisionRaster;
-
-import java.awt.Color;
-import java.awt.Point;
+import com.kennycason.kumo.interfaces.ColorAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.interfaces.PointAbst;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +17,7 @@ public class WordPixelPadder implements Padder {
 
     // TODO as CollisionRaster changes to use boolean states rgb is not really needed or makes sense for padding
     // it used to actually changed the buffered image that the word's text is written into.
-    private static final Color PAD_COLOR = Color.BLACK;
+    private static final ColorAbst PAD_COLOR = InstanceCreator.color(0, 0, 0);
 
     private RectanglePadder rectanglePadder = new RectanglePadder();
 
@@ -27,19 +27,19 @@ public class WordPixelPadder implements Padder {
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
 
-        final Set<Point> toPad = new HashSet<>();
-        final int width = collisionRaster.getDimension().width;
-        final int height = collisionRaster.getDimension().height;
+        final Set<PointAbst> toPad = new HashSet<>();
+        final int width = collisionRaster.getDimension().getWidth();
+        final int height = collisionRaster.getDimension().getHeight();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (shouldPad(collisionRaster, x, y, padding)) {
-                    toPad.add(new Point(x, y));
+                    toPad.add(InstanceCreator.point(x, y));
                 }
             }
         }
-        for (final Point padPoint : toPad) {
-            collisionRaster.setRGB(padPoint.x, padPoint.y, PAD_COLOR.getRGB());
+        for (final PointAbst padPoint : toPad) {
+            collisionRaster.setRGB(padPoint.getX(), padPoint.getY(), PAD_COLOR.getInt());
         }
     }
 
@@ -62,8 +62,8 @@ public class WordPixelPadder implements Padder {
     private boolean inBounds(final CollisionRaster collisionRaster, final int x, final int y) {
         return x >= 0
                 && y >= 0
-                && x < collisionRaster.getDimension().width
-                && y < collisionRaster.getDimension().height;
+                && x < collisionRaster.getDimension().getWidth()
+                && y < collisionRaster.getDimension().getHeight();
     }
 
 }

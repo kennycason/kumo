@@ -1,9 +1,8 @@
 package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
-
-import java.awt.Point;
-import java.awt.Dimension;
+import com.kennycason.kumo.interfaces.DimensionAbst;
+import com.kennycason.kumo.interfaces.PointAbst;
 
 /**
  * The WordSpreadScheme provides a possible starting position for a word on the
@@ -24,6 +23,6 @@ public interface WordStartStrategy {
      *            the word to be placed
      * @return X/Y starting position
      */
-    Point getStartingPoint(Dimension dimension, Word word);
+    PointAbst getStartingPoint(DimensionAbst dimension, Word word);
 
 }

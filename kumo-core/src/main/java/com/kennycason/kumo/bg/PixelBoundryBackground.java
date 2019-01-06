@@ -2,12 +2,9 @@ package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
+import com.kennycason.kumo.interfaces.ImageAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.interfaces.PointAbst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,9 +30,9 @@ public class PixelBoundryBackground implements Background {
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
-        final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
+        final ImageAbst bufferedImage = InstanceCreator.image(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
-        this.rectangleBackground = new RectangleBackground(new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
+        this.rectangleBackground = new RectangleBackground(InstanceCreator.dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
     }
     
     /**
@@ -66,19 +63,19 @@ public class PixelBoundryBackground implements Background {
         if (!this.rectangleBackground.isInBounds(collidable)) {
             return false;
         }
-        final Point position = collidable.getPosition();
+        final PointAbst position = collidable.getPosition();
         // get the overlapping box
-        final int startX = Math.max(position.x, 0);
-        final int endX = Math.min(position.x + collidable.getDimension().width, collisionRaster.getDimension().width);
+        final int startX = Math.max(position.getX(), 0);
+        final int endX = Math.min(position.getX() + collidable.getDimension().getWidth(), collisionRaster.getDimension().getWidth());
 
-        final int startY = Math.max(position.y, 0);
-        final int endY = Math.min(position.y + collidable.getDimension().height, collisionRaster.getDimension().height);
+        final int startY = Math.max(position.getY(), 0);
+        final int endY = Math.min(position.getY() + collidable.getDimension().getHeight(), collisionRaster.getDimension().getHeight());
 
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
                 // compute offsets for surface
                 if (collisionRaster.isTransparent(x, y) &&
-                        !collidable.getCollisionRaster().isTransparent(x - position.x, y - position.y)) {
+                        !collidable.getCollisionRaster().isTransparent(x - position.getX(), y - position.getY())) {
                     return false;
                 }
             }
