@@ -1,50 +1,50 @@
 package com.kennycason.kumo.abst;
 
+import com.kennycason.kumo.awtimpl.*;
+
+import java.awt.*;
 import java.io.InputStream;
 
 public class InstanceCreator {
 
     public static ColorAbst color(int r, int g, int b){
-        return null;
+        return new ColorImpl(r, g, b);
     }
 
     public static ColorAbst color(int color){
-        return null;
+        Color c = new Color(color);
+        return new ColorImpl(c.getRed(), c.getGreen(), c.getBlue());
     }
 
     public static DimensionAbst dimension(int x, int y){
-        return null;
+        return new DimensionImpl(x, y);
     }
 
     public static FontAbst font(String fontFamily, FontAbst.Face weight, int size){
-        return null;
+        return new FontImpl(fontFamily, weight, size);
     }
 
     public static FontAbst font(InputStream inputStream){
-        return null;
-    }
-
-    public static FontMetricsAbst fontMetrics(){
-        return null;
+        return new FontImpl(inputStream);
     }
 
     public static GraphicsAbst graphics(ImageAbst img){
-        return null;
+        return new GraphicsImpl(img);
     }
 
     public static ImageAbst image(int width, int height){
-        return null;
+        return new ImageImpl(width, height);
     }
 
     public static ImageAbst image(InputStream inputStream){
-        return null;
+        return new ImageImpl(inputStream);
     }
 
     public static PointAbst point(int x, int y){
-        return null;
+        return new PointImpl(x, y);
     }
 
     public static ImageWriterAbst imageWriter(){
-        return null;
+        return new ImageWriterImpl();
     }
 }
