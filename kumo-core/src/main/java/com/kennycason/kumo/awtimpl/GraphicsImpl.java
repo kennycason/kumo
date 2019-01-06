@@ -1,6 +1,6 @@
 package com.kennycason.kumo.awtimpl;
 
-import com.kennycason.kumo.interfaces.*;
+import com.kennycason.kumo.abst.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

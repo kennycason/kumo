@@ -1,7 +1,7 @@
 package com.kennycason.kumo.awtimpl;
 
-import com.kennycason.kumo.interfaces.ImageAbst;
-import com.kennycason.kumo.interfaces.ImageWriterAbst;
+import com.kennycason.kumo.abst.ImageAbst;
+import com.kennycason.kumo.abst.ImageWriterAbst;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;

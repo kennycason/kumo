@@ -1,10 +1,8 @@
 package com.kennycason.kumo.image;
 
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 import org.junit.Test;
-
-import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

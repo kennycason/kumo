@@ -1,7 +1,7 @@
 package com.kennycason.kumo.collide.checkers;
 
 import com.kennycason.kumo.collide.Collidable;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.PointAbst;
 
 /**
  * Created by kenny on 6/29/14.

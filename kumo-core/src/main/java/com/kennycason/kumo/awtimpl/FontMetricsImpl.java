@@ -1,7 +1,7 @@
 package com.kennycason.kumo.awtimpl;
 
-import com.kennycason.kumo.interfaces.FontAbst;
-import com.kennycason.kumo.interfaces.FontMetricsAbst;
+import com.kennycason.kumo.abst.FontAbst;
+import com.kennycason.kumo.abst.FontMetricsAbst;
 
 import java.awt.*;
 

@@ -1,9 +1,9 @@
 package com.kennycason.kumo.padding;
 
 import com.kennycason.kumo.Word;
-import com.kennycason.kumo.interfaces.GraphicsAbst;
-import com.kennycason.kumo.interfaces.ImageAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.GraphicsAbst;
+import com.kennycason.kumo.abst.ImageAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 
 /**
  * Created by kenny on 7/2/14.

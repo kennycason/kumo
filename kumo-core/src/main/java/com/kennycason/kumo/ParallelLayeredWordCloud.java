@@ -1,7 +1,7 @@
 package com.kennycason.kumo;
 
 import com.kennycason.kumo.exception.KumoException;
-import com.kennycason.kumo.interfaces.DimensionAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

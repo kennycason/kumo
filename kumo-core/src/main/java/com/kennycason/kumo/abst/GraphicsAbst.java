@@ -1,4 +1,4 @@
-package com.kennycason.kumo.interfaces;
+package com.kennycason.kumo.abst;
 
 public abstract class GraphicsAbst {
 

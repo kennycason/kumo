@@ -1,8 +1,8 @@
 package com.kennycason.kumo;
 
 import com.kennycason.kumo.bg.RectangleBackground;
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;

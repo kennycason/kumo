@@ -4,8 +4,8 @@ import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.font.KumoFont;
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 import org.junit.Test;
 
 import java.io.IOException;

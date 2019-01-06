@@ -1,9 +1,9 @@
 package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.abst.PointAbst;
 
 /**
  * A Background Collision Mode in the shape of a rectangle

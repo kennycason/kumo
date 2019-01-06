@@ -1,8 +1,8 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.abst.PointAbst;
 import com.kennycason.kumo.palette.ColorPalette;
 
 import java.util.Collections;

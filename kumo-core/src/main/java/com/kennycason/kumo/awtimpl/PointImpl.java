@@ -1,6 +1,6 @@
 package com.kennycason.kumo.awtimpl;
 
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.PointAbst;
 
 import java.awt.*;
 

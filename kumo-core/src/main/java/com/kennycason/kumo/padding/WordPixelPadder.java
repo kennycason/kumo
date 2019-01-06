@@ -2,9 +2,9 @@ package com.kennycason.kumo.padding;
 
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.interfaces.ColorAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.ColorAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.abst.PointAbst;
 
 import java.util.HashSet;
 import java.util.Set;

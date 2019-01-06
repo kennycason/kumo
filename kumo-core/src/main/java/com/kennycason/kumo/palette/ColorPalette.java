@@ -1,7 +1,7 @@
 package com.kennycason.kumo.palette;
 
-import com.kennycason.kumo.interfaces.ColorAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.ColorAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 
 import java.util.ArrayList;
 import java.util.List;

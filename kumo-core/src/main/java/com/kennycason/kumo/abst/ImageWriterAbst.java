@@ -1,4 +1,4 @@
-package com.kennycason.kumo.interfaces;
+package com.kennycason.kumo.abst;
 
 import java.io.IOException;
 import java.io.OutputStream;

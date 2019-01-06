@@ -1,8 +1,8 @@
 package com.kennycason.kumo.font;
 
 import com.kennycason.kumo.exception.KumoException;
-import com.kennycason.kumo.interfaces.FontAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.FontAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 
 import java.io.File;
 import java.io.FileInputStream;

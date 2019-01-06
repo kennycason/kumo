@@ -1,9 +1,9 @@
 package com.kennycason.kumo.image;
 
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.ImageAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.ImageAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.abst.PointAbst;
 
 /**
  * Created by kenny on 7/4/14.

@@ -2,7 +2,7 @@ package com.kennycason.kumo.collide.checkers;
 
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.PointAbst;
 
 /**
  * Created by kenny on 7/1/14.

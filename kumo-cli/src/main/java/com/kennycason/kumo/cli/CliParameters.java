@@ -5,9 +5,9 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.PolarBlendMode;
-import com.kennycason.kumo.interfaces.ColorAbst;
-import com.kennycason.kumo.interfaces.FontAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.ColorAbst;
+import com.kennycason.kumo.abst.FontAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 
 import java.util.ArrayList;
 import java.util.Collections;

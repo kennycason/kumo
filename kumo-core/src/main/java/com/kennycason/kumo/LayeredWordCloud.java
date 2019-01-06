@@ -5,7 +5,7 @@ import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
-import com.kennycason.kumo.interfaces.*;
+import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.palette.ColorPalette;
 import com.kennycason.kumo.placement.RectangleWordPlacer;
 import com.kennycason.kumo.wordstart.WordStartStrategy;

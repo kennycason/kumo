@@ -2,9 +2,9 @@ package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.interfaces.ImageAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.ImageAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.abst.PointAbst;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -3,7 +3,7 @@ package com.kennycason.kumo;
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.interfaces.*;
+import com.kennycason.kumo.abst.*;
 
 /**
  * Created by kenny on 6/29/14.

@@ -1,8 +1,8 @@
 package com.kennycason.kumo.image;
 
-import com.kennycason.kumo.interfaces.GraphicsAbst;
-import com.kennycason.kumo.interfaces.ImageAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
+import com.kennycason.kumo.abst.GraphicsAbst;
+import com.kennycason.kumo.abst.ImageAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
 
 /**
  * Created by kenny on 6/29/14.

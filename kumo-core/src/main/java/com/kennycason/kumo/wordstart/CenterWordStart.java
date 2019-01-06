@@ -1,9 +1,9 @@
 package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
-import com.kennycason.kumo.interfaces.DimensionAbst;
-import com.kennycason.kumo.interfaces.InstanceCreator;
-import com.kennycason.kumo.interfaces.PointAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.abst.PointAbst;
 
 /**
  * Always returns the Center of the image

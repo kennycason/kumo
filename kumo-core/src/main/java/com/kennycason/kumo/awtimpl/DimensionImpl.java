@@ -1,6 +1,6 @@
 package com.kennycason.kumo.awtimpl;
 
-import com.kennycason.kumo.interfaces.DimensionAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
 
 import java.awt.*;
 

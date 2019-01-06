@@ -1,6 +1,6 @@
 package com.kennycason.kumo.awtimpl;
 
-import com.kennycason.kumo.interfaces.ColorAbst;
+import com.kennycason.kumo.abst.ColorAbst;
 
 import java.awt.*;
 
