@@ -16,6 +16,11 @@ public class InstanceCreator {
         return new ColorImpl(c.getRed(), c.getGreen(), c.getBlue());
     }
 
+    public static ColorAbst color(int color, boolean alphaValid){
+        Color c = new Color(color, alphaValid);
+        return new ColorImpl(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+    }
+
     public static DimensionAbst dimension(int x, int y){
         return new DimensionImpl(x, y);
     }

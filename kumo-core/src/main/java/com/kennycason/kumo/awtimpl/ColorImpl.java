@@ -13,6 +13,11 @@ public class ColorImpl extends ColorAbst<Color> {
         color = new Color(getRed(), getGreen(), getBlue());
     }
 
+    public ColorImpl(int red, int green, int blue, int alpha){
+        super(red, green, blue);
+        color = new Color(getRed(), getGreen(), getBlue(), alpha);
+    }
+
     @Override
     public Color getActual() {
         return color;

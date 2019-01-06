@@ -16,7 +16,7 @@ public class FontImpl extends FontAbst<Font> {
 
     public FontImpl(InputStream fromFile) {
         try {
-            Font.createFont(Font.TRUETYPE_FONT, fromFile);
+            font = Font.createFont(Font.TRUETYPE_FONT, fromFile);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }

@@ -3,12 +3,12 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.bg.PixelBoundryBackground;
-import com.kennycason.kumo.font.KumoFont;
-import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.abst.DimensionAbst;
 import com.kennycason.kumo.abst.FontAbst;
 import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.font.KumoFont;
+import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
@@ -39,7 +39,7 @@ public class DataRankWordCloudITest {
 
         final DimensionAbst dimension = InstanceCreator.dimension(990, 618);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(InstanceCreator.color(0x000000FF));
+        layeredWordCloud.setBackgroundColor(InstanceCreator.color(0x000000FF, true));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
