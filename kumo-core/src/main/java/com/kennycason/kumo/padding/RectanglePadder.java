@@ -2,7 +2,7 @@ package com.kennycason.kumo.padding;
 
 import com.kennycason.kumo.Word;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**

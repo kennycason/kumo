@@ -4,7 +4,8 @@ import com.kennycason.kumo.exception.KumoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Dimension;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;

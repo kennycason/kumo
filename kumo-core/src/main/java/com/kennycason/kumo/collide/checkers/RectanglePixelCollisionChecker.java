@@ -3,7 +3,7 @@ package com.kennycason.kumo.collide.checkers;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Created by kenny on 7/1/14.

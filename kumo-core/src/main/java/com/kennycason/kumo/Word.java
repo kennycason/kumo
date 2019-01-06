@@ -4,7 +4,12 @@ import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 /**

@@ -2,7 +2,7 @@ package com.kennycason.kumo.collide.checkers;
 
 import com.kennycason.kumo.collide.Collidable;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Created by kenny on 6/29/14.

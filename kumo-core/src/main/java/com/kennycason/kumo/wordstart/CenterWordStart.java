@@ -2,7 +2,8 @@ package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Dimension;
 
 /**
  * Always returns the Center of the image

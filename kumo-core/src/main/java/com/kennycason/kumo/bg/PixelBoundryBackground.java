@@ -4,8 +4,11 @@ import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

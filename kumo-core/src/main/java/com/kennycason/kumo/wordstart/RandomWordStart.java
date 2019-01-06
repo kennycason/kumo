@@ -2,7 +2,9 @@ package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Dimension;
+
 import java.util.Random;
 
 /**

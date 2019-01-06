@@ -2,7 +2,7 @@ package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
 
-import java.awt.*;
+import java.awt.Point;
 
 /**
  * Created by kenny on 6/30/14.

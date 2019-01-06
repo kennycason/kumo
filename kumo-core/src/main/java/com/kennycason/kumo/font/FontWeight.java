@@ -1,6 +1,6 @@
 package com.kennycason.kumo.font;
 
-import java.awt.*;
+import java.awt.Font;
 
 /**
  * Created by kenny on 7/11/14.

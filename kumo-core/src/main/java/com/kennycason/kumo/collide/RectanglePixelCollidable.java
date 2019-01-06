@@ -3,7 +3,8 @@ package com.kennycason.kumo.collide;
 import com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker;
 import com.kennycason.kumo.image.CollisionRaster;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Dimension;
 
 /**
  * Created by kenny on 7/2/14.

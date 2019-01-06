@@ -2,7 +2,8 @@ package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Dimension;
 
 /**
  * A Background Collision Mode in the shape of a rectangle

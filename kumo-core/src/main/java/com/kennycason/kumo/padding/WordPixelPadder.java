@@ -3,7 +3,9 @@ package com.kennycason.kumo.padding;
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.image.CollisionRaster;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
+
 import java.util.HashSet;
 import java.util.Set;
 
