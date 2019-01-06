@@ -10,12 +10,13 @@ import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.cli.CliParameters.FontScalarType;
 import com.kennycason.kumo.cli.CliParameters.NormalizerType;
 import com.kennycason.kumo.cli.CliParameters.WordStartType;
-import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.font.scale.LogFontScalar;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
+import com.kennycason.kumo.interfaces.FontAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.nlp.normalize.*;
 import com.kennycason.kumo.nlp.tokenizer.WhiteSpaceWordTokenizer;
@@ -27,7 +28,6 @@ import com.kennycason.kumo.wordstart.CenterWordStart;
 import com.kennycason.kumo.wordstart.RandomWordStart;
 import com.kennycason.kumo.wordstart.WordStartStrategy;
 
-import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.util.Arrays;
@@ -100,7 +100,7 @@ public class KumoCli {
 
         final LayeredWordCloud wordCloud = new LayeredWordCloud(
                 cliParameters.getInputSources().size(),
-                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                InstanceCreator.dimension(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode()
         );
         wordCloud.setBackgroundColor(cliParameters.getBackgroundColor());
@@ -110,7 +110,7 @@ public class KumoCli {
             wordCloud.setColorPalette(i, new ColorPalette(cliParameters.getLayeredColors().get(i)));
             wordCloud.setFontScalar(i, buildFontScalar(cliParameters.getFontScalarType()));
             wordCloud.setPadding(i, cliParameters.getPadding());
-            wordCloud.setKumoFont(i, buildKumoFont(cliParameters.getFontWeight()));
+            wordCloud.setKumoFont(i, buildKumoFont(cliParameters.getFontFace()));
             wordCloud.build(i, loadFrequencies(cliParameters.getInputSources().get(i)));
         }
         wordCloud.writeToFile(cliParameters.getOutputSource());
@@ -121,7 +121,7 @@ public class KumoCli {
             throw new IllegalArgumentException("Polar word clouds require exactly 2 input sources. Found: " + cliParameters.getInputSources().size());
         }
         final PolarWordCloud wordCloud = new PolarWordCloud(
-                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                InstanceCreator.dimension(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode(),
                 cliParameters.getPolarBlendMode()
         );
@@ -138,14 +138,14 @@ public class KumoCli {
         wordCloud.setFontScalar(buildFontScalar(cliParameters.getFontScalarType()));
         wordCloud.setPadding(cliParameters.getPadding());
         wordCloud.setWordStartStrategy(buildWordStart(cliParameters.getWordStartType()));
-        wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontWeight()));
+        wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontFace()));
         wordCloud.build(loadFrequencies(cliParameters.getInputSources().get(0)), loadFrequencies(cliParameters.getInputSources().get(1)));
         wordCloud.writeToFile(cliParameters.getOutputSource());
     }
 
     private void buildStandardWordCloud() {
         final WordCloud wordCloud = new WordCloud(
-                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                InstanceCreator.dimension(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode()
         );
         if (!cliParameters.getBackgrounds().isEmpty()) {
@@ -158,7 +158,7 @@ public class KumoCli {
         wordCloud.setFontScalar(buildFontScalar(cliParameters.getFontScalarType()));
         wordCloud.setPadding(cliParameters.getPadding());
         wordCloud.setWordStartStrategy(buildWordStart(cliParameters.getWordStartType()));
-        wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontWeight()));
+        wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontFace()));
         wordCloud.build(loadFrequencies(cliParameters.getInputSources().get(0)));
         wordCloud.writeToFile(cliParameters.getOutputSource());
     }
@@ -208,7 +208,7 @@ public class KumoCli {
         throw new IllegalStateException("Unknown normalizer: " + normalizer);
     }
 
-    private KumoFont buildKumoFont(final FontWeight fontWeight) {
+    private KumoFont buildKumoFont(final FontAbst.Face fontWeight) {
         return new KumoFont(cliParameters.getFontType(), fontWeight);
     }
 

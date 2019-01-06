@@ -5,9 +5,10 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.PolarBlendMode;
-import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.interfaces.ColorAbst;
+import com.kennycason.kumo.interfaces.FontAbst;
+import com.kennycason.kumo.interfaces.InstanceCreator;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +60,7 @@ public class CliParameters {
     private List<String> backgrounds = new ArrayList<>();
 
     @Parameter(names = "--background-color", description = "Background color. Default is Black.", converter = ColorConverter.class)
-    private Color backgroundColor = Color.BLACK;
+    private ColorAbst backgroundColor = InstanceCreator.color(0, 0, 0);
 
     @Parameter(names = { "--color", "-c" }, description = "A comma separated list of colors to use for the word cloud text. Values most be provided in one of the below formats. Refer to CLI.md for usage examples.")
     // perform actual parsing in the getter, the commas in our color format cause issues with jCommander
@@ -77,8 +78,8 @@ public class CliParameters {
     @Parameter(names = "--font-size-max", description = "Maximum font size, default is 40px.")
     private int fontSizeMax = 40;
 
-    @Parameter(names = "--font-weight", description = "A font weight. Default is Bold.", converter = FontWeightConverter.class)
-    private FontWeight fontWeight = FontWeight.BOLD;
+    @Parameter(names = "--font-weight", description = "A font weight. Default is Bold.", converter = FontFaceConverter.class)
+    private FontAbst.Face fontWeight = FontAbst.Face.BOLD;
 
     @Parameter(names = "--font-type", description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
     private String fontType = "Comic Sans MS";
@@ -103,22 +104,22 @@ public class CliParameters {
         return collisionMode;
     }
 
-    public Color getBackgroundColor() {
+    public ColorAbst getBackgroundColor() {
         return backgroundColor;
     }
 
-    public List<Color> getColors() {
+    public List<ColorAbst> getColors() {
         if (isBlank(colorRaw)) {
             return Collections.emptyList();
         }
         return new ColorsConverter().convert(colorRaw);
     }
 
-    public List<List<Color>> getLayeredColors() {
+    public List<List<ColorAbst>> getLayeredColors() {
         if (isBlank(colorRaw)) {
             return Collections.emptyList();
         }
-        final List<List<Color>> layeredColors = new ArrayList<>();
+        final List<List<ColorAbst>> layeredColors = new ArrayList<>();
         for (final String layeredColorSet : colorRaw.split("\\|")) {
             layeredColors.add(new ColorsConverter().convert(layeredColorSet));
         }
@@ -145,7 +146,7 @@ public class CliParameters {
         return fontType;
     }
 
-    public FontWeight getFontWeight() {
+    public FontAbst.Face getFontFace() {
         return fontWeight;
     }
 
@@ -235,26 +236,26 @@ public class CliParameters {
     }
 
     // parameter type converters
-    public static class ColorConverter implements IStringConverter<Color> {
+    public static class ColorConverter implements IStringConverter<ColorAbst> {
         @Override
-        public Color convert(final String input) {
+        public ColorAbst convert(final String input) {
             try {
                 if (input.contains(",")) {
                     return parseRGBValues(input);
                 }
-                return new Color(parseNumber(input));
+                return InstanceCreator.color(parseNumber(input));
 
             } catch (final RuntimeException e) {
                 throw new ParameterException("Failed to parse ColorAbst from input: [" + input + "]");
             }
         }
 
-        private static Color parseRGBValues(final String input) {
+        private static ColorAbst parseRGBValues(final String input) {
             final String[] rgb = input.split(",");
             if (rgb.length != 3) {
                 throw new ParameterException("Expected to find 3 numbers (RGB), instead found " + rgb.length + ", when parsing: [" + input + "]");
             }
-            return new Color(
+            return InstanceCreator.color(
                     parseNumber(rgb[0]),
                     parseNumber(rgb[1]),
                     parseNumber(rgb[2]));
@@ -267,12 +268,12 @@ public class CliParameters {
             return Integer.parseInt(number);
         }
     }
-    public static class ColorsConverter implements IStringConverter<List<Color>> {
+    public static class ColorsConverter implements IStringConverter<List<ColorAbst>> {
         private static final ColorConverter COLOR_CONVERTER = new ColorConverter();
         @Override
-        public List<Color> convert(final String input) {
+        public List<ColorAbst> convert(final String input) {
             final List<String> colorStrings = ParenthesisSerializer.deserialize(input);
-            final List<Color> colors = new ArrayList<>(colorStrings.size());
+            final List<ColorAbst> colors = new ArrayList<>(colorStrings.size());
             for (final String colorString : colorStrings) {
                 colors.add(COLOR_CONVERTER.convert(colorString));
             }
@@ -297,10 +298,10 @@ public class CliParameters {
             return new EnumConverter<>(FontScalarType.class).convert(input);
         }
     }
-    public static class FontWeightConverter implements IStringConverter<FontWeight> {
+    public static class FontFaceConverter implements IStringConverter<FontAbst.Face> {
         @Override
-        public FontWeight convert(final String input) {
-            return new EnumConverter<>(FontWeight.class).convert(input);
+        public FontAbst.Face convert(final String input) {
+            return new EnumConverter<>(FontAbst.Face.class).convert(input);
         }
     }
     public static class WordStartConverter implements IStringConverter<WordStartType> {

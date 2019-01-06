@@ -252,7 +252,7 @@ public class WordCloudITest {
         wordCloud.setPadding(1);
         wordCloud.setKumoFont(new KumoFont("Marker Felt", FontAbst.Face.PLAIN));
         //wordCloud.setAngleGenerator(new AngleGenerator(0));
-        wordCloud.setBackgroundColor(Color.BLACK);
+        wordCloud.setBackgroundColor(InstanceCreator.color(0, 0, 0));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setColorPalette(new ColorPalette(InstanceCreator.color(0xcccccc), InstanceCreator.color(0xdddddd), InstanceCreator.color(0xffffff)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
