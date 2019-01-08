@@ -13,10 +13,6 @@ import java.util.Set;
  */
 public class WordPixelPadder implements Padder {
 
-    // TODO as CollisionRaster changes to use boolean states rgb is not really needed or makes sense for padding
-    // it used to actually changed the buffered image that the word's text is written into.
-    private static final Color PAD_COLOR = Color.BLACK;
-
     private RectanglePadder rectanglePadder = new RectanglePadder();
 
     public void pad(final Word word, final int padding) {
@@ -37,7 +33,7 @@ public class WordPixelPadder implements Padder {
             }
         }
         for (final Point padPoint : toPad) {
-            collisionRaster.setRGB(padPoint.x, padPoint.y, PAD_COLOR.getRGB());
+            collisionRaster.setPixelIsNotTransparent(padPoint.x, padPoint.y);
         }
     }
 
