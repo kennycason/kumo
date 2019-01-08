@@ -34,6 +34,12 @@ public class CollisionRaster {
         data = new BitSet(dimension.width * dimension.height);
     }
 
+    public CollisionRaster(CollisionRaster other) {
+        this.dimension = other.dimension;
+        this.data = new BitSet();
+        this.data.or(other.data);
+    }
+
     private int computeIndex(final int x, final int y) {
         return (y * dimension.height) + x;
     }

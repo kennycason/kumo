@@ -20,20 +20,19 @@ public class WordPixelPadder implements Padder {
         rectanglePadder.pad(word, padding);
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
+        // create a copy of the original raster
+        final CollisionRaster originalRaster = new CollisionRaster(collisionRaster);
 
-        final Set<Point> toPad = new HashSet<>();
-        final int width = collisionRaster.getDimension().width;
-        final int height = collisionRaster.getDimension().height;
-
+        final int width = originalRaster.getDimension().width;
+        final int height = originalRaster.getDimension().height;
+        
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (shouldPad(collisionRaster, x, y, padding)) {
-                    toPad.add(new Point(x, y));
+                if (shouldPad(originalRaster, x, y, padding)) {
+                    // update the raster based on the shouldPad result of the originalRaster
+                    collisionRaster.setPixelIsNotTransparent(x, y);
                 }
             }
-        }
-        for (final Point padPoint : toPad) {
-            collisionRaster.setPixelIsNotTransparent(padPoint.x, padPoint.y);
         }
     }
 
