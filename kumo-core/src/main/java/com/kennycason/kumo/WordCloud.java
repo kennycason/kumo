@@ -229,7 +229,7 @@ public class WordCloud {
         final Graphics graphics = this.bufferedImage.getGraphics();
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
-        final Font font = kumoFont.getFont().deriveFont(fontHeight);
+        final Font font = (wordFrequency.hasFont() ? wordFrequency.getFont() : kumoFont).getFont().deriveFont(fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
         final double theta = angleGenerator.randomNext();
