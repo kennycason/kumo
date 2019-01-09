@@ -80,8 +80,7 @@ public class LayeredWordCloud {
     public ImageAbst getImage() {
         final ImageAbst image = InstanceCreator.image(dimension.getWidth(), dimension.getHeight());
         final GraphicsAbst graphics = InstanceCreator.graphics(image);
-        graphics.setBackgroundColor(backgroundColor);
-        graphics.drawRect(0, 0, dimension.getWidth(), dimension.getHeight());
+        graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
 
         for (final WordCloud wordCloud : wordClouds) {
             graphics.drawImg(wordCloud.getImage(), 0, 0);

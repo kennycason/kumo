@@ -146,8 +146,7 @@ public class WordCloud {
         final GraphicsAbst graphics = InstanceCreator.graphics(backgroundBufferedImage);
 
         // draw current color
-        graphics.setBackgroundColor(backgroundColor);
-        graphics.drawRect(0, 0, dimension.getWidth(), dimension.getHeight());
+        graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
         graphics.drawImg(image, 0, 0);
 
         // draw back to original

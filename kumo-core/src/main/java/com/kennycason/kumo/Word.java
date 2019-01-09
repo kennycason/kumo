@@ -37,10 +37,9 @@ public class Word implements Collidable {
         this.bufferedImage = InstanceCreator.image(width, fontMetrics.getTop());
         final GraphicsAbst graphics = InstanceCreator.graphics(bufferedImage);
         graphics.enableAntiAliasing();
-        graphics.setBackgroundColor(color);
         graphics.setFont(fontMetrics.getFont());
 
-        graphics.drawString(word, 0, fontMetrics.getTop() - maxDescent);
+        graphics.drawString(word, 0, fontMetrics.getTop() - maxDescent, color);
 
         this.collisionRaster = new CollisionRaster(this.bufferedImage);
     }

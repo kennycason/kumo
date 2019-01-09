@@ -46,7 +46,7 @@ public class PolarWordCloudITest {
         final DimensionAbst dimension = InstanceCreator.dimension(990, 618);
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
-        wordCloud.setBackgroundColor(new ColorImpl(255, 255, 255));
+        wordCloud.setBackgroundColor(InstanceCreator.color(255, 255, 255));
         wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setFontScalar(new LinearFontScalar(15, 50));
         final long startTime = System.currentTimeMillis();

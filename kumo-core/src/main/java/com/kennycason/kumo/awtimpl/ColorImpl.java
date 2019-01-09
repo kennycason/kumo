@@ -13,9 +13,9 @@ public class ColorImpl extends ColorAbst<Color> {
         color = new Color(getRed(), getGreen(), getBlue());
     }
 
-    public ColorImpl(int red, int green, int blue, int alpha){
-        super(red, green, blue);
-        color = new Color(getRed(), getGreen(), getBlue(), alpha);
+    public ColorImpl(Color c){
+        super(c.getRed(), c.getGreen(), c.getBlue());
+        color = c;
     }
 
     @Override

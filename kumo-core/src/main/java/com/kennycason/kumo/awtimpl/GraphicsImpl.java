@@ -22,18 +22,15 @@ public class GraphicsImpl extends GraphicsAbst {
     }
 
     @Override
-    public void drawRect(int x, int y, int height, int width) {
-        graphics2D.fillRect(x, y, width, height);
-    }
-
-    @Override
-    public void drawString(String s, int x, int y) {
+    public void drawString(String s, int x, int y, ColorAbst color) {
+        graphics2D.setColor(((ColorImpl)color).getActual());
         graphics2D.drawString(s, x, y);
     }
 
     @Override
-    public void setBackgroundColor(ColorAbst color) {
+    public void drawRect(ColorAbst color, int x, int y, int width, int height) {
         graphics2D.setColor(((ColorImpl)color).getActual());
+        graphics2D.fillRect(x, y, width, height);
     }
 
     @Override

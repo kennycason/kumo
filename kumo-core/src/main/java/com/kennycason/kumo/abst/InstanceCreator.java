@@ -13,12 +13,12 @@ public class InstanceCreator {
 
     public static ColorAbst color(int color){
         Color c = new Color(color);
-        return new ColorImpl(c.getRed(), c.getGreen(), c.getBlue());
+        return new ColorImpl(c);
     }
 
     public static ColorAbst color(int color, boolean alphaValid){
         Color c = new Color(color, alphaValid);
-        return new ColorImpl(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+        return new ColorImpl(c);
     }
 
     public static DimensionAbst dimension(int x, int y){
