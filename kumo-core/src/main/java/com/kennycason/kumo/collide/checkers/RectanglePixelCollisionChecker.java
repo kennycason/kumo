@@ -42,7 +42,25 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         final int startY = Math.max(position.y, position2.y);
         final int endY = Math.min(position.y + collidable.getDimension().height,
                                   position2.y + collidable2.getDimension().height);
+        // this is the fast path of finding collisions:
+        // we expect the none transparent pixel to be around the center
+        // we check a 5 * 5 raster first to move faster to the center
+        int oY = (endY - startY) / 6;
+        int oX = (endX - startX) / 6;
 
+        if (oY > 0 && oX > 0) {
+            for (int y = startY + oY; y < endY - oY; y += oY) {
+                for (int x = startX + oX; x < endX - oX; x += oX) {
+                    // compute offsets for surface
+                    if (!collisionRaster2.isTransparent(x - position2.x, y - position2.y)
+                            && !collisionRaster.isTransparent(x - position.x, y - position.y)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        // if there are no collisions in the tested pixels, test all pixels for collision
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
                 // compute offsets for surface
