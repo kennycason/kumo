@@ -40,7 +40,7 @@ public class CollisionRaster {
     }
 
     private int computeIndex(final int x, final int y) {
-        return (y * dimension.height) + x;
+        return (y * dimension.width) + x;
     }
     
     public final void setPixelIsNotTransparent(final int x, final int y) {
