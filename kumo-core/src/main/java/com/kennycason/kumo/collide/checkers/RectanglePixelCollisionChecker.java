@@ -42,30 +42,41 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         final int startY = Math.max(position.y, position2.y);
         final int endY = Math.min(position.y + collidable.getDimension().height,
                                   position2.y + collidable2.getDimension().height);
+
         // this is the fast path of finding collisions:
-        // we expect the none transparent pixel to be around the center
-        // we check a 5 * 5 raster first to move faster to the center
-        int oY = (endY - startY) / 6;
-        int oX = (endX - startX) / 6;
+        // we expect the none transparent pixel to be around the center.
+        // using padding will increase this effect.
 
-        if (oY > 0 && oX > 0) {
-            for (int y = startY + oY; y < endY - oY; y += oY) {
-                for (int x = startX + oX; x < endX - oX; x += oX) {
-                    // compute offsets for surface
-                    if (!collisionRaster2.isTransparent(x - position2.x, y - position2.y)
-                            && !collisionRaster.isTransparent(x - position.x, y - position.y)) {
-                        return true;
-                    }
-                }
-            }
+        // check only every 9th pixel to move faster to the center.
+        if (fastCollide(
+                collisionRaster, position, collisionRaster2, position2,
+                startX, endX, startY, endY, 9
+        )) {
+            return true;
         }
-
-        // if there are no collisions in the tested pixels, test all pixels for collision
+        
+        // check only every 4th pixel to move faster to the center on another raster than 9.
+        if (fastCollide(
+                collisionRaster, position, collisionRaster2, position2,
+                startX, endX, startY, endY, 4
+        )) {
+            return true;
+        }
+        
+        // test all pixels for collision
         for (int y = startY; y < endY; y++) {
+            int yOfPosition = y - position.y;
+            int yOfPosition2 = y - position2.y;
+
+            if (collisionRaster2.lineIsTransparent(yOfPosition2)
+             || collisionRaster.lineIsTransparent(yOfPosition)) {
+               continue;
+            }
+            
             for (int x = startX; x < endX; x++) {
                 // compute offsets for surface
-                if (!collisionRaster2.isTransparent(x - position2.x, y - position2.y)
-                        && !collisionRaster.isTransparent(x - position.x, y - position.y)) {
+                if (!collisionRaster2.isTransparent(x - position2.x, yOfPosition2)
+                        && !collisionRaster.isTransparent(x - position.x, yOfPosition)) {
                     return true;
                 }
             }
@@ -73,4 +84,24 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         return false;
     }
 
+    private boolean fastCollide(final CollisionRaster collisionRaster, final Point position, final CollisionRaster collisionRaster2, final Point position2, final int startX, final int endX, final int startY, final int endY, int stepSize) {
+        for (int y = startY + stepSize; y < endY; y += stepSize) {
+            int yOfPosition = y - position.y;
+            int yOfPosition2 = y - position2.y;
+            
+            if (collisionRaster2.lineIsTransparent(yOfPosition2)
+             || collisionRaster.lineIsTransparent(yOfPosition)) {
+               continue;
+            }
+            
+            for (int x = startX + stepSize; x < endX; x += stepSize) {
+                // compute offsets for surface
+                if (!collisionRaster2.isTransparent(x - position2.x, yOfPosition2)
+                        && !collisionRaster.isTransparent(x - position.x, yOfPosition)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
