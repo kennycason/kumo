@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Created by kenny on 6/29/14.
@@ -74,7 +76,10 @@ public class WordCloud {
 
         wordPlacer.reset();
         skipped.clear();
-
+        
+        // the background masks all none usable pixels and we can only check this raster
+        background.mask(backgroundCollidable);
+        
         int currentWord = 1;
         for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
@@ -201,13 +206,12 @@ public class WordCloud {
     }
 
     private boolean canPlace(final Word word) {
-        if (!background.isInBounds(word)) { return false; }
-
         switch (collisionMode) {
             case RECTANGLE:
-                return wordPlacer.place(word);
+                return wordPlacer.place(word) // is there a collision with the existing words?
+                    && !backgroundCollidable.collide(word); // is there a collision with the background shape?
             case PIXEL_PERFECT:
-                return !backgroundCollidable.collide(word);
+                return !backgroundCollidable.collide(word); // is there a collision with the background shape?
         }
         return false;
     }
@@ -215,14 +219,10 @@ public class WordCloud {
     protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
-        final List<Word> words = new ArrayList<>();
-        for (final WordFrequency wordFrequency : wordFrequencies) {
-            // the text shouldn't be empty, however, in case of bad normalizers/tokenizers, this may happen
-            if (!wordFrequency.getWord().isEmpty()) {
-                words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
-            }
-        }
-        return words;
+        return wordFrequencies.parallelStream()
+                .filter((wf) -> !wf.getWord().isEmpty())
+                .map((wf) -> buildWord(wf, maxFrequency, colorPalette))
+                .collect(Collectors.toList());
     }
 
     private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
