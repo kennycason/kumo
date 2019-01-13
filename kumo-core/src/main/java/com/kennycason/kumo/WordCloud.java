@@ -206,6 +206,15 @@ public class WordCloud {
     }
 
     private boolean canPlace(final Word word) {
+        Point position = word.getPosition();
+        Dimension dimensionOfWord = word.getDimension();
+        
+        if (position.y < 0 || position.y + dimensionOfWord.height > dimension.height) {
+            return false;
+        } else if (position.x < 0 || position.x + dimensionOfWord.width > dimension.width) {
+            return false;
+        }
+        
         switch (collisionMode) {
             case RECTANGLE:
                 return wordPlacer.place(word) // is there a collision with the existing words?
