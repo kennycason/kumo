@@ -97,6 +97,7 @@ public class WordCloud {
             }
             currentWord++;
         }
+        
         drawForegroundToBackground();
     }
 
@@ -209,6 +210,7 @@ public class WordCloud {
         Point position = word.getPosition();
         Dimension dimensionOfWord = word.getDimension();
         
+        // are we inside the background?
         if (position.y < 0 || position.y + dimensionOfWord.height > dimension.height) {
             return false;
         } else if (position.x < 0 || position.x + dimensionOfWord.width > dimension.width) {
@@ -217,8 +219,8 @@ public class WordCloud {
         
         switch (collisionMode) {
             case RECTANGLE:
-                return wordPlacer.place(word) // is there a collision with the existing words?
-                    && !backgroundCollidable.collide(word); // is there a collision with the background shape?
+                return !backgroundCollidable.collide(word) // is there a collision with the background shape?
+                        && wordPlacer.place(word); // is there a collision with the existing words?
             case PIXEL_PERFECT:
                 return !backgroundCollidable.collide(word); // is there a collision with the background shape?
         }
