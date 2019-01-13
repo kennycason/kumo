@@ -71,11 +71,19 @@ public class PixelBoundryBackground implements Background {
         final int startY = Math.max(position.y, 0);
         final int endY = Math.min(position.y + collidable.getDimension().height, collisionRaster.getDimension().height);
 
+        final CollisionRaster rasterOfCollidable = collidable.getCollisionRaster();
+
         for (int y = startY; y < endY; y++) {
+            final int yOfCollidable = y - position.y;
+            
+            if (rasterOfCollidable.lineIsTransparent(yOfCollidable)) {
+                continue;
+            }
+            
             for (int x = startX; x < endX; x++) {
                 // compute offsets for surface
                 if (collisionRaster.isTransparent(x, y) &&
-                        !collidable.getCollisionRaster().isTransparent(x - position.x, y - position.y)) {
+                        !rasterOfCollidable.isTransparent(x - position.x, yOfCollidable)) {
                     return false;
                 }
             }

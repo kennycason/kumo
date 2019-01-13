@@ -46,6 +46,10 @@ public class WordPixelPadder implements Padder {
         int maxX = Math.min(cx + padding, collisionRaster.getDimension().width - 1);
         
         for (int y = minY; y <= maxY; y++) {
+            if (collisionRaster.lineIsTransparent( y)) {
+                continue;
+            }
+            
             for (int x = minX; x <= maxX; x++) {
                 if (x == cx && y == cy) { continue; }
                 
