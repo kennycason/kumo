@@ -50,7 +50,10 @@ public class PolarWordCloud extends WordCloud {
         final Point[] poles = getRandomPoles();
         final Point pole1 = poles[0];
         final Point pole2 = poles[1];
-
+        
+        // the background masks all none usable pixels and we can only check this raster
+        background.mask(backgroundCollidable);
+        
         while (wordIterator.hasNext() || wordIterator2.hasNext()) {
 
             if (wordIterator.hasNext()) {

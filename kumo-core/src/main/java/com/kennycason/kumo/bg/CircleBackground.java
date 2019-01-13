@@ -2,6 +2,7 @@ package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.collide.RectanglePixelCollidable;
+import com.kennycason.kumo.image.CollisionRaster;
 
 import java.awt.*;
 
@@ -18,26 +19,26 @@ public class CircleBackground implements Background {
         this.radius = radius;
         this.position = new Point(0, 0);
     }
-
+    
     @Override
-    public void mask(RectanglePixelCollidable backgroundCollidable) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public void mask(RectanglePixelCollidable background) {
+        Dimension dimensionOfBackground = background.getDimension();
+        CollisionRaster rasterOfBackground = background.getCollisionRaster();
+        
+        for (int y = 0; y < dimensionOfBackground.height; y++) {
+            for (int x = 0; x < dimensionOfBackground.width; x++) {
+                if (!inCircle(x, y)) {
+                     rasterOfBackground.setPixelIsNotTransparent(
+                             position.x + x, position.y + y
+                     );
+                }
+            }
+        }
     }
-    
-    /*
-    
-    @Override
-    public boolean isInBounds(final Collidable collidable) {
-        final Point position = collidable.getPosition();
-        return inCircle(position.x, position.y)
-                && inCircle(position.x + collidable.getDimension().width, position.y)
-                && inCircle(position.x, position.y + collidable.getDimension().height)
-                && inCircle(position.x + collidable.getDimension().width, position.y + collidable.getDimension().height);
-    }*/
 
     private boolean inCircle(final int x, final int y) {
-        final int centerX = x - radius ;
-        final int centerY = y - radius;
+        final int centerX = position.x + x - radius;
+        final int centerY = position.y + y - radius;
         return  (centerX * centerX) + (centerY * centerY) <= radius * radius;
     }
 
