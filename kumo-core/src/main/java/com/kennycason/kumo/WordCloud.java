@@ -35,6 +35,7 @@ import java.util.*;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by kenny on 6/29/14.
@@ -230,20 +231,24 @@ public class WordCloud {
     protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
-        return wordFrequencies.parallelStream()
-                .filter((wf) -> !wf.getWord().isEmpty())
-                .map((wf) -> buildWord(wf, maxFrequency, colorPalette))
-                .collect(Collectors.toList());
+        List<WordFrequency> noneEmptyWords = wordFrequencies.stream().filter((wf) -> !wf.getWord().isEmpty()).collect(Collectors.toList());
+        
+        // don't let the angles be effected by the parallel creation of words
+        double[] thetas = noneEmptyWords.stream().mapToDouble((w) -> angleGenerator.randomNext()).toArray();
+        
+        return IntStream.range(0, noneEmptyWords.size()).parallel().mapToObj(
+                (i) -> buildWord(noneEmptyWords.get(i), maxFrequency, colorPalette, thetas[i])
+        ).collect(Collectors.toList());
     }
 
-    private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
+    private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette, final double theta) {
         final Graphics graphics = this.bufferedImage.getGraphics();
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = kumoFont.getFont().deriveFont(fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
-        final double theta = angleGenerator.randomNext();
+        
         if (theta != 0.0) {
             word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
         }
