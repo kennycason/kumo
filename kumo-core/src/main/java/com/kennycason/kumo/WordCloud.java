@@ -247,11 +247,8 @@ public class WordCloud {
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = kumoFont.getFont().deriveFont(fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
-        final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
+        final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker, theta);
         
-        if (theta != 0.0) {
-            word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
-        }
         if (padding > 0) {
             padder.pad(word, padding);
         }
