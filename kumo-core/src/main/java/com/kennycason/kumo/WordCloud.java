@@ -13,7 +13,6 @@ import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.image.ImageRotation;
 import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
 import com.kennycason.kumo.padding.WordPixelPadder;
@@ -33,9 +32,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by kenny on 6/29/14.
@@ -227,28 +223,29 @@ public class WordCloud {
         }
         return false;
     }
-
+    
     protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
-        List<WordFrequency> noneEmptyWords = wordFrequencies.stream().filter((wf) -> !wf.getWord().isEmpty()).collect(Collectors.toList());
-        
-        // don't let the angles be effected by the parallel creation of words
-        double[] thetas = noneEmptyWords.stream().mapToDouble((w) -> angleGenerator.randomNext()).toArray();
-        
-        return IntStream.range(0, noneEmptyWords.size()).parallel().mapToObj(
-                (i) -> buildWord(noneEmptyWords.get(i), maxFrequency, colorPalette, thetas[i])
-        ).collect(Collectors.toList());
+        final List<Word> words = new ArrayList<>();
+        for (final WordFrequency wordFrequency : wordFrequencies) {
+            // the text shouldn't be empty, however, in case of bad normalizers/tokenizers, this may happen
+            if (!wordFrequency.getWord().isEmpty()) {
+                words.add(buildWord(wordFrequency, maxFrequency, colorPalette));
+            }
+        }
+        return words;
     }
 
-    private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette, final double theta) {
+    private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
         final Graphics graphics = this.bufferedImage.getGraphics();
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = kumoFont.getFont().deriveFont(fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
+        final double theta = angleGenerator.randomNext();
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker, theta);
-        
+       
         if (padding > 0) {
             padder.pad(word, padding);
         }
