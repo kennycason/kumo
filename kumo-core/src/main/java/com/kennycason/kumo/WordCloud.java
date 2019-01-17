@@ -241,20 +241,16 @@ public class WordCloud {
         final Graphics2D graphics = this.bufferedImage.createGraphics();
         
         // set the rendering hint here to ensure the font metrics are correct
-        graphics.setRenderingHint(
-                RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB
-        );
+        graphics.setRenderingHints(Word.getRenderingHints());
         
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = kumoFont.getFont().deriveFont(fontHeight);
-        final RenderingHints renderingHints = graphics.getRenderingHints();
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         
         final double theta = angleGenerator.randomNext();
         final Word word = new Word(
-                wordFrequency.getWord(), colorPalette.next(), renderingHints, 
+                wordFrequency.getWord(), colorPalette.next(), 
                 fontMetrics, this.collisionChecker, theta
         );
        

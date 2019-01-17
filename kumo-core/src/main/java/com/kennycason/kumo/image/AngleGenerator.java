@@ -21,7 +21,7 @@ public class AngleGenerator {
 
     public AngleGenerator(final int degrees) {
         this.steps = 1;
-        this.thetas = new double[] { degreesToRadians(degrees) };
+        this.thetas = new double[] { Math.toRadians(degrees) };
     }
 
     public AngleGenerator(final double fromDegrees, final double toDegrees, final int steps) {
@@ -46,13 +46,9 @@ public class AngleGenerator {
         final double stepSize = (to - from) / (steps - 1);
         final double[] thetas = new double[steps];
         for (int i = 0; i < steps; i++) {
-            thetas[i] = degreesToRadians(from + (i * stepSize));
+            thetas[i] = Math.toRadians(from + (i * stepSize));
         }
         return thetas;
-    }
-
-    private double degreesToRadians(final double degrees) {
-        return Math.PI * degrees / 180.0;
     }
 
 }

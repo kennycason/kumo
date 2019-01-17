@@ -43,6 +43,12 @@ public class CollisionRaster {
     }
 
     private int computeIndex(final int x, final int y) {
+        if (x < 0 || x >= dimension.width) {
+            throw new IllegalArgumentException("x is out of bounds");
+        } else if (y < 0 || y >= dimension.height) {
+            throw new IllegalArgumentException("x is out of bounds");
+        }
+        
         return (y * dimension.width) + x;
     }
 

@@ -3,9 +3,12 @@ package com.kennycason.kumo;
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
+import com.kennycason.kumo.image.ImageRotation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -27,56 +30,39 @@ public class Word implements Collidable {
 
     public Word(final String word,
             final Color color,
-            final RenderingHints renderingHints,
             final FontMetrics fontMetrics,
             final CollisionChecker collisionChecker,
             final double theta) {
         this.word = word;
         this.color = color;
         this.collisionChecker = collisionChecker;
-        this.bufferedImage = render(word, color, renderingHints, fontMetrics, theta);
+        this.bufferedImage = render(word, color, fontMetrics, theta);
 
         this.collisionRaster = new CollisionRaster(this.bufferedImage);
     }
 
-    static AtomicLong n = new AtomicLong();
-
-    private BufferedImage render(final String text, final Color fontColor, final RenderingHints renderingHints, final FontMetrics fontMetrics, double theta) {
-        // get the height of a line of text in this font and render context
-        final int maxDescent = fontMetrics.getMaxDescent();
+    private BufferedImage render(final String text, final Color fontColor, final FontMetrics fontMetrics, double theta) {
         // get the advance of my text in this font and render context
         final int width = fontMetrics.stringWidth(text);
+        // get the height of a line of text in this font and render context
+        final int height = fontMetrics.getHeight();
 
-        // add 2 pixels space for antialiasing
-        final int height = fontMetrics.getHeight() + 2;
-
-        final double sin = Math.abs(Math.sin(theta));
-        final double cos = Math.abs(Math.cos(theta));
-
-        final int rotatedWidth = (int) Math.floor(width * cos + height * sin);
-        final int rotatedHeight = (int) Math.floor(height * cos + width * sin);
-
-        BufferedImage image = new BufferedImage(
-                rotatedWidth, rotatedHeight, BufferedImage.TYPE_INT_ARGB
+        BufferedImage rendered = new BufferedImage(
+                width, height, BufferedImage.TYPE_INT_ARGB
         );
-        final Graphics2D graphics = (Graphics2D) image.getGraphics();
-        final int centerX = rotatedWidth / 2;
-        final int centerY = rotatedHeight / 2;
-
-        // we rotate the word around the center of the image
-        graphics.rotate(theta, centerX, centerY);
         
-        // we need to use the same rendering hints to ensure text width is correct
-        graphics.setRenderingHints(renderingHints);
-        graphics.setColor(fontColor);
-        graphics.setFont(fontMetrics.getFont());
-        graphics.drawString(
-                text, 
-                centerX - width / 2, 
-                centerY + (fontMetrics.getHeight() - maxDescent) / 2
+        final Graphics2D gOfRendered = (Graphics2D) rendered.getGraphics();
+        
+        // set the rendering hint here to ensure the font metrics are correct
+        gOfRendered.setRenderingHints(getRenderingHints());
+        gOfRendered.setColor(fontColor);
+        gOfRendered.setFont(fontMetrics.getFont());
+        
+        gOfRendered.drawString(
+                text, 0, height - fontMetrics.getMaxDescent() - fontMetrics.getLeading()
         );
-
-        return image;
+        
+        return ImageRotation.rotate(rendered, theta);
     }
 
     public BufferedImage getBufferedImage() {
@@ -112,6 +98,36 @@ public class Word implements Collidable {
 
     public void draw(final CollisionRaster collisionRaster) {
         collisionRaster.mask(collisionRaster, position);
+    }
+    
+    public static RenderingHints getRenderingHints() {
+        Map<RenderingHints.Key, Object> hints = new HashMap<>();
+        hints.put(
+                RenderingHints.KEY_ALPHA_INTERPOLATION,
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY
+        );
+        hints.put(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
+        hints.put(
+                RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_QUALITY
+        );
+        hints.put(
+                RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON
+        );
+        hints.put(
+                RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BICUBIC
+        );
+        hints.put(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB
+        );
+        
+        return new RenderingHints(hints);
     }
 
     @Override
