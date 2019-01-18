@@ -12,24 +12,34 @@ public class ImageImpl extends ImageAbst<BufferedImage> {
     private BufferedImage bufferedImage;
 
     public ImageImpl(int width, int height) {
-        super(width, height);
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
     }
 
     public ImageImpl(InputStream inputStream){
-        super(0, 0);
         try {
             bufferedImage = ImageIO.read(inputStream);
-            width = bufferedImage.getWidth();
-            height = bufferedImage.getHeight();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public ImageImpl(BufferedImage image){
+        this.bufferedImage = image;
+    }
+
     @Override
     public int getColor(int x, int y) {
         return bufferedImage.getRGB(x, y);
+    }
+
+    @Override
+    public int getWidth() {
+        return bufferedImage.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return bufferedImage.getHeight();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.kennycason.kumo.awtimpl;
 import com.kennycason.kumo.abst.FontAbst;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,6 +18,14 @@ public class FontImpl extends FontAbst<Font> {
     public FontImpl(InputStream fromFile) {
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, fromFile);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public FontImpl(File file){
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, file);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }

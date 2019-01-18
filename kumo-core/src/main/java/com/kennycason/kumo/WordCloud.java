@@ -12,7 +12,7 @@ import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.image.ImageRotation;
+import com.kennycason.kumo.abst.ImageRotatorAbst;
 import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
@@ -231,7 +231,7 @@ public class WordCloud {
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
         final double theta = angleGenerator.randomNext();
         if (theta != 0.0) {
-            word.setImage(ImageRotation.rotate(word.getBufferedImage(), theta));
+            word.setImage(InstanceCreator.imageRotator().rotate(word.getBufferedImage(), theta));
         }
         if (padding > 0) {
             padder.pad(word, padding);

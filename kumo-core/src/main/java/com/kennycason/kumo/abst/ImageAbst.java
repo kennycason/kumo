@@ -2,21 +2,9 @@ package com.kennycason.kumo.abst;
 
 public abstract class ImageAbst<IMPL> implements VaryingImpl<IMPL>{
 
-    protected int width;
-    protected int height;
-
-    public ImageAbst(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
-
     public abstract int getColor(int x, int y);
 
-    public int getWidth() {
-        return width;
-    }
+    public abstract int getWidth();
 
-    public int getHeight() {
-        return height;
-    }
+    public abstract int getHeight();
 }

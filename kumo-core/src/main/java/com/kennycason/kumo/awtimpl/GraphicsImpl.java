@@ -35,7 +35,7 @@ public class GraphicsImpl extends GraphicsAbst {
 
     @Override
     public void translate(int x, int y) {
-        graphics2D.translate(x, y);
+        graphics2D.translate((double)x, (double) y);
     }
 
     @Override
@@ -57,11 +57,5 @@ public class GraphicsImpl extends GraphicsAbst {
     @Override
     public FontMetricsAbst getFontMetrics() {
         return new FontMetricsImpl(graphics2D.getFontMetrics(font));
-    }
-
-    @Override
-    public void drawAndFinish(ImageAbst drawOn) {
-        graphics2D.drawRenderedImage(((ImageImpl)drawOn).getActual(), null);
-        graphics2D.dispose();
     }
 }

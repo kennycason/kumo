@@ -18,5 +18,4 @@ public abstract class GraphicsAbst {
 
     public abstract FontMetricsAbst getFontMetrics();
 
-    public abstract void drawAndFinish(ImageAbst drawOn);
 }

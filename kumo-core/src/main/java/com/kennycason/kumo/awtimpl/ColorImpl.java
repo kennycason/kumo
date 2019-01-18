@@ -9,12 +9,10 @@ public class ColorImpl extends ColorAbst<Color> {
     private Color color;
 
     public ColorImpl(int red, int green, int blue) {
-        super(red, green, blue);
-        color = new Color(getRed(), getGreen(), getBlue());
+        color = new Color(red, green, blue);
     }
 
     public ColorImpl(int col, boolean alphaValid){
-        super(new Color(col, alphaValid).getRed(), new Color(col, alphaValid).getGreen(), new Color(col, alphaValid).getBlue());
         color = new Color(col, alphaValid);
     }
 
@@ -26,5 +24,20 @@ public class ColorImpl extends ColorAbst<Color> {
     @Override
     public int getInt() {
         return color.getRGB();
+    }
+
+    @Override
+    public int getRed() {
+        return color.getRed();
+    }
+
+    @Override
+    public int getGreen() {
+        return color.getGreen();
+    }
+
+    @Override
+    public int getBlue() {
+        return color.getBlue();
     }
 }
