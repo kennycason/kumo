@@ -37,23 +37,25 @@ public class WordPixelPadder implements Padder {
         }
 
         for (int y = 0; y < height; y++) {
-            // is the line inside the image and not transparent?
-            if (y - padding >= 0 && !originalRaster.lineIsTransparent(y - padding)) {
+            // is the line inside the image?
+            if (y - padding >= 0) {
                 // the line (y - padding) is now outside the padding area, we need to update our index
-                for (int x = 0, line = y - padding; x < width; x++) {
-                    if (!originalRaster.isTransparent(x, line)) {
-                        pixelsSetInPaddingPerColumn[x]--;
-                    }
+                int line = y - padding;
+                int set = -1;  
+                
+                while ((set = originalRaster.nextNotTransparentPixel(set + 1, width, line)) != -1) {
+                    pixelsSetInPaddingPerColumn[set]--;
                 }
             }
             
-            // is the line inside the image and not transparent?
-            if (y > 0 && y + padding < height && !originalRaster.lineIsTransparent(y + padding)) {
-                // the line (y - padding) is now inside the padding area, we need to update our index
-                for (int x = 0, line = y + padding; x < width; x++) {
-                    if (!originalRaster.isTransparent(x, line)) {
-                        pixelsSetInPaddingPerColumn[x]++;
-                    }
+            // is the line inside the image?
+            if (y > 0 && y + padding < height) {
+                // the line (y + padding) is now inside the padding area, we need to update our index
+                int line = y + padding;
+                int set = -1;  
+                
+                while ((set = originalRaster.nextNotTransparentPixel(set + 1, width, line)) != -1) {
+                    pixelsSetInPaddingPerColumn[set]++;
                 }
             }
             

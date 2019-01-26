@@ -51,12 +51,6 @@ public class CollisionRasterTest {
                 collisionRaster.setPixelIsNotTransparent(xSet, ySet);
 
                 for (int y = 0; y < height; y++) {
-                    if (y == ySet) {
-                        assertFalse(collisionRaster.lineIsTransparent(y));
-                    } else {
-                        assertTrue(collisionRaster.lineIsTransparent(y));
-                    }
-
                     for (int x = 0; x < width; x++) {
                         if (x == xSet && y == ySet) {
                             assertFalse(collisionRaster.isTransparent(x, y));

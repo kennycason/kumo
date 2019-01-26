@@ -10,8 +10,6 @@ import java.util.BitSet;
 public class CollisionRaster {
 
     private final BitSet data;
-    private final BitSet lines;
-
     private final Dimension dimension;
 
     public CollisionRaster(final BufferedImage bufferedImage) {
@@ -32,21 +30,19 @@ public class CollisionRaster {
         this.dimension = dimension;
 
         data = new BitSet(dimension.width * dimension.height);
-        lines = new BitSet(dimension.height);
     }
 
     
     public CollisionRaster(CollisionRaster other) {
         this.dimension = other.dimension;
         this.data = (BitSet) other.data.clone();
-        this.lines = (BitSet) other.lines.clone();
     }
 
     private int computeIndex(final int x, final int y) {
         if (x < 0 || x >= dimension.width) {
             throw new IllegalArgumentException("x is out of bounds");
         } else if (y < 0 || y >= dimension.height) {
-            throw new IllegalArgumentException("x is out of bounds");
+            throw new IllegalArgumentException("y is out of bounds");
         }
         
         return (y * dimension.width) + x;
@@ -54,7 +50,6 @@ public class CollisionRaster {
 
     public final void setPixelIsNotTransparent(final int x, final int y) {
         data.set(computeIndex(x, y));
-        lines.set(y);
     }
 
     public void mask(final CollisionRaster collisionRaster, final Point point) {
@@ -64,18 +59,32 @@ public class CollisionRaster {
         for (int offY = point.y, offY2 = 0; offY < maxHeight; offY++, offY2++) {
             // we can't set the "line is not transparent" flag here, 
             // the maxWidth might be smaller than the collisionRaster's width
-            if (!collisionRaster.lineIsTransparent(offY2)) {
-                for (int offX = point.x, offX2 = 0; offX < maxWidth; offX++, offX2++) {
-                    if (!collisionRaster.isTransparent(offX2, offY2)) {
-                        setPixelIsNotTransparent(offX, offY);
-                    }
+            for (int offX = point.x, offX2 = 0; offX < maxWidth; offX++, offX2++) {
+                if (!collisionRaster.isTransparent(offX2, offY2)) {
+                    setPixelIsNotTransparent(offX, offY);
                 }
             }
         }
     }
+    
+    /**
+     * @param minX (inclusive) start of the pixels to test 
+     * @param maxX (exclusive) end of the pixels to test 
+     * @param y the line to check
+     */
+    public int nextNotTransparentPixel(final int minX, final int maxX, int y) {
+        if (maxX > dimension.width) {
+            throw new IllegalArgumentException("maxX is out of bounds");
+        }
+        
+        int idx = computeIndex(minX, y);
+        int set = data.nextSetBit(idx);
 
-    public boolean lineIsTransparent(int y) {
-       return !lines.get(y);
+        if (set != -1 && set < idx + maxX - minX) {
+            return (set - idx) + minX;
+        } else {
+            return -1;
+        }
     }
 
     public boolean isTransparent(final int x, final int y) {
