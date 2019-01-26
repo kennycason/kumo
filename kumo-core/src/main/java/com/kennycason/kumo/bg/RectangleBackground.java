@@ -40,28 +40,20 @@ public class RectangleBackground implements Background {
     @Override
     public void mask(RectanglePixelCollidable background) {
         Dimension dimensionOfShape = dimension;
-        Dimension dimensionOfBackground = background.getDimension();
         
         int minY = Math.max(position.y, 0);
         int minX = Math.max(position.x, 0);
         
-        int maxY = Math.min(
-                dimensionOfShape.height - minY, 
-                dimensionOfBackground.height
-        );
-        int maxX = Math.min(
-                dimensionOfShape.width - minX, 
-                dimensionOfBackground.width
-        );
+        int maxY = dimensionOfShape.height - position.y - 1;
+        int maxX = dimensionOfShape.width - position.x - 1;
         
+        Dimension dimensionOfBackground = background.getDimension();
         CollisionRaster rasterOfBackground = background.getCollisionRaster();
         
         for (int y = 0; y < dimensionOfBackground.height; y++) {
             for (int x = 0; x < dimensionOfBackground.width; x++) {
-                if ((y < minY) || (y >= maxY) || (x < minX) || (x >= maxX)) {
-                     rasterOfBackground.setPixelIsNotTransparent(
-                             position.x + x, position.y + y
-                     );
+                if ((y < minY) || (y > maxY) || (x < minX) || (x > maxX)) {
+                     rasterOfBackground.setPixelIsNotTransparent(x, y);
                 }
             }
         }

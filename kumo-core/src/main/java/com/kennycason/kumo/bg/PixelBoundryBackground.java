@@ -68,16 +68,15 @@ public class PixelBoundryBackground implements Background {
         CollisionRaster rasterOfBackground = background.getCollisionRaster();
 
         for (int y = 0; y < dimensionOfBackground.height; y++) {
-            if (y > maxY) {
+            if (y < minY || y > maxY) {
                 for (int x = 0; x < dimensionOfBackground.width; x++) {
                     rasterOfBackground.setPixelIsNotTransparent(
                             position.x + x, position.y + y
                     );
                 }
             } else {
-
                 for (int x = 0; x < dimensionOfBackground.width; x++) {
-                    if (x > maxX || collisionRaster.isTransparent(x, y)) {
+                    if (x < minX || x > maxX || collisionRaster.isTransparent(x, y)) {
                         rasterOfBackground.setPixelIsNotTransparent(
                                 position.x + x, position.y + y
                         );
