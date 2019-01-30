@@ -52,7 +52,7 @@ public class WordCloud {
     protected KumoFont kumoFont = new KumoFont("Comic Sans MS", FontAbst.Face.BOLD);
     protected AngleGenerator angleGenerator = new AngleGenerator();
     protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
-    protected ColorPalette colorPalette = new ColorPalette(0x02B6F2, 0x37C2F0, 0x7CCBE6, 0xC4E7F2, 0xFFFFFF);
+    protected ColorPalette colorPalette = new ColorPalette(InstanceCreator.color(246, 162, 108), InstanceCreator.color(76, 38, 153), InstanceCreator.color(733, 69, 12), InstanceCreator.color(65, 234, 222), InstanceCreator.color(255, 255, 255));
     protected WordStartStrategy wordStartStrategy = new RandomWordStart();
     
     public WordCloud(final DimensionAbst dimension, final CollisionMode collisionMode) {
