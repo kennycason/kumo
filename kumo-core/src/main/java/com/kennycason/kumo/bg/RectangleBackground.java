@@ -44,8 +44,8 @@ public class RectangleBackground implements Background {
         int minY = Math.max(position.y, 0);
         int minX = Math.max(position.x, 0);
         
-        int maxY = dimensionOfShape.height - position.y - 1;
-        int maxX = dimensionOfShape.width - position.x - 1;
+        int maxY = dimensionOfShape.height + position.y - 1;
+        int maxX = dimensionOfShape.width + position.x - 1;
         
         Dimension dimensionOfBackground = background.getDimension();
         CollisionRaster rasterOfBackground = background.getCollisionRaster();
