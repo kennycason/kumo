@@ -162,6 +162,21 @@ public class WordCloud {
     }
 
     /**
+     * compute the maximum radius for the placing spiral
+     *
+     * @param dimension the size of the backgound
+     * @param start the center of the spiral
+     * @return the maximum usefull radius
+     */
+    static int computeRadius(Dimension dimension, Point start) {
+        int maxDistanceX = Math.max(start.x, dimension.width - start.x) + 1;
+        int maxDistanceY = Math.max(start.y, dimension.height - start.y) + 1;
+        
+        // we use the pythagorean theorem to determinate the maximum radius
+        return (int) Math.ceil(Math.sqrt(maxDistanceX * maxDistanceX + maxDistanceY * maxDistanceY));
+    }
+    
+    /**
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word the word being placed
      * @param start the place to start trying to place the word
@@ -169,12 +184,12 @@ public class WordCloud {
     protected boolean place(final Word word, final Point start) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
-        final int maxRadius = dimension.width;
+        final int maxRadius = computeRadius(dimension, start);
 
         for (int r = 0; r < maxRadius; r += 2) {
             for (int x = -r; x <= r; x++) {
                 if (start.x + x < 0) { continue; }
-                if (start.x + x >= maxRadius) { continue; }
+                if (start.x + x >= dimension.width) { continue; }
 
                 boolean placed = false;
                 word.getPosition().x = start.x + x;
