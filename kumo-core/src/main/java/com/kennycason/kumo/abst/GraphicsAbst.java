@@ -8,10 +8,6 @@ public abstract class GraphicsAbst {
 
     public abstract void drawRect(ColorAbst color, int x, int y, int width, int height);
 
-    public abstract void translate(int x, int y);
-
-    public abstract void rotate(double angle, int xPivot, int yPivot);
-
     public abstract void enableAntiAliasing();
 
     public abstract void setFont(FontAbst font);

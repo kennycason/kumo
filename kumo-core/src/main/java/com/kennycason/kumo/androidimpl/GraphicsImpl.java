@@ -40,16 +40,6 @@ public class GraphicsImpl extends GraphicsAbst {
     }
 
     @Override
-    public void translate(int x, int y) {
-        canvas.translate(x, y);
-    }
-
-    @Override
-    public void rotate(double angle, int xPivot, int yPivot) {
-        canvas.rotate((float) angle, xPivot, yPivot);
-    }
-
-    @Override
     public void enableAntiAliasing() {
         paint.setAntiAlias(true);
     }

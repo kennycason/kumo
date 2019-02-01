@@ -34,16 +34,6 @@ public class GraphicsImpl extends GraphicsAbst {
     }
 
     @Override
-    public void translate(int x, int y) {
-        graphics2D.translate((double)x, (double) y);
-    }
-
-    @Override
-    public void rotate(double angle, int xPivot, int yPivot) {
-        graphics2D.rotate(angle, xPivot, yPivot);
-    }
-
-    @Override
     public void enableAntiAliasing() {
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
     }
