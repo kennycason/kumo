@@ -16,9 +16,9 @@ import java.util.Random;
 public class PolarWordCloud extends WordCloud {
     private static final Random RANDOM = new Random();
 
-    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(InstanceCreator.color(255, 0, 0));
+    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(InstanceCreator.color(27,224,0), InstanceCreator.color(26,201,2), InstanceCreator.color(21,176,0), InstanceCreator.color(18,148,0), InstanceCreator.color(15,122,0), InstanceCreator.color(11,94,0));
 
-    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(InstanceCreator.color(0, 0, 255));
+    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(InstanceCreator.color(245,0,0), InstanceCreator.color(222,0,0), InstanceCreator.color(201,2,2), InstanceCreator.color(181,2,2), InstanceCreator.color(153,2,2), InstanceCreator.color(128,1,1));
 
     private final PolarBlendMode polarBlendMode;
 

@@ -2,6 +2,7 @@ package com.kennycason.kumo.androidimpl;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import com.kennycason.kumo.abst.*;
 
@@ -25,6 +26,7 @@ public class GraphicsImpl extends GraphicsAbst {
 
     @Override
     public void drawString(String s, int x, int y, ColorAbst color) {
+        paint.setAlpha(Color.alpha(color.getInt()));
         paint.setColor(color.getInt());
         canvas.drawText(s, x, y, paint);
     }

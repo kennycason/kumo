@@ -8,11 +8,15 @@ public class ColorImpl extends ColorAbst<Color> {
     private int color;
 
     public ColorImpl(int red, int green, int blue) {
-        color = Color.rgb(red, green, blue);
+        color = Color.argb(255, red, green, blue);
     }
 
     public ColorImpl(int col, boolean alphaValid){
         color = col;
+
+        if(!alphaValid){
+            color = Color.argb(255, getRed(), getGreen(), getBlue());
+        }
     }
 
     public ColorImpl(int col){
