@@ -2,7 +2,6 @@ package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.abst.PointAbst;
 
 import java.util.Random;
@@ -21,7 +20,7 @@ public class RandomWordStart implements WordStartStrategy {
         final int startX = RANDOM.nextInt(Math.max(dimension.getWidth() - word.getDimension().getWidth(), dimension.getWidth()));
         final int startY = RANDOM.nextInt(Math.max(dimension.getHeight() - word.getDimension().getHeight(), dimension.getHeight()));
 
-        return InstanceCreator.point(startX, startY);
+        return PointAbst.get(startX, startY);
     }
 
 }

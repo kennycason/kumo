@@ -3,12 +3,12 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.abst.ColorAbst;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.FontAbst;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.FontAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
@@ -39,9 +39,9 @@ public class SimplyMeasuredWordCloudITest {
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/simplymeasured.txt"));
         final List<WordFrequency> wordFrequencies3 = frequencyAnalyzer.load(getInputStream("text/simplymeasured.txt"));
 
-        final DimensionAbst dimension = InstanceCreator.dimension(600, 454);
+        final DimensionAbst dimension = DimensionAbst.get(600, 454);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(InstanceCreator.color(0x000000FF, true));
+        layeredWordCloud.setBackgroundColor(ColorAbst.get(0x000000FF, true));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
@@ -55,9 +55,9 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-2.png")));
         layeredWordCloud.setBackground(2, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-3.png")));
 
-        layeredWordCloud.setColorPalette(0, new ColorPalette(InstanceCreator.color(0x3f5ca9)));
-        layeredWordCloud.setColorPalette(1, new ColorPalette(InstanceCreator.color(0x6185c3)));
-        layeredWordCloud.setColorPalette(2, new ColorPalette(InstanceCreator.color(0x8fb6e1)));
+        layeredWordCloud.setColorPalette(0, new ColorPalette(ColorAbst.get(0x3f5ca9)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(ColorAbst.get(0x6185c3)));
+        layeredWordCloud.setColorPalette(2, new ColorPalette(ColorAbst.get(0x8fb6e1)));
 
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 40));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));

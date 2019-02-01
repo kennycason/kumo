@@ -1,11 +1,11 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
-import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.palette.ColorPalette;
 import com.kennycason.kumo.placement.RectangleWordPlacer;
 import com.kennycason.kumo.wordstart.WordStartStrategy;
@@ -29,7 +29,7 @@ public class LayeredWordCloud {
 
     private final List<WordCloud> wordClouds = new ArrayList<>();
 
-    private ColorAbst backgroundColor = InstanceCreator.color(0, 0, 0);
+    private ColorAbst backgroundColor = ColorAbst.get(0, 0, 0);
 
     public LayeredWordCloud(final int layers, final DimensionAbst dimension, final CollisionMode collisionMode) {
         this.dimension = dimension;
@@ -78,8 +78,8 @@ public class LayeredWordCloud {
     }
 
     public ImageAbst getImage() {
-        final ImageAbst image = InstanceCreator.image(dimension.getWidth(), dimension.getHeight());
-        final GraphicsAbst graphics = InstanceCreator.graphics(image);
+        final ImageAbst image = ImageAbst.get(dimension.getWidth(), dimension.getHeight());
+        final GraphicsAbst graphics = GraphicsAbst.get(image);
         graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
 
         for (final WordCloud wordCloud : wordClouds) {
@@ -109,7 +109,7 @@ public class LayeredWordCloud {
         }
         try {
             LOGGER.info("Saving Layered WordCloud to: {}", outputFileName);
-            InstanceCreator.imageWriter().write(getImage(), extension, new FileOutputStream(new File(outputFileName)));
+            ImageWriterAbst.get().write(getImage(), extension, new FileOutputStream(new File(outputFileName)));
 
         } catch (final IOException e) {
             throw new KumoException(e);

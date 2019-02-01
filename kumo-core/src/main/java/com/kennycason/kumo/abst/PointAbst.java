@@ -1,5 +1,8 @@
 package com.kennycason.kumo.abst;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class PointAbst<IMPL> implements VaryingImpl<IMPL> {
 
     private int x;
@@ -24,5 +27,19 @@ public abstract class PointAbst<IMPL> implements VaryingImpl<IMPL> {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public static PointAbst get(int x, int y){
+        String name = "PointImpl";
+        try {
+
+            Class<? extends PointAbst> clazz = (Class<? extends PointAbst>) Class.forName(Platform.PACKAGE + name);
+            Constructor<? extends PointAbst> con = clazz.getConstructor(int.class, int.class);
+            return con.newInstance(x, y);
+
+        } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

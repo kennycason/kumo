@@ -1,7 +1,6 @@
 package com.kennycason.kumo.palette;
 
 import com.kennycason.kumo.abst.ColorAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class ColorPalette {
     public ColorPalette(final int... colors) {
         this.colors = new ArrayList<>();
         for (final int color : colors) {
-            this.colors.add(InstanceCreator.color(color));
+            this.colors.add(ColorAbst.get(color));
         }
     }
 

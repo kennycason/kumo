@@ -1,9 +1,8 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.collide.Collidable;
 
 /**
  * A Background Collision Mode in the shape of a rectangle
@@ -12,7 +11,7 @@ import com.kennycason.kumo.abst.PointAbst;
  * @version 2015.11.26
  */
 public class RectangleBackground implements Background {
-    private static final PointAbst ZERO = InstanceCreator.point(0, 0);
+    private static final PointAbst ZERO = PointAbst.get(0, 0);
 
     private final PointAbst position;
     

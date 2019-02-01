@@ -3,7 +3,6 @@ package com.kennycason.kumo.padding;
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.abst.GraphicsAbst;
 import com.kennycason.kumo.abst.ImageAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 
 /**
  * Created by kenny on 7/2/14.
@@ -18,8 +17,8 @@ public class RectanglePadder implements Padder {
         final int width = image.getWidth() + padding * 2;
         final int height = image.getHeight() + padding * 2;
 
-        final ImageAbst newImage = InstanceCreator.image(width, height);
-        final GraphicsAbst graphics = InstanceCreator.graphics(newImage);
+        final ImageAbst newImage = ImageAbst.get(width, height);
+        final GraphicsAbst graphics = GraphicsAbst.get(newImage);
         graphics.drawImg(image, padding, padding);
 
         word.setImage(newImage);

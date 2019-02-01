@@ -7,7 +7,6 @@ import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.PolarBlendMode;
 import com.kennycason.kumo.abst.ColorAbst;
 import com.kennycason.kumo.abst.FontAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +59,7 @@ public class CliParameters {
     private List<String> backgrounds = new ArrayList<>();
 
     @Parameter(names = "--background-color", description = "Background color. Default is Black.", converter = ColorConverter.class)
-    private ColorAbst backgroundColor = InstanceCreator.color(0, 0, 0);
+    private ColorAbst backgroundColor = ColorAbst.get(0, 0, 0);
 
     @Parameter(names = { "--color", "-c" }, description = "A comma separated list of colors to use for the word cloud text. Values most be provided in one of the below formats. Refer to CLI.md for usage examples.")
     // perform actual parsing in the getter, the commas in our color format cause issues with jCommander
@@ -243,7 +242,7 @@ public class CliParameters {
                 if (input.contains(",")) {
                     return parseRGBValues(input);
                 }
-                return InstanceCreator.color(parseNumber(input));
+                return ColorAbst.get(parseNumber(input));
 
             } catch (final RuntimeException e) {
                 throw new ParameterException("Failed to parse ColorAbst from input: [" + input + "]");
@@ -255,7 +254,7 @@ public class CliParameters {
             if (rgb.length != 3) {
                 throw new ParameterException("Expected to find 3 numbers (RGB), instead found " + rgb.length + ", when parsing: [" + input + "]");
             }
-            return InstanceCreator.color(
+            return ColorAbst.get(
                     parseNumber(rgb[0]),
                     parseNumber(rgb[1]),
                     parseNumber(rgb[2]));

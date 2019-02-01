@@ -1,7 +1,7 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.collide.Collidable;
 
 /**
  * Created by kenny on 6/30/14.

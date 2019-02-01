@@ -5,6 +5,8 @@ import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.PolarWordCloud;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.FontAbst;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.cli.CliParameters.FontScalarType;
@@ -15,8 +17,6 @@ import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.font.scale.LogFontScalar;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
-import com.kennycason.kumo.abst.FontAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.nlp.normalize.*;
 import com.kennycason.kumo.nlp.tokenizer.WhiteSpaceWordTokenizer;
@@ -100,7 +100,7 @@ public class KumoCli {
 
         final LayeredWordCloud wordCloud = new LayeredWordCloud(
                 cliParameters.getInputSources().size(),
-                InstanceCreator.dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                DimensionAbst.get(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode()
         );
         wordCloud.setBackgroundColor(cliParameters.getBackgroundColor());
@@ -121,7 +121,7 @@ public class KumoCli {
             throw new IllegalArgumentException("Polar word clouds require exactly 2 input sources. Found: " + cliParameters.getInputSources().size());
         }
         final PolarWordCloud wordCloud = new PolarWordCloud(
-                InstanceCreator.dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                DimensionAbst.get(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode(),
                 cliParameters.getPolarBlendMode()
         );
@@ -145,7 +145,7 @@ public class KumoCli {
 
     private void buildStandardWordCloud() {
         final WordCloud wordCloud = new WordCloud(
-                InstanceCreator.dimension(cliParameters.getWidth(), cliParameters.getHeight()),
+                DimensionAbst.get(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode()
         );
         if (!cliParameters.getBackgrounds().isEmpty()) {

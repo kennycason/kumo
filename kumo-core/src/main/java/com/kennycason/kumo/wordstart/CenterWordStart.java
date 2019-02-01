@@ -2,7 +2,6 @@ package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.abst.PointAbst;
 
 /**
@@ -17,7 +16,7 @@ public class CenterWordStart implements WordStartStrategy {
         final int x = (dimension.getWidth() / 2) - (word.getDimension().getWidth() / 2);
         final int y = (dimension.getHeight() / 2) - (word.getDimension().getHeight() / 2);
 
-        return InstanceCreator.point(x, y);
+        return PointAbst.get(x, y);
     }
 
 }

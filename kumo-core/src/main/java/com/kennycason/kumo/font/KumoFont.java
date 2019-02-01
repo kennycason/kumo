@@ -1,8 +1,7 @@
 package com.kennycason.kumo.font;
 
-import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.abst.FontAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.exception.KumoException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +16,7 @@ public class KumoFont {
     private final FontAbst font;
 
     public KumoFont(final String type, final FontAbst.Face weight) {
-        this.font = InstanceCreator.font(type, weight, DEFAULT_WEIGHT);
+        this.font = FontAbst.get(type, weight, DEFAULT_WEIGHT);
     }
 
     public KumoFont(final FontAbst font) {
@@ -34,7 +33,7 @@ public class KumoFont {
 
     private static FontAbst buildAndRegisterFont(final File file) {
         try {
-            final FontAbst font = InstanceCreator.font(new FileInputStream(file));
+            final FontAbst font = FontAbst.get(new FileInputStream(file));
             font.registerIfNecessary();
             return font;
 
@@ -45,7 +44,7 @@ public class KumoFont {
 
     private static FontAbst buildAndRegisterFont(final InputStream inputStream) {
         try {
-            final FontAbst font = InstanceCreator.font(inputStream);
+            final FontAbst font = FontAbst.get(inputStream);
             font.registerIfNecessary();
             return font;
 

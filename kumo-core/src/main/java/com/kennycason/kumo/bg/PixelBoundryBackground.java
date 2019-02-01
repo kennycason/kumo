@@ -1,10 +1,10 @@
 package com.kennycason.kumo.bg;
 
+import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.abst.ImageAbst;
+import com.kennycason.kumo.abst.PointAbst;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.abst.ImageAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
-import com.kennycason.kumo.abst.PointAbst;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,9 +30,9 @@ public class PixelBoundryBackground implements Background {
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
-        final ImageAbst bufferedImage = InstanceCreator.image(imageInputStream);
+        final ImageAbst bufferedImage = ImageAbst.get(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
-        this.rectangleBackground = new RectangleBackground(InstanceCreator.dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
+        this.rectangleBackground = new RectangleBackground(DimensionAbst.get(bufferedImage.getWidth(), bufferedImage.getHeight()));
     }
     
     /**

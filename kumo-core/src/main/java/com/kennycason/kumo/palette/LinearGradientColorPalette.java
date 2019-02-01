@@ -1,7 +1,6 @@
 package com.kennycason.kumo.palette;
 
 import com.kennycason.kumo.abst.ColorAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +106,7 @@ public class LinearGradientColorPalette extends ColorPalette {
             final float green = color2.getGreen() * ratio + color1.getGreen() * (1 - ratio);
             final float blue = color2.getBlue() * ratio + color1.getBlue() * (1 - ratio);
 
-            colors.add(InstanceCreator.color(Math.round(red), Math.round(green), Math.round(blue)));
+            colors.add(ColorAbst.get(Math.round(red), Math.round(green), Math.round(blue)));
         }
         // add end color to the gradient
         colors.add(color2);

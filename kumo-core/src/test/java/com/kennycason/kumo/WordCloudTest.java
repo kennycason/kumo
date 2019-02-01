@@ -1,8 +1,7 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.bg.RectangleBackground;
 import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
+import com.kennycason.kumo.bg.RectangleBackground;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -27,7 +26,7 @@ public class WordCloudTest {
 
     @Test
     public void testWriteToStreamAsPNG() throws IOException {
-        final DimensionAbst dimension = InstanceCreator.dimension(200, 200);
+        final DimensionAbst dimension = DimensionAbst.get(200, 200);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.build(WORD_FREQUENCIES);
         wordCloud.setPadding(2);

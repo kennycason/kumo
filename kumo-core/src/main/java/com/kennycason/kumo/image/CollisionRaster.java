@@ -2,7 +2,6 @@ package com.kennycason.kumo.image;
 
 import com.kennycason.kumo.abst.DimensionAbst;
 import com.kennycason.kumo.abst.ImageAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.abst.PointAbst;
 
 /**
@@ -15,7 +14,7 @@ public class CollisionRaster {
     private final DimensionAbst dimension;
 
     public CollisionRaster(final ImageAbst bufferedImage) {
-        this.dimension = InstanceCreator.dimension(bufferedImage.getWidth(), bufferedImage.getHeight());
+        this.dimension = DimensionAbst.get(bufferedImage.getWidth(), bufferedImage.getHeight());
 
         data = new int[dimension.getWidth()][dimension.getHeight()];
         for (int y = 0; y < dimension.getHeight(); y++) {

@@ -1,10 +1,9 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.exception.KumoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import java.util.ArrayList;
 import java.util.List;

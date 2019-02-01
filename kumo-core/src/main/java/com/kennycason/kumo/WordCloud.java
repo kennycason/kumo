@@ -1,5 +1,6 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.RectangleBackground;
 import com.kennycason.kumo.collide.RectanglePixelCollidable;
@@ -12,8 +13,6 @@ import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.abst.ImageRotatorAbst;
-import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
 import com.kennycason.kumo.padding.WordPixelPadder;
@@ -47,12 +46,12 @@ public class WordCloud {
     protected final Set<Word> skipped = new HashSet<>();
     protected int padding;
     protected Background background;
-    protected ColorAbst backgroundColor = InstanceCreator.color(0, 0, 0);
+    protected ColorAbst backgroundColor = ColorAbst.get(0, 0, 0);
     protected FontScalar fontScalar = new LinearFontScalar(10, 40);
     protected KumoFont kumoFont = new KumoFont("Comic Sans MS", FontAbst.Face.BOLD);
     protected AngleGenerator angleGenerator = new AngleGenerator();
     protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
-    protected ColorPalette colorPalette = new ColorPalette(InstanceCreator.color(2,182,242), InstanceCreator.color(55,194,240), InstanceCreator.color(124,203,230), InstanceCreator.color(196,231,242), InstanceCreator.color(255,255,255));
+    protected ColorPalette colorPalette = new ColorPalette(ColorAbst.get(2,182,242), ColorAbst.get(55,194,240), ColorAbst.get(124,203,230), ColorAbst.get(196,231,242), ColorAbst.get(255,255,255));
     protected WordStartStrategy wordStartStrategy = new RandomWordStart();
     
     public WordCloud(final DimensionAbst dimension, final CollisionMode collisionMode) {
@@ -60,8 +59,8 @@ public class WordCloud {
         this.padder = derivePadder(collisionMode);
         this.collisionChecker = deriveCollisionChecker(collisionMode);
         this.collisionRaster = new CollisionRaster(dimension);
-        this.image = InstanceCreator.image(dimension.getWidth(), dimension.getHeight());
-        this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, InstanceCreator.point(0, 0));
+        this.image = ImageAbst.get(dimension.getWidth(), dimension.getHeight());
+        this.backgroundCollidable = new RectanglePixelCollidable(collisionRaster, PointAbst.get(0, 0));
         this.dimension = dimension;
         this.background = new RectangleBackground(dimension);
     }
@@ -100,7 +99,7 @@ public class WordCloud {
         }
         try {
             LOGGER.info("Saving WordCloud to: {}", outputFileName);
-            InstanceCreator.imageWriter().write(image, extension, new FileOutputStream(new File(outputFileName)));
+            ImageWriterAbst.get().write(image, extension, new FileOutputStream(new File(outputFileName)));
 
         } catch (final IOException e) {
             LOGGER.error(e.getMessage(), e);
@@ -125,7 +124,7 @@ public class WordCloud {
     public void writeToStream(final String format, final OutputStream outputStream) {
         try {
             LOGGER.debug("Writing WordCloud image data to output stream");
-            InstanceCreator.imageWriter().write(image, format, outputStream);
+            ImageWriterAbst.get().write(image, format, outputStream);
             LOGGER.debug("Done writing WordCloud image data to output stream");
 
         } catch (final IOException e) {
@@ -142,15 +141,15 @@ public class WordCloud {
     protected void drawForegroundToBackground() {
         if (backgroundColor == null) { return; }
 
-        final ImageAbst backgroundBufferedImage = InstanceCreator.image(dimension.getWidth(), dimension.getHeight());
-        final GraphicsAbst graphics = InstanceCreator.graphics(backgroundBufferedImage);
+        final ImageAbst backgroundBufferedImage = ImageAbst.get(dimension.getWidth(), dimension.getHeight());
+        final GraphicsAbst graphics = GraphicsAbst.get(backgroundBufferedImage);
 
         // draw current color
         graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
         graphics.drawImg(image, 0, 0);
 
         // draw back to original
-        final GraphicsAbst graphics2 = InstanceCreator.graphics(image);
+        final GraphicsAbst graphics2 = GraphicsAbst.get(image);
         graphics2.drawImg(backgroundBufferedImage, 0, 0);
     }
 
@@ -160,7 +159,7 @@ public class WordCloud {
      * @param start the place to start trying to place the word
      */
     protected boolean place(final Word word, final PointAbst start) {
-        final GraphicsAbst graphics = InstanceCreator.graphics(image);
+        final GraphicsAbst graphics = GraphicsAbst.get(image);
 
         final int maxRadius = dimension.getWidth();
 
@@ -222,7 +221,7 @@ public class WordCloud {
     }
 
     private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
-        final GraphicsAbst graphics = InstanceCreator.graphics(image);
+        final GraphicsAbst graphics = GraphicsAbst.get(image);
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final FontAbst font = kumoFont.getFont().withSize(fontHeight);
@@ -231,7 +230,7 @@ public class WordCloud {
         final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
         final double theta = angleGenerator.randomNext();
         if (theta != 0.0) {
-            word.setImage(InstanceCreator.imageRotator().rotate(word.getBufferedImage(), theta));
+            word.setImage(ImageRotatorAbst.get().rotate(word.getBufferedImage(), theta));
         }
         if (padding > 0) {
             padder.pad(word, padding);

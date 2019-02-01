@@ -3,9 +3,9 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.abst.ColorAbst;
 import com.kennycason.kumo.abst.DimensionAbst;
 import com.kennycason.kumo.abst.FontAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
@@ -37,9 +37,9 @@ public class DataRankWordCloudITest {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
 
-        final DimensionAbst dimension = InstanceCreator.dimension(990, 618);
+        final DimensionAbst dimension = DimensionAbst.get(990, 618);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(InstanceCreator.color(0x000000FF, true));
+        layeredWordCloud.setBackgroundColor(ColorAbst.get(0x000000FF, true));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
@@ -50,8 +50,8 @@ public class DataRankWordCloudITest {
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/datarank-1.png")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/datarank-2.png")));
 
-        layeredWordCloud.setColorPalette(0, new ColorPalette(InstanceCreator.color(0x0891d1)));
-        layeredWordCloud.setColorPalette(1, new ColorPalette(InstanceCreator.color(0x76beea)));
+        layeredWordCloud.setColorPalette(0, new ColorPalette(ColorAbst.get(0x0891d1)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(ColorAbst.get(0x76beea)));
 
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 60));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 60));

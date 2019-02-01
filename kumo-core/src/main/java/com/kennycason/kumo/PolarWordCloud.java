@@ -1,7 +1,7 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.abst.ColorAbst;
 import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import com.kennycason.kumo.abst.PointAbst;
 import com.kennycason.kumo.palette.ColorPalette;
 
@@ -16,9 +16,9 @@ import java.util.Random;
 public class PolarWordCloud extends WordCloud {
     private static final Random RANDOM = new Random();
 
-    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(InstanceCreator.color(27,224,0), InstanceCreator.color(26,201,2), InstanceCreator.color(21,176,0), InstanceCreator.color(18,148,0), InstanceCreator.color(15,122,0), InstanceCreator.color(11,94,0));
+    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(ColorAbst.get(27,224,0), ColorAbst.get(26,201,2), ColorAbst.get(21,176,0), ColorAbst.get(18,148,0), ColorAbst.get(15,122,0), ColorAbst.get(11,94,0));
 
-    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(InstanceCreator.color(245,0,0), InstanceCreator.color(222,0,0), InstanceCreator.color(201,2,2), InstanceCreator.color(181,2,2), InstanceCreator.color(153,2,2), InstanceCreator.color(128,1,1));
+    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(ColorAbst.get(245,0,0), ColorAbst.get(222,0,0), ColorAbst.get(201,2,2), ColorAbst.get(181,2,2), ColorAbst.get(153,2,2), ColorAbst.get(128,1,1));
 
     private final PolarBlendMode polarBlendMode;
 
@@ -77,7 +77,7 @@ public class PolarWordCloud extends WordCloud {
             case BLUR:
                 final int blurX = dimension.getWidth() / 2;
                 final int blurY = dimension.getHeight() / 2;
-                return InstanceCreator.point(
+                return PointAbst.get(
                     pole.getX() + -blurX + RANDOM.nextInt(blurX * 2),
                     pole.getY() + -blurY + RANDOM.nextInt(blurY * 2)
                 );
@@ -99,8 +99,8 @@ public class PolarWordCloud extends WordCloud {
             final double distance = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
             if (distance > maxDistance) {
                 maxDistance = distance;
-                max[0] = InstanceCreator.point(x, y);
-                max[1] = InstanceCreator.point(x2, y2);
+                max[0] = PointAbst.get(x, y);
+                max[1] = PointAbst.get(x2, y2);
             }
         }
         return max;

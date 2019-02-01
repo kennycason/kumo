@@ -1,5 +1,8 @@
 package com.kennycason.kumo.abst;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class GraphicsAbst {
 
     public abstract void drawImg(ImageAbst img, int x, int y);
@@ -14,4 +17,17 @@ public abstract class GraphicsAbst {
 
     public abstract FontMetricsAbst getFontMetrics();
 
+    public static GraphicsAbst get(ImageAbst img){
+        String name = "GraphicsImpl";
+        try {
+
+            Class<? extends GraphicsAbst> clazz = (Class<? extends GraphicsAbst>) Class.forName(Platform.PACKAGE + name);
+            Constructor<? extends GraphicsAbst> con = clazz.getConstructor(ImageAbst.class);
+            return con.newInstance(img);
+
+        } catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }

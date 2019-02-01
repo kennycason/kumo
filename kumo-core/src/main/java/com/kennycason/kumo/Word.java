@@ -1,9 +1,9 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.collide.checkers.CollisionChecker;
-import com.kennycason.kumo.collide.Collidable;
-import com.kennycason.kumo.image.CollisionRaster;
 import com.kennycason.kumo.abst.*;
+import com.kennycason.kumo.collide.Collidable;
+import com.kennycason.kumo.collide.checkers.CollisionChecker;
+import com.kennycason.kumo.image.CollisionRaster;
 
 /**
  * Created by kenny on 6/29/14.
@@ -16,7 +16,7 @@ public class Word implements Collidable {
 
     private final ColorAbst color;
 
-    private final PointAbst position = InstanceCreator.point(0, 0);
+    private final PointAbst position = PointAbst.get(0, 0);
 
     private ImageAbst bufferedImage;
 
@@ -34,8 +34,8 @@ public class Word implements Collidable {
         // get the advance of my text in this font and render context
         final int width = fontMetrics.measure(word);
 
-        this.bufferedImage = InstanceCreator.image(width, fontMetrics.getTop());
-        final GraphicsAbst graphics = InstanceCreator.graphics(bufferedImage);
+        this.bufferedImage = ImageAbst.get(width, fontMetrics.getTop());
+        final GraphicsAbst graphics = GraphicsAbst.get(bufferedImage);
         graphics.enableAntiAliasing();
         graphics.setFont(fontMetrics.getFont());
 

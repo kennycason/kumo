@@ -1,7 +1,6 @@
 package com.kennycason.kumo.palette;
 
 import com.kennycason.kumo.abst.ColorAbst;
-import com.kennycason.kumo.abst.InstanceCreator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,8 +12,8 @@ public class LinearGradientColorPaletteTest {
 
     @Test
     public void singleGradient() {
-        final ColorAbst color1 = InstanceCreator.color(0x00, 0x00, 0x00);
-        final ColorAbst color2 = InstanceCreator.color(0xFF, 0xFF, 0xFF);
+        final ColorAbst color1 = ColorAbst.get(0x00, 0x00, 0x00);
+        final ColorAbst color2 = ColorAbst.get(0xFF, 0xFF, 0xFF);
         final int gradientSteps = 15;
         final LinearGradientColorPalette colorPalette = new LinearGradientColorPalette(color1, color2, gradientSteps);
         assertEquals(16, colorPalette.getColors().size()); // add two because inclusive beginning and end color
@@ -31,9 +30,9 @@ public class LinearGradientColorPaletteTest {
 
     @Test
     public void doubleGradient() {
-        final ColorAbst color1 = InstanceCreator.color(0x00, 0x00, 0x00);
-        final ColorAbst color2 = InstanceCreator.color(0xFF, 0xFF, 0xFF);
-        final ColorAbst color3 = InstanceCreator.color(0x00, 0x00, 0x00);
+        final ColorAbst color1 = ColorAbst.get(0x00, 0x00, 0x00);
+        final ColorAbst color2 = ColorAbst.get(0xFF, 0xFF, 0xFF);
+        final ColorAbst color3 = ColorAbst.get(0x00, 0x00, 0x00);
 
         final int gradientSteps = 15;
         final LinearGradientColorPalette colorPalette = new LinearGradientColorPalette(color1, color2, color3,
