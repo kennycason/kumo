@@ -6,8 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import org.junit.Test;
 public class SpiralTest {
 
     @Test
-    public void NewImplementationVsOldImplementation() throws IOException {
+    public void MaxRadius() throws IOException {
         // draw the spiral as image?
         // red pixels -> only returned by the old implementation
         // blue pixels -> only returned by the new implementation
@@ -46,12 +48,12 @@ public class SpiralTest {
                         random.nextInt(dimension.height)
                 );
 
-                // the old implementation did not repect images higher than wide
-                int originalRadius = dimension.width;
-                int optimizedRadius = WordCloud.computeRadius(dimension, start);
-
-                List<Point> original = spiral(dimension, start, originalRadius);
-                List<Point> optimized = spiral(dimension, start, optimizedRadius);
+                List<Point> original = originalSpiral(
+                        dimension, start, dimension.width
+                );
+                List<Point> optimized = originalSpiral(
+                        dimension, start, WordCloud.computeRadius(dimension, start)
+                );
 
                 BufferedImage img = new BufferedImage(
                         dimension.width, dimension.height, BufferedImage.TYPE_4BYTE_ABGR
@@ -84,9 +86,38 @@ public class SpiralTest {
             }
         }
     }
+    
+    @Test
+    public void NoIdenticalPoints() throws IOException {
+        // we seed to get the same numbers on each run
+        Random random = new Random(42);
 
-    private List<Point> spiral(Dimension dimension, Point start, final int maxRadius) {
+        for (int i = 0; i < 20; i++) {
+            Dimension dimension = new Dimension(
+                    100 + random.nextInt(900),
+                    100 + random.nextInt(900)
+            );
+
+            for (int j = 0; j < 20; j++) {
+                Point start = new Point(
+                        random.nextInt(dimension.width),
+                        random.nextInt(dimension.height)
+                );
+
+                List<Point> points = optimizedSpiral(dimension, start);
+                Set<Point> unique = new HashSet<>(points);
+                
+                Assert.assertEquals(
+                        "no duplicate points", 
+                        points.size(), unique.size()
+                );
+            }
+        }
+    }
+
+    private List<Point> originalSpiral(Dimension dimension, Point start, int maxRadius) {
         List<Point> points = new ArrayList<>();
+        Point position = new Point();
 
         for (int r = 0; r < maxRadius; r += 2) {
             for (int x = -r; x <= r; x++) {
@@ -96,16 +127,49 @@ public class SpiralTest {
                 if (start.x + x >= dimension.width) {
                     continue;
                 }
+                
+                position.x = start.x + x; 
 
                 // try positive root
                 final int y1 = (int) Math.sqrt(r * r - x * x);
                 if (start.y + y1 >= 0 && start.y + y1 < dimension.height) {
-                    points.add(new Point(start.x + x, start.y + y1));
+                    position.y = start.y + y1; 
+                    points.add(new Point(position));
                 }
                 // try negative root
                 final int y2 = -y1;
                 if (start.y + y2 >= 0 && start.y + y2 < dimension.height) {
-                    points.add(new Point(start.x + x, start.y + y2));
+                    position.y = start.y + y2; 
+                    points.add(new Point(position));
+                }
+            }
+        }
+
+        return points;
+    }
+    
+    private List<Point> optimizedSpiral(Dimension dimension, Point start) {
+        final int maxRadius = WordCloud.computeRadius(dimension, start);
+        
+        List<Point> points = new ArrayList<>();
+        Point position = new Point();
+
+        for (int r = 0; r < maxRadius; r += 2) {
+            for (int x = Math.max(-start.x, -r); x <= Math.min(r, dimension.width - start.x - 1); x++) {
+                position.x = start.x + x;
+
+                final int offset = (int) Math.sqrt(r * r - x * x);
+                
+                // try positive root
+                position.y = start.y + offset;
+                if (position.y >= 0 && position.y < dimension.height) {
+                    points.add(new Point(position));
+                }
+                
+                // try negative root (if offset != 0)
+                position.y = start.y - offset;
+                if (offset != 0 && position.y >= 0 && position.y < dimension.height) {
+                    points.add(new Point(position));
                 }
             }
         }

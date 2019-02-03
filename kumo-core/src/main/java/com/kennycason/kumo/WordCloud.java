@@ -185,33 +185,29 @@ public class WordCloud {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
         final int maxRadius = computeRadius(dimension, start);
-
+        final Point position = word.getPosition();
+        
         for (int r = 0; r < maxRadius; r += 2) {
-            for (int x = -r; x <= r; x++) {
-                if (start.x + x < 0) { continue; }
-                if (start.x + x >= dimension.width) { continue; }
+            for (int x = Math.max(-start.x, -r); x <= Math.min(r, dimension.width - start.x - 1); x++) {
+                position.x = start.x + x;
 
-                boolean placed = false;
-                word.getPosition().x = start.x + x;
-
+                final int offset = (int) Math.sqrt(r * r - x * x);
+                
                 // try positive root
-                final int y1 = (int) Math.sqrt(r * r - x * x);
-                if (start.y + y1 >= 0 && start.y + y1 < dimension.height) {
-                    word.getPosition().y = start.y + y1;
-                    placed = canPlace(word);
-                }
-                // try negative root
-                final int y2 = -y1;
-                if (!placed && start.y + y2 >= 0 && start.y + y2 < dimension.height) {
-                    word.getPosition().y = start.y + y2;
-                    placed = canPlace(word);
-                }
-                if (placed) {
-                    collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
-                    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
+                position.y = start.y + offset;
+                if (position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                    collisionRaster.mask(word.getCollisionRaster(), position);
+                    graphics.drawImage(word.getBufferedImage(), position.x, position.y, null);
                     return true;
                 }
-
+                
+                // try negative root (if offset != 0)
+                position.y = start.y - offset;
+                if (offset != 0 && position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                    collisionRaster.mask(word.getCollisionRaster(), position);
+                    graphics.drawImage(word.getBufferedImage(), position.x, position.y, null);
+                    return true;
+                }
             }
         }
 
