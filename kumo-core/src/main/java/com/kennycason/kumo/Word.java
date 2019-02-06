@@ -27,6 +27,7 @@ public class Word implements Collidable {
     private BufferedImage bufferedImage;
 
     private CollisionRaster collisionRaster;
+    private final double theta;
 
     public Word(final String word,
             final Color color,
@@ -36,6 +37,7 @@ public class Word implements Collidable {
         this.word = word;
         this.color = color;
         this.collisionChecker = collisionChecker;
+        this.theta = theta;
         this.bufferedImage = render(word, color, fontMetrics, theta);
 
         this.collisionRaster = new CollisionRaster(this.bufferedImage);
@@ -76,6 +78,10 @@ public class Word implements Collidable {
 
     public String getWord() {
         return word;
+    }
+
+    public double getTheta() {
+        return theta;
     }
 
     public Point getPosition() {
