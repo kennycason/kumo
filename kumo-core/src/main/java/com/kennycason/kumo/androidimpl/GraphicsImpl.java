@@ -21,19 +21,21 @@ public class GraphicsImpl extends GraphicsAbst {
     @Override
     public void drawImg(ImageAbst img, int x, int y) {
         Bitmap bm = ((ImageImpl)img).getActual();
+        paint.setAlpha(255);
         canvas.drawBitmap(bm, x, y, paint);
     }
 
     @Override
     public void drawString(String s, int x, int y, ColorAbst color) {
-        paint.setAlpha(Color.alpha(color.getInt()));
         paint.setColor(color.getInt());
+        paint.setAlpha(Color.alpha(color.getInt()));
         canvas.drawText(s, x, y, paint);
     }
 
     @Override
     public void drawRect(ColorAbst color, int x, int y, int width, int height) {
         paint.setColor(color.getInt());
+        paint.setAlpha(Color.alpha(color.getInt()));
         paint.setStyle(Paint.Style.FILL);
         //Mimic the behavior of AWT instead of using the Android one
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
