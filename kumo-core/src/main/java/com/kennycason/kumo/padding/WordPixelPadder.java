@@ -1,8 +1,8 @@
 package com.kennycason.kumo.padding;
 
 import com.kennycason.kumo.Word;
-import com.kennycason.kumo.abst.ColorAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.image.CollisionRaster;
 
 import java.util.HashSet;
@@ -16,7 +16,7 @@ public class WordPixelPadder implements Padder {
 
     // TODO as CollisionRaster changes to use boolean states rgb is not really needed or makes sense for padding
     // it used to actually changed the buffered image that the word's text is written into.
-    private static final ColorAbst PAD_COLOR = ColorAbst.get(0, 0, 0);
+    private static final Color PAD_COLOR = new Color(0, 0, 0);
 
     private RectanglePadder rectanglePadder = new RectanglePadder();
 
@@ -26,18 +26,18 @@ public class WordPixelPadder implements Padder {
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
 
-        final Set<PointAbst> toPad = new HashSet<>();
+        final Set<Point> toPad = new HashSet<>();
         final int width = collisionRaster.getDimension().getWidth();
         final int height = collisionRaster.getDimension().getHeight();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (shouldPad(collisionRaster, x, y, padding)) {
-                    toPad.add(PointAbst.get(x, y));
+                    toPad.add(new Point(x, y));
                 }
             }
         }
-        for (final PointAbst padPoint : toPad) {
+        for (final Point padPoint : toPad) {
             collisionRaster.setRGB(padPoint.getX(), padPoint.getY(), PAD_COLOR.getInt());
         }
     }

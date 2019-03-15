@@ -3,10 +3,10 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.abst.ColorAbst;
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.FontAbst;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.draw.FontFace;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
@@ -38,20 +38,20 @@ public class LayeredWordCloudITest {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 386);
+        final Dimension dimension = new Dimension(600, 386);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT);
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontAbst.Face.BOLD));
-        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontAbst.Face.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontFace.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontFace.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
 
-        layeredWordCloud.setColorPalette(0, new ColorPalette(ColorAbst.get(0xABEDFF), ColorAbst.get(0x82E4FF), ColorAbst.get(0x55D6FA)));
-        layeredWordCloud.setColorPalette(1, new ColorPalette(ColorAbst.get(0xFFFFFF), ColorAbst.get(0xDCDDDE), ColorAbst.get(0xCCCCCC)));
+        layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xABEDFF), new Color(0x82E4FF), new Color(0x55D6FA)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0xFFFFFF), new Color(0xDCDDDE), new Color(0xCCCCCC)));
 
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 40));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
@@ -72,21 +72,21 @@ public class LayeredWordCloudITest {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/haskell_hate.txt"));
         final List<WordFrequency> wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/haskell_love.txt"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 424);
+        final Dimension dimension = new Dimension(600, 424);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(ColorAbst.get(255, 255, 255));
+        layeredWordCloud.setBackgroundColor(new Color(255, 255, 255));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontAbst.Face.BOLD));
-        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontAbst.Face.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontFace.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontFace.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/haskell_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/haskell_2.bmp")));
 
-        layeredWordCloud.setColorPalette(0, new ColorPalette(ColorAbst.get(0xFA6C07), ColorAbst.get(0xFF7614), ColorAbst.get(0xFF8936)));
-        layeredWordCloud.setColorPalette(1, new ColorPalette(ColorAbst.get(0x080706), ColorAbst.get(0x3B3029), ColorAbst.get(0x47362A)));
+        layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xFA6C07), new Color(0xFF7614), new Color(0xFF8936)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x080706), new Color(0x3B3029), new Color(0x47362A)));
 
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 40));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 40));
@@ -110,29 +110,29 @@ public class LayeredWordCloudITest {
         final List<WordFrequency> wordFrequencies3 = frequencyAnalyzer.load(getInputStream("text/pho_recipee.txt"));
         final List<WordFrequency> wordFrequencies4 = frequencyAnalyzer.load(getInputStream("text/pho_chopsticks.txt"));
 
-        final DimensionAbst dimension = DimensionAbst.get(1000, 976);
+        final Dimension dimension = new Dimension(1000, 976);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(ColorAbst.get(0x333333));
+        layeredWordCloud.setBackgroundColor(new Color(0x333333));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
         layeredWordCloud.setPadding(2, 1);
         layeredWordCloud.setPadding(3, 1);
 
-        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontAbst.Face.PLAIN));
-        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontAbst.Face.BOLD));
-        layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontAbst.Face.ITALIC));
-        layeredWordCloud.setKumoFont(3, new KumoFont("Comic Sans MS", FontAbst.Face.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontFace.PLAIN));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontFace.BOLD));
+        layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontFace.ITALIC));
+        layeredWordCloud.setKumoFont(3, new KumoFont("Comic Sans MS", FontFace.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/pho_1.bmp")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/pho_2.bmp")));
         layeredWordCloud.setBackground(2, new PixelBoundryBackground(getInputStream("backgrounds/pho_3.bmp")));
         layeredWordCloud.setBackground(3, new PixelBoundryBackground(getInputStream("backgrounds/pho_4.bmp")));
 
-        layeredWordCloud.setColorPalette(0, new ColorPalette(ColorAbst.get(0x26A621), ColorAbst.get(0x21961D), ColorAbst.get(0x187A15)));
-        layeredWordCloud.setColorPalette(1, new ColorPalette(ColorAbst.get(0x5963F0), ColorAbst.get(0x515CF0), ColorAbst.get(0x729FED)));
-        layeredWordCloud.setColorPalette(2, new ColorPalette(ColorAbst.get(0xEDC672), ColorAbst.get(0xDBB258), ColorAbst.get(0xDE7C1B)));
-        layeredWordCloud.setColorPalette(3, new ColorPalette(ColorAbst.get(0x70572B), ColorAbst.get(0x857150), ColorAbst.get(0xB09971)));
+        layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0x26A621), new Color(0x21961D), new Color(0x187A15)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x5963F0), new Color(0x515CF0), new Color(0x729FED)));
+        layeredWordCloud.setColorPalette(2, new ColorPalette(new Color(0xEDC672), new Color(0xDBB258), new Color(0xDE7C1B)));
+        layeredWordCloud.setColorPalette(3, new ColorPalette(new Color(0x70572B), new Color(0x857150), new Color(0xB09971)));
 
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(8, 30));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(8, 40));

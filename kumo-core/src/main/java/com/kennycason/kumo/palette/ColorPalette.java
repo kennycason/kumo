@@ -1,6 +1,6 @@
 package com.kennycason.kumo.palette;
 
-import com.kennycason.kumo.abst.ColorAbst;
+import com.kennycason.kumo.draw.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.Random;
 public class ColorPalette {
     private static final Random RANDOM = new Random();
 
-    private final List<ColorAbst> colors;
+    private final List<Color> colors;
 
     private int next;
 
-    public ColorPalette(final ColorAbst... colors) {
+    public ColorPalette(final Color... colors) {
         this.colors = new ArrayList<>();
-        for (final ColorAbst color : colors) {
+        for (final Color color : colors) {
             this.colors.add(color);
         }
     }
@@ -26,23 +26,23 @@ public class ColorPalette {
     public ColorPalette(final int... colors) {
         this.colors = new ArrayList<>();
         for (final int color : colors) {
-            this.colors.add(ColorAbst.get(color));
+            this.colors.add(new Color(color));
         }
     }
 
-    public ColorPalette(final List<ColorAbst> colors) {
+    public ColorPalette(final List<Color> colors) {
         this.colors = colors;
     }
 
-    public ColorAbst next() {
+    public Color next() {
         return colors.get(next++ % colors.size());
     }
 
-    public ColorAbst randomNext() {
+    public Color randomNext() {
         return colors.get(RANDOM.nextInt(colors.size()));
     }
 
-    public List<ColorAbst> getColors() {
+    public List<Color> getColors() {
         return colors;
     }
 

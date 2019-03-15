@@ -1,6 +1,6 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
 
 /**
@@ -16,7 +16,7 @@ public class CircleBackground implements Background {
 
     @Override
     public boolean isInBounds(final Collidable collidable) {
-        final PointAbst position = collidable.getPosition();
+        final Point position = collidable.getPosition();
         return inCircle(position.getX(), position.getY())
                 && inCircle(position.getX() + collidable.getDimension().getWidth(), position.getY())
                 && inCircle(position.getX(), position.getY() + collidable.getDimension().getHeight())

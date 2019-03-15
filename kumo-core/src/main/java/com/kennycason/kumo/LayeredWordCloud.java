@@ -1,7 +1,7 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.bg.Background;
+import com.kennycason.kumo.draw.*;
 import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
@@ -25,13 +25,13 @@ import java.util.Set;
 public class LayeredWordCloud {
     private static final Logger LOGGER = LoggerFactory.getLogger(LayeredWordCloud.class);
 
-    private final DimensionAbst dimension;
+    private final Dimension dimension;
 
     private final List<WordCloud> wordClouds = new ArrayList<>();
 
-    private ColorAbst backgroundColor = ColorAbst.get(0, 0, 0);
+    private Color backgroundColor = new Color(0, 0, 0);
 
-    public LayeredWordCloud(final int layers, final DimensionAbst dimension, final CollisionMode collisionMode) {
+    public LayeredWordCloud(final int layers, final Dimension dimension, final CollisionMode collisionMode) {
         this.dimension = dimension;
 
         for (int i = 0; i < layers; i++) {
@@ -73,13 +73,13 @@ public class LayeredWordCloud {
         this.wordClouds.get(layer).setWordPlacer(wordPlacer);
     }
 
-    public void setBackgroundColor(final ColorAbst backgroundColor) {
+    public void setBackgroundColor(final Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
-    public ImageAbst getImage() {
-        final ImageAbst image = ImageAbst.get(dimension.getWidth(), dimension.getHeight());
-        final GraphicsAbst graphics = GraphicsAbst.get(image);
+    public Image getImage() {
+        final Image image = new Image(dimension.getWidth(), dimension.getHeight());
+        final Graphics graphics = new Graphics(image);
         graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
 
         for (final WordCloud wordCloud : wordClouds) {
@@ -109,7 +109,7 @@ public class LayeredWordCloud {
         }
         try {
             LOGGER.info("Saving Layered WordCloud to: {}", outputFileName);
-            ImageWriterAbst.get().write(getImage(), extension, new FileOutputStream(new File(outputFileName)));
+            new ImageWriter().write(getImage(), extension, new FileOutputStream(new File(outputFileName)));
 
         } catch (final IOException e) {
             throw new KumoException(e);

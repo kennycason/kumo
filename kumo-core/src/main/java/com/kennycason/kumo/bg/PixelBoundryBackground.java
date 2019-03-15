@@ -1,8 +1,8 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.ImageAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Image;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
 
@@ -30,9 +30,9 @@ public class PixelBoundryBackground implements Background {
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
-        final ImageAbst bufferedImage = ImageAbst.get(imageInputStream);
+        final Image bufferedImage = new Image(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
-        this.rectangleBackground = new RectangleBackground(DimensionAbst.get(bufferedImage.getWidth(), bufferedImage.getHeight()));
+        this.rectangleBackground = new RectangleBackground(new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
     }
     
     /**
@@ -63,7 +63,7 @@ public class PixelBoundryBackground implements Background {
         if (!this.rectangleBackground.isInBounds(collidable)) {
             return false;
         }
-        final PointAbst position = collidable.getPosition();
+        final Point position = collidable.getPosition();
         // get the overlapping box
         final int startX = Math.max(position.getX(), 0);
         final int endX = Math.min(position.getX() + collidable.getDimension().getWidth(), collisionRaster.getDimension().getWidth());

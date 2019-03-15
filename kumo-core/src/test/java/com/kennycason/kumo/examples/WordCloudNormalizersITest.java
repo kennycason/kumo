@@ -3,7 +3,7 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.CircleBackground;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
@@ -33,7 +33,7 @@ public class WordCloudNormalizersITest {
         frequencyAnalyzer.addNormalizer(new UpperCaseNormalizer());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://kennycason.com"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 600);
+        final Dimension dimension = new Dimension(600, 600);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setBackground(new CircleBackground(300));
@@ -52,7 +52,7 @@ public class WordCloudNormalizersITest {
         frequencyAnalyzer.addNormalizer(new UpsideDownNormalizer());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://kennycason.com"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 600);
+        final Dimension dimension = new Dimension(600, 600);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setBackground(new CircleBackground(300));
@@ -71,7 +71,7 @@ public class WordCloudNormalizersITest {
         frequencyAnalyzer.addNormalizer(new StringToHexNormalizer());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://kennycason.com"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 600);
+        final Dimension dimension = new Dimension(600, 600);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setBackground(new CircleBackground(300));
@@ -91,7 +91,7 @@ public class WordCloudNormalizersITest {
         frequencyAnalyzer.clearNormalizers();
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://kennycason.com"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 600);
+        final Dimension dimension = new Dimension(600, 600);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setBackground(new CircleBackground(300));
@@ -109,7 +109,7 @@ public class WordCloudNormalizersITest {
         frequencyAnalyzer.addNormalizer(new BubbleTextNormalizer());
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(new URL("http://kennycason.com"));
-        final DimensionAbst dimension = DimensionAbst.get(600, 600);
+        final Dimension dimension = new Dimension(600, 600);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
         wordCloud.setPadding(0);
         wordCloud.setFontScalar(new LinearFontScalar(10, 40));

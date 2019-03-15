@@ -1,6 +1,6 @@
 package com.kennycason.kumo.collide.checkers;
 
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
 
 /**
@@ -10,8 +10,8 @@ public class RectangleCollisionChecker implements CollisionChecker {
 
     @Override
     public boolean collide(final Collidable collidable, final Collidable collidable2) {
-        final PointAbst position = collidable.getPosition();
-        final PointAbst position2 = collidable2.getPosition();
+        final Point position = collidable.getPosition();
+        final Point position2 = collidable2.getPosition();
 
         if ((position.getX() + collidable.getDimension().getWidth() < position2.getX())
                 || (position2.getX() + collidable2.getDimension().getWidth() < position.getX())) {

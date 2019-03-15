@@ -1,7 +1,7 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
 
 /**
@@ -11,33 +11,33 @@ import com.kennycason.kumo.collide.Collidable;
  * @version 2015.11.26
  */
 public class RectangleBackground implements Background {
-    private static final PointAbst ZERO = PointAbst.get(0, 0);
+    private static final Point ZERO = new Point(0, 0);
 
-    private final PointAbst position;
+    private final Point position;
     
-    private final DimensionAbst dimension;
+    private final Dimension dimension;
 
     /**
      * Creates a rectangle background starting at (0|0) with specified width/height
      * @param dimension dimension of background
      */
-    public RectangleBackground(final DimensionAbst dimension) {
+    public RectangleBackground(final Dimension dimension) {
         this(ZERO, dimension);
     }
 
     /**
-     * Creates a rectangle background using {@link PointAbst} and {@link DimensionAbst} for starting points and width/height
+     * Creates a rectangle background using {@link Point} and {@link Dimension} for starting points and width/height
      * @param position the point where the rectangle lives on screen
      * @param dimension dimension of background
      */
-    public RectangleBackground(final PointAbst position, final DimensionAbst dimension) {
+    public RectangleBackground(final Point position, final Dimension dimension) {
         this.position = position;
         this.dimension = dimension;
     }
 
     @Override
     public boolean isInBounds(final Collidable collidable) {
-        final PointAbst position = collidable.getPosition();
+        final Point position = collidable.getPosition();
         return position.getX() >= this.position.getX()
                && position.getX() + collidable.getDimension().getWidth() < (this.position.getX() + dimension.getWidth())
                && position.getY() >= this.position.getY()

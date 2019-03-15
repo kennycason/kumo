@@ -1,8 +1,8 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.abst.*;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
+import com.kennycason.kumo.draw.*;
 import com.kennycason.kumo.image.CollisionRaster;
 
 /**
@@ -14,17 +14,17 @@ public class Word implements Collidable {
 
     private final String word;
 
-    private final ColorAbst color;
+    private final Color color;
 
-    private final PointAbst position = PointAbst.get(0, 0);
+    private final Point position = new Point(0, 0);
 
-    private ImageAbst bufferedImage;
+    private Image bufferedImage;
 
     private CollisionRaster collisionRaster;
 
     public Word(final String word,
-                final ColorAbst color,
-                final FontMetricsAbst fontMetrics,
+                final Color color,
+                final FontMetrics fontMetrics,
                 final CollisionChecker collisionChecker) {
         this.word = word;
         this.color = color;
@@ -34,8 +34,8 @@ public class Word implements Collidable {
         // get the advance of my text in this font and render context
         final int width = fontMetrics.measure(word);
 
-        this.bufferedImage = ImageAbst.get(width, fontMetrics.getTop());
-        final GraphicsAbst graphics = GraphicsAbst.get(bufferedImage);
+        this.bufferedImage = new Image(width, fontMetrics.getTop());
+        final Graphics graphics = new Graphics(bufferedImage);
         graphics.enableAntiAliasing();
         graphics.setFont(fontMetrics.getFont());
 
@@ -44,11 +44,11 @@ public class Word implements Collidable {
         this.collisionRaster = new CollisionRaster(this.bufferedImage);
     }
 
-    public ImageAbst getBufferedImage() {
+    public Image getBufferedImage() {
         return bufferedImage;
     }
 
-    public void setImage(final ImageAbst bufferedImage) {
+    public void setImage(final Image bufferedImage) {
         this.bufferedImage = bufferedImage;
         this.collisionRaster = new CollisionRaster(bufferedImage);
     }
@@ -57,11 +57,11 @@ public class Word implements Collidable {
         return word;
     }
 
-    public PointAbst getPosition() {
+    public Point getPosition() {
         return position;
     }
 
-    public DimensionAbst getDimension() {
+    public Dimension getDimension() {
         return collisionRaster.getDimension();
     }
 

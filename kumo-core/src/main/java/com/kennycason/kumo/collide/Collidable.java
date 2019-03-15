@@ -1,7 +1,7 @@
 package com.kennycason.kumo.collide;
 
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.image.CollisionRaster;
 
 /**
@@ -9,7 +9,7 @@ import com.kennycason.kumo.image.CollisionRaster;
  */
 public interface Collidable {
     boolean collide(Collidable collidable);
-    PointAbst getPosition();
-    DimensionAbst getDimension();
+    Point getPosition();
+    Dimension getDimension();
     CollisionRaster getCollisionRaster();
 }

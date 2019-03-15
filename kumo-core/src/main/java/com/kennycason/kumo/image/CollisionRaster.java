@@ -1,8 +1,8 @@
 package com.kennycason.kumo.image;
 
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.ImageAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Image;
+import com.kennycason.kumo.draw.Point;
 
 /**
  * Created by kenny on 7/4/14.
@@ -11,10 +11,10 @@ public class CollisionRaster {
 
     private final int[][] data;
 
-    private final DimensionAbst dimension;
+    private final Dimension dimension;
 
-    public CollisionRaster(final ImageAbst bufferedImage) {
-        this.dimension = DimensionAbst.get(bufferedImage.getWidth(), bufferedImage.getHeight());
+    public CollisionRaster(final Image bufferedImage) {
+        this.dimension = new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight());
 
         data = new int[dimension.getWidth()][dimension.getHeight()];
         for (int y = 0; y < dimension.getHeight(); y++) {
@@ -24,7 +24,7 @@ public class CollisionRaster {
         }
     }
 
-    public CollisionRaster(final DimensionAbst dimension) {
+    public CollisionRaster(final Dimension dimension) {
         this.dimension = dimension;
         data = new int[dimension.getWidth()][dimension.getHeight()];
     }
@@ -37,7 +37,7 @@ public class CollisionRaster {
         data[x][y] = rgb;
     }
 
-    public void mask(final CollisionRaster collisionRaster, final PointAbst point) {
+    public void mask(final CollisionRaster collisionRaster, final Point point) {
         final int maxHeight = Math.min(point.getY() + collisionRaster.getDimension().getHeight(), dimension.getHeight());
         final int maxWidth = Math.min(point.getX() + collisionRaster.getDimension().getWidth(), dimension.getWidth());
         for (int offY = point.getY(), offY2 = 0; offY < maxHeight; offY++, offY2++) {
@@ -53,7 +53,7 @@ public class CollisionRaster {
         return (data[x][y] & 0xFF000000) == 0x00000000;
     }
 
-    public DimensionAbst getDimension() {
+    public Dimension getDimension() {
         return dimension;
     }
 

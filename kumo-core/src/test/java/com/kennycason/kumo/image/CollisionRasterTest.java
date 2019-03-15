@@ -1,6 +1,6 @@
 package com.kennycason.kumo.image;
 
-import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.draw.Dimension;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,7 +15,7 @@ public class CollisionRasterTest {
     public void basicTests() {
         final int width = 10;
         final int height = 5;
-        final DimensionAbst dimension = DimensionAbst.get(width, height);
+        final Dimension dimension = new Dimension(width, height);
         final CollisionRaster collisionRaster = new CollisionRaster(dimension);
 
         assertEquals(width, collisionRaster.getDimension().getWidth());

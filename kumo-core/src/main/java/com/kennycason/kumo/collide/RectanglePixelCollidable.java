@@ -1,7 +1,7 @@
 package com.kennycason.kumo.collide;
 
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker;
 import com.kennycason.kumo.image.CollisionRaster;
 
@@ -12,11 +12,11 @@ public class RectanglePixelCollidable implements Collidable {
 
     private static final RectanglePixelCollisionChecker RECTANGLE_PIXEL_COLLISION_CHECKER = new RectanglePixelCollisionChecker();
 
-    private final PointAbst position;
+    private final Point position;
 
     private final CollisionRaster collisionRaster;
 
-    public RectanglePixelCollidable(final CollisionRaster collisionRaster, final PointAbst position) {
+    public RectanglePixelCollidable(final CollisionRaster collisionRaster, final Point position) {
         this.collisionRaster = collisionRaster;
         this.position = position;
     }
@@ -27,12 +27,12 @@ public class RectanglePixelCollidable implements Collidable {
     }
 
     @Override
-    public PointAbst getPosition() {
+    public Point getPosition() {
         return position;
     }
 
     @Override
-    public DimensionAbst getDimension() {
+    public Dimension getDimension() {
         return collisionRaster.getDimension();
     }
 

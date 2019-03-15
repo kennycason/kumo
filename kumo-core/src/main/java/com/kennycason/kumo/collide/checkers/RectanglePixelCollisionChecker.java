@@ -1,6 +1,6 @@
 package com.kennycason.kumo.collide.checkers;
 
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
 
@@ -28,8 +28,8 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
             return false;
         }
 
-        final PointAbst position = collidable.getPosition();
-        final PointAbst position2 = collidable2.getPosition();
+        final Point position = collidable.getPosition();
+        final Point position2 = collidable2.getPosition();
         final CollisionRaster collisionRaster = collidable.getCollisionRaster();
         final CollisionRaster collisionRaster2 = collidable2.getCollisionRaster();
 

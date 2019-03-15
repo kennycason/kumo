@@ -1,8 +1,8 @@
 package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.PointAbst;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 
 /**
  * Always returns the Center of the image
@@ -12,11 +12,11 @@ import com.kennycason.kumo.abst.PointAbst;
 public class CenterWordStart implements WordStartStrategy {
 
     @Override
-    public PointAbst getStartingPoint(final DimensionAbst dimension, final Word word) {
+    public Point getStartingPoint(final Dimension dimension, final Word word) {
         final int x = (dimension.getWidth() / 2) - (word.getDimension().getWidth() / 2);
         final int y = (dimension.getHeight() / 2) - (word.getDimension().getHeight() / 2);
 
-        return PointAbst.get(x, y);
+        return new Point(x, y);
     }
 
 }

@@ -3,10 +3,10 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.abst.ColorAbst;
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.FontAbst;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.draw.FontFace;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
@@ -37,21 +37,21 @@ public class DataRankWordCloudITest {
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
 
-        final DimensionAbst dimension = DimensionAbst.get(990, 618);
+        final Dimension dimension = new Dimension(990, 618);
         final LayeredWordCloud layeredWordCloud = new LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT);
-        layeredWordCloud.setBackgroundColor(ColorAbst.get(0x000000FF, true));
+        layeredWordCloud.setBackgroundColor(new Color(0x000000FF, true));
 
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontAbst.Face.BOLD));
-        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontAbst.Face.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontFace.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontFace.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/datarank-1.png")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/datarank-2.png")));
 
-        layeredWordCloud.setColorPalette(0, new ColorPalette(ColorAbst.get(0x0891d1)));
-        layeredWordCloud.setColorPalette(1, new ColorPalette(ColorAbst.get(0x76beea)));
+        layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0x0891d1)));
+        layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x76beea)));
 
         layeredWordCloud.setFontScalar(0, new SqrtFontScalar(10, 60));
         layeredWordCloud.setFontScalar(1, new SqrtFontScalar(10, 60));

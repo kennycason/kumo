@@ -3,7 +3,7 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.abst.DimensionAbst;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.placement.LinearWordPlacer;
 import com.kennycason.kumo.placement.RTreeWordPlacer;
@@ -52,7 +52,7 @@ public class WordPlacerPerfTest {
         frequencyAnalyzer.setWordFrequenciesToReturn(FREQUENCIES_TO_PLACE);
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(DimensionAbst.get(1000, 1000), CollisionMode.RECTANGLE);
+        final WordCloud wordCloud = new WordCloud(new Dimension(1000, 1000), CollisionMode.RECTANGLE);
         wordCloud.setWordPlacer(new LinearWordPlacer());
 
         final long startTime = System.currentTimeMillis();
@@ -67,7 +67,7 @@ public class WordPlacerPerfTest {
         frequencyAnalyzer.setWordFrequenciesToReturn(FREQUENCIES_TO_PLACE);
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final WordCloud wordCloud = new WordCloud(DimensionAbst.get(1000, 1000), CollisionMode.RECTANGLE);
+        final WordCloud wordCloud = new WordCloud(new Dimension(1000, 1000), CollisionMode.RECTANGLE);
         wordCloud.setWordPlacer(new RTreeWordPlacer());
 
         final long startTime = System.currentTimeMillis();

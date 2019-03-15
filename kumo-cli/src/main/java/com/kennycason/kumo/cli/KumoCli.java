@@ -5,13 +5,13 @@ import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.PolarWordCloud;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.abst.DimensionAbst;
-import com.kennycason.kumo.abst.FontAbst;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.Background;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
 import com.kennycason.kumo.cli.CliParameters.FontScalarType;
 import com.kennycason.kumo.cli.CliParameters.NormalizerType;
 import com.kennycason.kumo.cli.CliParameters.WordStartType;
+import com.kennycason.kumo.draw.FontFace;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
@@ -100,7 +100,7 @@ public class KumoCli {
 
         final LayeredWordCloud wordCloud = new LayeredWordCloud(
                 cliParameters.getInputSources().size(),
-                DimensionAbst.get(cliParameters.getWidth(), cliParameters.getHeight()),
+                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode()
         );
         wordCloud.setBackgroundColor(cliParameters.getBackgroundColor());
@@ -121,7 +121,7 @@ public class KumoCli {
             throw new IllegalArgumentException("Polar word clouds require exactly 2 input sources. Found: " + cliParameters.getInputSources().size());
         }
         final PolarWordCloud wordCloud = new PolarWordCloud(
-                DimensionAbst.get(cliParameters.getWidth(), cliParameters.getHeight()),
+                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode(),
                 cliParameters.getPolarBlendMode()
         );
@@ -145,7 +145,7 @@ public class KumoCli {
 
     private void buildStandardWordCloud() {
         final WordCloud wordCloud = new WordCloud(
-                DimensionAbst.get(cliParameters.getWidth(), cliParameters.getHeight()),
+                new Dimension(cliParameters.getWidth(), cliParameters.getHeight()),
                 cliParameters.getCollisionMode()
         );
         if (!cliParameters.getBackgrounds().isEmpty()) {
@@ -208,7 +208,7 @@ public class KumoCli {
         throw new IllegalStateException("Unknown normalizer: " + normalizer);
     }
 
-    private KumoFont buildKumoFont(final FontAbst.Face fontWeight) {
+    private KumoFont buildKumoFont(final FontFace fontWeight) {
         return new KumoFont(cliParameters.getFontType(), fontWeight);
     }
 
