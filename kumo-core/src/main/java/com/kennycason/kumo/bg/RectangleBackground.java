@@ -1,6 +1,8 @@
 package com.kennycason.kumo.bg;
 
 import com.kennycason.kumo.collide.Collidable;
+import com.kennycason.kumo.collide.RectanglePixelCollidable;
+import com.kennycason.kumo.image.CollisionRaster;
 
 import java.awt.*;
 
@@ -36,14 +38,27 @@ public class RectangleBackground implements Background {
     }
 
     @Override
-    public boolean isInBounds(final Collidable collidable) {
-        final Point position = collidable.getPosition();
-        return position.x >= this.position.x
-               && position.x + collidable.getDimension().width < (this.position.x + dimension.width)
-               && position.y >= this.position.y
-               && position.y + collidable.getDimension().height < (this.position.y + dimension.height);
+    public void mask(RectanglePixelCollidable background) {
+        Dimension dimensionOfShape = dimension;
+        
+        int minY = Math.max(position.y, 0);
+        int minX = Math.max(position.x, 0);
+        
+        int maxY = dimensionOfShape.height + position.y - 1;
+        int maxX = dimensionOfShape.width + position.x - 1;
+        
+        Dimension dimensionOfBackground = background.getDimension();
+        CollisionRaster rasterOfBackground = background.getCollisionRaster();
+        
+        for (int y = 0; y < dimensionOfBackground.height; y++) {
+            for (int x = 0; x < dimensionOfBackground.width; x++) {
+                if ((y < minY) || (y > maxY) || (x < minX) || (x > maxX)) {
+                     rasterOfBackground.setPixelIsNotTransparent(x, y);
+                }
+            }
+        }
     }
-
+    
     @Override
     public String toString() {
         return "RectangleBackground [x=" + position.x + ", y=" + position.y +

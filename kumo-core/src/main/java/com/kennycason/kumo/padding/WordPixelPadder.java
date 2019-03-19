@@ -3,65 +3,96 @@ package com.kennycason.kumo.padding;
 import com.kennycason.kumo.Word;
 import com.kennycason.kumo.image.CollisionRaster;
 
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by kenny on 7/1/14.
  * Add pixel padding around the numbers
  */
 public class WordPixelPadder implements Padder {
 
-    // TODO as CollisionRaster changes to use boolean states rgb is not really needed or makes sense for padding
-    // it used to actually changed the buffered image that the word's text is written into.
-    private static final Color PAD_COLOR = Color.BLACK;
-
     private RectanglePadder rectanglePadder = new RectanglePadder();
 
     public void pad(final Word word, final int padding) {
-        if (padding <= 0) { return; }
+        if (padding <= 0) {
+            return;
+        }
         rectanglePadder.pad(word, padding);
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
+        // create a copy of the original raster
+        final CollisionRaster originalRaster = new CollisionRaster(collisionRaster);
 
-        final Set<Point> toPad = new HashSet<>();
-        final int width = collisionRaster.getDimension().width;
-        final int height = collisionRaster.getDimension().height;
+        final int width = originalRaster.getDimension().width;
+        final int height = originalRaster.getDimension().height;
+
+        // this is the array with the sum of all set pixels in the padding area.
+        // if the padding area is changed, we only need partial updates
+        int[] pixelsSetInPaddingPerColumn = new int[width];
+
+        for (int x = 0; x < width; x++) {
+            // create an array with the number of not transparent pixels in 
+            // each coll of the padding area of point 0, 0
+            pixelsSetInPaddingPerColumn[x] = countNotTransparentPixels(
+                    originalRaster, 0, Math.min(padding, height -1), x
+            );
+        }
 
         for (int y = 0; y < height; y++) {
+            // is the line inside the image?
+            if (y - padding >= 0) {
+                // the line (y - padding) is now outside the padding area, we need to update our index
+                int line = y - padding;
+                int set = -1;  
+                
+                while ((set = originalRaster.nextNotTransparentPixel(set + 1, width, line)) != -1) {
+                    pixelsSetInPaddingPerColumn[set]--;
+                }
+            }
+            
+            // is the line inside the image?
+            if (y > 0 && y + padding < height) {
+                // the line (y + padding) is now inside the padding area, we need to update our index
+                int line = y + padding;
+                int set = -1;  
+                
+                while ((set = originalRaster.nextNotTransparentPixel(set + 1, width, line)) != -1) {
+                    pixelsSetInPaddingPerColumn[set]++;
+                }
+            }
+            
+            int pixelsSetInPaddingArea = 0;
+            
+            for (int x = 0, n = Math.min(padding, width - 1); x < n; x++) {
+                // create the sum of all columns in the padding area of the pixel at 0,y
+                pixelsSetInPaddingArea += pixelsSetInPaddingPerColumn[x];
+            }
+            
             for (int x = 0; x < width; x++) {
-                if (shouldPad(collisionRaster, x, y, padding)) {
-                    toPad.add(new Point(x, y));
+                if (x - padding >= 0) {
+                    // the column (x - padding) is now outside the padding area, we need to update our counter
+                    pixelsSetInPaddingArea -= pixelsSetInPaddingPerColumn[x - padding];       
+                }
+                if (x > 0 && x + padding < width) {
+                    // the column (x + padding) is now inside the padding area, we need to update our counter
+                    pixelsSetInPaddingArea += pixelsSetInPaddingPerColumn[x + padding];
+                }
+                
+                // do we have any none transparent pixels in this area?
+                if (pixelsSetInPaddingArea > 0) {
+                    collisionRaster.setPixelIsNotTransparent(x, y);
                 }
             }
         }
-        for (final Point padPoint : toPad) {
-            collisionRaster.setRGB(padPoint.x, padPoint.y, PAD_COLOR.getRGB());
-        }
     }
 
-    private boolean shouldPad(final CollisionRaster collisionRaster, final int cx, final int cy, final int padding) {
-        if (!collisionRaster.isTransparent(cx, cy)) { return false; }
-
-        for (int y = cy - padding; y <= cy + padding; y++) {
-            for (int x = cx - padding; x <= cx + padding; x++) {
-                if (x == cx && y == cy) { continue; }
-                if (inBounds(collisionRaster, x, y)) {
-                    if (!collisionRaster.isTransparent(x, y)) {
-                        return true;
-                    }
-                }
+    private int countNotTransparentPixels(final CollisionRaster originalRaster, int minY, int maxY, int x) {
+        int n = 0;
+        
+        for (int y = minY; y <= maxY; y++) {
+            if (!originalRaster.isTransparent(x, y)) {
+                n++;
             }
         }
-        return false;
+        
+        return n;
     }
-
-    private boolean inBounds(final CollisionRaster collisionRaster, final int x, final int y) {
-        return x >= 0
-                && y >= 0
-                && x < collisionRaster.getDimension().width
-                && y < collisionRaster.getDimension().height;
-    }
-
 }

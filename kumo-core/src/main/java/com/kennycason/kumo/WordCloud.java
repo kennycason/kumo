@@ -13,7 +13,6 @@ import com.kennycason.kumo.font.scale.FontScalar;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.image.AngleGenerator;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.image.ImageRotation;
 import com.kennycason.kumo.padding.Padder;
 import com.kennycason.kumo.padding.RectanglePadder;
 import com.kennycason.kumo.padding.WordPixelPadder;
@@ -74,7 +73,10 @@ public class WordCloud {
 
         wordPlacer.reset();
         skipped.clear();
-
+        
+        // the background masks all none usable pixels and we can only check this raster
+        background.mask(backgroundCollidable);
+        
         int currentWord = 1;
         for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
@@ -92,6 +94,7 @@ public class WordCloud {
             }
             currentWord++;
         }
+        
         drawForegroundToBackground();
     }
 
@@ -159,6 +162,21 @@ public class WordCloud {
     }
 
     /**
+     * compute the maximum radius for the placing spiral
+     *
+     * @param dimension the size of the backgound
+     * @param start the center of the spiral
+     * @return the maximum usefull radius
+     */
+    static int computeRadius(Dimension dimension, Point start) {
+        int maxDistanceX = Math.max(start.x, dimension.width - start.x) + 1;
+        int maxDistanceY = Math.max(start.y, dimension.height - start.y) + 1;
+        
+        // we use the pythagorean theorem to determinate the maximum radius
+        return (int) Math.ceil(Math.sqrt(maxDistanceX * maxDistanceX + maxDistanceY * maxDistanceY));
+    }
+    
+    /**
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word the word being placed
      * @param start the place to start trying to place the word
@@ -166,34 +184,30 @@ public class WordCloud {
     protected boolean place(final Word word, final Point start) {
         final Graphics graphics = this.bufferedImage.getGraphics();
 
-        final int maxRadius = dimension.width;
-
+        final int maxRadius = computeRadius(dimension, start);
+        final Point position = word.getPosition();
+        
         for (int r = 0; r < maxRadius; r += 2) {
-            for (int x = -r; x <= r; x++) {
-                if (start.x + x < 0) { continue; }
-                if (start.x + x >= maxRadius) { continue; }
+            for (int x = Math.max(-start.x, -r); x <= Math.min(r, dimension.width - start.x - 1); x++) {
+                position.x = start.x + x;
 
-                boolean placed = false;
-                word.getPosition().x = start.x + x;
-
+                final int offset = (int) Math.sqrt(r * r - x * x);
+                
                 // try positive root
-                final int y1 = (int) Math.sqrt(r * r - x * x);
-                if (start.y + y1 >= 0 && start.y + y1 < dimension.height) {
-                    word.getPosition().y = start.y + y1;
-                    placed = canPlace(word);
-                }
-                // try negative root
-                final int y2 = -y1;
-                if (!placed && start.y + y2 >= 0 && start.y + y2 < dimension.height) {
-                    word.getPosition().y = start.y + y2;
-                    placed = canPlace(word);
-                }
-                if (placed) {
-                    collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
-                    graphics.drawImage(word.getBufferedImage(), word.getPosition().x, word.getPosition().y, null);
+                position.y = start.y + offset;
+                if (position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                    collisionRaster.mask(word.getCollisionRaster(), position);
+                    graphics.drawImage(word.getBufferedImage(), position.x, position.y, null);
                     return true;
                 }
-
+                
+                // try negative root (if offset != 0)
+                position.y = start.y - offset;
+                if (offset != 0 && position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                    collisionRaster.mask(word.getCollisionRaster(), position);
+                    graphics.drawImage(word.getBufferedImage(), position.x, position.y, null);
+                    return true;
+                }
             }
         }
 
@@ -201,17 +215,26 @@ public class WordCloud {
     }
 
     private boolean canPlace(final Word word) {
-        if (!background.isInBounds(word)) { return false; }
-
+        Point position = word.getPosition();
+        Dimension dimensionOfWord = word.getDimension();
+        
+        // are we inside the background?
+        if (position.y < 0 || position.y + dimensionOfWord.height > dimension.height) {
+            return false;
+        } else if (position.x < 0 || position.x + dimensionOfWord.width > dimension.width) {
+            return false;
+        }
+        
         switch (collisionMode) {
             case RECTANGLE:
-                return wordPlacer.place(word);
+                return !backgroundCollidable.collide(word) // is there a collision with the background shape?
+                        && wordPlacer.place(word); // is there a collision with the existing words?
             case PIXEL_PERFECT:
-                return !backgroundCollidable.collide(word);
+                return !backgroundCollidable.collide(word); // is there a collision with the background shape?
         }
         return false;
     }
-
+    
     protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
@@ -226,16 +249,22 @@ public class WordCloud {
     }
 
     private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
-        final Graphics graphics = this.bufferedImage.getGraphics();
+        final Graphics2D graphics = this.bufferedImage.createGraphics();
+        
+        // set the rendering hint here to ensure the font metrics are correct
+        graphics.setRenderingHints(Word.getRenderingHints());
+        
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = (wordFrequency.hasFont() ? wordFrequency.getFont() : kumoFont).getFont().deriveFont(fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
-        final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
+        
         final double theta = angleGenerator.randomNext();
-        if (theta != 0.0) {
-            word.setBufferedImage(ImageRotation.rotate(word.getBufferedImage(), theta));
-        }
+        final Word word = new Word(
+                wordFrequency.getWord(), colorPalette.next(), 
+                fontMetrics, this.collisionChecker, theta
+        );
+       
         if (padding > 0) {
             padder.pad(word, padding);
         }

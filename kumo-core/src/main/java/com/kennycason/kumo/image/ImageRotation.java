@@ -1,5 +1,6 @@
 package com.kennycason.kumo.image;
 
+import com.kennycason.kumo.Word;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -11,11 +12,11 @@ public class ImageRotation {
     private ImageRotation() {}
 
     public static BufferedImage rotate90(final BufferedImage bufferedImage) {
-        return rotate(bufferedImage, Math.PI / 2);
+        return rotate(bufferedImage, Math.toRadians(90));
     }
 
     public static BufferedImage rotateMinus90(final BufferedImage bufferedImage) {
-        return rotate(bufferedImage, -Math.PI / 2);
+        return rotate(bufferedImage, Math.toRadians(-90));
     }
 
     public static BufferedImage rotate(final BufferedImage bufferedImage, final double theta) {
@@ -30,6 +31,7 @@ public class ImageRotation {
 
         final BufferedImage result = new BufferedImage(newWeight, newHeight, bufferedImage.getType());
         final Graphics2D graphics = result.createGraphics();
+        graphics.setRenderingHints(Word.getRenderingHints());
         graphics.translate((newWeight - weight) / 2, (newHeight - height) / 2);
         graphics.rotate(theta, weight / 2, height / 2);
         graphics.drawRenderedImage(bufferedImage, null);

@@ -43,16 +43,59 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         final int endY = Math.min(position.y + collidable.getDimension().height,
                                   position2.y + collidable2.getDimension().height);
 
-        for (int y = startY; y < endY; y++) {
-            for (int x = startX; x < endX; x++) {
-                // compute offsets for surface
-                if (!collisionRaster2.isTransparent(x - position2.x, y - position2.y)
-                        && !collisionRaster.isTransparent(x - position.x, y - position.y)) {
-                    return true;
+        final int endX1 = endX - position.x;
+        final int endX2 = endX - position2.x;
+
+        final int stop1 = position.x + -1;
+        final int stop2 = position2.x + -1;
+        
+        // this is the fast path of finding collisions: we expect the none transparent
+        // pixel to be around the center, using padding will increase this effect.
+        final int stepSize = ((endY - startY) / 3) + 1;
+        
+        for (int i = stepSize - 1; i >= 0; i--) {
+            for (int y = startY + i; y < endY; y += stepSize) {
+                final int yOfPosition = y - position.y;
+                int absolute1 = position.x + collisionRaster.nextNotTransparentPixel(
+                        startX - position.x, endX1, yOfPosition
+                );
+
+                if (absolute1 == stop1) {
+                    continue;
+                }
+
+                final int yOfPosition2 = y - position2.y;
+                int absolute2 = position2.x + collisionRaster2.nextNotTransparentPixel(
+                        startX - position2.x, endX2, yOfPosition2
+                );
+
+                if (absolute2 == stop2) {
+                    continue;
+                }
+                
+                while (true) {
+                    if (absolute1 > absolute2) {
+                        absolute2 = position2.x + collisionRaster2.nextNotTransparentPixel(
+                                absolute1 - position2.x, endX2, yOfPosition2
+                        );
+                        
+                        if (absolute2 == stop2) {
+                            break;
+                        } 
+                    } else if (absolute1 < absolute2) {
+                        absolute1 = position.x + collisionRaster.nextNotTransparentPixel(
+                                absolute2 - position.x, endX1, yOfPosition
+                        );
+                        
+                        if (absolute1 == stop1) {
+                            break;
+                        } 
+                    } else {
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
-
 }
