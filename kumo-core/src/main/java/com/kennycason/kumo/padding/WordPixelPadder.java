@@ -26,7 +26,7 @@ public class WordPixelPadder implements Padder {
 
         // this is the array with the sum of all set pixels in the padding area.
         // if the padding area is changed, we only need partial updates
-        int[] pixelsSetInPaddingPerColumn = new int[width];
+        final int[] pixelsSetInPaddingPerColumn = new int[width];
 
         for (int x = 0; x < width; x++) {
             // create an array with the number of not transparent pixels in 
@@ -40,7 +40,7 @@ public class WordPixelPadder implements Padder {
             // is the line inside the image?
             if (y - padding >= 0) {
                 // the line (y - padding) is now outside the padding area, we need to update our index
-                int line = y - padding;
+                final int line = y - padding;
                 int set = -1;  
                 
                 while ((set = originalRaster.nextNotTransparentPixel(set + 1, width, line)) != -1) {
@@ -51,7 +51,7 @@ public class WordPixelPadder implements Padder {
             // is the line inside the image?
             if (y > 0 && y + padding < height) {
                 // the line (y + padding) is now inside the padding area, we need to update our index
-                int line = y + padding;
+                final int line = y + padding;
                 int set = -1;  
                 
                 while ((set = originalRaster.nextNotTransparentPixel(set + 1, width, line)) != -1) {
@@ -84,7 +84,7 @@ public class WordPixelPadder implements Padder {
         }
     }
 
-    private int countNotTransparentPixels(final CollisionRaster originalRaster, int minY, int maxY, int x) {
+    private int countNotTransparentPixels(final CollisionRaster originalRaster, final int minY, final int maxY, final int x) {
         int n = 0;
         
         for (int y = minY; y <= maxY; y++) {

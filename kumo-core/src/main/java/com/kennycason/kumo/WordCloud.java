@@ -168,9 +168,9 @@ public class WordCloud {
      * @param start the center of the spiral
      * @return the maximum usefull radius
      */
-    static int computeRadius(Dimension dimension, Point start) {
-        int maxDistanceX = Math.max(start.x, dimension.width - start.x) + 1;
-        int maxDistanceY = Math.max(start.y, dimension.height - start.y) + 1;
+    static int computeRadius(final Dimension dimension, final Point start) {
+        final int maxDistanceX = Math.max(start.x, dimension.width - start.x) + 1;
+        final int maxDistanceY = Math.max(start.y, dimension.height - start.y) + 1;
         
         // we use the pythagorean theorem to determinate the maximum radius
         return (int) Math.ceil(Math.sqrt(maxDistanceX * maxDistanceX + maxDistanceY * maxDistanceY));
@@ -215,8 +215,8 @@ public class WordCloud {
     }
 
     private boolean canPlace(final Word word) {
-        Point position = word.getPosition();
-        Dimension dimensionOfWord = word.getDimension();
+        final Point position = word.getPosition();
+        final Dimension dimensionOfWord = word.getDimension();
         
         // are we inside the background?
         if (position.y < 0 || position.y + dimensionOfWord.height > dimension.height) {
@@ -333,8 +333,8 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordStartStrategy(final WordStartStrategy startscheme) {
-        this.wordStartStrategy = startscheme;
+    public void setWordStartStrategy(final WordStartStrategy wordStartStrategy) {
+        this.wordStartStrategy = wordStartStrategy;
     }
 
     public void setWordPlacer(final RectangleWordPlacer wordPlacer) {

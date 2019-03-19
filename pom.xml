@@ -4,7 +4,7 @@
 
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
-    <version>1.18-SNAPSHOT</version>
+    <version>1.19-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).</description>
