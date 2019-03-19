@@ -4,7 +4,7 @@
 
     <groupId>com.kennycason</groupId>
     <artifactId>kumo</artifactId>
-    <version>1.19-SNAPSHOT</version>
+    <version>1.19</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>Kumo's goal is to create a powerful and user friendly Word Cloud API in Java. Kumo directly generates an image file without the need to create an applet (as many other libraries do).</description>
@@ -136,7 +136,7 @@
         <connection>scm:git:git@github.com:kennycason/kumo.git</connection>
         <developerConnection>scm:git:git@github.com:kennycason/kumo.git</developerConnection>
         <url>https://github.com/kennycason/kumo</url>
-      <tag>HEAD</tag>
+      <tag>v1.19</tag>
   </scm>
 
     <distributionManagement>
