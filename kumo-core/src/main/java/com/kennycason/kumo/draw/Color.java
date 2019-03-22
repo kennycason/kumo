@@ -3,7 +3,7 @@ package com.kennycason.kumo.draw;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class Color implements IColor{
+public class Color implements IColor, VaryingImpl{
 
     private IColor platformSpecificImplementation;
 
@@ -64,5 +64,14 @@ public class Color implements IColor{
     @Override
     public int getBlue() {
         return platformSpecificImplementation.getBlue();
+    }
+
+    @Override
+    public Object getActual() {
+        if(platformSpecificImplementation instanceof VaryingImpl){
+            return ((VaryingImpl) platformSpecificImplementation).getActual();
+        }
+
+        return null;
     }
 }
