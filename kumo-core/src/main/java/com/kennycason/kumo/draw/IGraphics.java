@@ -8,8 +8,6 @@ public interface IGraphics {
 
     void drawRect(IColor color, int x, int y, int width, int height);
 
-    void enableAntiAliasing();
-
     void setFont(IFont font);
 
     IFontMetrics getFontMetrics();

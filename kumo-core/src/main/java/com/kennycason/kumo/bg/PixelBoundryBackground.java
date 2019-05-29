@@ -1,5 +1,6 @@
 package com.kennycason.kumo.bg;
 
+import com.kennycason.kumo.collide.RectanglePixelCollidable;
 import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.draw.Image;
 import com.kennycason.kumo.draw.Point;
@@ -20,26 +21,24 @@ public class PixelBoundryBackground implements Background {
 
     private final CollisionRaster collisionRaster;
 
-    private final RectangleBackground rectangleBackground;
+    private final Point position = new Point(0, 0);
 
     /**
      * Creates a PixelBoundaryBackground using an InputStream to load an image
-     * 
-     * @param imageInputStream
-     *            InputStream containing an image file
+     *
+     *
+     * @param imageInputStream InputStream containing an image file
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
         final Image bufferedImage = new Image(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
-        this.rectangleBackground = new RectangleBackground(new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
     }
     
     /**
      * Creates a PixelBoundaryBackground using an image from the input file
      * 
-     * @param file
-     *            a File pointing to an image
+     * @param file a File pointing to an image
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final File file) throws IOException {
@@ -49,8 +48,7 @@ public class PixelBoundryBackground implements Background {
     /**
      * Creates a PixelBoundaryBackground using an image-path
      * 
-     * @param filepath
-     *            path to an image file
+     * @param filepath path to an image file
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final String filepath) throws IOException {
@@ -58,29 +56,35 @@ public class PixelBoundryBackground implements Background {
     }
 
     @Override
-    public boolean isInBounds(final Collidable collidable) {
-        // check if bounding boxes intersect
-        if (!this.rectangleBackground.isInBounds(collidable)) {
-            return false;
-        }
-        final Point position = collidable.getPosition();
-        // get the overlapping box
-        final int startX = Math.max(position.getX(), 0);
-        final int endX = Math.min(position.getX() + collidable.getDimension().getWidth(), collisionRaster.getDimension().getWidth());
+    public void mask(RectanglePixelCollidable background) {
+        Dimension dimensionOfShape = collisionRaster.getDimension();
+        Dimension dimensionOfBackground = background.getDimension();
 
-        final int startY = Math.max(position.getY(), 0);
-        final int endY = Math.min(position.getY() + collidable.getDimension().getHeight(), collisionRaster.getDimension().getHeight());
+        int minY = Math.max(position.getY(), 0);
+        int minX = Math.max(position.getX(), 0);
 
-        for (int y = startY; y < endY; y++) {
-            for (int x = startX; x < endX; x++) {
-                // compute offsets for surface
-                if (collisionRaster.isTransparent(x, y) &&
-                        !collidable.getCollisionRaster().isTransparent(x - position.getX(), y - position.getY())) {
-                    return false;
+        int maxY = dimensionOfShape.getHeight() - position.getY() - 1;
+        int maxX = dimensionOfShape.getWidth() - position.getX() - 1;
+
+        CollisionRaster rasterOfBackground = background.getCollisionRaster();
+
+        for (int y = 0; y < dimensionOfBackground.getHeight(); y++) {
+            if (y < minY || y > maxY) {
+                for (int x = 0; x < dimensionOfBackground.getWidth(); x++) {
+                    rasterOfBackground.setPixelIsNotTransparent(
+                            position.getX() + x, position.getY() + y
+                    );
+                }
+            } else {
+                for (int x = 0; x < dimensionOfBackground.getWidth(); x++) {
+                    if (x < minX || x > maxX || collisionRaster.isTransparent(x, y)) {
+                        rasterOfBackground.setPixelIsNotTransparent(
+                                position.getX() + x, position.getY() + y
+                        );
+                    }
                 }
             }
         }
-        return true;
     }
 
 }

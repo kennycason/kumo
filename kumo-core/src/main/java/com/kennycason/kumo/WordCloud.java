@@ -72,6 +72,9 @@ public class WordCloud {
         wordPlacer.reset();
         skipped.clear();
 
+        // the background masks all none usable pixels and we can only check this raster
+        background.mask(backgroundCollidable);
+
         int currentWord = 1;
         for (final Word word : buildWords(wordFrequencies, this.colorPalette)) {
             final Point point = wordStartStrategy.getStartingPoint(dimension, word);
@@ -155,6 +158,21 @@ public class WordCloud {
     }
 
     /**
+     * compute the maximum radius for the placing spiral
+     *
+     * @param dimension the size of the backgound
+     * @param start the center of the spiral
+     * @return the maximum usefull radius
+     */
+    static int computeRadius(Dimension dimension, Point start) {
+        int maxDistanceX = Math.max(start.getX(), dimension.getWidth() - start.getX()) + 1;
+        int maxDistanceY = Math.max(start.getY(), dimension.getHeight() - start.getY()) + 1;
+
+        // we use the pythagorean theorem to determinate the maximum radius
+        return (int) Math.ceil(Math.sqrt(maxDistanceX * maxDistanceX + maxDistanceY * maxDistanceY));
+    }
+
+    /**
      * try to place in center, build out in a spiral trying to place words for N steps
      * @param word the word being placed
      * @param start the place to start trying to place the word
@@ -162,31 +180,28 @@ public class WordCloud {
     protected boolean place(final Word word, final Point start) {
         final Graphics graphics = new Graphics(image);
 
-        final int maxRadius = dimension.getWidth();
+        final int maxRadius = computeRadius(dimension, start);
+        final Point position = word.getPosition();
 
         for (int r = 0; r < maxRadius; r += 2) {
-            for (int x = -r; x <= r; x++) {
-                if (start.getX() + x < 0) { continue; }
-                if (start.getX() + x >= maxRadius) { continue; }
+            for (int x = Math.max(-start.getX(), -r); x <= Math.min(r, dimension.getWidth() - start.getX() - 1); x++) {
+                position.setX(start.getX() + x);
 
-                boolean placed = false;
-                word.getPosition().setX(start.getX() + x);
+                final int offset = (int) Math.sqrt(r * r - x * x);
 
                 // try positive root
-                final int y1 = (int) Math.sqrt(r * r - x * x);
-                if (start.getY() + y1 >= 0 && start.getY() + y1 < dimension.getHeight()) {
-                    word.getPosition().setY(start.getY() + y1);
-                    placed = canPlace(word);
+                position.setY(start.getY() + offset);
+                if (position.getY() >= 0 && position.getY() < dimension.getHeight() && canPlace(word)) {
+                    collisionRaster.mask(word.getCollisionRaster(), position);
+                    graphics.drawImg(word.getBufferedImage(), position.getX(), position.getY());
+                    return true;
                 }
-                // try negative root
-                final int y2 = -y1;
-                if (!placed && start.getY() + y2 >= 0 && start.getY() + y2 < dimension.getHeight()) {
-                    word.getPosition().setY(start.getY() + y2);
-                    placed = canPlace(word);
-                }
-                if (placed) {
-                    collisionRaster.mask(word.getCollisionRaster(), word.getPosition());
-                    graphics.drawImg(word.getBufferedImage(), word.getPosition().getX(), word.getPosition().getY());
+
+                // try negative root (if offset != 0)
+                position.setY(start.getY() - offset);
+                if (offset != 0 && position.getY() >= 0 && position.getY() < dimension.getHeight() && canPlace(word)) {
+                    collisionRaster.mask(word.getCollisionRaster(), position);
+                    graphics.drawImg(word.getBufferedImage(), position.getX(), position.getY());
                     return true;
                 }
 
@@ -197,13 +212,23 @@ public class WordCloud {
     }
 
     private boolean canPlace(final Word word) {
-        if (!background.isInBounds(word)) { return false; }
+
+        Point position = word.getPosition();
+        Dimension dimensionOfWord = word.getDimension();
+
+        // are we inside the background?
+        if (position.getY() < 0 || position.getY() + dimensionOfWord.getHeight() > dimension.getHeight()) {
+            return false;
+        } else if (position.getX() < 0 || position.getX() + dimensionOfWord.getWidth() > dimension.getWidth()) {
+            return false;
+        }
 
         switch (collisionMode) {
             case RECTANGLE:
-                return wordPlacer.place(word);
+                return !backgroundCollidable.collide(word) // is there a collision with the background shape?
+                        && wordPlacer.place(word); // is there a collision with the existing words?
             case PIXEL_PERFECT:
-                return !backgroundCollidable.collide(word);
+                return !backgroundCollidable.collide(word); // is there a collision with the background shape?
         }
         return false;
     }
@@ -223,17 +248,21 @@ public class WordCloud {
 
     private Word buildWord(final WordFrequency wordFrequency, final int maxFrequency, final ColorPalette colorPalette) {
         final Graphics graphics = new Graphics(image);
+
         final int frequency = wordFrequency.getFrequency();
         final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
         final Font font = kumoFont.getFont();
         font.setSize(fontHeight);
         graphics.setFont(font);
         final FontMetrics fontMetrics = graphics.getFontMetrics();
-        final Word word = new Word(wordFrequency.getWord(), colorPalette.next(), fontMetrics, this.collisionChecker);
+
         final double theta = angleGenerator.randomNext();
-        if (theta != 0.0) {
-            word.setImage(new ImageRotator().rotate(word.getBufferedImage(), theta));
-        }
+
+        final Word word = new Word(
+                wordFrequency.getWord(), colorPalette.next(),
+                fontMetrics, this.collisionChecker, theta
+        );
+
         if (padding > 0) {
             padder.pad(word, padding);
         }

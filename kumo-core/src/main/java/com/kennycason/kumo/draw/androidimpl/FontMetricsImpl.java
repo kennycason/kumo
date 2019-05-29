@@ -31,6 +31,11 @@ public class FontMetricsImpl implements IFontMetrics {
     }
 
     @Override
+    public int getLeading(){
+        return Math.round(paint.getFontMetrics().leading);
+    }
+
+    @Override
     public int measure(String s) {
         return (int)Math.ceil(paint.measureText(s));
     }

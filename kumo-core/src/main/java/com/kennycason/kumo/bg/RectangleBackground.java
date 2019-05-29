@@ -1,8 +1,10 @@
 package com.kennycason.kumo.bg;
 
+import com.kennycason.kumo.collide.RectanglePixelCollidable;
 import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
+import com.kennycason.kumo.image.CollisionRaster;
 
 /**
  * A Background Collision Mode in the shape of a rectangle
@@ -36,12 +38,25 @@ public class RectangleBackground implements Background {
     }
 
     @Override
-    public boolean isInBounds(final Collidable collidable) {
-        final Point position = collidable.getPosition();
-        return position.getX() >= this.position.getX()
-               && position.getX() + collidable.getDimension().getWidth() < (this.position.getX() + dimension.getWidth())
-               && position.getY() >= this.position.getY()
-               && position.getY() + collidable.getDimension().getHeight() < (this.position.getY() + dimension.getHeight());
+    public void mask(RectanglePixelCollidable background) {
+        Dimension dimensionOfShape = dimension;
+
+        int minY = Math.max(position.getY(), 0);
+        int minX = Math.max(position.getX(), 0);
+
+        int maxY = dimensionOfShape.getHeight() + position.getY() - 1;
+        int maxX = dimensionOfShape.getWidth() + position.getX() - 1;
+
+        Dimension dimensionOfBackground = background.getDimension();
+        CollisionRaster rasterOfBackground = background.getCollisionRaster();
+
+        for (int y = 0; y < dimensionOfBackground.getHeight(); y++) {
+            for (int x = 0; x < dimensionOfBackground.getWidth(); x++) {
+                if ((y < minY) || (y > maxY) || (x < minX) || (x > maxX)) {
+                    rasterOfBackground.setPixelIsNotTransparent(x, y);
+                }
+            }
+        }
     }
 
     @Override

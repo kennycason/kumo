@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraphicsImpl implements IGraphics {
 
@@ -15,6 +17,7 @@ public class GraphicsImpl implements IGraphics {
     public GraphicsImpl(IImage img) {
         BufferedImage bufferedImage = (BufferedImage) img.getActual();
         graphics2D = bufferedImage.createGraphics();
+        graphics2D.setRenderingHints(getRenderingHints());
     }
 
     @Override
@@ -36,11 +39,6 @@ public class GraphicsImpl implements IGraphics {
     }
 
     @Override
-    public void enableAntiAliasing() {
-        graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-    }
-
-    @Override
     public void setFont(IFont font) {
         this.font = (Font) font.getActual();
         graphics2D.setFont(this.font);
@@ -49,5 +47,35 @@ public class GraphicsImpl implements IGraphics {
     @Override
     public IFontMetrics getFontMetrics() {
         return new FontMetricsImpl(graphics2D.getFontMetrics(font));
+    }
+
+    private static RenderingHints getRenderingHints() {
+        Map<RenderingHints.Key, Object> hints = new HashMap<>();
+        hints.put(
+                RenderingHints.KEY_ALPHA_INTERPOLATION,
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY
+        );
+        hints.put(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
+        );
+        hints.put(
+                RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_QUALITY
+        );
+        hints.put(
+                RenderingHints.KEY_FRACTIONALMETRICS,
+                RenderingHints.VALUE_FRACTIONALMETRICS_ON
+        );
+        hints.put(
+                RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_BICUBIC
+        );
+        hints.put(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB
+        );
+
+        return new RenderingHints(hints);
     }
 }

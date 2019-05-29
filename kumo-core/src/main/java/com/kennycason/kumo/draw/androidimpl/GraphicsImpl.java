@@ -14,6 +14,7 @@ public class GraphicsImpl implements IGraphics {
         canvas = new Canvas(bitmap);
         paint = new Paint();
         paint.setTextAlign(Paint.Align.LEFT);
+        paint.setAntiAlias(true);
     }
 
     @Override
@@ -37,11 +38,6 @@ public class GraphicsImpl implements IGraphics {
         paint.setStyle(Paint.Style.FILL);
         //Mimic the behavior of AWT instead of using the Android one
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
-    }
-
-    @Override
-    public void enableAntiAliasing() {
-        paint.setAntiAlias(true);
     }
 
     @Override

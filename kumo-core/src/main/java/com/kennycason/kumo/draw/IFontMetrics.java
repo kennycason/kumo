@@ -4,6 +4,7 @@ public interface IFontMetrics {
 
     int getBottom();
     int getTop();
+    int getLeading();
 
     int measure(String s);
 

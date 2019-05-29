@@ -19,6 +19,11 @@ public class FontMetrics implements IFontMetrics{
     }
 
     @Override
+    public int getLeading() {
+        return platformSpecificImplementation.getLeading();
+    }
+
+    @Override
     public int measure(String s) {
         return platformSpecificImplementation.measure(s);
     }

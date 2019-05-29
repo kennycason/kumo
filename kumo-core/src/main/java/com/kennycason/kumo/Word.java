@@ -21,27 +21,41 @@ public class Word implements Collidable {
     private Image bufferedImage;
 
     private CollisionRaster collisionRaster;
+    private final double theta;
 
     public Word(final String word,
                 final Color color,
                 final FontMetrics fontMetrics,
-                final CollisionChecker collisionChecker) {
+                final CollisionChecker collisionChecker,
+                final double theta) {
         this.word = word;
         this.color = color;
         this.collisionChecker = collisionChecker;
-        // get the height of a line of text in this font and render context
-        final int maxDescent = fontMetrics.getBottom();
-        // get the advance of my text in this font and render context
-        final int width = fontMetrics.measure(word);
-
-        this.bufferedImage = new Image(width, fontMetrics.getTop());
-        final Graphics graphics = new Graphics(bufferedImage);
-        graphics.enableAntiAliasing();
-        graphics.setFont(fontMetrics.getFont());
-
-        graphics.drawString(word, 0, fontMetrics.getTop() - maxDescent, color);
+        this.theta = theta;
+        this.bufferedImage = render(word, color, fontMetrics, theta);
 
         this.collisionRaster = new CollisionRaster(this.bufferedImage);
+    }
+
+    private Image render(final String text, final Color fontColor, final FontMetrics fontMetrics, double theta) {
+        // get the advance of my text in this font and render context
+        final int width = fontMetrics.measure(text);
+        // get the height of a line of text in this font and render context
+        final int height = fontMetrics.getTop();
+
+        Image rendered = new Image(
+                width, height
+        );
+
+        final Graphics gOfRendered = new Graphics(rendered);
+
+        gOfRendered.setFont(fontMetrics.getFont());
+
+        gOfRendered.drawString(
+                text, 0, height - fontMetrics.getBottom() - fontMetrics.getLeading(), fontColor
+        );
+
+        return new ImageRotator().rotate(rendered, theta);
     }
 
     public Image getBufferedImage() {
@@ -55,6 +69,10 @@ public class Word implements Collidable {
 
     public String getWord() {
         return word;
+    }
+
+    public double getTheta() {
+        return theta;
     }
 
     public Point getPosition() {

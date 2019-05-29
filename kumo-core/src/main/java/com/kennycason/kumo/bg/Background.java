@@ -1,10 +1,10 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.collide.Collidable;
+import com.kennycason.kumo.collide.RectanglePixelCollidable;
 
 /**
  * Created by kenny on 6/30/14.
  */
 public interface Background {
-    boolean isInBounds(Collidable collidable);
+    void mask(RectanglePixelCollidable backgroundCollidable);
 }

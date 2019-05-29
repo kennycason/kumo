@@ -36,11 +36,6 @@ public class Graphics implements IGraphics{
     }
 
     @Override
-    public void enableAntiAliasing() {
-        platformSpecificImplementation.enableAntiAliasing();
-    }
-
-    @Override
     public void setFont(IFont font) {
         platformSpecificImplementation.setFont(font);
     }

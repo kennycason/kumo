@@ -24,6 +24,11 @@ public class FontMetricsImpl implements IFontMetrics {
     }
 
     @Override
+    public int getLeading() {
+        return fontMetrics.getLeading();
+    }
+
+    @Override
     public int measure(String s) {
         return fontMetrics.stringWidth(s);
     }

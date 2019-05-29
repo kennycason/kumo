@@ -12,7 +12,7 @@ public class ImageRotatorImpl implements IImageRotator {
     @Override
     public IImage rotate(IImage image, double theta) {
 
-        theta = degreesToRadians(theta);
+        theta = Math.toRadians(theta);
 
         if (theta == 0.0) { return image; }
 
@@ -35,7 +35,4 @@ public class ImageRotatorImpl implements IImageRotator {
         return new ImageImpl(result);
     }
 
-    private double degreesToRadians(final double degrees) {
-        return Math.PI * degrees / 180.0;
-    }
 }
