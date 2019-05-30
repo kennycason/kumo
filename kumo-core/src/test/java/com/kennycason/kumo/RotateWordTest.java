@@ -3,12 +3,10 @@ package com.kennycason.kumo;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.imageio.ImageIO;
 
@@ -60,7 +58,7 @@ public class RotateWordTest {
                     _text, new Color(java.awt.Color.red.getRGB()), new com.kennycason.kumo.draw.FontMetrics(new FontMetricsImpl(fontMetrics)), null, Math.toRadians(angle)
             );
 
-            BufferedImage rendered = (BufferedImage) word.getBufferedImage().getActual();
+            BufferedImage rendered = (BufferedImage) word.getImage().getActual();
 
             int width = rendered.getWidth();
             int height = rendered.getHeight();

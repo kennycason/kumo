@@ -145,8 +145,8 @@ public class WordCloud {
     protected void drawForegroundToBackground() {
         if (backgroundColor == null) { return; }
 
-        final Image backgroundBufferedImage = new Image(dimension.getWidth(), dimension.getHeight());
-        final Graphics graphics = new Graphics(backgroundBufferedImage);
+        final Image backgroundImage = new Image(dimension.getWidth(), dimension.getHeight());
+        final Graphics graphics = new Graphics(backgroundImage);
 
         // draw current color
         graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
@@ -154,7 +154,7 @@ public class WordCloud {
 
         // draw back to original
         final Graphics graphics2 = new Graphics(image);
-        graphics2.drawImg(backgroundBufferedImage, 0, 0);
+        graphics2.drawImg(backgroundImage, 0, 0);
     }
 
     /**
@@ -193,7 +193,7 @@ public class WordCloud {
                 position.setY(start.getY() + offset);
                 if (position.getY() >= 0 && position.getY() < dimension.getHeight() && canPlace(word)) {
                     collisionRaster.mask(word.getCollisionRaster(), position);
-                    graphics.drawImg(word.getBufferedImage(), position.getX(), position.getY());
+                    graphics.drawImg(word.getImage(), position.getX(), position.getY());
                     return true;
                 }
 
@@ -201,7 +201,7 @@ public class WordCloud {
                 position.setY(start.getY() - offset);
                 if (offset != 0 && position.getY() >= 0 && position.getY() < dimension.getHeight() && canPlace(word)) {
                     collisionRaster.mask(word.getCollisionRaster(), position);
-                    graphics.drawImg(word.getBufferedImage(), position.getX(), position.getY());
+                    graphics.drawImg(word.getImage(), position.getX(), position.getY());
                     return true;
                 }
 

@@ -15,12 +15,12 @@ public class CollisionRaster {
 
     private final Dimension dimension;
 
-    public CollisionRaster(final Image bufferedImage) {
-        this(new Dimension(bufferedImage.getWidth(), bufferedImage.getHeight()));
+    public CollisionRaster(final Image image) {
+        this(new Dimension(image.getWidth(), image.getHeight()));
 
         for (int y = 0; y < dimension.getHeight(); y++) {
             for (int x = 0; x < dimension.getWidth(); x++) {
-                boolean pixelIsTransparent = (bufferedImage.getColor(x, y) & 0xFF000000) == 0x00000000;
+                boolean pixelIsTransparent = (image.getColor(x, y) & 0xFF000000) == 0x00000000;
 
                 if (!pixelIsTransparent) {
                     setPixelIsNotTransparent(x, y);

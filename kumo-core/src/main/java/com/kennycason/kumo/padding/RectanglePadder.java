@@ -13,7 +13,7 @@ public class RectanglePadder implements Padder {
     public void pad(final Word word, final int padding) {
         if (padding <= 0) { return; }
 
-        final Image image = word.getBufferedImage();
+        final Image image = word.getImage();
         final int width = image.getWidth() + padding * 2;
         final int height = image.getHeight() + padding * 2;
 

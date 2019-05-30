@@ -31,8 +31,8 @@ public class PixelBoundryBackground implements Background {
      * @throws IOException when fails to open file stream
      */
     public PixelBoundryBackground(final InputStream imageInputStream) throws IOException {
-        final Image bufferedImage = new Image(imageInputStream);
-        this.collisionRaster = new CollisionRaster(bufferedImage);
+        final Image image = new Image(imageInputStream);
+        this.collisionRaster = new CollisionRaster(image);
     }
     
     /**
