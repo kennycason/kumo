@@ -97,4 +97,5 @@ public class RectanglePixelCollisionChecker implements CollisionChecker {
         }
         return false;
     }
+
 }

@@ -48,6 +48,6 @@ public class WordFrequency implements Comparable<WordFrequency> {
 
     @Override
     public String toString() {
-        return "WordFrequency [word=" + word + ", frequency=" + frequency + ", font=" + (font == null ? "default" : font.getFont().getFontName()) + "]";
+        return "WordFrequency [word=" + word + ", frequency=" + frequency + ", font=" + (font == null ? "default" : font.getFont().toString()) + "]";
     }
 }

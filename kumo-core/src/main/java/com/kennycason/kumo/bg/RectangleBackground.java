@@ -58,7 +58,7 @@ public class RectangleBackground implements Background {
             }
         }
     }
-    
+
     @Override
     public String toString() {
         return "RectangleBackground [x=" + position.getX() + ", y=" + position.getY() +

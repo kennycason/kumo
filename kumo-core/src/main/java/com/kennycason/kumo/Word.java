@@ -4,7 +4,6 @@ import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.draw.*;
 import com.kennycason.kumo.image.CollisionRaster;
-import com.kennycason.kumo.image.ImageRotation;
 
 /**
  * Created by kenny on 6/29/14.
@@ -96,36 +95,6 @@ public class Word implements Collidable {
 
     public void draw(final CollisionRaster collisionRaster) {
         collisionRaster.mask(collisionRaster, position);
-    }
-    
-    public static RenderingHints getRenderingHints() {
-        Map<RenderingHints.Key, Object> hints = new HashMap<>();
-        hints.put(
-                RenderingHints.KEY_ALPHA_INTERPOLATION,
-                RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY
-        );
-        hints.put(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON
-        );
-        hints.put(
-                RenderingHints.KEY_COLOR_RENDERING,
-                RenderingHints.VALUE_COLOR_RENDER_QUALITY
-        );
-        hints.put(
-                RenderingHints.KEY_FRACTIONALMETRICS,
-                RenderingHints.VALUE_FRACTIONALMETRICS_ON
-        );
-        hints.put(
-                RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BICUBIC
-        );
-        hints.put(
-                RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB
-        );
-        
-        return new RenderingHints(hints);
     }
 
     @Override

@@ -68,19 +68,6 @@ public class CollisionRaster {
             }
         }
     }
-    
-    /**
-     * @param minX (inclusive) start of the pixels to test 
-     * @param maxX (exclusive) end of the pixels to test 
-     * @param y the line to check
-     */
-    public int nextNotTransparentPixel(final int minX, final int maxX, int y) {
-        if (maxX > dimension.width) {
-            throw new IllegalArgumentException("maxX is out of bounds");
-        }
-        
-        int idx = computeIndex(minX, y);
-        int set = data.nextSetBit(idx);
 
 
     /**
@@ -110,5 +97,5 @@ public class CollisionRaster {
     public Dimension getDimension() {
         return dimension;
     }
-    
+
 }
