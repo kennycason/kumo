@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import com.kennycason.kumo.draw.Color;
 import com.kennycason.kumo.draw.awtimpl.FontMetricsImpl;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -47,6 +48,7 @@ public class RotateWordTest {
     }
 
     @Test
+    @Ignore
     public void checkRotatedTextIsNotCropped() throws IOException {
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
