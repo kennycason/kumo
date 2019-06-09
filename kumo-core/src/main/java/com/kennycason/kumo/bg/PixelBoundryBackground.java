@@ -5,6 +5,7 @@ import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.draw.Image;
 import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.collide.Collidable;
+import com.kennycason.kumo.collide.RectanglePixelCollidable;
 import com.kennycason.kumo.image.CollisionRaster;
 
 import java.io.File;
@@ -20,6 +21,8 @@ import java.io.InputStream;
 public class PixelBoundryBackground implements Background {
 
     private final CollisionRaster collisionRaster;
+    
+    private final Point position = new Point(0, 0);
 
     private final Point position = new Point(0, 0);
 
@@ -34,7 +37,7 @@ public class PixelBoundryBackground implements Background {
         final Image image = new Image(imageInputStream);
         this.collisionRaster = new CollisionRaster(image);
     }
-    
+
     /**
      * Creates a PixelBoundaryBackground using an image from the input file
      * 
@@ -54,7 +57,7 @@ public class PixelBoundryBackground implements Background {
     public PixelBoundryBackground(final String filepath) throws IOException {
         this(new File(filepath));
     }
-
+    
     @Override
     public void mask(RectanglePixelCollidable background) {
         Dimension dimensionOfShape = collisionRaster.getDimension();
@@ -84,7 +87,7 @@ public class PixelBoundryBackground implements Background {
                     }
                 }
             }
+
         }
     }
-
 }

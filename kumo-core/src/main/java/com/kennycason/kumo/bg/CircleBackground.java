@@ -19,7 +19,7 @@ public class CircleBackground implements Background {
         this.radius = radius;
         this.position = new Point(0, 0);
     }
-
+    
     @Override
     public void mask(RectanglePixelCollidable background) {
         Dimension dimensionOfBackground = background.getDimension();

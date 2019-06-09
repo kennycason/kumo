@@ -23,6 +23,8 @@ public class WordPixelPadder implements Padder {
         rectanglePadder.pad(word, padding);
 
         final CollisionRaster collisionRaster = word.getCollisionRaster();
+        // create a copy of the original raster
+        final CollisionRaster originalRaster = new CollisionRaster(collisionRaster);
 
         // create a copy of the original raster
         final CollisionRaster originalRaster = new CollisionRaster(collisionRaster);

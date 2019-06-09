@@ -92,6 +92,7 @@ public class WordCloud {
             }
             currentWord++;
         }
+        
         drawForegroundToBackground();
     }
 
@@ -204,7 +205,6 @@ public class WordCloud {
                     graphics.drawImg(word.getImage(), position.getX(), position.getY());
                     return true;
                 }
-
             }
         }
 
@@ -232,7 +232,7 @@ public class WordCloud {
         }
         return false;
     }
-
+    
     protected List<Word> buildWords(final List<WordFrequency> wordFrequencies, final ColorPalette colorPalette) {
         final int maxFrequency = maxFrequency(wordFrequencies);
 
@@ -331,8 +331,8 @@ public class WordCloud {
         return skipped;
     }
     
-    public void setWordStartStrategy(final WordStartStrategy startscheme) {
-        this.wordStartStrategy = startscheme;
+    public void setWordStartStrategy(final WordStartStrategy wordStartStrategy) {
+        this.wordStartStrategy = wordStartStrategy;
     }
 
     public void setWordPlacer(final RectangleWordPlacer wordPlacer) {

@@ -14,4 +14,4 @@ bin
 dependency-reduced-pom.xml
 release.properties
 pom.xml.releaseBackup
-
+kumo-core/output/FailedRotateWordTest_*
