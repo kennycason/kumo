@@ -15,7 +15,7 @@ public class LogFontScalar implements FontScalar {
 
     @Override
     public float scale(final int value, final int minValue, final int maxValue) {
-        final double leftSpan = Math.sqrt(maxValue) - Math.sqrt(minValue);
+        final double leftSpan = Math.log(maxValue) - Math.log(minValue);
         final double rightSpan = maxFont - minFont;
 
         // Convert the left range into a 0-1 range
