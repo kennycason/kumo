@@ -34,7 +34,7 @@ Please feel free to jump in and help improve Kumo! There are many places for per
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo-core</artifactId>
-    <version>1.17</version>
+    <version>1.22</version>
 </dependency>
 ```
 
@@ -43,7 +43,7 @@ Include `kumo-tokenizers` if you want Chinese serialization. More languages to c
 <dependency>
     <groupId>com.kennycason</groupId>
     <artifactId>kumo-tokenizers</artifactId>
-    <version>1.17</version>
+    <version>1.22</version>
 </dependency>
 ```
 
