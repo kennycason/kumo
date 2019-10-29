@@ -1,12 +1,12 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.RectangleBackground;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

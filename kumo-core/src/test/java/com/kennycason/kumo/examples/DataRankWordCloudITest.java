@@ -3,8 +3,10 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
-import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.draw.FontFace;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
@@ -14,7 +16,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -43,8 +44,8 @@ public class DataRankWordCloudITest {
         layeredWordCloud.setPadding(0, 1);
         layeredWordCloud.setPadding(1, 1);
 
-        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontWeight.BOLD));
-        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontFace.BOLD));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontFace.BOLD));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/datarank-1.png")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/datarank-2.png")));

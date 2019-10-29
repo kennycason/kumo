@@ -1,6 +1,7 @@
 package com.kennycason.kumo;
 
 import com.kennycason.kumo.bg.Background;
+import com.kennycason.kumo.draw.*;
 import com.kennycason.kumo.exception.KumoException;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.FontScalar;
@@ -11,10 +12,8 @@ import com.kennycason.kumo.wordstart.WordStartStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class LayeredWordCloud {
 
     private final List<WordCloud> wordClouds = new ArrayList<>();
 
-    private Color backgroundColor = Color.BLACK;
+    private Color backgroundColor = new Color(0, 0, 0);
 
     public LayeredWordCloud(final int layers, final Dimension dimension, final CollisionMode collisionMode) {
         this.dimension = dimension;
@@ -78,17 +77,16 @@ public class LayeredWordCloud {
         this.backgroundColor = backgroundColor;
     }
 
-    public BufferedImage getBufferedImage() {
-        final BufferedImage bufferedImage = new BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB);
-        final Graphics graphics = bufferedImage.getGraphics();
-        graphics.setColor(backgroundColor);
-        graphics.fillRect(0, 0, dimension.width, dimension.height);
+    public Image getImage() {
+        final Image image = new Image(dimension.getWidth(), dimension.getHeight());
+        final Graphics graphics = new Graphics(image);
+        graphics.drawRect(backgroundColor, 0, 0, dimension.getWidth(), dimension.getHeight());
 
         for (final WordCloud wordCloud : wordClouds) {
-            graphics.drawImage(wordCloud.getBufferedImage(), 0, 0, null);
+            graphics.drawImg(wordCloud.getImage(), 0, 0);
         }
 
-        return bufferedImage;
+        return image;
     }
     
     public WordCloud getLayer(final int layer) {
@@ -111,7 +109,7 @@ public class LayeredWordCloud {
         }
         try {
             LOGGER.info("Saving Layered WordCloud to: {}", outputFileName);
-            ImageIO.write(getBufferedImage(), extension, new File(outputFileName));
+            new ImageWriter().write(getImage(), extension, new FileOutputStream(new File(outputFileName)));
 
         } catch (final IOException e) {
             throw new KumoException(e);

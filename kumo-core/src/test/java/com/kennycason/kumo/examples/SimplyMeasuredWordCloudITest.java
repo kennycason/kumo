@@ -3,17 +3,19 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
-import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.draw.FontFace;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger; import org.slf4j.LoggerFactory;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -45,9 +47,9 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.setPadding(1, 1);
         layeredWordCloud.setPadding(2, 1);
 
-        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontWeight.PLAIN));
-        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
-        layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
+        layeredWordCloud.setKumoFont(0, new KumoFont("Comic Sans MS", FontFace.PLAIN));
+        layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontFace.BOLD));
+        layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontFace.ITALIC));
 
         layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-1.png")));
         layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-2.png")));

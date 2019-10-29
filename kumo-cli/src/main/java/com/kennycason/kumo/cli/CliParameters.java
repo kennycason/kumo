@@ -5,9 +5,9 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.PolarBlendMode;
-import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.FontFace;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +59,7 @@ public class CliParameters {
     private List<String> backgrounds = new ArrayList<>();
 
     @Parameter(names = "--background-color", description = "Background color. Default is Black.", converter = ColorConverter.class)
-    private Color backgroundColor = Color.BLACK;
+    private Color backgroundColor = new Color(0, 0, 0);
 
     @Parameter(names = { "--color", "-c" }, description = "A comma separated list of colors to use for the word cloud text. Values most be provided in one of the below formats. Refer to CLI.md for usage examples.")
     // perform actual parsing in the getter, the commas in our color format cause issues with jCommander
@@ -77,8 +77,8 @@ public class CliParameters {
     @Parameter(names = "--font-size-max", description = "Maximum font size, default is 40px.")
     private int fontSizeMax = 40;
 
-    @Parameter(names = "--font-weight", description = "A font weight. Default is Bold.", converter = FontWeightConverter.class)
-    private FontWeight fontWeight = FontWeight.BOLD;
+    @Parameter(names = "--font-weight", description = "A font weight. Default is Bold.", converter = FontFaceConverter.class)
+    private FontFace fontWeight = FontFace.BOLD;
 
     @Parameter(names = "--font-type", description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
     private String fontType = "Comic Sans MS";
@@ -145,7 +145,7 @@ public class CliParameters {
         return fontType;
     }
 
-    public FontWeight getFontWeight() {
+    public FontFace getFontFace() {
         return fontWeight;
     }
 
@@ -297,10 +297,10 @@ public class CliParameters {
             return new EnumConverter<>(FontScalarType.class).convert(input);
         }
     }
-    public static class FontWeightConverter implements IStringConverter<FontWeight> {
+    public static class FontFaceConverter implements IStringConverter<FontFace> {
         @Override
-        public FontWeight convert(final String input) {
-            return new EnumConverter<>(FontWeight.class).convert(input);
+        public FontFace convert(final String input) {
+            return new EnumConverter<>(FontFace.class).convert(input);
         }
     }
     public static class WordStartConverter implements IStringConverter<WordStartType> {

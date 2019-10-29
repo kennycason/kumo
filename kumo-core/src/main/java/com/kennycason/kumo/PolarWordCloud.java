@@ -1,8 +1,10 @@
 package com.kennycason.kumo;
 
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.palette.ColorPalette;
 
-import java.awt.*;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -14,9 +16,9 @@ import java.util.Random;
 public class PolarWordCloud extends WordCloud {
     private static final Random RANDOM = new Random();
 
-    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(new Color(0x1BE000), new Color(0x1AC902), new Color(0x15B000), new Color(0x129400), new Color(0x0F7A00), new Color(0x0B5E00));
+    private static final ColorPalette DEFAULT_POSITIVE_COLORS = new ColorPalette(new Color(27,224,0), new Color(26,201,2), new Color(21,176,0), new Color(18,148,0), new Color(15,122,0), new Color(11,94,0));
 
-    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(new Color(0xF50000), new Color(0xDE0000), new Color(0xC90202), new Color(0xB50202), new Color(0x990202), new Color(0x800101));
+    private static final ColorPalette DEFAULT_NEGATIVE_COLORS = new ColorPalette(new Color(245,0,0), new Color(222,0,0), new Color(201,2,2), new Color(181,2,2), new Color(153,2,2), new Color(128,1,1));
 
     private final PolarBlendMode polarBlendMode;
 
@@ -50,10 +52,10 @@ public class PolarWordCloud extends WordCloud {
         final Point[] poles = getRandomPoles();
         final Point pole1 = poles[0];
         final Point pole2 = poles[1];
-        
+
         // the background masks all none usable pixels and we can only check this raster
         background.mask(backgroundCollidable);
-        
+
         while (wordIterator.hasNext() || wordIterator2.hasNext()) {
 
             if (wordIterator.hasNext()) {
@@ -76,11 +78,11 @@ public class PolarWordCloud extends WordCloud {
     private Point getStartPosition(final Point pole) {
         switch (polarBlendMode) {
             case BLUR:
-                final int blurX = dimension.width / 2;
-                final int blurY = dimension.height / 2;
+                final int blurX = dimension.getWidth() / 2;
+                final int blurY = dimension.getHeight() / 2;
                 return new Point(
-                    pole.x + -blurX + RANDOM.nextInt(blurX * 2),
-                    pole.y + -blurY + RANDOM.nextInt(blurY * 2)
+                    pole.getX() + -blurX + RANDOM.nextInt(blurX * 2),
+                    pole.getY() + -blurY + RANDOM.nextInt(blurY * 2)
                 );
 
             case EVEN:
@@ -93,10 +95,10 @@ public class PolarWordCloud extends WordCloud {
         final Point[] max = new Point[2];
         double maxDistance = 0.0;
         for (int i = 0; i < 100; i++) {
-            final int x = RANDOM.nextInt(dimension.width);
-            final int y = RANDOM.nextInt(dimension.height);
-            final int x2 = RANDOM.nextInt(dimension.width);
-            final int y2 = RANDOM.nextInt(dimension.height);
+            final int x = RANDOM.nextInt(dimension.getWidth());
+            final int y = RANDOM.nextInt(dimension.getHeight());
+            final int x2 = RANDOM.nextInt(dimension.getWidth());
+            final int y2 = RANDOM.nextInt(dimension.getHeight());
             final double distance = Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2));
             if (distance > maxDistance) {
                 maxDistance = distance;

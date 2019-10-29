@@ -1,6 +1,7 @@
 package com.kennycason.kumo.palette;
 
-import java.awt.*;
+import com.kennycason.kumo.draw.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +26,7 @@ public class ColorPalette {
     public ColorPalette(final int... colors) {
         this.colors = new ArrayList<>();
         for (final int color : colors) {
-            this.colors.add(new Color (color));
+            this.colors.add(new Color(color));
         }
     }
 

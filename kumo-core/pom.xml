@@ -9,6 +9,13 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>kumo-core</artifactId>
 
+    <repositories>
+        <repository>
+            <id>android-framework-stub-repo</id>
+            <url>file://${basedir}/android-framework-stub</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- kumo -->
         <dependency>
@@ -42,6 +49,14 @@
         <dependency>
             <groupId>com.github.davidmoten</groupId>
             <artifactId>rtree</artifactId>
+        </dependency>
+
+        <!-- Android framework stubs -->
+        <dependency>
+            <groupId>android</groupId>
+            <artifactId>android-framework</artifactId>
+            <version>19</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- test -->

@@ -3,13 +3,16 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.Dimension;
 import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.draw.awtimpl.ImageImpl;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -35,7 +38,7 @@ public class JPanelDemo extends JPanel {
     public JPanelDemo() throws IOException {
         wordCloud = buildWordCloud();
 
-        final JLabel wordCloudLabel = new JLabel(new ImageIcon(wordCloud.getBufferedImage()));
+        final JLabel wordCloudLabel = new JLabel(new ImageIcon((BufferedImage)wordCloud.getImage().getActual()));
         add(wordCloudLabel);
         repaint();
     }

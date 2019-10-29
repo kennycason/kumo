@@ -1,6 +1,7 @@
 package com.kennycason.kumo.palette;
 
-import java.awt.Color;
+import com.kennycason.kumo.draw.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 

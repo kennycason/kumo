@@ -1,22 +1,28 @@
 package com.kennycason.kumo;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.runners.Parameterized;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+
+import com.kennycason.kumo.draw.Color;
+import com.kennycason.kumo.draw.awtimpl.FontMetricsImpl;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 /**
  *
  * @author joerg1985
  */
-//@RunWith(Parameterized.class)
+@RunWith(Parameterized.class)
 public class RotateWordTest {
 
     @Parameterized.Parameters
@@ -41,21 +47,20 @@ public class RotateWordTest {
         _text = text;
     }
 
+    @Test
     @Ignore
     public void checkRotatedTextIsNotCropped() throws IOException {
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = image.createGraphics();
 
-        // set the rendering hint here to ensure the font metrics are correct
-        graphics.setRenderingHints(Word.getRenderingHints());
         FontMetrics fontMetrics = graphics.getFontMetrics(_font);
 
         for (int angle = 0; angle < 360; angle += 5) {
             Word word = new Word(
-                    _text, Color.red, fontMetrics, null, Math.toRadians(angle)
+                    _text, new Color(java.awt.Color.red.getRGB()), new com.kennycason.kumo.draw.FontMetrics(new FontMetricsImpl(fontMetrics)), null, Math.toRadians(angle)
             );
 
-            BufferedImage rendered = word.getBufferedImage();
+            BufferedImage rendered = (BufferedImage) word.getImage().getActual();
 
             int width = rendered.getWidth();
             int height = rendered.getHeight();

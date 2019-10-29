@@ -3,14 +3,12 @@ package com.kennycason.kumo.image;
 import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.collide.checkers.CollisionChecker;
 import com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
-import org.junit.Assert;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by kenny on 7/4/14.
@@ -24,8 +22,8 @@ public class CollisionRasterTest {
         final Dimension dimension = new Dimension(width, height);
         final CollisionRaster collisionRaster = new CollisionRaster(dimension);
 
-        assertEquals(width, collisionRaster.getDimension().width);
-        assertEquals(height, collisionRaster.getDimension().height);
+        assertEquals(width, collisionRaster.getDimension().getWidth());
+        assertEquals(height, collisionRaster.getDimension().getHeight());
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -69,14 +67,14 @@ public class CollisionRasterTest {
         final CollisionRaster collisionRaster = new CollisionRaster(dimension);
         collisionRaster.setPixelIsNotTransparent(100, 0);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void illegalY() {
         final Dimension dimension = new Dimension(90, 60);
         final CollisionRaster collisionRaster = new CollisionRaster(dimension);
         collisionRaster.setPixelIsNotTransparent(0, 70);
     }
-    
+
     @Test
     public void collisionsAreFound() {
         CollisionChecker checker = new RectanglePixelCollisionChecker();
@@ -96,7 +94,7 @@ public class CollisionRasterTest {
                 collidable(new Point(30, 30), dimension, collisionRasterA),
                 collidable(new Point(30, 30), dimension, collisionRasterB)
         ));
-        
+
         Assert.assertTrue(checker.collide(
                 collidable(new Point(30, 30), dimension, collisionRasterA),
                 collidable(new Point(20, 20), dimension, collisionRasterB)

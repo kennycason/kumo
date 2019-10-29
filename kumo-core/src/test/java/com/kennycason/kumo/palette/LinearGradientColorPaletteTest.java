@@ -1,8 +1,7 @@
 package com.kennycason.kumo.palette;
 
+import com.kennycason.kumo.draw.Color;
 import org.junit.Test;
-
-import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 

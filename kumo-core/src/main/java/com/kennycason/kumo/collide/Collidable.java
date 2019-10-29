@@ -1,8 +1,8 @@
 package com.kennycason.kumo.collide;
 
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 import com.kennycason.kumo.image.CollisionRaster;
-
-import java.awt.*;
 
 /**
  * Created by kenny on 6/29/14.

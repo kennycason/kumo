@@ -1,10 +1,10 @@
 package com.kennycason.kumo.bg;
 
-import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.collide.RectanglePixelCollidable;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
+import com.kennycason.kumo.collide.Collidable;
 import com.kennycason.kumo.image.CollisionRaster;
-
-import java.awt.*;
 
 /**
  * A Background Collision Mode in the shape of a rectangle
@@ -40,29 +40,29 @@ public class RectangleBackground implements Background {
     @Override
     public void mask(RectanglePixelCollidable background) {
         Dimension dimensionOfShape = dimension;
-        
-        int minY = Math.max(position.y, 0);
-        int minX = Math.max(position.x, 0);
-        
-        int maxY = dimensionOfShape.height + position.y - 1;
-        int maxX = dimensionOfShape.width + position.x - 1;
-        
+
+        int minY = Math.max(position.getY(), 0);
+        int minX = Math.max(position.getX(), 0);
+
+        int maxY = dimensionOfShape.getHeight() + position.getY() - 1;
+        int maxX = dimensionOfShape.getWidth() + position.getX() - 1;
+
         Dimension dimensionOfBackground = background.getDimension();
         CollisionRaster rasterOfBackground = background.getCollisionRaster();
-        
-        for (int y = 0; y < dimensionOfBackground.height; y++) {
-            for (int x = 0; x < dimensionOfBackground.width; x++) {
+
+        for (int y = 0; y < dimensionOfBackground.getHeight(); y++) {
+            for (int x = 0; x < dimensionOfBackground.getWidth(); x++) {
                 if ((y < minY) || (y > maxY) || (x < minX) || (x > maxX)) {
-                     rasterOfBackground.setPixelIsNotTransparent(x, y);
+                    rasterOfBackground.setPixelIsNotTransparent(x, y);
                 }
             }
         }
     }
-    
+
     @Override
     public String toString() {
-        return "RectangleBackground [x=" + position.x + ", y=" + position.y +
-                ", width=" + dimension.width + ", height=" + dimension.height + "]";
+        return "RectangleBackground [x=" + position.getX() + ", y=" + position.getY() +
+                ", width=" + dimension.getWidth() + ", height=" + dimension.getHeight() + "]";
     }
 
 }

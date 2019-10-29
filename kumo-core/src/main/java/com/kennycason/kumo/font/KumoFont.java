@@ -1,10 +1,11 @@
 package com.kennycason.kumo.font;
 
+import com.kennycason.kumo.draw.Font;
+import com.kennycason.kumo.draw.FontFace;
 import com.kennycason.kumo.exception.KumoException;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 /**
@@ -15,8 +16,8 @@ public class KumoFont {
 
     private final Font font;
 
-    public KumoFont(final String type, final FontWeight weight) {
-        this.font = new Font(type, weight.getWeight(), DEFAULT_WEIGHT);
+    public KumoFont(final String type, final FontFace weight) {
+        this.font = new Font(type, weight, DEFAULT_WEIGHT);
     }
 
     public KumoFont(final Font font) {
@@ -33,29 +34,24 @@ public class KumoFont {
 
     private static Font buildAndRegisterFont(final File file) {
         try {
-            final Font font = Font.createFont(Font.TRUETYPE_FONT, file);
-            registerFont(font);
+            final Font font = new Font(new FileInputStream(file));
+            font.registerIfNecessary();
             return font;
 
-        } catch (final FontFormatException | IOException e) {
+        } catch (Exception e) {
             throw new KumoException(e.getMessage(), e);
         }
     }
 
     private static Font buildAndRegisterFont(final InputStream inputStream) {
         try {
-            final Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            registerFont(font);
+            final Font font = new Font(inputStream);
+            font.registerIfNecessary();
             return font;
 
-        } catch (final FontFormatException | IOException e) {
+        } catch (Exception e) {
             throw new KumoException(e.getMessage(), e);
         }
-    }
-
-    private static void registerFont(final Font font) {
-        final GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        graphicsEnvironment.registerFont(font);
     }
 
     public Font getFont() {

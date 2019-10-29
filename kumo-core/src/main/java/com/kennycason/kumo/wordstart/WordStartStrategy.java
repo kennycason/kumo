@@ -1,8 +1,8 @@
 package com.kennycason.kumo.wordstart;
 
 import com.kennycason.kumo.Word;
-
-import java.awt.*;
+import com.kennycason.kumo.draw.Dimension;
+import com.kennycason.kumo.draw.Point;
 
 /**
  * The WordSpreadScheme provides a possible starting position for a word on the

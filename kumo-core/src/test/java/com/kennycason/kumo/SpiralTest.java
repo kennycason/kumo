@@ -27,7 +27,7 @@ public class SpiralTest {
         // blue pixels -> only returned by the new implementation
         // pink pixels -> returned by the old and the new implementation
         boolean debug = false;
-        
+
         final int white = 0;
         final int red = 0xFFFF0000;
         final int blue = 0xFF0000FF;
@@ -52,7 +52,7 @@ public class SpiralTest {
                         dimension, start, dimension.width
                 );
                 List<Point> optimized = originalSpiral(
-                        dimension, start, WordCloud.computeRadius(dimension, start)
+                        dimension, start, WordCloud.computeRadius(new com.kennycason.kumo.draw.Dimension((int)dimension.getWidth(), (int)dimension.getHeight()), new com.kennycason.kumo.draw.Point((int)start.getX(), (int)start.getY()))
                 );
 
                 BufferedImage img = new BufferedImage(
@@ -69,7 +69,7 @@ public class SpiralTest {
                 });
 
                 boolean next = false;
-                
+
                 for (int y = 0; !next && y < dimension.height; y++) {
                     for (int x = 0; !next && x < dimension.width; x++) {
                         int rgb = img.getRGB(x, y);
@@ -80,13 +80,13 @@ public class SpiralTest {
                         } else if (debug && rgb != white && rgb != pink) {
                             ImageIO.write(img, "png", new File("output\\debug_spiral_test_" + System.currentTimeMillis() + ".png"));
                             next = true;
-                        } 
+                        }
                     }
                 }
             }
         }
     }
-    
+
     @Test
     public void NoIdenticalPoints() throws IOException {
         // we seed to get the same numbers on each run
@@ -106,9 +106,9 @@ public class SpiralTest {
 
                 List<Point> points = optimizedSpiral(dimension, start);
                 Set<Point> unique = new HashSet<>(points);
-                
+
                 Assert.assertEquals(
-                        "no duplicate points", 
+                        "no duplicate points",
                         points.size(), unique.size()
                 );
             }
@@ -127,19 +127,19 @@ public class SpiralTest {
                 if (start.x + x >= dimension.width) {
                     continue;
                 }
-                
-                position.x = start.x + x; 
+
+                position.x = start.x + x;
 
                 // try positive root
                 final int y1 = (int) Math.sqrt(r * r - x * x);
                 if (start.y + y1 >= 0 && start.y + y1 < dimension.height) {
-                    position.y = start.y + y1; 
+                    position.y = start.y + y1;
                     points.add(new Point(position));
                 }
                 // try negative root
                 final int y2 = -y1;
                 if (start.y + y2 >= 0 && start.y + y2 < dimension.height) {
-                    position.y = start.y + y2; 
+                    position.y = start.y + y2;
                     points.add(new Point(position));
                 }
             }
@@ -147,10 +147,10 @@ public class SpiralTest {
 
         return points;
     }
-    
+
     private List<Point> optimizedSpiral(Dimension dimension, Point start) {
-        final int maxRadius = WordCloud.computeRadius(dimension, start);
-        
+        final int maxRadius = WordCloud.computeRadius(new com.kennycason.kumo.draw.Dimension((int)dimension.getWidth(), (int)dimension.getHeight()), new com.kennycason.kumo.draw.Point((int)start.getX(), (int)start.getY()));
+
         List<Point> points = new ArrayList<>();
         Point position = new Point();
 
@@ -159,13 +159,13 @@ public class SpiralTest {
                 position.x = start.x + x;
 
                 final int offset = (int) Math.sqrt(r * r - x * x);
-                
+
                 // try positive root
                 position.y = start.y + offset;
                 if (position.y >= 0 && position.y < dimension.height) {
                     points.add(new Point(position));
                 }
-                
+
                 // try negative root (if offset != 0)
                 position.y = start.y - offset;
                 if (offset != 0 && position.y >= 0 && position.y < dimension.height) {
