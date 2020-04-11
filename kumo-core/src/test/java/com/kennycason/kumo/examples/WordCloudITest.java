@@ -125,7 +125,8 @@ public class WordCloudITest {
         int width = 1000;
         int height = 500;
 
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+//        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/test.txt"));
         final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);

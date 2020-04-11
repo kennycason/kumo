@@ -85,7 +85,21 @@ public class FrequencyAnalyzer {
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
 
         final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
-        cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+        int total_length = 0;
+        for (Map.Entry<String, Integer> entry : cloud.entrySet()) {
+            total_length += entry.getKey().length();
+        }
+        if (total_length == 0){
+            cloud.put("nothing",1);
+            total_length = 7;
+            for (int i = 0; i < Math.max(wordFrequenciesToReturn / total_length,1); i++) {
+                cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+            }
+            System.err.println("There is no word can be used in your text.");
+        }
+        for (int i = 0; i < Math.max(wordFrequenciesToReturn / total_length,1); i++) {
+                cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+        }
 
         return takeTopFrequencies(wordFrequencies);
     }
