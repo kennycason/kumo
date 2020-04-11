@@ -20,13 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -51,6 +48,7 @@ public class WordCloudITest {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/wordcloud_circle.png");
     }
+
 
     @Test
     public void simpleRectangleTest() throws IOException {
@@ -77,7 +75,7 @@ public class WordCloudITest {
         wordCloud.setPadding(1);
         wordCloud.setBackground(new RectangleBackground(dimension));
         wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
-       // wordCloud.setAngleGenerator(new AngleGenerator(-60, 60, 5));
+        // wordCloud.setAngleGenerator(new AngleGenerator(-60, 60, 5));
         wordCloud.setColorPalette(buildRandomColorPalette(5));
         wordCloud.setFontScalar(new LinearFontScalar(18, 70));
         wordCloud.build(wordFrequencies);
@@ -103,46 +101,47 @@ public class WordCloudITest {
         wordCloud.writeToFile("output/cnn.png");
     }
 
-    public static BufferedImage toBufferedImage(Image img)
-    {
-        if (img instanceof BufferedImage)
-        {
-            return (BufferedImage) img;
-        }
+    public InputStream readImage(String file_name, int width, int height, String image_type) throws IOException, InterruptedException {
+        BufferedImage origin_image;
+        origin_image = ImageIO.read(getInputStream(file_name));
 
-        // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Image scaledImage = origin_image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics g = bi.getGraphics();
+        g.drawImage(scaledImage, 0, 0, null);
 
-        // Return the buffered image
-        return bimage;
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(bi, "png", os);
+        return new ByteArrayInputStream(os.toByteArray());
     }
-
     @Test
-    public void whaleImgLargeTest() throws IOException {
+    public void whaleImgLargeTest() throws IOException,InterruptedException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
+        int width = 1000;
+        int height = 500;
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final Dimension dimension = new Dimension(990 ,618);
+        final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        BufferedImage bufImage = ImageIO.read(getInputStream("backgrounds/whale.png"));
-        ImageIO.write(toBufferedImage( bufImage.getScaledInstance(dimension.width, dimension.height, Image.SCALE_DEFAULT)), "png", new File("F:\\kumo\\kumo-core\\src\\test\\resources\\backgrounds\\test.png"));
-        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
+        String input_path ="backgrounds/whale.png";
+        InputStream is = readImage(input_path, width, height, "png");
 
+        wordCloud.setBackground(new PixelBoundryBackground(is));
         wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/whale_wordcloud_large_impact.png");
+
+
+
     }
 
     @Test
