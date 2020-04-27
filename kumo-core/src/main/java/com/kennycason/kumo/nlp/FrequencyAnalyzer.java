@@ -81,7 +81,30 @@ public class FrequencyAnalyzer {
         return load(Collections.singletonList(doc.body().text()));
     }
 
+
     public List<WordFrequency> load(final List<String> texts) {
+        final List<WordFrequency> wordFrequencies = new ArrayList<>();
+
+
+        final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
+        cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+        return takeTopFrequencies(wordFrequencies);
+    }
+    /*
+    load data with auto fill function, if word exist, multiple the words. Else use nothing instead
+     */
+    public List<WordFrequency> load(final InputStream inputStream, boolean autoFill) throws IOException {
+        return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, "nothing");
+    }
+    public List<WordFrequency> load(final InputStream inputStream, boolean autoFill, String autoFillWord) throws IOException {
+        return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, autoFillWord);
+    }
+    public List<WordFrequency> load(final List<String> texts, boolean autoFill){
+        return load(texts, autoFill, "nothing");
+    }
+    public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
+        if(autoFill == false) return load(texts);
+
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
 
         final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
@@ -90,7 +113,7 @@ public class FrequencyAnalyzer {
             total_length += entry.getKey().length();
         }
         if (total_length == 0){
-            cloud.put("nothing",1);
+            cloud.put(autoFillWord,1);
             total_length = 7;
             for (int i = 0; i < Math.max(wordFrequenciesToReturn / total_length,1); i++) {
                 cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
@@ -98,7 +121,7 @@ public class FrequencyAnalyzer {
             System.err.println("There is no word can be used in your text.");
         }
         for (int i = 0; i < Math.max(wordFrequenciesToReturn / total_length,1); i++) {
-                cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+            cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
         }
 
         return takeTopFrequencies(wordFrequencies);
