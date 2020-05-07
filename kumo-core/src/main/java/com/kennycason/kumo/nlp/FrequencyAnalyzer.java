@@ -103,24 +103,25 @@ public class FrequencyAnalyzer {
         return load(texts, autoFill, "nothing");
     }
     public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
-        if(autoFill == false) return load(texts);
+        if(!autoFill){
+            return load(texts);
+        }
 
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
 
         final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
-        int total_length = 0;
+        int totalLength = 0;
         for (Map.Entry<String, Integer> entry : cloud.entrySet()) {
-            total_length += entry.getKey().length();
+            totalLength += entry.getKey().length();
         }
-        if (total_length == 0){
+        if (totalLength == 0){
             cloud.put(autoFillWord,1);
-            total_length = 7;
-            for (int i = 0; i < Math.max(wordFrequenciesToReturn / total_length,1); i++) {
+            totalLength = 7;
+            for (int i = 0; i < Math.max(wordFrequenciesToReturn / totalLength,1); i++) {
                 cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
             }
-            System.err.println("There is no word can be used in your text.");
         }
-        for (int i = 0; i < Math.max(wordFrequenciesToReturn / total_length,1); i++) {
+        for (int i = 0; i < Math.max(wordFrequenciesToReturn / totalLength,1); i++) {
             cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
         }
 

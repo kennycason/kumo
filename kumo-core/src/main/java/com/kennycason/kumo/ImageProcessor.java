@@ -8,17 +8,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ImageProcessor {
+public final class ImageProcessor {
     /*
     Function to process image with a required size.
     Get the path of the file
     image_type can define the type of image
      */
-    public static InputStream readImage(String file_name, int width, int height, String image_type) throws IOException, InterruptedException {
-        BufferedImage origin_image;
-        origin_image = ImageIO.read(getInputStream(file_name));
+    private ImageProcessor(){}
+    public static InputStream readImage(String fileName, int width, int height, String imageType) throws IOException, InterruptedException {
+        BufferedImage originImage;
+        originImage = ImageIO.read(getInputStream(fileName));
 
-        Image scaledImage = origin_image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image scaledImage = originImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage bufferedImage;
 
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -29,7 +30,7 @@ public class ImageProcessor {
 
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, image_type, outputStream);
+        ImageIO.write(bufferedImage, imageType, outputStream);
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
     private static InputStream getInputStream(final String path) {

@@ -26,31 +26,41 @@ public class IssueTest {
     //图像大小不合适，重新调整，小图调大，和大图调小，都要测试一次
 
 
-
+    static final String INPUT_PATH ="backgrounds/whale.png";
+    static final String DEFAULT_FONT = "Impact";
+    static final String DEFAULT_IMAGE_TYPE = "png";
     @Test
     public void whaleImgLargeToSmallTest() throws IOException,InterruptedException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
-        int width = 150;
-        int height = 100;
-
+        final int width = 150;
+        final int height = 100;
+        final String textPath = "text/datarank.txt";
 //        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream(textPath));
         final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        String input_path ="backgrounds/whale.png";
-        InputStream is = ImageProcessor.readImage(input_path, width, height, "png");
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-        wordCloud.setBackground(new PixelBoundryBackground(is));
-        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/a_whale_large_to_small.png");
+        inputStream.close();
     }
     @Test
     public void whaleImgSmallToLargeTest() throws IOException,InterruptedException {
@@ -67,15 +77,22 @@ public class IssueTest {
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        String input_path ="backgrounds/whale.png";
-        InputStream is = ImageProcessor.readImage(input_path, width, height, "png");
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-        wordCloud.setBackground(new PixelBoundryBackground(is));
-        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/a_whale_small_to_large.png");
+
     }
 
     @Test
@@ -93,11 +110,16 @@ public class IssueTest {
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        String input_path ="backgrounds/whale.png";
-        InputStream is = ImageProcessor.readImage(input_path, width, height, "png");
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-        wordCloud.setBackground(new PixelBoundryBackground(is));
-        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
@@ -119,11 +141,16 @@ public class IssueTest {
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        String input_path ="backgrounds/whale.png";
-        InputStream is = ImageProcessor.readImage(input_path, width, height, "png");
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-        wordCloud.setBackground(new PixelBoundryBackground(is));
-        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
@@ -144,11 +171,16 @@ public class IssueTest {
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        String input_path ="backgrounds/whale.png";
-        InputStream is = ImageProcessor.readImage(input_path, width, height, "png");
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-        wordCloud.setBackground(new PixelBoundryBackground(is));
-        wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
