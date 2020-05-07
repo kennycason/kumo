@@ -8,13 +8,26 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+*Class to process image with a required size.
+*
+* the static method {@link #readImage(String fileName, int width, int height, String imageType)}
+* can read the path of the file and resize the image
+ */
 public final class ImageProcessor {
-    /*
-    Function to process image with a required size.
-    Get the path of the file
-    image_type can define the type of image
-     */
+
     private ImageProcessor(){}
+    private static ImageProcessor imageProcessor = new ImageProcessor();
+    public static ImageProcessor getInstance(){
+        return imageProcessor;
+    }
+    /**
+    *@param fileName is the path of the file
+     * @param imageType can define the type of image
+     * @param width is the resized image's width
+     * @param height is the resized image's height
+     * @return the resized image in ByteArrayInputStream form
+     */
     public static InputStream readImage(String fileName, int width, int height, String imageType) throws IOException, InterruptedException {
         BufferedImage originImage;
         originImage = ImageIO.read(getInputStream(fileName));

@@ -90,18 +90,24 @@ public class FrequencyAnalyzer {
         cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
         return takeTopFrequencies(wordFrequencies);
     }
-    /*
-    load data with auto fill function, if word exist, multiple the words. Else use nothing instead
+
+
+    /**
+     *load data with auto fill function, if word exist, multiple the words. Else use nothing instead
+     * the first input parameter can be  InputStream or list of string
+     * @param autoFill decide whether or not to fill the cloud automatically
+     * @param autoFillWord  is used to define use what word to fill the cloud when there is no enough word.
      */
-    public List<WordFrequency> load(final InputStream inputStream, boolean autoFill) throws IOException {
-        return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, "nothing");
-    }
     public List<WordFrequency> load(final InputStream inputStream, boolean autoFill, String autoFillWord) throws IOException {
         return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, autoFillWord);
+    }
+    public List<WordFrequency> load(final InputStream inputStream, boolean autoFill) throws IOException {
+        return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, "nothing");
     }
     public List<WordFrequency> load(final List<String> texts, boolean autoFill){
         return load(texts, autoFill, "nothing");
     }
+
     public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
         if(!autoFill){
             return load(texts);

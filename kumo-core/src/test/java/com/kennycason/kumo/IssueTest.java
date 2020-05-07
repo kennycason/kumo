@@ -15,10 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 public class IssueTest {
 
@@ -29,6 +27,11 @@ public class IssueTest {
     static final String INPUT_PATH ="backgrounds/whale.png";
     static final String DEFAULT_FONT = "Impact";
     static final String DEFAULT_IMAGE_TYPE = "png";
+    @Test
+    public void imageProcessorInstanceTest(){
+        assert ImageProcessor.getInstance() != null;
+    }
+
     @Test
     public void whaleImgLargeToSmallTest() throws IOException,InterruptedException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
@@ -72,7 +75,7 @@ public class IssueTest {
         int height = 1000;
 
 //        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"), false);
         final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
@@ -156,6 +159,38 @@ public class IssueTest {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output/a_whale_no_word_with_dararara.png");
     }
+
+    @Test
+    public void whaleImgNoWordAfterFilterWithDefaultAutoFillTest() throws IOException,InterruptedException {
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequenciesToReturn(600);
+        frequencyAnalyzer.setMinWordLength(5);
+        frequencyAnalyzer.setStopWords(loadStopWords());
+        int width = 1500;
+        int height = 1000;
+
+//        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/empty.txt"), true);
+        final Dimension dimension = new Dimension(width, height);
+        final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackgroundColor(Color.WHITE);
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
+
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/a_whale_no_word_with_default_autofill.png");
+    }
+
     @Test
     public void whaleImgNoWordAfterFilterTest() throws IOException,InterruptedException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
@@ -187,7 +222,38 @@ public class IssueTest {
         wordCloud.writeToFile("output/a_whale_no_word.png");
     }
 
+    @Test
+    public void whaleImgWithListOfStringTest() throws IOException,InterruptedException {
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequenciesToReturn(600);
+        frequencyAnalyzer.setMinWordLength(5);
+        frequencyAnalyzer.setStopWords(loadStopWords());
+        int width = 1500;
+        int height = 1000;
+        List<String> texts = new ArrayList<>();
+        texts.add("hello");
+        texts.add("world");
+//        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
+        final Dimension dimension = new Dimension(width, height);
+        final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackgroundColor(Color.WHITE);
+        InputStream inputStream = null;
+        try{
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
+            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+
+        }finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
+        wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output/a_whale_with_string_list.png");
+    }
 
     private static Set<String> loadStopWords() {
         try {
