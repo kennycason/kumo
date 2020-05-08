@@ -104,12 +104,16 @@ public class FrequencyAnalyzer {
     public List<WordFrequency> load(final InputStream inputStream, boolean autoFill) throws IOException {
         return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, "nothing");
     }
+    //if enable autoFill but not specify autoFillWord, use nothing as default
+    //also allow use List<String> directly
     public List<WordFrequency> load(final List<String> texts, boolean autoFill){
         return load(texts, autoFill, "nothing");
     }
-
+    //If autoFill is false, just call load
+    //Else if there are some words to draw, repeat them until the number of words is similar with wordFrequenciesToReturn
+    //Else repeat autoFillWord to satisfy the drawing cloud need.
     public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
-        if(!autoFill){
+        if(autoFill == false){
             return load(texts);
         }
 
@@ -120,14 +124,16 @@ public class FrequencyAnalyzer {
         for (Map.Entry<String, Integer> entry : cloud.entrySet()) {
             totalLength += entry.getKey().length();
         }
+
         if (totalLength == 0){
             cloud.put(autoFillWord,1);
             totalLength = 7;
-            for (int i = 0; i < Math.max(wordFrequenciesToReturn / totalLength,1); i++) {
+            for (int i = 0; i < totalLength; i++) {
                 cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
             }
         }
-        for (int i = 0; i < Math.max(wordFrequenciesToReturn / totalLength,1); i++) {
+        final int timesToAdd = Math.max(wordFrequenciesToReturn / totalLength,1);
+        for (int i = 0; i < timesToAdd; i++) {
             cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
         }
 
