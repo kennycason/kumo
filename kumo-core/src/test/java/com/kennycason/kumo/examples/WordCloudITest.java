@@ -101,32 +101,23 @@ public class WordCloudITest {
 
 
     @Test
-    public void whaleImgLargeTest() throws IOException,InterruptedException {
+    public void whaleImgLargeTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
-        int width = 1000;
-        int height = 500;
 
-//        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/hello_world.txt"));
-        final Dimension dimension = new Dimension(width, height);
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
+        final Dimension dimension = new Dimension(990, 618);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
         wordCloud.setBackgroundColor(Color.WHITE);
-        String input_path ="backgrounds/whale.png";
-        InputStream is = ImageProcessor.readImage(input_path, width, height, "png");
-
-        wordCloud.setBackground(new PixelBoundryBackground(is));
+        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setKumoFont(new KumoFont("Impact", FontWeight.PLAIN));
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/whale_wordcloud_large_impact_new.png");
-
-
-
+        wordCloud.writeToFile("output/whale_wordcloud_large_impact.png");
     }
 
     @Test
