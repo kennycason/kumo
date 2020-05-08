@@ -110,8 +110,10 @@ public class FrequencyAnalyzer {
         return load(texts, autoFill, "nothing");
     }
     //If autoFill is false, just call load
-    //Else if there are some words to draw, repeat them until the number of words is similar with wordFrequenciesToReturn
+    //Else if there are some words to draw, repeat them until the number of characters is similar with wordFrequenciesToReturn
     //Else repeat autoFillWord to satisfy the drawing cloud need.
+    //Note: the repeat time is dependence on the sum of word length. We consider character number is more important.
+    //Which means long word will be repeated less
     public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
         if(autoFill == false){
             return load(texts);
@@ -127,10 +129,9 @@ public class FrequencyAnalyzer {
 
         if (totalLength == 0){
             cloud.put(autoFillWord,1);
-            totalLength = 7;
-            for (int i = 0; i < totalLength; i++) {
-                cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
-            }
+            totalLength = autoFillWord.length();
+            cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+
         }
         final int timesToAdd = Math.max(wordFrequenciesToReturn / totalLength,1);
         for (int i = 0; i < timesToAdd; i++) {
