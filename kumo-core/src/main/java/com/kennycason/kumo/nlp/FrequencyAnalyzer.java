@@ -115,7 +115,7 @@ public class FrequencyAnalyzer {
     //Note: the repeat time is dependence on the sum of word length. We consider character number is more important.
     //Which means long word will be repeated less
     public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
-        if(autoFill == false){
+        if(!autoFill){
             return load(texts);
         }
 
