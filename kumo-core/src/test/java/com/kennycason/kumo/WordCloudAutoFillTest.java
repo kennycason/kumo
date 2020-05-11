@@ -20,14 +20,14 @@ import java.util.List;
 
 public class WordCloudAutoFillTest {
 
-    //我们要有四个测试样例，分别对应单词过少，自定义填充, 默认填充, 以及直接处理字符串链表
+    // 我们要有四个测试样例，分别对应单词过少，自定义填充, 默认填充, 以及直接处理字符串链表
 
+    private static final String INPUT_PATH ="backgrounds/whale.png";
+    private static final String DEFAULT_FONT = "Impact";
+    private static final String DEFAULT_IMAGE_TYPE = "png";
 
-    static final String INPUT_PATH ="backgrounds/whale.png";
-    static final String DEFAULT_FONT = "Impact";
-    static final String DEFAULT_IMAGE_TYPE = "png";
     @Test
-    public void whaleImgWordTooFewTest() throws IOException,InterruptedException {
+    public void whaleImgWordTooFewTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);

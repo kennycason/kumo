@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 public class WordCloudImageResizeTest {
-    static final String INPUT_PATH ="backgrounds/whale.png";
-    static final String DEFAULT_FONT = "Impact";
-    static final String DEFAULT_IMAGE_TYPE = "png";
-    //我们这里要进行两组测试
-    //图像大小不合适，重新调整，小图调大，和大图调小，都要测试一次
+    private static final String INPUT_PATH ="backgrounds/whale.png";
+    private static final String DEFAULT_FONT = "Impact";
+    private static final String DEFAULT_IMAGE_TYPE = "png";
+    // 我们这里要进行两组测试
+    // 图像大小不合适，重新调整，小图调大，和大图调小，都要测试一次
 
     @Test
     public void imageProcessorInstanceTest(){
@@ -33,7 +33,7 @@ public class WordCloudImageResizeTest {
     }
 
     @Test
-    public void whaleImgLargeToSmallTest() throws IOException,InterruptedException {
+    public void whaleImgLargeToSmallTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
 
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
@@ -41,9 +41,8 @@ public class WordCloudImageResizeTest {
         frequencyAnalyzer.setStopWords(loadStopWords());
         final int width = 150;
         final int height = 100;
-        final String textPath = "text/datarank.txt";
-//        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
-        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream(textPath));
+        
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
         final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(1);
@@ -51,7 +50,6 @@ public class WordCloudImageResizeTest {
         InputStream inputStream = null;
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
-
             wordCloud.setBackground(new PixelBoundryBackground(inputStream));
 
         } finally {
@@ -66,7 +64,7 @@ public class WordCloudImageResizeTest {
         inputStream.close();
     }
     @Test
-    public void whaleImgSmallToLargeTest() throws IOException,InterruptedException {
+    public void whaleImgSmallToLargeTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
@@ -74,7 +72,6 @@ public class WordCloudImageResizeTest {
         int width = 1500;
         int height = 1000;
 
-//        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"), false);
         final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);

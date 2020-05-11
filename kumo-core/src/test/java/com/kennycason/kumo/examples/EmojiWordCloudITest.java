@@ -19,7 +19,7 @@ public class EmojiWordCloudITest {
     private static final Random RANDOM = new Random();
 
     @Test
-    public void emojiCloud() throws IOException {
+    public void emojiCloud() {
         final Dimension dimension = new Dimension(250, 250);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         // Load font from file

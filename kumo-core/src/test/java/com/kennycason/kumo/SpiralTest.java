@@ -21,7 +21,7 @@ import org.junit.Test;
 public class SpiralTest {
 
     @Test
-    public void MaxRadius() throws IOException {
+    public void maxRadius() throws IOException {
         // draw the spiral as image?
         // red pixels -> only returned by the old implementation
         // blue pixels -> only returned by the new implementation
@@ -88,7 +88,7 @@ public class SpiralTest {
     }
     
     @Test
-    public void NoIdenticalPoints() throws IOException {
+    public void noIdenticalPoints() {
         // we seed to get the same numbers on each run
         Random random = new Random(42);
 
