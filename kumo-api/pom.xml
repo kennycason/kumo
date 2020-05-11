@@ -3,7 +3,7 @@
     <parent>
         <artifactId>kumo</artifactId>
         <groupId>com.kennycason</groupId>
-        <version>1.23-SNAPSHOT</version>
+        <version>1.23</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
