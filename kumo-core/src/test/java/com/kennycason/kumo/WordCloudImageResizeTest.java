@@ -41,7 +41,7 @@ public class WordCloudImageResizeTest {
         frequencyAnalyzer.setStopWords(loadStopWords());
         final int width = 150;
         final int height = 100;
-        
+
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"));
         final Dimension dimension = new Dimension(width, height);
         final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
