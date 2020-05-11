@@ -81,11 +81,62 @@ public class FrequencyAnalyzer {
         return load(Collections.singletonList(doc.body().text()));
     }
 
+
     public List<WordFrequency> load(final List<String> texts) {
         final List<WordFrequency> wordFrequencies = new ArrayList<>();
 
+
         final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
         cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+        return takeTopFrequencies(wordFrequencies);
+    }
+
+
+    /**
+     *load data with auto fill function, if word exist, multiple the words. Else use nothing instead
+     * the first input parameter can be  InputStream or list of string
+     * @param autoFill decide whether or not to fill the cloud automatically
+     * @param autoFillWord  is used to define use what word to fill the cloud when there is no enough word.
+     */
+    public List<WordFrequency> load(final InputStream inputStream, boolean autoFill, String autoFillWord) throws IOException {
+        return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, autoFillWord);
+    }
+    public List<WordFrequency> load(final InputStream inputStream, boolean autoFill) throws IOException {
+        return load(IOUtils.readLines(inputStream, characterEncoding), autoFill, "nothing");
+    }
+    //if enable autoFill but not specify autoFillWord, use nothing as default
+    //also allow use List<String> directly
+    public List<WordFrequency> load(final List<String> texts, boolean autoFill){
+        return load(texts, autoFill, "nothing");
+    }
+    //If autoFill is false, just call load
+    //Else if there are some words to draw, repeat them until the number of characters is similar with wordFrequenciesToReturn
+    //Else repeat autoFillWord to satisfy the drawing cloud need.
+    //Note: the repeat time is dependence on the sum of word length. We consider character number is more important.
+    //Which means long word will be repeated less
+    public List<WordFrequency> load(final List<String> texts, boolean autoFill, String autoFillWord) {
+        if(!autoFill){
+            return load(texts);
+        }
+
+        final List<WordFrequency> wordFrequencies = new ArrayList<>();
+
+        final Map<String, Integer> cloud = buildWordFrequencies(texts, wordTokenizer);
+        int totalLength = 0;
+        for (Map.Entry<String, Integer> entry : cloud.entrySet()) {
+            totalLength += entry.getKey().length();
+        }
+
+        if (totalLength == 0){
+            cloud.put(autoFillWord,1);
+            totalLength = autoFillWord.length();
+            cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+
+        }
+        final int timesToAdd = Math.max(wordFrequenciesToReturn / totalLength,1);
+        for (int i = 0; i < timesToAdd; i++) {
+            cloud.forEach((key, value) -> wordFrequencies.add(new WordFrequency(key, value)));
+        }
 
         return takeTopFrequencies(wordFrequencies);
     }
