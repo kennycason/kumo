@@ -176,7 +176,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+                            <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                             <links>
                                 <link>http://docs.oracle.com/javase/8/docs/api/</link>
                             </links>
