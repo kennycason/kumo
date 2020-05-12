@@ -8,6 +8,11 @@
 bin
 /target
 */target/*
+kumo-core/output_test/*png
+kumo-core/output_test/*jpg
+kumo-core/output_test/*jpeg
+kumo-core/output_test/*gif
+kumo-core/output_test/*bmp
 *.log
 *.log.gz
 .idea/*
