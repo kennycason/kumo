@@ -421,4 +421,6 @@ kumo --input "https://www.haskell.org/, https://en.wikipedia.org/wiki/Haskell_(p
 
 ### Contributing
 
-My primary IDE of choice is IntelliJ due to their robust tooling as well as code analysis/inspections. If using [IntelliJ IDEA](https://www.jetbrains.com/idea/), I recommend importing `KumoIntelliJInspections.xml`. I am also consiering adding Checkstyle support.
+My primary IDE of choice is IntelliJ due to their robust tooling as well as code analysis/inspections. If using [IntelliJ IDEA](https://www.jetbrains.com/idea/), I recommend importing `KumoIntelliJInspections.xml`. I am also considering adding Checkstyle support.
+
+New tests that write images should write images out to `kumo-core/output_test/` instead of `kumo-core/output/` which is now used for images to showcase Kumo.
