@@ -1,6 +1,6 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.bg.PixelBoundaryBackground;
 import com.kennycason.kumo.examples.WordCloudITest;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
@@ -32,8 +32,8 @@ public class WordCloudAutoFillTest {
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
-        int width = 1500;
-        int height = 1000;
+        final int width = 1500;
+        final int height = 1000;
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/hello_world.txt"), true);
         final Dimension dimension = new Dimension(width, height);
@@ -44,7 +44,7 @@ public class WordCloudAutoFillTest {
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
 
         } finally {
             inputStream.close();
@@ -53,17 +53,17 @@ public class WordCloudAutoFillTest {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/a_whale_word_too_few.png");
+        wordCloud.writeToFile("output_test/a_whale_word_too_few.png");
     }
 
     @Test
-    public void whaleImgNoWordAfterFilterWithCustomAutoFillTest() throws IOException,InterruptedException {
+    public void whaleImgNoWordAfterFilterWithCustomAutoFillTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
-        int width = 1500;
-        int height = 1000;
+        final int width = 1500;
+        final int height = 1000;
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/empty.txt"), true, "Dararara");
         final Dimension dimension = new Dimension(width, height);
@@ -74,7 +74,7 @@ public class WordCloudAutoFillTest {
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
 
         } finally {
             inputStream.close();
@@ -83,17 +83,17 @@ public class WordCloudAutoFillTest {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/a_whale_no_word_with_dararara.png");
+        wordCloud.writeToFile("output_test/a_whale_no_word_with_dararara.png");
     }
 
     @Test
-    public void whaleImgNoWordAfterFilterWithDefaultAutoFillTest() throws IOException,InterruptedException {
+    public void whaleImgNoWordAfterFilterWithDefaultAutoFillTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
-        int width = 1500;
-        int height = 1000;
+        final int width = 1500;
+        final int height = 1000;
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/empty.txt"), true);
         final Dimension dimension = new Dimension(width, height);
@@ -104,7 +104,7 @@ public class WordCloudAutoFillTest {
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
 
         } finally {
             inputStream.close();
@@ -113,7 +113,7 @@ public class WordCloudAutoFillTest {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/a_whale_no_word_with_default_autofill.png");
+        wordCloud.writeToFile("output_test/a_whale_no_word_with_default_autofill.png");
     }
 
 
@@ -123,9 +123,9 @@ public class WordCloudAutoFillTest {
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
         frequencyAnalyzer.setMinWordLength(5);
         frequencyAnalyzer.setStopWords(loadStopWords());
-        int width = 1500;
-        int height = 1000;
-        List<String> texts = new ArrayList<>();
+        final int width = 1500;
+        final int height = 1000;
+        final List<String> texts = new ArrayList<>();
         texts.add("hello");
         texts.add("world");
 
@@ -138,7 +138,7 @@ public class WordCloudAutoFillTest {
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
 
         } finally {
             inputStream.close();
@@ -147,7 +147,7 @@ public class WordCloudAutoFillTest {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/a_whale_with_string_list.png");
+        wordCloud.writeToFile("output_test/a_whale_with_string_list.png");
     }
 
     private static Set<String> loadStopWords() {

@@ -5,7 +5,7 @@ import com.kennycason.kumo.PolarBlendMode;
 import com.kennycason.kumo.PolarWordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.CircleBackground;
-import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.bg.PixelBoundaryBackground;
 import com.kennycason.kumo.bg.RectangleBackground;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
@@ -44,7 +44,7 @@ public class PolarWordCloudITest {
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT);
         wordCloud.setPadding(2);
         wordCloud.setBackgroundColor(Color.WHITE);
-        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/whale.png")));
+        wordCloud.setBackground(new PixelBoundaryBackground(getInputStream("backgrounds/whale.png")));
         wordCloud.setFontScalar(new LinearFontScalar(15, 50));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);
@@ -108,7 +108,7 @@ public class PolarWordCloudITest {
         final PolarWordCloud wordCloud = new PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR);
         wordCloud.setPadding(2);
         wordCloud.setKumoFont(new KumoFont("Cairo", FontWeight.BOLD));
-        wordCloud.setBackground(new PixelBoundryBackground(getInputStream("backgrounds/cat.bmp")));
+        wordCloud.setBackground(new PixelBoundaryBackground(getInputStream("backgrounds/cat.bmp")));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 40));
         final long startTime = System.currentTimeMillis();
         wordCloud.build(wordFrequencies, wordFrequencies2);

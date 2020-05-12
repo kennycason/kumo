@@ -6,7 +6,7 @@ import com.kennycason.kumo.PolarWordCloud;
 import com.kennycason.kumo.WordCloud;
 import com.kennycason.kumo.WordFrequency;
 import com.kennycason.kumo.bg.Background;
-import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.bg.PixelBoundaryBackground;
 import com.kennycason.kumo.cli.CliParameters.FontScalarType;
 import com.kennycason.kumo.cli.CliParameters.NormalizerType;
 import com.kennycason.kumo.cli.CliParameters.WordStartType;
@@ -232,7 +232,7 @@ public class KumoCli {
 
     private static Background buildBackground(final String background) {
         try {
-            return new PixelBoundryBackground(toInputStream(background));
+            return new PixelBoundaryBackground(toInputStream(background));
         } catch (final IOException e) {
             throw new RuntimeException(e.getMessage(), e);
         }

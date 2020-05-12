@@ -3,7 +3,7 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.bg.PixelBoundaryBackground;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
@@ -45,8 +45,8 @@ public class LayeredWordCloudITest {
         layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
         layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
-        layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
-        layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
+        layeredWordCloud.setBackground(0, new PixelBoundaryBackground(getInputStream("backgrounds/cloud_bg.bmp")));
+        layeredWordCloud.setBackground(1, new PixelBoundaryBackground(getInputStream("backgrounds/cloud_fg.bmp")));
 
         layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xABEDFF), new Color(0x82E4FF), new Color(0x55D6FA)));
         layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0xFFFFFF), new Color(0xDCDDDE), new Color(0xCCCCCC)));
@@ -80,8 +80,8 @@ public class LayeredWordCloudITest {
         layeredWordCloud.setKumoFont(0, new KumoFont("LICENSE PLATE", FontWeight.BOLD));
         layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
-        layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/haskell_1.bmp")));
-        layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/haskell_2.bmp")));
+        layeredWordCloud.setBackground(0, new PixelBoundaryBackground(getInputStream("backgrounds/haskell_1.bmp")));
+        layeredWordCloud.setBackground(1, new PixelBoundaryBackground(getInputStream("backgrounds/haskell_2.bmp")));
 
         layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0xFA6C07), new Color(0xFF7614), new Color(0xFF8936)));
         layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x080706), new Color(0x3B3029), new Color(0x47362A)));
@@ -122,10 +122,10 @@ public class LayeredWordCloudITest {
         layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
         layeredWordCloud.setKumoFont(3, new KumoFont("Comic Sans MS", FontWeight.BOLD));
 
-        layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/pho_1.bmp")));
-        layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/pho_2.bmp")));
-        layeredWordCloud.setBackground(2, new PixelBoundryBackground(getInputStream("backgrounds/pho_3.bmp")));
-        layeredWordCloud.setBackground(3, new PixelBoundryBackground(getInputStream("backgrounds/pho_4.bmp")));
+        layeredWordCloud.setBackground(0, new PixelBoundaryBackground(getInputStream("backgrounds/pho_1.bmp")));
+        layeredWordCloud.setBackground(1, new PixelBoundaryBackground(getInputStream("backgrounds/pho_2.bmp")));
+        layeredWordCloud.setBackground(2, new PixelBoundaryBackground(getInputStream("backgrounds/pho_3.bmp")));
+        layeredWordCloud.setBackground(3, new PixelBoundaryBackground(getInputStream("backgrounds/pho_4.bmp")));
 
         layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0x26A621), new Color(0x21961D), new Color(0x187A15)));
         layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x5963F0), new Color(0x515CF0), new Color(0x729FED)));

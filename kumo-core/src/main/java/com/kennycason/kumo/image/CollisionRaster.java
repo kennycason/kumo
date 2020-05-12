@@ -17,7 +17,7 @@ public class CollisionRaster {
 
         for (int y = 0; y < dimension.height; y++) {
             for (int x = 0; x < dimension.width; x++) {
-                boolean pixelIsTransparent = (bufferedImage.getRGB(x, y) & 0xFF000000) == 0x00000000;
+                final boolean pixelIsTransparent = (bufferedImage.getRGB(x, y) & 0xFF000000) == 0x00000000;
 
                 if (!pixelIsTransparent) {
                     setPixelIsNotTransparent(x, y);
@@ -32,7 +32,6 @@ public class CollisionRaster {
         data = new BitSet(dimension.width * dimension.height);
     }
 
-    
     public CollisionRaster(CollisionRaster other) {
         this.dimension = other.dimension;
         this.data = (BitSet) other.data.clone();

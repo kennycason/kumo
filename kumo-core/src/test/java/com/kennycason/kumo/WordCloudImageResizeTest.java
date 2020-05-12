@@ -1,6 +1,6 @@
 package com.kennycason.kumo;
 
-import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.bg.PixelBoundaryBackground;
 import com.kennycason.kumo.examples.WordCloudITest;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
@@ -24,6 +24,7 @@ public class WordCloudImageResizeTest {
     private static final String INPUT_PATH ="backgrounds/whale.png";
     private static final String DEFAULT_FONT = "Impact";
     private static final String DEFAULT_IMAGE_TYPE = "png";
+
     // 我们这里要进行两组测试
     // 图像大小不合适，重新调整，小图调大，和大图调小，都要测试一次
 
@@ -50,7 +51,7 @@ public class WordCloudImageResizeTest {
         InputStream inputStream = null;
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
-            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
 
         } finally {
             inputStream.close();
@@ -60,7 +61,7 @@ public class WordCloudImageResizeTest {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/a_whale_large_to_small.png");
+        wordCloud.writeToFile("output_test/a_whale_large_to_small.png");
         inputStream.close();
     }
     @Test
@@ -81,7 +82,7 @@ public class WordCloudImageResizeTest {
         try {
             inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
 
-            wordCloud.setBackground(new PixelBoundryBackground(inputStream));
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
 
         } finally {
             inputStream.close();
@@ -91,7 +92,7 @@ public class WordCloudImageResizeTest {
         wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
         wordCloud.setFontScalar(new SqrtFontScalar(10, 50));
         wordCloud.build(wordFrequencies);
-        wordCloud.writeToFile("output/a_whale_small_to_large.png");
+        wordCloud.writeToFile("output_test/a_whale_small_to_large.png");
 
     }
 

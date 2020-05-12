@@ -3,7 +3,7 @@ package com.kennycason.kumo.examples;
 import com.kennycason.kumo.CollisionMode;
 import com.kennycason.kumo.LayeredWordCloud;
 import com.kennycason.kumo.WordFrequency;
-import com.kennycason.kumo.bg.PixelBoundryBackground;
+import com.kennycason.kumo.bg.PixelBoundaryBackground;
 import com.kennycason.kumo.font.FontWeight;
 import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.SqrtFontScalar;
@@ -49,9 +49,9 @@ public class SimplyMeasuredWordCloudITest {
         layeredWordCloud.setKumoFont(1, new KumoFont("Comic Sans MS", FontWeight.BOLD));
         layeredWordCloud.setKumoFont(2, new KumoFont("Comic Sans MS", FontWeight.ITALIC));
 
-        layeredWordCloud.setBackground(0, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-1.png")));
-        layeredWordCloud.setBackground(1, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-2.png")));
-        layeredWordCloud.setBackground(2, new PixelBoundryBackground(getInputStream("backgrounds/sm-logo-3.png")));
+        layeredWordCloud.setBackground(0, new PixelBoundaryBackground(getInputStream("backgrounds/sm-logo-1.png")));
+        layeredWordCloud.setBackground(1, new PixelBoundaryBackground(getInputStream("backgrounds/sm-logo-2.png")));
+        layeredWordCloud.setBackground(2, new PixelBoundaryBackground(getInputStream("backgrounds/sm-logo-3.png")));
 
         layeredWordCloud.setColorPalette(0, new ColorPalette(new Color(0x3f5ca9)));
         layeredWordCloud.setColorPalette(1, new ColorPalette(new Color(0x6185c3)));

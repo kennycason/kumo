@@ -1,0 +1,1 @@
+This directory is for images worth showcasing Kumo's features.
