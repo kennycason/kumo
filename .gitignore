@@ -9,6 +9,7 @@ bin
 /target
 */target/*
 *.log
+*.log.gz
 .idea/*
 *.iml
 dependency-reduced-pom.xml
