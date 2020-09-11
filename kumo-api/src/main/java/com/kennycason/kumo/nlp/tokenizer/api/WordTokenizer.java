@@ -1,4 +1,4 @@
-package com.kennycason.kumo.nlp.tokenizer;
+package com.kennycason.kumo.nlp.tokenizer.api;
 
 import java.util.List;
 
