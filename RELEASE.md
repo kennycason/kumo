@@ -23,6 +23,6 @@ Brew formula page can be found [here](https://formulae.brew.sh/formula/kumo)
 Brew formula in GitHub can be found [here](https://github.com/Homebrew/homebrew-core/blob/master/Formula/kumo.rb)
 
 md5 checksum can be calculated via:
-`curl -sL https://search.maven.org/remotecontent\?filepath\=com/kennycason/kumo-cli/1.27/kumo-cli-1.27.jar | shasum -a 256`
+`curl -sL https://search.maven.org/remotecontent\?filepath\=com/kennycason/kumo-cli/1.28/kumo-cli-1.28.jar | shasum -a 256`
 
 Additionally the README must be updated.
