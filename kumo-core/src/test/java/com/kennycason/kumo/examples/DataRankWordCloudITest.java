@@ -60,7 +60,7 @@ public class DataRankWordCloudITest {
         layeredWordCloud.build(1, wordFrequencies);
 
         LOGGER.info("Took {}ms to build", System.currentTimeMillis() - startTime);
-        layeredWordCloud.writeToFile("output/datarank.png");
+        layeredWordCloud.writeToFile("output/datarank_test.png");
     }
 
     private static Set<String> loadStopWords() throws IOException {
