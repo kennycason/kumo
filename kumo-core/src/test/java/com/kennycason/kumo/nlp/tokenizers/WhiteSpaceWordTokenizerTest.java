@@ -1,7 +1,7 @@
 package com.kennycason.kumo.nlp.tokenizers;
 
-import com.kennycason.kumo.nlp.tokenizer.WhiteSpaceWordTokenizer;
-import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
+import com.kennycason.kumo.nlp.tokenizer.core.WhiteSpaceWordTokenizer;
+import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer;
 import org.junit.Test;
 
 import java.util.List;

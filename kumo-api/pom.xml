@@ -9,6 +9,10 @@
 
     <artifactId>kumo-api</artifactId>
 
+    <properties>
+        <automatic.module.name>${project.groupId}.kumo.api</automatic.module.name>
+    </properties>
+
     <build>
         <plugins>
             <plugin>

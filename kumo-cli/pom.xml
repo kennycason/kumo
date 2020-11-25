@@ -11,6 +11,7 @@
 
     <properties>
         <cli.main.class>com.kennycason.kumo.cli.KumoCli</cli.main.class>
+        <automatic.module.name>${project.groupId}.kumo.cli</automatic.module.name>
     </properties>
 
     <dependencies>

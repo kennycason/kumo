@@ -1,6 +1,6 @@
 package com.kennycason.kumo.nlp.tokenizers;
 
-import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
+import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer;
 import org.languagetool.language.English;
 
 import java.util.List;

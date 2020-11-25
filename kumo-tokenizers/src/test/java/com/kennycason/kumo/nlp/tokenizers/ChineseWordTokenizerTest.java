@@ -1,6 +1,6 @@
 package com.kennycason.kumo.nlp.tokenizers;
 
-import com.kennycason.kumo.nlp.tokenizer.WordTokenizer;
+import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
