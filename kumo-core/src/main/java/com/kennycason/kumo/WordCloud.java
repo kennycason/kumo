@@ -255,7 +255,7 @@ public class WordCloud {
         graphics.setRenderingHints(Word.getRenderingHints());
         
         final int frequency = wordFrequency.getFrequency();
-        final float fontHeight = this.fontScalar.scale(frequency, 0, maxFrequency);
+        final float fontHeight = this.fontScalar.scale(frequency, maxFrequency);
         final Font font = (wordFrequency.hasFont() ? wordFrequency.getFont() : kumoFont).getFont().deriveFont(fontHeight);
         final FontMetrics fontMetrics = graphics.getFontMetrics(font);
         
