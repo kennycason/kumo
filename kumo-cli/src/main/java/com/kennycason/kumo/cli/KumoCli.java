@@ -110,7 +110,14 @@ public class KumoCli {
             wordCloud.setColorPalette(i, new ColorPalette(cliParameters.getLayeredColors().get(i)));
             wordCloud.setFontScalar(i, buildFontScalar(cliParameters.getFontScalarType()));
             wordCloud.setPadding(i, cliParameters.getPadding());
+
+            // Normal Rendering
             wordCloud.setKumoFont(i, buildKumoFont(cliParameters.getFontWeight()));
+            // Render Chinese Characters on Windows
+//            wordCloud.setKumoFont(i, new KumoFont(new File("C:\\Windows\\Fonts\\msyh.ttc")));
+            // Render Simple Emoji Characters on Windows
+//            wordCloud.setKumoFont(i, new KumoFont(new File("C:\\Windows\\Fonts\\Seguiemj.ttf")));
+
             wordCloud.build(i, loadFrequencies(cliParameters.getInputSources().get(i)));
         }
         wordCloud.writeToFile(cliParameters.getOutputSource());
@@ -138,7 +145,14 @@ public class KumoCli {
         wordCloud.setFontScalar(buildFontScalar(cliParameters.getFontScalarType()));
         wordCloud.setPadding(cliParameters.getPadding());
         wordCloud.setWordStartStrategy(buildWordStart(cliParameters.getWordStartType()));
+
+        // Normal Rendering
         wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontWeight()));
+        // Render Chinese Characters on Windows
+//        wordCloud.setKumoFont(new KumoFont(new File("C:\\Windows\\Fonts\\msyh.ttc")));
+        // Render Simple Emoji Characters on Windows
+        wordCloud.setKumoFont(new KumoFont(new File("C:\\Windows\\Fonts\\Seguiemj.ttf")));
+
         wordCloud.build(loadFrequencies(cliParameters.getInputSources().get(0)), loadFrequencies(cliParameters.getInputSources().get(1)));
         wordCloud.writeToFile(cliParameters.getOutputSource());
     }
@@ -158,7 +172,15 @@ public class KumoCli {
         wordCloud.setFontScalar(buildFontScalar(cliParameters.getFontScalarType()));
         wordCloud.setPadding(cliParameters.getPadding());
         wordCloud.setWordStartStrategy(buildWordStart(cliParameters.getWordStartType()));
+
+        // Normal Rendering
         wordCloud.setKumoFont(buildKumoFont(cliParameters.getFontWeight()));
+        // Render Chinese Characters on Windows
+//        wordCloud.setKumoFont(new KumoFont(new File("C:\\Windows\\Fonts\\msyh.ttc")));
+        // Render Simple Emoji Characters on Windows
+//        wordCloud.setKumoFont(new KumoFont(new File("C:\\Windows\\Fonts\\Seguiemj.ttf")));
+
+
         wordCloud.build(loadFrequencies(cliParameters.getInputSources().get(0)));
         wordCloud.writeToFile(cliParameters.getOutputSource());
     }

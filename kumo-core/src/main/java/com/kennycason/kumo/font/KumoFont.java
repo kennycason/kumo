@@ -27,6 +27,12 @@ public class KumoFont {
         this(buildAndRegisterFont(file));
     }
 
+    public KumoFont()
+    {
+        File f = new File("F:\\大四\\大四 2\\SE\\Project\\kumo\\msyh.ttf");
+        this.font = buildAndRegisterFont(f);
+    }
+
     public KumoFont(final InputStream inputStream) {
         this(buildAndRegisterFont(inputStream));
     }

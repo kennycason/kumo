@@ -51,7 +51,7 @@ public class WordCloud {
     protected Background background;
     protected Color backgroundColor = Color.BLACK;
     protected FontScalar fontScalar = new LinearFontScalar(10, 40);
-    protected KumoFont kumoFont = new KumoFont("Comic Sans MS", FontWeight.BOLD);
+    protected KumoFont kumoFont = new KumoFont("微软雅黑", FontWeight.PLAIN);
     protected AngleGenerator angleGenerator = new AngleGenerator();
     protected RectangleWordPlacer wordPlacer = new RTreeWordPlacer();
     protected ColorPalette colorPalette = new ColorPalette(0x02B6F2, 0x37C2F0, 0x7CCBE6, 0xC4E7F2, 0xFFFFFF);

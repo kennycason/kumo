@@ -78,10 +78,10 @@ public class CliParameters {
     private int fontSizeMax = 40;
 
     @Parameter(names = "--font-weight", description = "A font weight. Default is Bold.", converter = FontWeightConverter.class)
-    private FontWeight fontWeight = FontWeight.BOLD;
+    private FontWeight fontWeight = FontWeight.PLAIN;
 
     @Parameter(names = "--font-type", description = "The name of the font to use. The system must have the font loaded already. Default is \"Comic Sans MS\".")
-    private String fontType = "Comic Sans MS";
+    private String fontType = "微软雅黑"; //"Comic Sans MS";
 
     @Parameter(names = "--encoding", description = "Character Encoding. Default is UTF-8")
     private String characterEncoding = "UTF-8";
