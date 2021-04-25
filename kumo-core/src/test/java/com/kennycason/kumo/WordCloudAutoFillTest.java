@@ -18,13 +18,27 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 
+    /**
+    *  This is part of javadoc is makred by Jiaxiang Li
+    *
+    */
 public class WordCloudAutoFillTest {
 
-    // 我们要有四个测试样例，分别对应单词过少，自定义填充, 默认填充, 以及直接处理字符串链表
+    
+    /**
+     * we have four test cases, and they are being applied to the test the
+     * issue of word too few, autofill, default fill, and directly dealing
+     * with the string lists
+     *
+     */
 
     private static final String INPUT_PATH ="backgrounds/whale.png";
     private static final String DEFAULT_FONT = "Impact";
     private static final String DEFAULT_IMAGE_TYPE = "png";
+    
+    /** This method is for testing the picture of "output_test/a_whale_word_too_few.png"
+     * @throws IOException
+     */
 
     @Test
     public void whaleImgWordTooFewTest() throws IOException {
@@ -55,7 +69,13 @@ public class WordCloudAutoFillTest {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output_test/a_whale_word_too_few.png");
     }
-
+    
+    /**
+     * This method is for when there are no word after be filtered with
+     * the Custom autofill test
+     * @throws IOException
+     */
+    
     @Test
     public void whaleImgNoWordAfterFilterWithCustomAutoFillTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
@@ -85,12 +105,19 @@ public class WordCloudAutoFillTest {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output_test/a_whale_no_word_with_dararara.png");
     }
+    
+    /**
+     * This method is for when there are no word after be filtered with
+     * the default autofill test
+     * @throws IOException
+     */
 
     @Test
     public void whaleImgNoWordAfterFilterWithDefaultAutoFillTest() throws IOException {
         final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
         frequencyAnalyzer.setWordFrequenciesToReturn(600);
-        frequencyAnalyzer.setMinWordLength(5);
+        //change 5->6
+        frequencyAnalyzer.setMinWordLength(6);
         frequencyAnalyzer.setStopWords(loadStopWords());
         final int width = 1500;
         final int height = 1000;
@@ -115,7 +142,12 @@ public class WordCloudAutoFillTest {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output_test/a_whale_no_word_with_default_autofill.png");
     }
-
+    
+    /**
+     * This method is for the image of whale when manually add more duplicated
+     * words
+     * @throws IOException
+     */
 
     @Test
     public void whaleImgWithListOfStringTest() throws IOException{
@@ -128,6 +160,8 @@ public class WordCloudAutoFillTest {
         final List<String> texts = new ArrayList<>();
         texts.add("hello");
         texts.add("world");
+        //my added
+        texts.add("hello world");
 
         final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
         final Dimension dimension = new Dimension(width, height);
@@ -149,7 +183,12 @@ public class WordCloudAutoFillTest {
         wordCloud.build(wordFrequencies);
         wordCloud.writeToFile("output_test/a_whale_with_string_list.png");
     }
-
+    
+    /**
+     * This method is for loading the stop words
+     * @return
+     */
+    
     private static Set<String> loadStopWords() {
         try {
             final List<String> lines = IOUtils.readLines(getInputStream("text/stop_words.txt"));
