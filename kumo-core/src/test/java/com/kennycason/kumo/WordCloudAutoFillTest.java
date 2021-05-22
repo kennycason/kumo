@@ -112,7 +112,7 @@ public class WordCloudAutoFillTest {
      * @throws IOException
      * 
      */
-    //CS304(manually written Issue Link:
+    //CS304 Issue Link:
     //https://github.com/kennycason/kumo/issues/93
 
     @Test
@@ -151,7 +151,7 @@ public class WordCloudAutoFillTest {
      * words
      * @throws IOException
      */
-    //CS304(manually written Issue Link:
+    //CS304 Issue Link:
     //https://github.com/kennycason/kumo/issues/93
 
     @Test
@@ -207,5 +207,72 @@ public class WordCloudAutoFillTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(WordCloudITest.class);
     private static InputStream getInputStream(final String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+    }
+}
+
+    //CS304 (manually written) issue link:
+    //https://github.com/kennycason/kumo/issues/93
+
+    @Test
+    public void wordtoosmall() throws IOException{
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequenciesToReturn(500);
+        frequencyAnalyzer.setMinWordLength(6);
+        frequencyAnalyzer.setStopWords(loadStopWords());
+        final int width = 500;
+        final int height = 900;
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(getInputStream("text/hello_world.txt"), true);
+        final Dimension dimension = new Dimension(width, height);
+        final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackgroundColor(Color.WHITE);
+        InputStream inputStream = null;
+        try {
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
+        } finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
+        wordCloud.setFontScalar(new SqrtFontScalar(7, 35));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output_test/a_whale_word_too_few.png");
+    }
+
+    //CS304 (manually written) issue link:
+    //https://github.com/kennycason/kumo/issues/93
+    @Test
+    public void duplicatesmall() throws IOException{
+        final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
+        frequencyAnalyzer.setWordFrequenciesToReturn(600);
+        frequencyAnalyzer.setMinWordLength(5);
+        frequencyAnalyzer.setStopWords(loadStopWords());
+        final int width = 300;
+        final int height = 400;
+        final List<String> texts = new ArrayList<>();
+        //could manually add more here
+        texts.add("hellohellohello");
+        texts.add("worldworldworld");
+
+        final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(texts, true);
+        final Dimension dimension = new Dimension(width, height);
+        final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);
+        wordCloud.setPadding(1);
+        wordCloud.setBackgroundColor(Color.WHITE);
+        InputStream inputStream = null;
+        try {
+            inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE);
+
+            wordCloud.setBackground(new PixelBoundaryBackground(inputStream));
+
+        } finally {
+            inputStream.close();
+        }
+        wordCloud.setKumoFont(new KumoFont(DEFAULT_FONT, FontWeight.PLAIN));
+        wordCloud.setColorPalette(new ColorPalette(new Color(0x4055F1), new Color(0x408DF1), new Color(0x40AAF1), new Color(0x40C5F1), new Color(0x40D3F1), new Color(0x000000)));
+        wordCloud.setFontScalar(new SqrtFontScalar(8, 30));
+        wordCloud.build(wordFrequencies);
+        wordCloud.writeToFile("output_test/a_whale_with_string_list.png");
     }
 }
