@@ -110,7 +110,10 @@ public class WordCloudAutoFillTest {
      * This method is for when there are no word after be filtered with
      * the default autofill test
      * @throws IOException
+     * 
      */
+    //CS304(manually written Issue Link:
+    //https://github.com/kennycason/kumo/issues/93
 
     @Test
     public void whaleImgNoWordAfterFilterWithDefaultAutoFillTest() throws IOException {
@@ -148,6 +151,8 @@ public class WordCloudAutoFillTest {
      * words
      * @throws IOException
      */
+    //CS304(manually written Issue Link:
+    //https://github.com/kennycason/kumo/issues/93
 
     @Test
     public void whaleImgWithListOfStringTest() throws IOException{
