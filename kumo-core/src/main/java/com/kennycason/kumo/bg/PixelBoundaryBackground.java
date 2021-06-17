@@ -32,6 +32,18 @@ public class PixelBoundaryBackground implements Background {
         final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
         this.collisionRaster = new CollisionRaster(bufferedImage);
     }
+    /**
+     * Creates a PixelBoundaryBackground using an InputStream to load an image
+     *
+     * @param imageInputStream InputStream containing an image file
+     * @param alpha The transparent index, should range from 0 to 10
+     * @throws IOException when fails to open file stream
+     */
+    public PixelBoundaryBackground(final InputStream imageInputStream, int alpha) throws Exception {
+        final BufferedImage bufferedImage = ImageIO.read(imageInputStream);
+        BufferedImage tansBackgroundImage = TransBackground(bufferedImage,alpha);
+        this.collisionRaster = new CollisionRaster(tansBackgroundImage);
+    }
 
     /**
      * Creates a PixelBoundaryBackground using an image from the input file
@@ -51,6 +63,30 @@ public class PixelBoundaryBackground implements Background {
      */
     public PixelBoundaryBackground(final String filepath) throws IOException {
         this(new File(filepath));
+    }
+
+    private BufferedImage TransBackground(BufferedImage srcImage, int alpha) throws Exception {
+        int imgHeight = srcImage.getHeight();
+        int imgWidth = srcImage.getWidth();
+        //get the pixel of left upper corner
+        int c = srcImage.getRGB(3, 3);
+        if (alpha < 0 || alpha > 10) {
+            throw new Exception("alpha out of range");
+        }
+        BufferedImage bufferedImage = new BufferedImage(imgWidth, imgHeight, BufferedImage.TYPE_4BYTE_ABGR);
+        for(int i = 0; i < imgWidth; i++){
+            for(int j = 0; j < imgHeight; j++) {
+                if(srcImage.getRGB(i, j) == c){//for background
+                    bufferedImage.setRGB(i, j, c & 0x00ffffff);
+                }
+                else{//not background
+                    int rgb = bufferedImage.getRGB(i, j);
+                    rgb = ((alpha * 255 / 10) << 24) | (rgb & 0x00ffffff);
+                    bufferedImage.setRGB(i, j, rgb);
+                }
+            }
+        }
+        return bufferedImage;
     }
     
     @Override
