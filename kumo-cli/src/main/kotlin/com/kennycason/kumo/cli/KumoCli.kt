@@ -10,12 +10,14 @@ import com.kennycason.kumo.bg.PixelBoundaryBackground
 import com.kennycason.kumo.cli.CliParameters.FontScalarType
 import com.kennycason.kumo.cli.CliParameters.NormalizerType
 import com.kennycason.kumo.cli.CliParameters.WordStartType
+import com.kennycason.kumo.exception.KumoException
 import com.kennycason.kumo.font.FontWeight
 import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.FontScalar
 import com.kennycason.kumo.font.scale.LinearFontScalar
 import com.kennycason.kumo.font.scale.LogFontScalar
 import com.kennycason.kumo.font.scale.SqrtFontScalar
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.nlp.normalize.BubbleTextNormalizer
 import com.kennycason.kumo.nlp.normalize.CharacterStrippingNormalizer
@@ -40,7 +42,7 @@ import java.io.InputStream
 import java.net.URL
 import java.util.jar.Manifest
 
-class KumoCli {
+class KumoCli : Logging {
     private val cliParameters = CliParameters()
 
     companion object {
@@ -53,7 +55,7 @@ class KumoCli {
             try {
                 return PixelBoundaryBackground(toInputStream(background))
             } catch (e: IOException) {
-                throw RuntimeException(e.message, e)
+                throw KumoException("Failed to load background: $background", e)
             }
         }
 
@@ -71,7 +73,7 @@ class KumoCli {
                 return URL(path).openStream()
             } catch (_: IOException) {
             }
-            throw RuntimeException("Input path [$path] not a file or url.")
+            throw KumoException("Input path [$path] is not a valid file or URL")
         }
     }
 
@@ -95,14 +97,13 @@ class KumoCli {
                 val manifest = Manifest(resources.nextElement().openStream())
                 val version = manifest.mainAttributes.getValue("Implementation-Version")
                 if (!version.isNullOrBlank()) {
-                    println("Kumo Version: $version")
+                    logger.info { "Kumo Version: $version" }
                     return
                 }
             }
-            throw RuntimeException("Failed to load version from manifest")
+            logger.warn { "Failed to load version from manifest" }
         } catch (e: IOException) {
-            println(e.message)
-            e.printStackTrace()
+            logger.error(e) { "Error reading version from manifest" }
         }
     }
 
@@ -207,7 +208,7 @@ class KumoCli {
 
             return frequencyAnalyzer.load(toInputStream(input))
         } catch (e: IOException) {
-            throw RuntimeException(e.message, e)
+            throw KumoException("Failed to load frequencies from: $input", e)
         }
     }
 

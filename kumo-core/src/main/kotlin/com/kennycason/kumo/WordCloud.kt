@@ -13,6 +13,7 @@ import com.kennycason.kumo.font.scale.FontScalar
 import com.kennycason.kumo.font.scale.LinearFontScalar
 import com.kennycason.kumo.image.AngleGenerator
 import com.kennycason.kumo.image.CollisionRaster
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.padding.Padder
 import com.kennycason.kumo.padding.RectanglePadder
 import com.kennycason.kumo.padding.WordPixelPadder
@@ -21,7 +22,6 @@ import com.kennycason.kumo.placement.RTreeWordPlacer
 import com.kennycason.kumo.placement.RectangleWordPlacer
 import com.kennycason.kumo.wordstart.RandomWordStart
 import com.kennycason.kumo.wordstart.WordStartStrategy
-import org.slf4j.LoggerFactory
 import java.awt.*
 import java.awt.image.BufferedImage
 import java.io.File
@@ -36,7 +36,8 @@ import kotlin.math.sqrt
 open class WordCloud(
     protected val dimension: Dimension,
     protected val collisionMode: CollisionMode
-) {
+) : Logging {
+
     protected val collisionChecker: CollisionChecker = deriveCollisionChecker(collisionMode)
     protected val collisionRaster: CollisionRaster = CollisionRaster(dimension)
     val bufferedImage: BufferedImage = BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB)
@@ -86,13 +87,9 @@ open class WordCloud(
             val placed = place(word, point)
 
             if (placed) {
-                if (LOGGER.isInfoEnabled) {
-                    LOGGER.info("placed: {} ({}/{})", word.word, currentWord, sorted.size)
-                }
+                logger.info { "placed: ${word.word} ($currentWord/${sorted.size})" }
             } else {
-                if (LOGGER.isInfoEnabled) {
-                    LOGGER.info("skipped: {} ({}/{})", word.word, currentWord, sorted.size)
-                }
+                logger.info { "skipped: ${word.word} ($currentWord/${sorted.size})" }
                 skipped.add(word)
             }
             currentWord++
@@ -102,16 +99,12 @@ open class WordCloud(
     }
 
     fun writeToFile(outputFileName: String) {
-        var extension = ""
-        val i = outputFileName.lastIndexOf('.')
-        if (i > 0) {
-            extension = outputFileName.substring(i + 1)
-        }
+        val extension = outputFileName.substringAfterLast('.', "")
         try {
-            LOGGER.info("Saving WordCloud to: {}", outputFileName)
+            logger.info { "Saving WordCloud to: $outputFileName" }
             ImageIO.write(bufferedImage, extension, File(outputFileName))
         } catch (e: IOException) {
-            LOGGER.error(e.message, e)
+            logger.error(e) { "Failed to save WordCloud to: $outputFileName" }
         }
     }
 
@@ -121,12 +114,12 @@ open class WordCloud(
 
     fun writeToStream(format: String, outputStream: OutputStream) {
         try {
-            LOGGER.debug("Writing WordCloud image data to output stream")
+            logger.debug { "Writing WordCloud image data to output stream" }
             ImageIO.write(bufferedImage, format, outputStream)
-            LOGGER.debug("Done writing WordCloud image data to output stream")
+            logger.debug { "Done writing WordCloud image data to output stream" }
         } catch (e: IOException) {
-            LOGGER.error(e.message, e)
-            throw KumoException("Could not write wordcloud to outputstream due to an IOException", e)
+            logger.error(e) { "Could not write WordCloud to output stream" }
+            throw KumoException("Could not write WordCloud to output stream", e)
         }
     }
 
@@ -223,8 +216,6 @@ open class WordCloud(
     }
 
     companion object {
-        private val LOGGER = LoggerFactory.getLogger(WordCloud::class.java)
-
         @JvmStatic
         fun computeRadius(dimension: Dimension, start: Point): Int {
             val maxDistanceX = max(start.x, dimension.width - start.x) + 1
