@@ -208,7 +208,6 @@ public class WordCloudAutoFillTest {
     private static InputStream getInputStream(final String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
     }
-}
 
     //CS304 (manually written) issue link:
     //https://github.com/kennycason/kumo/issues/93
