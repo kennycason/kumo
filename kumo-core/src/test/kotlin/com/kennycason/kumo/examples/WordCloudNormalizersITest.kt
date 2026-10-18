@@ -23,7 +23,7 @@ class WordCloudNormalizersITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.normalizers += UpperCaseNormalizer()
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
+        val wordFrequencies = frequencyAnalyzer.load(URL("https://kennycason.com"))
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
         wordCloud.padding = 0

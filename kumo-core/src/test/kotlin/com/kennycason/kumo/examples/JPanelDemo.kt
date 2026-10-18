@@ -20,7 +20,6 @@ class JPanelDemo : JPanel() {
 
     init {
         wordCloud = buildWordCloud()
-
         val wordCloudLabel = JLabel(ImageIcon(wordCloud.bufferedImage))
         add(wordCloudLabel)
         repaint()

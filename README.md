@@ -275,6 +275,8 @@ cloud.writeToFile("parallelBubbleText.png")
 
 Refer to JPanelDemo.kt for an example integrating into a JPanel.
 
+In IntelliJ IDEA, select the shared **JPanelDemo (classpath)** run configuration. It uses an Application configuration with the module path disabled. The Kotlin runner can mistake the JAR's automatic module name for a module in the compiled output directory and fail before the demo starts.
+
 
 ### Word Frequency File / Analyzer
 

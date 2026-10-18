@@ -100,24 +100,6 @@ class WordCloudITest : Logging {
     }
 
     @Test
-    fun readCNN() {
-        val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.wordFrequenciesToReturn = 500
-        frequencyAnalyzer.minWordLength = 3
-
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://www.cnn.com/"))
-        val dimension = Dimension(600, 600)
-        val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
-        wordCloud.padding = 1
-        wordCloud.background = RectangleBackground(dimension)
-        wordCloud.kumoFont = KumoFont("Impact", FontWeight.PLAIN)
-        wordCloud.colorPalette = buildRandomColorPalette(5)
-        wordCloud.fontScalar = LinearFontScalar(18, 70)
-        wordCloud.build(wordFrequencies)
-        wordCloud.writeToFile("output/cnn.png")
-    }
-
-    @Test
     fun whaleImgLargeTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
         frequencyAnalyzer.wordFrequenciesToReturn = 600
