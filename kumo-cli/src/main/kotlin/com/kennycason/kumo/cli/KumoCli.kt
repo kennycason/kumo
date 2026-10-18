@@ -206,7 +206,7 @@ class KumoCli : Logging {
 
             frequencyAnalyzer.wordTokenizer = buildTokenizer()
 
-            return toInputStream(input).use { frequencyAnalyzer.load(it) }
+            return toInputStream(input).use { frequencyAnalyzer.analyze(it) }
         } catch (e: IOException) {
             throw KumoException("Failed to load frequencies from: $input", e)
         }

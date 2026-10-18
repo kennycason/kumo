@@ -9,17 +9,27 @@ import java.awt.image.BufferedImage
 
 class Word(
     val word: String,
-    private val color: Color,
+    val color: Color,
     fontMetrics: FontMetrics,
     private val collisionChecker: CollisionChecker,
-    val theta: Double
+    val theta: Double,
+    val frequency: Int = 1
 ) : Collidable {
+
+    val font: Font = fontMetrics.font
+    private val fontRenderContext = fontMetrics.fontRenderContext
+    private val textWidth = fontMetrics.stringWidth(word).coerceAtLeast(1)
+    private val textHeight = fontMetrics.height
+    private val baseline = textHeight - fontMetrics.maxDescent - fontMetrics.leading
 
     var bufferedImage: BufferedImage = render(word, color, fontMetrics, theta)
         set(value) {
             field = value
             collisionRaster = CollisionRaster(value)
         }
+
+    private val renderedWidth = bufferedImage.width
+    private val renderedHeight = bufferedImage.height
 
     override var collisionRaster: CollisionRaster = CollisionRaster(bufferedImage)
         private set
@@ -30,7 +40,7 @@ class Word(
         get() = collisionRaster.dimension
 
     private fun render(text: String, fontColor: Color, fontMetrics: FontMetrics, theta: Double): BufferedImage {
-        val width = fontMetrics.stringWidth(text)
+        val width = fontMetrics.stringWidth(text).coerceAtLeast(1)
         val height = fontMetrics.height
 
         val rendered = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
@@ -49,6 +59,14 @@ class Word(
 
     override fun collide(collidable: Collidable): Boolean =
         collisionChecker.collide(this, collidable)
+
+    internal fun snapshot(): PlacedWord {
+        return PlacedWord(
+            word, frequency, font, color, theta,
+            WordBounds(position.x, position.y, dimension.width, dimension.height), bufferedImage,
+            GlyphMetrics(textWidth, textHeight, baseline, renderedWidth, renderedHeight, fontRenderContext)
+        )
+    }
 
     fun draw(collisionRaster: CollisionRaster) {
         collisionRaster.mask(collisionRaster, position)

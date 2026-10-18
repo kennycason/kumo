@@ -7,6 +7,7 @@ open class ColorPalette {
 
     val colors: List<Color>
     private var next: Int = 0
+    private val random = Random()
 
     constructor(vararg colors: Color) {
         this.colors = colors.toList()
@@ -17,14 +18,10 @@ open class ColorPalette {
     }
 
     constructor(colors: List<Color>) {
-        this.colors = colors
+        this.colors = colors.toList()
     }
 
     fun next(): Color = colors[next++ % colors.size]
 
-    fun randomNext(): Color = colors[RANDOM.nextInt(colors.size)]
-
-    companion object {
-        private val RANDOM = Random()
-    }
+    fun randomNext(random: Random = this.random): Color = colors[random.nextInt(colors.size)]
 }

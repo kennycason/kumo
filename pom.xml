@@ -27,7 +27,6 @@
         <project.build.resourceEncoding>${encoding}</project.build.resourceEncoding>
         <maven.compile.encoding>${encoding}</maven.compile.encoding>
         <maven.compiler.target>${java.target}</maven.compiler.target>
-        <automatic.module.name>${project.groupId}.${project.artifactId}</automatic.module.name>
     </properties>
 
     <dependencyManagement>
@@ -176,6 +175,12 @@
 
     <profiles>
         <profile>
+            <id>benchmarks</id>
+            <modules>
+                <module>kumo-benchmarks</module>
+            </modules>
+        </profile>
+        <profile>
             <id>release</id>
             <build>
                 <plugins>
@@ -283,17 +288,6 @@
                         <excludes>
                             <exclude>**/*ITest.*</exclude>
                         </excludes>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <configuration>
-                        <archive>
-                            <manifestEntries>
-                                <Automatic-Module-Name>${automatic.module.name}</Automatic-Module-Name>
-                            </manifestEntries>
-                        </archive>
                     </configuration>
                 </plugin>
                 <plugin>

@@ -9,10 +9,6 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>kumo-core</artifactId>
 
-    <properties>
-        <automatic.module.name>${project.groupId}.kumo.core</automatic.module.name>
-    </properties>
-
     <dependencies>
         <!-- kotlin -->
         <dependency>

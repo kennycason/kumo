@@ -43,7 +43,7 @@ class WordCloudImageResizeTest : Logging {
         val width = 150
         val height = 100
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -66,7 +66,7 @@ class WordCloudImageResizeTest : Logging {
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it, false) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it, false) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1

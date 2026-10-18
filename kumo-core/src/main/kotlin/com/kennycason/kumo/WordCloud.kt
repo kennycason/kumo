@@ -27,6 +27,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
+import java.util.Random
 import javax.imageio.ImageIO
 import kotlin.math.ceil
 import kotlin.math.max
@@ -44,6 +45,16 @@ open class WordCloud(
     protected val backgroundCollidable: RectanglePixelCollidable = RectanglePixelCollidable(collisionRaster, Point(0, 0))
     protected val padder: Padder = derivePadder(collisionMode)
     val skipped: MutableSet<Word> = HashSet()
+    private val placedWords = mutableListOf<PlacedWord>()
+    private val skippedWords = mutableListOf<SkippedWord>()
+
+    var layout: CloudLayout = CloudLayout(dimension.width, dimension.height, Color.BLACK, null, emptyList(), emptyList())
+        private set
+
+    /** Built-in random choices start from this seed on every build. Null uses fresh randomness. */
+    var seed: Long? = null
+    protected var random: Random = Random()
+        private set
 
     var padding: Int = 0
 
@@ -61,26 +72,27 @@ open class WordCloud(
 
     var colorPalette: ColorPalette = ColorPalette(0x02B6F2, 0x37C2F0, 0x7CCBE6, 0xC4E7F2, 0xFFFFFF)
 
+    var randomColors: Boolean = false
+
     var wordStartStrategy: WordStartStrategy = RandomWordStart()
 
     open fun build(wordFrequencies: List<WordFrequency>) {
         val sorted = wordFrequencies.sorted()
 
-        wordPlacer.reset()
-        skipped.clear()
+        resetBuildState()
 
         background.mask(backgroundCollidable)
 
         var currentWord = 1
         for (word in buildWords(sorted, colorPalette)) {
-            val point = wordStartStrategy.getStartingPoint(dimension, word)
+            val point = wordStartStrategy.getStartingPoint(dimension, word, random)
             val placed = place(word, point)
 
             if (placed) {
                 logger.info { "placed: ${word.word} ($currentWord/${sorted.size})" }
             } else {
                 logger.info { "skipped: ${word.word} ($currentWord/${sorted.size})" }
-                skipped.add(word)
+                recordSkipped(word)
             }
             currentWord++
         }
@@ -114,62 +126,69 @@ open class WordCloud(
     }
 
     protected open fun drawForegroundToBackground() {
-        if (backgroundColor == null) return
+        layout = CloudLayout(dimension.width, dimension.height, backgroundColor, seed, placedWords, skippedWords)
+        layout.renderTo(bufferedImage)
+    }
 
-        val backgroundBufferedImage = BufferedImage(dimension.width, dimension.height, bufferedImage.type)
-        val graphics = backgroundBufferedImage.graphics
+    protected fun resetBuildState() {
+        require(padding >= 0) { "Padding must not be negative" }
+        random = seed?.let { Random(it) } ?: Random()
+        wordPlacer.reset()
+        skipped.clear()
+        placedWords.clear()
+        skippedWords.clear()
+        collisionRaster.clear()
+        val graphics = bufferedImage.createGraphics()
         try {
-            graphics.color = backgroundColor
+            graphics.composite = AlphaComposite.Clear
             graphics.fillRect(0, 0, dimension.width, dimension.height)
-            graphics.drawImage(bufferedImage, 0, 0, null)
         } finally {
             graphics.dispose()
-        }
-
-        val graphics2 = bufferedImage.graphics
-        try {
-            graphics2.drawImage(backgroundBufferedImage, 0, 0, null)
-        } finally {
-            graphics2.dispose()
         }
     }
 
     protected open fun place(word: Word, start: Point): Boolean {
-        val graphics = bufferedImage.graphics
-        try {
-            val maxRadius = computeRadius(dimension, start)
-            val position = word.position
+        if (word.dimension.width > dimension.width || word.dimension.height > dimension.height) return false
+        val maxRadius = computeRadius(dimension, start)
+        val position = word.position
 
-            var r = 0
-            while (r < maxRadius) {
-                var x = max(-start.x, -r)
-                while (x <= min(r, dimension.width - start.x - 1)) {
-                    position.x = start.x + x
+        var r = 0
+        while (r < maxRadius) {
+            var x = max(-start.x, -r)
+            while (x <= min(r, dimension.width - start.x - 1)) {
+                position.x = start.x + x
 
-                    val offset = sqrt((r * r - x * x).toDouble()).toInt()
+                val offset = sqrt((r * r - x * x).toDouble()).toInt()
 
-                    position.y = start.y + offset
-                    if (position.y >= 0 && position.y < dimension.height && canPlace(word)) {
-                        collisionRaster.mask(word.collisionRaster, position)
-                        graphics.drawImage(word.bufferedImage, position.x, position.y, null)
-                        return true
-                    }
-
-                    position.y = start.y - offset
-                    if (offset != 0 && position.y >= 0 && position.y < dimension.height && canPlace(word)) {
-                        collisionRaster.mask(word.collisionRaster, position)
-                        graphics.drawImage(word.bufferedImage, position.x, position.y, null)
-                        return true
-                    }
-                    x++
+                position.y = start.y + offset
+                if (position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                    collisionRaster.mask(word.collisionRaster, position)
+                    placedWords.add(word.snapshot())
+                    return true
                 }
-                r += 2
-            }
 
-            return false
-        } finally {
-            graphics.dispose()
+                position.y = start.y - offset
+                if (offset != 0 && position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                    collisionRaster.mask(word.collisionRaster, position)
+                    placedWords.add(word.snapshot())
+                    return true
+                }
+                x++
+            }
+            r += 2
         }
+
+        return false
+    }
+
+    protected fun recordSkipped(word: Word) {
+        skipped.add(word)
+        val reason = if (word.dimension.width > dimension.width || word.dimension.height > dimension.height) {
+            SkipReason.TOO_LARGE
+        } else {
+            SkipReason.NO_SPACE
+        }
+        skippedWords.add(SkippedWord(word.word, word.frequency, reason))
     }
 
     private fun canPlace(word: Word): Boolean {
@@ -191,10 +210,16 @@ open class WordCloud(
     }
 
     protected open fun buildWords(wordFrequencies: List<WordFrequency>, colorPalette: ColorPalette): List<Word> {
+        // Palette cursors belong to this build, not to shared configuration.
+        val palette = ColorPalette(colorPalette.colors)
+        require(palette.colors.isNotEmpty()) { "A color palette must contain at least one color" }
+        for (frequency in wordFrequencies.filter { it.word.isBlank() }) {
+            skippedWords.add(SkippedWord(frequency.word, frequency.frequency, SkipReason.BLANK_TEXT))
+        }
         val maxFrequency = maxFrequency(wordFrequencies)
         return wordFrequencies
-            .filter { it.word.isNotEmpty() }
-            .map { buildWord(it, maxFrequency, colorPalette) }
+            .filter { it.word.isNotBlank() }
+            .map { buildWord(it, maxFrequency, palette) }
     }
 
     private fun buildWord(wordFrequency: WordFrequency, maxFrequency: Int, colorPalette: ColorPalette): Word {
@@ -204,12 +229,14 @@ open class WordCloud(
 
             val frequency = wordFrequency.frequency
             val fontHeight = fontScalar.scale(frequency, maxFrequency)
+            require(fontHeight.isFinite() && fontHeight > 0) { "Font size must be finite and positive" }
             val wordFont = wordFrequency.font ?: kumoFont
             val font = wordFont.font.deriveFont(fontHeight)
             val fontMetrics = graphics.getFontMetrics(font)
 
-            val theta = angleGenerator.randomNext()
-            val word = Word(wordFrequency.word, colorPalette.next(), fontMetrics, collisionChecker, theta)
+            val theta = angleGenerator.randomNext(random)
+            val color = if (randomColors) colorPalette.randomNext(random) else colorPalette.next()
+            val word = Word(wordFrequency.word, color, fontMetrics, collisionChecker, theta, frequency)
 
             if (padding > 0) {
                 padder.pad(word, padding)

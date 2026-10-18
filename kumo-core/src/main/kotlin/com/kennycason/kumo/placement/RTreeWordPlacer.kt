@@ -21,10 +21,7 @@ class RTreeWordPlacer : RectangleWordPlacer {
             word.position.getY() + word.dimension.getHeight()
         )
 
-        val results = placedWordRTree.search(wordRectangle)
-        val matches = results.count().toBlocking().single()
-
-        if (matches > 0) return false
+        if (!placedWordRTree.search(wordRectangle).isEmpty().toBlocking().single()) return false
 
         placedWordRTree = placedWordRTree.add(word.word, wordRectangle)
         return true

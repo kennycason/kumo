@@ -42,6 +42,10 @@ class CollisionRaster {
         data.set(computeIndex(x, y))
     }
 
+    fun clear() {
+        data.clear()
+    }
+
     fun mask(collisionRaster: CollisionRaster, point: Point) {
         val maxHeight = min(point.y + collisionRaster.dimension.height, dimension.height)
         val maxWidth = min(point.x + collisionRaster.dimension.width, dimension.width)

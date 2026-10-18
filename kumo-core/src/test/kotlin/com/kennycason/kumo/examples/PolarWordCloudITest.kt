@@ -27,8 +27,8 @@ class PolarWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 4
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(990, 618)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT)
@@ -49,8 +49,8 @@ class PolarWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 4
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(600, 600)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)
@@ -70,8 +70,8 @@ class PolarWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 4
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(800, 600)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)
@@ -91,8 +91,8 @@ class PolarWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 4
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/tidy_cat_litter_positive.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/tidy_cat_litter_negative.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/tidy_cat_litter_positive.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/tidy_cat_litter_negative.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(600, 600)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)

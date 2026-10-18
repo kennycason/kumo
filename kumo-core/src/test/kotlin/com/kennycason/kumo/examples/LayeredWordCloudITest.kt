@@ -24,8 +24,8 @@ class LayeredWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 386)
         val layeredWordCloud = LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT)
 
@@ -58,8 +58,8 @@ class LayeredWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/haskell_hate.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/haskell_love.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/haskell_hate.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/haskell_love.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 424)
         val layeredWordCloud = LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT)
         layeredWordCloud.backgroundColor = Color.WHITE
@@ -93,10 +93,10 @@ class LayeredWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 3
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/pho_history.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/pho_history_viet.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies3 = getInputStream("text/pho_recipee.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies4 = getInputStream("text/pho_chopsticks.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/pho_history.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/pho_history_viet.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies3 = getInputStream("text/pho_recipee.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies4 = getInputStream("text/pho_chopsticks.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(1000, 976)
         val layeredWordCloud = LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT)

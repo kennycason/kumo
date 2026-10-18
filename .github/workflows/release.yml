@@ -39,7 +39,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Set release version
-        run: mvn -B versions:set -DnewVersion=${{ github.event.inputs.release-version }} -DgenerateBackupPoms=false
+        run: mvn -B -Pbenchmarks versions:set -DnewVersion=${{ github.event.inputs.release-version }} -DgenerateBackupPoms=false
 
       - name: Build and test
         run: mvn -B clean verify -Djava.awt.headless=true
@@ -52,7 +52,7 @@ jobs:
 
       - name: Set next development version
         run: |
-          mvn -B versions:set -DnewVersion=${{ github.event.inputs.next-version }} -DgenerateBackupPoms=false
+          mvn -B -Pbenchmarks versions:set -DnewVersion=${{ github.event.inputs.next-version }} -DgenerateBackupPoms=false
           git add -A
           git commit -m "Prepare next development version ${{ github.event.inputs.next-version }}"
 

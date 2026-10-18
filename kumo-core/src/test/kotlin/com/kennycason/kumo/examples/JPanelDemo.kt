@@ -41,7 +41,7 @@ class JPanelDemo : JPanel() {
             frequencyAnalyzer.wordFrequenciesToReturn = 300
             frequencyAnalyzer.minWordLength = 5
 
-            val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+            val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
             val dimension = Dimension(500, 312)
             val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
             wordCloud.padding = 1

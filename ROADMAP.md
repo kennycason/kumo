@@ -1,6 +1,6 @@
 # Kumo Kotlin roadmap
 
-The Kotlin migration branch now incorporates the upstream collision-cache optimization. Future development should prioritize a layout result API, reproducible builds, and measured improvements to placement quality and performance.
+The Kotlin migration branch incorporates the upstream collision-cache optimization. The layout-first Kotlin API, seeded generation, repeat-build resets, explicit analyzer methods, and short-circuit R-tree queries are now implemented. Further work should focus on measured placement quality and performance improvements.
 
 ## Migration merge conflict resolved
 
@@ -21,26 +21,28 @@ The Kotlin port preserves the `lastHitCache` behavior from the [upstream Java im
 
 Java 11 verification passed with `mvn -B clean verify -Djava.awt.headless=true`: 51 tests passed, no failures or errors, and one previously disabled rotation test remained skipped. All modules packaged successfully.
 
-## Return a layout result and separate rendering
+## Implemented: layout results and separate rendering
 
-Have layout generation return a `CloudLayout` containing placed words, positions, sizes, rotations, colors, bounds, and reasons for skipped words. Keep build state separate from configuration and rendering.
+`wordcloud(words) { size(1000, 700); seed = 42; padding = 2 }` returns a `CloudLayout` snapshot containing placed words, positions, fonts, rotations, colors, bounds, and reasons for skipped words. Its `writePng` and `writeSvg` methods render without repeating placement. SVG exports actual vector glyph outlines rather than embedded raster images or font-dependent text.
 
-This would support SVG export, hit testing, recoloring without repacking, and interactive previews. A Kotlin DSL could provide a convenient configuration layer over that API.
+The existing `WordCloud` API exposes the latest result as `layout`; older snapshots and their rendering remain independent of subsequent builds. Hit testing, recoloring without repacking, and interactive previews can build on this result API later.
 
-## Make layouts reproducible and builds independent
+## Implemented: reproducible and independent builds
 
-- Supply one seed that controls random placement, rotation, and color selection.
-- Define repeat-build behavior. Currently, `WordCloud.build()` resets the word placer and skipped set but does not clear its existing image or collision raster.
-- Keep occupancy, palette cursors, and other working state local to a build. Reproducible pixel output also requires consistent fonts and rendering settings.
-- Use fixed inputs and seeds for visual regression tests and performance comparisons.
+- A build seed controls built-in random placement, rotation, and optional random colors. Palette cycling starts fresh for every build.
+- Standard and polar builds reset their occupancy, image, placed words, skipped words, and random source. Building again replaces rather than accumulates a layout.
+- Reproducible pixel output still requires consistent fonts and rendering settings. Custom random strategies must use the supplied build random source.
+- Regression tests cover seeded output, repeat builds, changed background masks, independent snapshots, and PNG/SVG export.
+
+The layout API passes full `clean verify` builds on Java 11, 17, and 21: 76 tests passed and the one pre-existing disabled rotation test remained skipped on each version.
 
 ## Measure and improve performance
 
-- Replace the R-tree collision query's full match count with an existence query that stops at the first match.
-- Prepare and place word images incrementally instead of constructing all word images before placement begins.
-- Compare the current `BitSet` traversal with packed row operations using bitwise AND and OR for collision checks and mask updates.
+- Implemented: R-tree collision queries stop at the first match rather than counting all intersections.
+- Deferred by request: prepare and place word images incrementally instead of constructing all word images before placement begins (`buildWords`).
+- Follow-up after the API updates: compare the current `BitSet` traversal with packed row operations using bitwise AND and OR for collision checks and mask updates.
 - Evaluate caching font metrics and reusable word masks where repeated inputs or placement retries justify it.
-- Establish [JMH benchmarks](https://github.com/openjdk/jmh) across word counts, canvas sizes, rotations, and sparse and dense shapes. Measure runtime, allocations, peak memory, and placement success. Speed improvements should preserve layout quality.
+- Implemented: opt-in [JMH benchmarks and baseline/report tooling](PERF.md) across word counts, canvas sizes, rotations, and sparse/dense shapes. Layout, encoding, SVG first/repeat export, and analyzer measurements are separate. Reports record time, allocation, and placement quality; peak-memory profiling remains future work.
 
 [d3-cloud](https://github.com/jasondavies/d3-cloud) is a useful reference for sprite-mask-based word placement.
 
@@ -54,8 +56,8 @@ This would support SVG export, hit testing, recoloring without repacking, and in
 
 ## Clarify text analysis and support larger inputs
 
-- Distinguish raw text, file paths, and readers with APIs such as `analyzeText`, `analyzeFile`, and `analyze(reader)`. Currently, `load(String)` means a file path.
-- Count tokens while reading instead of collecting all input lines first. The frequency dictionary still needs space for distinct tokens.
+- Implemented: `analyzeText`, `analyzeFile`, `analyze(reader)`, `analyze(inputStream)`, `analyzeTexts`, `analyzeUrl`, and `topFrequencies`. The old `load` methods are deprecated aliases.
+- Implemented: count tokens while reading instead of collecting all input lines first. The frequency dictionary still needs space for distinct tokens.
 - Evaluate selecting the top words with a bounded heap instead of sorting the full vocabulary.
 - Improve handling of tabs, Unicode whitespace, word boundaries, and language-specific tokenization. The default tokenizer currently splits ordinary spaces only.
 
@@ -67,7 +69,7 @@ Independent layers and word-image preparation are candidates for parallel execut
 
 ## Explore new features
 
-- SVG export and interactive previews built from the layout result.
+- SVG export is implemented; interactive previews can build on the layout result.
 - Word colors sampled from a background image.
 - Pinned words and preserving existing positions when a cloud is updated.
 - Fractional weights for relevance scores and TF-IDF, alongside frequency counts.

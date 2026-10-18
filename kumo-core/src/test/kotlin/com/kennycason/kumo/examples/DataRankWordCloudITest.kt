@@ -23,7 +23,7 @@ class DataRankWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 2
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(990, 618)
         val layeredWordCloud = LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT)

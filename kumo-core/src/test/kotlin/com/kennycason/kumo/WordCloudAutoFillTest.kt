@@ -43,7 +43,7 @@ class WordCloudAutoFillTest : Logging {
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = getInputStream("text/hello_world.txt").use { frequencyAnalyzer.load(it, true) }
+        val wordFrequencies = getInputStream("text/hello_world.txt").use { frequencyAnalyzer.analyze(it, true) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -65,7 +65,7 @@ class WordCloudAutoFillTest : Logging {
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = getInputStream("text/empty.txt").use { frequencyAnalyzer.load(it, true, "Dararara") }
+        val wordFrequencies = getInputStream("text/empty.txt").use { frequencyAnalyzer.analyze(it, true, "Dararara") }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -91,7 +91,7 @@ class WordCloudAutoFillTest : Logging {
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = getInputStream("text/empty.txt").use { frequencyAnalyzer.load(it, true) }
+        val wordFrequencies = getInputStream("text/empty.txt").use { frequencyAnalyzer.analyze(it, true) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -117,7 +117,7 @@ class WordCloudAutoFillTest : Logging {
         val height = 1000
         val texts = mutableListOf("hello", "world", "hello world")
 
-        val wordFrequencies = frequencyAnalyzer.load(texts, true)
+        val wordFrequencies = frequencyAnalyzer.analyzeTexts(texts, true)
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -141,7 +141,7 @@ class WordCloudAutoFillTest : Logging {
         frequencyAnalyzer.stopWords = loadStopWords()
         val width = 500
         val height = 900
-        val wordFrequencies = getInputStream("text/hello_world.txt").use { frequencyAnalyzer.load(it, true) }
+        val wordFrequencies = getInputStream("text/hello_world.txt").use { frequencyAnalyzer.analyze(it, true) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -166,7 +166,7 @@ class WordCloudAutoFillTest : Logging {
         val height = 400
         val texts = mutableListOf("hellohellohello", "worldworldworld")
 
-        val wordFrequencies = frequencyAnalyzer.load(texts, true)
+        val wordFrequencies = frequencyAnalyzer.analyzeTexts(texts, true)
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1

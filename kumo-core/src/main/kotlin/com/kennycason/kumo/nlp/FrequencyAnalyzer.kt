@@ -13,6 +13,7 @@ import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer
 import com.kennycason.kumo.nlp.tokenizer.core.WhiteSpaceWordTokenizer
 import java.io.File
 import java.io.InputStream
+import java.io.Reader
 import java.net.URL
 import org.jsoup.Jsoup
 
@@ -33,28 +34,74 @@ class FrequencyAnalyzer {
     var characterEncoding = DEFAULT_ENCODING
     var urlLoadTimeout = DEFAULT_URL_LOAD_TIMEOUT
 
-    /** Reads from a caller-owned stream without closing it. */
-    fun load(
+    /** Analyzes raw text, not a file path. */
+    fun analyzeText(
+        text: String,
+        autoFill: Boolean = false,
+        autoFillWord: String = "nothing"
+    ): List<WordFrequency> = analyzeLines(text.lineSequence(), autoFill, autoFillWord)
+
+    /** Reads incrementally without closing the caller's reader. */
+    fun analyze(
+        reader: Reader,
+        autoFill: Boolean = false,
+        autoFillWord: String = "nothing"
+    ): List<WordFrequency> = analyzeLines(reader.buffered().lineSequence(), autoFill, autoFillWord)
+
+    /** Reads incrementally without closing the caller's stream. */
+    fun analyze(
         inputStream: InputStream,
         autoFill: Boolean = false,
         autoFillWord: String = "nothing"
     ): List<WordFrequency> =
-        load(inputStream.bufferedReader(charset(characterEncoding)).lineSequence().toList(), autoFill, autoFillWord)
+        analyze(inputStream.reader(charset(characterEncoding)), autoFill, autoFillWord)
 
-    fun load(file: File): List<WordFrequency> = file.inputStream().use { load(it) }
+    fun analyzeFile(file: File): List<WordFrequency> = file.inputStream().use { analyze(it) }
 
-    fun load(filePath: String): List<WordFrequency> = load(File(filePath))
+    fun analyzeFile(path: String): List<WordFrequency> = analyzeFile(File(path))
 
-    fun load(url: URL): List<WordFrequency> {
+    /** Fetches a page and analyzes its visible body text. */
+    fun analyzeUrl(url: URL): List<WordFrequency> {
         val doc = Jsoup.parse(url, urlLoadTimeout.toInt())
-        return load(listOf(doc.body().text()))
+        return analyzeText(doc.body().text())
     }
 
-    fun load(
-        texts: List<String>,
+    fun analyzeTexts(
+        texts: Iterable<String>,
         autoFill: Boolean = false,
         autoFillWord: String = "nothing"
+    ): List<WordFrequency> = analyzeLines(texts.asSequence().flatMap { it.lineSequence() }, autoFill, autoFillWord)
+
+    /** Selects the largest existing frequencies without tokenizing them again. */
+    fun topFrequencies(wordFrequencies: List<WordFrequency>): List<WordFrequency> =
+        takeTopFrequencies(wordFrequencies)
+
+    @Deprecated("Use analyze for streams", ReplaceWith("analyze(inputStream, autoFill, autoFillWord)"))
+    fun load(inputStream: InputStream, autoFill: Boolean = false, autoFillWord: String = "nothing"): List<WordFrequency> =
+        analyze(inputStream, autoFill, autoFillWord)
+
+    @Deprecated("Use analyzeFile", ReplaceWith("analyzeFile(file)"))
+    fun load(file: File): List<WordFrequency> = analyzeFile(file)
+
+    @Deprecated("Use analyzeFile for paths or analyzeText for raw text", ReplaceWith("analyzeFile(filePath)"))
+    fun load(filePath: String): List<WordFrequency> = analyzeFile(filePath)
+
+    @Deprecated("Use analyzeUrl", ReplaceWith("analyzeUrl(url)"))
+    fun load(url: URL): List<WordFrequency> = analyzeUrl(url)
+
+    @Deprecated("Use analyzeTexts", ReplaceWith("analyzeTexts(texts, autoFill, autoFillWord)"))
+    fun load(texts: List<String>, autoFill: Boolean = false, autoFillWord: String = "nothing"): List<WordFrequency> =
+        analyzeTexts(texts, autoFill, autoFillWord)
+
+    @Deprecated("Use topFrequencies", ReplaceWith("topFrequencies(wordFrequencies)"))
+    fun loadWordFrequencies(wordFrequencies: List<WordFrequency>): List<WordFrequency> = topFrequencies(wordFrequencies)
+
+    private fun analyzeLines(
+        texts: Sequence<String>,
+        autoFill: Boolean,
+        autoFillWord: String
     ): List<WordFrequency> {
+        require(!autoFill || autoFillWord.isNotBlank()) { "The auto-fill word must not be blank" }
         val wordFrequencies = mutableListOf<WordFrequency>()
         val cloud = buildWordFrequencies(texts, wordTokenizer)
         if (!autoFill) {
@@ -77,10 +124,7 @@ class FrequencyAnalyzer {
         return takeTopFrequencies(wordFrequencies)
     }
 
-    fun loadWordFrequencies(wordFrequencies: List<WordFrequency>): List<WordFrequency> =
-        takeTopFrequencies(wordFrequencies)
-
-    private fun buildWordFrequencies(texts: List<String>, tokenizer: WordTokenizer): MutableMap<String, Int> {
+    private fun buildWordFrequencies(texts: Sequence<String>, tokenizer: WordTokenizer): MutableMap<String, Int> {
         val filter = buildFilter()
         val counts = mutableMapOf<String, Int>()
         for (text in texts) {

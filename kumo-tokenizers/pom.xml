@@ -9,10 +9,6 @@
 
     <artifactId>kumo-tokenizers</artifactId>
 
-    <properties>
-        <automatic.module.name>${project.groupId}.kumo.tokenizers</automatic.module.name>
-    </properties>
-
     <dependencies>
         <!-- kotlin -->
         <dependency>

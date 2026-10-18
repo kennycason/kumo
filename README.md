@@ -10,6 +10,8 @@ UPDATE: 2025-06-04. I plan on coming back to this project sometime to address is
 
 See the [Kotlin roadmap](ROADMAP.md) for development ideas and pending migration follow-ups.
 
+See [PERF.md](PERF.md) for repeatable, opt-in performance benchmarks, saved baselines, and comparison reports.
+
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo-core/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.kennycason/kumo-core)  [![CircleCI](https://circleci.com/gh/kennycason/kumo.svg?style=svg)](https://circleci.com/gh/kennycason/kumo)<br/>
 
 ### Current Features
@@ -100,6 +102,47 @@ Include `kumo-tokenizers` if you want Chinese serialization. More languages to c
 
 The current development branch targets Kotlin on Java 11 or newer. These examples use the Kotlin API in development for 1.29; the Maven coordinates above refer to the published 1.28 release. The Kotlin API uses properties and default arguments and does not preserve every previous Java call signature.
 
+#### Layout-first Kotlin API
+
+```kotlin
+import com.kennycason.kumo.wordcloud
+import com.kennycason.kumo.nlp.FrequencyAnalyzer
+
+val words = FrequencyAnalyzer().analyzeText("Kotlin Kotlin clouds layouts")
+val wordcloud = wordcloud(words) {
+    size(1000, 700)
+    seed = 42
+    padding = 2
+}
+
+wordcloud.writePng("cloud.png")
+wordcloud.writeSvg("cloud.svg")
+```
+
+See [LayoutWordCloudITest](kumo-core/src/test/kotlin/com/kennycason/kumo/examples/LayoutWordCloudITest.kt) for a runnable example that exports both formats from a larger text input.
+
+The result is a `CloudLayout` snapshot, not a mutable builder. `words` exposes each placed word's frequency, font, color, rotation (radians), and pixel bounds, including padding. `skipped` explains blank text, oversized words, or words that could not fit. Exporting never repacks the words.
+
+PNG and SVG can also be written to a `File` or caller-owned `OutputStream`. Use `toBufferedImage()`, `toPng()`, or `toSvg()` for in-memory output. Export errors propagate to the caller. SVG uses vector glyph outlines, so viewers do not need the original fonts installed.
+
+Configure `font`, `fontScalar`, `colors`, `angles`, `background`, `backgroundColor`, `collisionMode`, and `wordStart` in the same block. Set `backgroundColor = null` for transparency or `randomColors = true` for seeded random palette selection; colors otherwise cycle from the beginning on each build.
+
+A seed controls built-in placement, rotation, and random colors. Identical raster output also requires the same fonts and rendering environment. Custom starting strategies can override the `getStartingPoint(dimension, word, random)` overload to use the build's random source. Reusing a legacy `WordCloud` now starts a fresh layout on every `build`; previous `layout` snapshots remain unchanged.
+
+#### Explicit text analysis
+
+```kotlin
+import java.io.File
+
+val analyzer = FrequencyAnalyzer()
+val fromText = analyzer.analyzeText("cat cat dog")
+val fromFile = analyzer.analyzeFile("text/datarank.txt")
+val fromReader = File("text/datarank.txt").bufferedReader().use { analyzer.analyze(it) }
+val fromTexts = analyzer.analyzeTexts(listOf("cat cat", "dog"))
+```
+
+`analyze(reader)` and `analyze(inputStream)` count lines incrementally and leave caller-owned resources open. `analyzeFile` owns and closes its file stream. `analyzeUrl` analyzes a web page's visible body text, and `topFrequencies` selects from counts you already have. The old `load` overloads remain as deprecated aliases.
+
 Example to generate a Word Cloud on top of an image.
 
 ```kotlin
@@ -108,7 +151,7 @@ frequencyAnalyzer.wordFrequenciesToReturn = 300
 frequencyAnalyzer.minWordLength = 4
 frequencyAnalyzer.stopWords = loadStopWords()
 
-val wordFrequencies = frequencyAnalyzer.load("text/datarank.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/datarank.txt")
 val dimension = Dimension(500, 312)
 val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
 wordCloud.padding = 2
@@ -123,7 +166,7 @@ Example to generate a circular Word Cloud.
 
 ```kotlin
 val frequencyAnalyzer = FrequencyAnalyzer()
-val wordFrequencies = frequencyAnalyzer.load("text/my_text_file.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/my_text_file.txt")
 val dimension = Dimension(600, 600)
 val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
 wordCloud.padding = 2
@@ -138,7 +181,7 @@ Example to generate a rectangle Word Cloud
 
 ```kotlin
 val frequencyAnalyzer = FrequencyAnalyzer()
-val wordFrequencies = frequencyAnalyzer.load("text/my_text_file.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/my_text_file.txt")
 val dimension = Dimension(600, 600)
 val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
 wordCloud.padding = 0
@@ -156,7 +199,7 @@ Example using Linear Color Gradients
 val frequencyAnalyzer = FrequencyAnalyzer()
 frequencyAnalyzer.wordFrequenciesToReturn = 500
 frequencyAnalyzer.minWordLength = 4
-val wordFrequencies = frequencyAnalyzer.load("text/my_text_file.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/my_text_file.txt")
 val dimension = Dimension(600, 600)
 val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
 wordCloud.padding = 2
@@ -176,7 +219,7 @@ frequencyAnalyzer.wordFrequenciesToReturn = 600
 frequencyAnalyzer.minWordLength = 2
 frequencyAnalyzer.wordTokenizer = ChineseWordTokenizer()
 
-val wordFrequencies = frequencyAnalyzer.load("text/chinese_language.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/chinese_language.txt")
 val dimension = Dimension(600, 600)
 val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
 wordCloud.padding = 2
@@ -195,8 +238,8 @@ frequencyAnalyzer.wordFrequenciesToReturn = 750
 frequencyAnalyzer.minWordLength = 4
 frequencyAnalyzer.stopWords = loadStopWords()
 
-val wordFrequencies = frequencyAnalyzer.load("text/new_york_positive.txt")
-val wordFrequencies2 = frequencyAnalyzer.load("text/new_york_negative.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/new_york_positive.txt")
+val wordFrequencies2 = frequencyAnalyzer.analyzeFile("text/new_york_negative.txt")
 val dimension = Dimension(600, 600)
 val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)
 wordCloud.padding = 2
@@ -215,8 +258,8 @@ frequencyAnalyzer.wordFrequenciesToReturn = 300
 frequencyAnalyzer.minWordLength = 5
 frequencyAnalyzer.stopWords = loadStopWords()
 
-val wordFrequencies = frequencyAnalyzer.load("text/new_york_positive.txt")
-val wordFrequencies2 = frequencyAnalyzer.load("text/new_york_negative.txt")
+val wordFrequencies = frequencyAnalyzer.analyzeFile("text/new_york_positive.txt")
+val wordFrequencies2 = frequencyAnalyzer.analyzeFile("text/new_york_negative.txt")
 val dimension = Dimension(600, 386)
 val layeredWordCloud = LayeredWordCloud(2, dimension, CollisionMode.PIXEL_PERFECT)
 
@@ -259,7 +302,7 @@ for (layer in 0 until cloud.layers) {
         minWordLength = 3
         normalizers = listOf(layerNormalizers[layer])
         wordFrequenciesToReturn = 1000
-    }.load("text/english_tide.txt")
+    }.analyzeFile("text/english_tide.txt")
 
     cloud[layer].apply {
         angleGenerator = AngleGenerator(0)
@@ -277,7 +320,7 @@ cloud.writeToFile("parallelBubbleText.png")
 
 Refer to JPanelDemo.kt for an example integrating into a JPanel.
 
-In IntelliJ IDEA, select the shared **JPanelDemo (classpath)** run configuration. It uses an Application configuration with the module path disabled. The Kotlin runner can mistake the JAR's automatic module name for a module in the compiled output directory and fail before the demo starts.
+In IntelliJ IDEA, reload the Maven project, then run `JPanelDemo.main` using the editor gutter as usual. No special run configuration is required. This project uses the classpath and intentionally omits `Automatic-Module-Name` declarations: the Kotlin runner can otherwise mistake ordinary class directories for JPMS modules ([KTIJ-39161](https://youtrack.jetbrains.com/issue/KTIJ-39161)). Packaged JARs no longer advertise the old explicit JPMS names. The shared **JPanelDemo (classpath)** configuration remains available as an optional shortcut.
 
 
 ### Word Frequency File / Analyzer

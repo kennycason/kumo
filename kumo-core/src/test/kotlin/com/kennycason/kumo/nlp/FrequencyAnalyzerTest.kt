@@ -22,7 +22,7 @@ class FrequencyAnalyzerTest {
             }
         }
         input.use {
-            val frequencies = FrequencyAnalyzer().load(it)
+            val frequencies = FrequencyAnalyzer().analyze(it)
             expectThat(frequencies.map { frequency -> frequency.word to frequency.frequency })
                 .containsExactly("cat" to 2, "dog" to 1)
             expectThat(input.closed).isFalse()
@@ -32,13 +32,13 @@ class FrequencyAnalyzerTest {
     @Test
     fun customAutoFillMatchesForTextAndStreamInputs() {
         val analyzer = FrequencyAnalyzer().apply { wordFrequenciesToReturn = 6 }
-        val fromText = analyzer.load(emptyList(), autoFill = true, autoFillWord = "cat")
+        val fromText = analyzer.analyzeTexts(emptyList(), autoFill = true, autoFillWord = "cat")
         val fromStream = "".byteInputStream().use {
-            analyzer.load(it, autoFill = true, autoFillWord = "cat")
+            analyzer.analyze(it, autoFill = true, autoFillWord = "cat")
         }
         expectThat(fromText.map { it.word }).containsExactly("cat", "cat", "cat")
         expectThat(fromStream.map { it.word }).containsExactly("cat", "cat", "cat")
-        expectThat(analyzer.load(emptyList())).isEmpty()
+        expectThat(analyzer.analyzeTexts(emptyList())).isEmpty()
     }
 
     @Test
@@ -47,7 +47,7 @@ class FrequencyAnalyzerTest {
         val analyzer = FrequencyAnalyzer().apply { this.stopWords = stopWords }
         stopWords.clear()
 
-        expectThat(analyzer.load(listOf("the cat")).map { it.word }).containsExactly("cat")
+        expectThat(analyzer.analyzeTexts(listOf("the cat")).map { it.word }).containsExactly("cat")
     }
 
     @Test
@@ -56,7 +56,7 @@ class FrequencyAnalyzerTest {
         frequencyAnalyzer.normalizers = listOf(Normalizer { it.replace("@", "") })
         frequencyAnalyzer.filters = listOf(Filter { "@" !in it })
 
-        val wordFrequencies = frequencyAnalyzer.load(listOf("@datarank"))
+        val wordFrequencies = frequencyAnalyzer.analyzeTexts(listOf("@datarank"))
         expectThat(wordFrequencies.size).isEqualTo(1)
         expectThat(wordFrequencies[0].word).isEqualTo("datarank")
     }
@@ -64,7 +64,7 @@ class FrequencyAnalyzerTest {
     @Test
     fun defaultTokenizerTrim() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("trim_test.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("trim_test.txt").use { frequencyAnalyzer.analyze(it) }
 
         val wordFrequencyMap = wordFrequencies.associateBy { it.word }
 
@@ -81,7 +81,7 @@ class FrequencyAnalyzerTest {
         frequencyAnalyzer.filters = emptyList()
         frequencyAnalyzer.normalizers = emptyList()
 
-        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("text/simplymeasured.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("text/simplymeasured.txt").use { frequencyAnalyzer.analyze(it) }
 
         val wordFrequencyMap = wordFrequencies.associateBy { it.word }
 
@@ -95,7 +95,7 @@ class FrequencyAnalyzerTest {
     @Test
     fun largeTextFileTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("text/simplymeasured.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("text/simplymeasured.txt").use { frequencyAnalyzer.analyze(it) }
 
         val wordFrequencyMap = wordFrequencies.associateBy { it.word }
 
@@ -113,7 +113,7 @@ class FrequencyAnalyzerTest {
         val frequencyAnalyzer = FrequencyAnalyzer()
         frequencyAnalyzer.stopWords = listOf("the", "and", "you").toSet()
 
-        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("text/simplymeasured.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("text/simplymeasured.txt").use { frequencyAnalyzer.analyze(it) }
 
         val wordFrequencyMap = wordFrequencies.associateBy { it.word }
 

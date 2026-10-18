@@ -23,7 +23,7 @@ class WordCloudNormalizersITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.normalizers += UpperCaseNormalizer()
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("https://kennycason.com"))
+        val wordFrequencies = frequencyAnalyzer.analyzeUrl(URL("https://kennycason.com"))
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
         wordCloud.padding = 0
@@ -42,7 +42,7 @@ class WordCloudNormalizersITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.normalizers += UpsideDownNormalizer()
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
+        val wordFrequencies = frequencyAnalyzer.analyzeUrl(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
         wordCloud.padding = 0
@@ -61,7 +61,7 @@ class WordCloudNormalizersITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.normalizers += StringToHexNormalizer()
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
+        val wordFrequencies = frequencyAnalyzer.analyzeUrl(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
         wordCloud.padding = 0
@@ -81,7 +81,7 @@ class WordCloudNormalizersITest : Logging {
         frequencyAnalyzer.filters = emptyList()
         frequencyAnalyzer.normalizers = emptyList()
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
+        val wordFrequencies = frequencyAnalyzer.analyzeUrl(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
         wordCloud.padding = 0
@@ -99,7 +99,7 @@ class WordCloudNormalizersITest : Logging {
         frequencyAnalyzer.wordFrequenciesToReturn = 750
         frequencyAnalyzer.normalizers += BubbleTextNormalizer()
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
+        val wordFrequencies = frequencyAnalyzer.analyzeUrl(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.RECTANGLE)
         wordCloud.padding = 0

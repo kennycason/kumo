@@ -4,7 +4,6 @@ import com.kennycason.kumo.palette.ColorPalette
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.Point
-import java.util.Random
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -31,6 +30,7 @@ class PolarWordCloud : WordCloud {
     }
 
     fun build(wordFrequencies: List<WordFrequency>, wordFrequencies2: List<WordFrequency>) {
+        resetBuildState()
         val sorted1 = wordFrequencies.sorted()
         val sorted2 = wordFrequencies2.sorted()
 
@@ -48,12 +48,12 @@ class PolarWordCloud : WordCloud {
             if (wordIterator.hasNext()) {
                 val word = wordIterator.next()
                 val startPosition = getStartPosition(pole1)
-                place(word, startPosition)
+                if (!place(word, startPosition)) recordSkipped(word)
             }
             if (wordIterator2.hasNext()) {
                 val word = wordIterator2.next()
                 val startPosition = getStartPosition(pole2)
-                place(word, startPosition)
+                if (!place(word, startPosition)) recordSkipped(word)
             }
         }
 
@@ -65,8 +65,8 @@ class PolarWordCloud : WordCloud {
             val blurX = dimension.width / 2
             val blurY = dimension.height / 2
             Point(
-                pole.x + -blurX + RANDOM.nextInt(blurX * 2),
-                pole.y + -blurY + RANDOM.nextInt(blurY * 2)
+                pole.x + -blurX + random.nextInt(maxOf(1, blurX * 2)),
+                pole.y + -blurY + random.nextInt(maxOf(1, blurY * 2))
             )
         }
         PolarBlendMode.EVEN -> pole
@@ -77,10 +77,10 @@ class PolarWordCloud : WordCloud {
         var best2 = Point(dimension.width, dimension.height)
         var maxDistance = 0.0
         for (i in 0 until 100) {
-            val x = RANDOM.nextInt(dimension.width)
-            val y = RANDOM.nextInt(dimension.height)
-            val x2 = RANDOM.nextInt(dimension.width)
-            val y2 = RANDOM.nextInt(dimension.height)
+            val x = random.nextInt(dimension.width)
+            val y = random.nextInt(dimension.height)
+            val x2 = random.nextInt(dimension.width)
+            val y2 = random.nextInt(dimension.height)
             val distance = sqrt((x - x2).toDouble().pow(2) + (y - y2).toDouble().pow(2))
             if (distance > maxDistance) {
                 maxDistance = distance
@@ -92,8 +92,6 @@ class PolarWordCloud : WordCloud {
     }
 
     companion object {
-        private val RANDOM = Random()
-
         private val DEFAULT_POSITIVE_COLORS = ColorPalette(
             Color(0x1BE000), Color(0x1AC902), Color(0x15B000),
             Color(0x129400), Color(0x0F7A00), Color(0x0B5E00)

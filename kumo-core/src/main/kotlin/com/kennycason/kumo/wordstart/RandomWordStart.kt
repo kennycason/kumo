@@ -6,15 +6,14 @@ import java.awt.Point
 import java.util.Random
 import kotlin.math.max
 
-class RandomWordStart : WordStartStrategy {
+class RandomWordStart(private val random: Random = Random()) : WordStartStrategy {
 
-    override fun getStartingPoint(dimension: Dimension, word: Word): Point {
-        val startX = RANDOM.nextInt(max(dimension.width - word.dimension.width, dimension.width))
-        val startY = RANDOM.nextInt(max(dimension.height - word.dimension.height, dimension.height))
+    override fun getStartingPoint(dimension: Dimension, word: Word): Point =
+        getStartingPoint(dimension, word, random)
+
+    override fun getStartingPoint(dimension: Dimension, word: Word, random: Random): Point {
+        val startX = random.nextInt(max(dimension.width - word.dimension.width, dimension.width))
+        val startY = random.nextInt(max(dimension.height - word.dimension.height, dimension.height))
         return Point(startX, startY)
-    }
-
-    companion object {
-        private val RANDOM = Random()
     }
 }

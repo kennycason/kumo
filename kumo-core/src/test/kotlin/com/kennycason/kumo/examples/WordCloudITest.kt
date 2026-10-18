@@ -87,7 +87,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.wordFrequenciesToReturn = 1000
         frequencyAnalyzer.minWordLength = 1
 
-        val wordFrequencies = frequencyAnalyzer.load(URL("http://en.wikipedia.org/wiki/Main_Page"))
+        val wordFrequencies = frequencyAnalyzer.analyzeUrl(URL("http://en.wikipedia.org/wiki/Main_Page"))
         val dimension = Dimension(1000, 1000)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -106,7 +106,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(990, 618)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -126,7 +126,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(500, 312)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -144,7 +144,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(500, 312)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -163,7 +163,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(990, 618)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -182,7 +182,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -202,7 +202,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(1000, 1000)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -222,7 +222,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -243,7 +243,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/tidy_cat_litter_top.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/tidy_cat_litter_top.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -266,7 +266,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(990, 618)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -285,7 +285,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.wordFrequenciesToReturn = 5000
         frequencyAnalyzer.minWordLength = 2
 
-        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -303,7 +303,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.wordFrequenciesToReturn = 600
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
-        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -322,7 +322,7 @@ class WordCloudITest : Logging {
         frequencyAnalyzer.wordFrequenciesToReturn = 250
         frequencyAnalyzer.minWordLength = 5
         frequencyAnalyzer.stopWords = loadStopWords()
-        val wordFrequencies = getInputStream("text/sample.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/sample.txt").use { frequencyAnalyzer.analyze(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2

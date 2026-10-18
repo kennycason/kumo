@@ -13,6 +13,7 @@ kumo-core/output_test/*jpg
 kumo-core/output_test/*jpeg
 kumo-core/output_test/*gif
 kumo-core/output_test/*bmp
+kumo-core/output_test/*svg
 *.log
 *.log.gz
 .idea/*

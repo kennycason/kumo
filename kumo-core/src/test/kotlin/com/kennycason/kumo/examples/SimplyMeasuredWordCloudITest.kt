@@ -23,9 +23,9 @@ class SimplyMeasuredWordCloudITest : Logging {
         frequencyAnalyzer.minWordLength = 3
         frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = getInputStream("text/simplymeasured.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies2 = getInputStream("text/simplymeasured.txt").use { frequencyAnalyzer.load(it) }
-        val wordFrequencies3 = getInputStream("text/simplymeasured.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies = getInputStream("text/simplymeasured.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies2 = getInputStream("text/simplymeasured.txt").use { frequencyAnalyzer.analyze(it) }
+        val wordFrequencies3 = getInputStream("text/simplymeasured.txt").use { frequencyAnalyzer.analyze(it) }
 
         val dimension = Dimension(600, 454)
         val layeredWordCloud = LayeredWordCloud(4, dimension, CollisionMode.PIXEL_PERFECT)
