@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="JPanelDemo (classpath)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.kennycason.kumo.examples.JPanelDemo" />
+    <module name="kumo-core" />
+    <option name="USE_MODULE_PATH" value="false" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

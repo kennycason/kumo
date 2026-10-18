@@ -1,0 +1,4 @@
+<configuration>
+    <!-- Logging and console I/O must not dominate layout measurements. -->
+    <root level="OFF" />
+</configuration>
