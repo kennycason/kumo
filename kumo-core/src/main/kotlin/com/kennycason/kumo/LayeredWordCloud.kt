@@ -72,11 +72,15 @@ open class LayeredWordCloud(
     fun getBufferedImage(): BufferedImage {
         val bufferedImage = BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB)
         val graphics = bufferedImage.graphics
-        graphics.color = backgroundColor
-        graphics.fillRect(0, 0, dimension.width, dimension.height)
+        try {
+            graphics.color = backgroundColor
+            graphics.fillRect(0, 0, dimension.width, dimension.height)
 
-        for (wordCloud in wordClouds) {
-            graphics.drawImage(wordCloud.bufferedImage, 0, 0, null)
+            for (wordCloud in wordClouds) {
+                graphics.drawImage(wordCloud.bufferedImage, 0, 0, null)
+            }
+        } finally {
+            graphics.dispose()
         }
 
         return bufferedImage

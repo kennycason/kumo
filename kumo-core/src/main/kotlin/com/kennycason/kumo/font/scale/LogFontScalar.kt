@@ -9,9 +9,9 @@ class LogFontScalar(private val minFont: Int, private val maxFont: Int) : FontSc
     }
 
     override fun scale(value: Int, maxValue: Int): Float {
-        val leftSpan = if (maxValue == 1) 1.0 else Math.log(maxValue.toDouble())
+        val leftSpan = if (maxValue == 1) 1.0 else ln(maxValue.toDouble())
         val rightSpan = (maxFont - minFont).toDouble()
-        val valueScaled = (if (value == 1) 1.0 else Math.log(value.toDouble())) / leftSpan
+        val valueScaled = (if (value == 1) 1.0 else ln(value.toDouble())) / leftSpan
         return (minFont + (valueScaled * rightSpan)).toFloat()
     }
 }

@@ -31,7 +31,11 @@ object ImageProcessor {
         val bufferedImage = BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR)
 
         val graphics = bufferedImage.graphics
-        graphics.drawImage(scaledImage, 0, 0, null)
+        try {
+            graphics.drawImage(scaledImage, 0, 0, null)
+        } finally {
+            graphics.dispose()
+        }
 
         val outputStream = ByteArrayOutputStream()
         ImageIO.write(bufferedImage, imageType, outputStream)

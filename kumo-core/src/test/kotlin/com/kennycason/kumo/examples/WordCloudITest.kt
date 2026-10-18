@@ -13,7 +13,7 @@ import com.kennycason.kumo.font.scale.SqrtFontScalar
 import com.kennycason.kumo.image.AngleGenerator
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.palette.ColorPalette
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.kennycason.kumo.logging.Logging
 import org.apache.commons.io.IOUtils
 import org.junit.Ignore
 import org.junit.Test
@@ -25,9 +25,20 @@ import java.io.InputStream
 import java.net.URL
 import java.util.Random
 
-private val logger = KotlinLogging.logger {}
+class WordCloudITest : Logging {
 
-class WordCloudITest {
+    private fun loadStopWords(): Set<String> {
+        try {
+            val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
+            return HashSet(lines)
+        } catch (e: IOException) {
+            logger.error(e) { e.message }
+        }
+        return emptySet()
+    }
+
+    private fun getInputStream(path: String): InputStream =
+        Thread.currentThread().contextClassLoader.getResourceAsStream(path)
 
     companion object {
         private val RANDOM = Random()
@@ -40,30 +51,9 @@ class WordCloudITest {
         }
 
         private fun buildWordFrequencies(): List<WordFrequency> {
-            val pokemonNames = getPokemonNames()
-            val wordFrequencies = mutableListOf<WordFrequency>()
-            for (pokemon in pokemonNames) {
-                wordFrequencies.add(WordFrequency(pokemon, RANDOM.nextInt(100) + 1))
-            }
-            return wordFrequencies
-        }
-
-        private fun getPokemonNames(): List<String> {
-            return IOUtils.readLines(getInputStream("text/pokemon.txt"))
-        }
-
-        private fun loadStopWords(): Set<String> {
-            try {
-                val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
-                return HashSet(lines)
-            } catch (e: IOException) {
-                logger.error(e) { e.message }
-            }
-            return emptySet()
-        }
-
-        private fun getInputStream(path: String): InputStream {
-            return Thread.currentThread().contextClassLoader.getResourceAsStream(path)
+            val pokemonNames = IOUtils.readLines(
+                Thread.currentThread().contextClassLoader.getResourceAsStream("text/pokemon.txt"))
+            return pokemonNames.map { WordFrequency(it, RANDOM.nextInt(100) + 1) }
         }
     }
 

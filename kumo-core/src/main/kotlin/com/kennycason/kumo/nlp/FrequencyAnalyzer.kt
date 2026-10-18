@@ -18,7 +18,6 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
-import java.util.stream.Collectors
 
 class FrequencyAnalyzer {
 
@@ -96,13 +95,19 @@ class FrequencyAnalyzer {
     fun loadWordFrequencies(wordFrequencies: List<WordFrequency>): List<WordFrequency> =
         takeTopFrequencies(wordFrequencies)
 
-    private fun buildWordFrequencies(texts: List<String>, tokenizer: WordTokenizer): Map<String, Int> =
-        texts.stream()
-            .map { tokenizer.tokenize(it) }
-            .flatMap { it.stream() }
-            .map { normalize(it) }
-            .filter { buildFilter().test(it) }
-            .collect(Collectors.groupingBy({ it }, Collectors.reducing(0, { 1 }, Integer::sum)))
+    private fun buildWordFrequencies(texts: List<String>, tokenizer: WordTokenizer): Map<String, Int> {
+        val filter = buildFilter()
+        val counts = mutableMapOf<String, Int>()
+        for (text in texts) {
+            for (token in tokenizer.tokenize(text)) {
+                val normalized = normalize(token)
+                if (filter.test(normalized)) {
+                    counts[normalized] = (counts[normalized] ?: 0) + 1
+                }
+            }
+        }
+        return counts
+    }
 
     private fun buildFilter(): Filter {
         val allFilters = mutableListOf<Filter>()

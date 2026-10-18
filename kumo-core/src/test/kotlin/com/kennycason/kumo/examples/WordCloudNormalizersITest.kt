@@ -9,14 +9,12 @@ import com.kennycason.kumo.nlp.normalize.BubbleTextNormalizer
 import com.kennycason.kumo.nlp.normalize.StringToHexNormalizer
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer
 import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.kennycason.kumo.logging.Logging
 import org.junit.Test
 import java.awt.Dimension
 import java.net.URL
 
-private val logger = KotlinLogging.logger {}
-
-class WordCloudNormalizersITest {
+class WordCloudNormalizersITest : Logging {
 
     @Test
     fun upperCaseNormalizer() {

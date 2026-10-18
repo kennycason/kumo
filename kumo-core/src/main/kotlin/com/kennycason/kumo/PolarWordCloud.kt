@@ -41,9 +41,7 @@ class PolarWordCloud : WordCloud {
         val wordIterator = words.iterator()
         val wordIterator2 = words2.iterator()
 
-        val poles = getRandomPoles()
-        val pole1 = poles[0]
-        val pole2 = poles[1]
+        val (pole1, pole2) = getRandomPoles()
 
         background.mask(backgroundCollidable)
 
@@ -75,8 +73,9 @@ class PolarWordCloud : WordCloud {
         PolarBlendMode.EVEN -> pole
     }
 
-    private fun getRandomPoles(): Array<Point> {
-        val max = arrayOfNulls<Point>(2)
+    private fun getRandomPoles(): Pair<Point, Point> {
+        var best1 = Point(0, 0)
+        var best2 = Point(dimension.width, dimension.height)
         var maxDistance = 0.0
         for (i in 0 until 100) {
             val x = RANDOM.nextInt(dimension.width)
@@ -86,12 +85,11 @@ class PolarWordCloud : WordCloud {
             val distance = sqrt((x - x2).toDouble().pow(2) + (y - y2).toDouble().pow(2))
             if (distance > maxDistance) {
                 maxDistance = distance
-                max[0] = Point(x, y)
-                max[1] = Point(x2, y2)
+                best1 = Point(x, y)
+                best2 = Point(x2, y2)
             }
         }
-        @Suppress("UNCHECKED_CAST")
-        return max as Array<Point>
+        return Pair(best1, best2)
     }
 
     companion object {

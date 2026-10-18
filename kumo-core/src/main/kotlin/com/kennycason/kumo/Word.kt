@@ -34,13 +34,15 @@ class Word(
         val height = fontMetrics.height
 
         val rendered = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
-        val gOfRendered = rendered.graphics as Graphics2D
-
-        gOfRendered.setRenderingHints(getRenderingHints())
-        gOfRendered.color = fontColor
-        gOfRendered.font = fontMetrics.font
-
-        gOfRendered.drawString(text, 0, height - fontMetrics.maxDescent - fontMetrics.leading)
+        val gOfRendered = rendered.createGraphics()
+        try {
+            gOfRendered.setRenderingHints(getRenderingHints())
+            gOfRendered.color = fontColor
+            gOfRendered.font = fontMetrics.font
+            gOfRendered.drawString(text, 0, height - fontMetrics.maxDescent - fontMetrics.leading)
+        } finally {
+            gOfRendered.dispose()
+        }
 
         return ImageRotation.rotate(rendered, theta)
     }

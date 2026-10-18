@@ -5,14 +5,12 @@ import com.kennycason.kumo.WordCloud
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.placement.LinearWordPlacer
 import com.kennycason.kumo.placement.RTreeWordPlacer
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.kennycason.kumo.logging.Logging
 import org.junit.Test
 import java.awt.Dimension
 import java.io.InputStream
 
-private val logger = KotlinLogging.logger {}
-
-class WordPlacerPerfTest {
+class WordPlacerPerfTest : Logging {
 
     companion object {
         private const val FREQUENCIES_TO_PLACE = 500

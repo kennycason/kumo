@@ -128,48 +128,58 @@ open class WordCloud(
 
         val backgroundBufferedImage = BufferedImage(dimension.width, dimension.height, bufferedImage.type)
         val graphics = backgroundBufferedImage.graphics
-
-        graphics.color = backgroundColor
-        graphics.fillRect(0, 0, dimension.width, dimension.height)
-        graphics.drawImage(bufferedImage, 0, 0, null)
+        try {
+            graphics.color = backgroundColor
+            graphics.fillRect(0, 0, dimension.width, dimension.height)
+            graphics.drawImage(bufferedImage, 0, 0, null)
+        } finally {
+            graphics.dispose()
+        }
 
         val graphics2 = bufferedImage.graphics
-        graphics2.drawImage(backgroundBufferedImage, 0, 0, null)
+        try {
+            graphics2.drawImage(backgroundBufferedImage, 0, 0, null)
+        } finally {
+            graphics2.dispose()
+        }
     }
 
     protected open fun place(word: Word, start: Point): Boolean {
         val graphics = bufferedImage.graphics
+        try {
+            val maxRadius = computeRadius(dimension, start)
+            val position = word.position
 
-        val maxRadius = computeRadius(dimension, start)
-        val position = word.position
+            var r = 0
+            while (r < maxRadius) {
+                var x = max(-start.x, -r)
+                while (x <= min(r, dimension.width - start.x - 1)) {
+                    position.x = start.x + x
 
-        var r = 0
-        while (r < maxRadius) {
-            var x = max(-start.x, -r)
-            while (x <= min(r, dimension.width - start.x - 1)) {
-                position.x = start.x + x
+                    val offset = sqrt((r * r - x * x).toDouble()).toInt()
 
-                val offset = sqrt((r * r - x * x).toDouble()).toInt()
+                    position.y = start.y + offset
+                    if (position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                        collisionRaster.mask(word.collisionRaster, position)
+                        graphics.drawImage(word.bufferedImage, position.x, position.y, null)
+                        return true
+                    }
 
-                position.y = start.y + offset
-                if (position.y >= 0 && position.y < dimension.height && canPlace(word)) {
-                    collisionRaster.mask(word.collisionRaster, position)
-                    graphics.drawImage(word.bufferedImage, position.x, position.y, null)
-                    return true
+                    position.y = start.y - offset
+                    if (offset != 0 && position.y >= 0 && position.y < dimension.height && canPlace(word)) {
+                        collisionRaster.mask(word.collisionRaster, position)
+                        graphics.drawImage(word.bufferedImage, position.x, position.y, null)
+                        return true
+                    }
+                    x++
                 }
-
-                position.y = start.y - offset
-                if (offset != 0 && position.y >= 0 && position.y < dimension.height && canPlace(word)) {
-                    collisionRaster.mask(word.collisionRaster, position)
-                    graphics.drawImage(word.bufferedImage, position.x, position.y, null)
-                    return true
-                }
-                x++
+                r += 2
             }
-            r += 2
-        }
 
-        return false
+            return false
+        } finally {
+            graphics.dispose()
+        }
     }
 
     private fun canPlace(word: Word): Boolean {
@@ -199,20 +209,25 @@ open class WordCloud(
 
     private fun buildWord(wordFrequency: WordFrequency, maxFrequency: Int, colorPalette: ColorPalette): Word {
         val graphics = bufferedImage.createGraphics()
-        graphics.setRenderingHints(Word.getRenderingHints())
+        try {
+            graphics.setRenderingHints(Word.getRenderingHints())
 
-        val frequency = wordFrequency.frequency
-        val fontHeight = fontScalar.scale(frequency, maxFrequency)
-        val font = (if (wordFrequency.hasFont()) wordFrequency.font else kumoFont)!!.font.deriveFont(fontHeight)
-        val fontMetrics = graphics.getFontMetrics(font)
+            val frequency = wordFrequency.frequency
+            val fontHeight = fontScalar.scale(frequency, maxFrequency)
+            val wordFont = wordFrequency.font ?: kumoFont
+            val font = wordFont.font.deriveFont(fontHeight)
+            val fontMetrics = graphics.getFontMetrics(font)
 
-        val theta = angleGenerator.randomNext()
-        val word = Word(wordFrequency.word, colorPalette.next(), fontMetrics, collisionChecker, theta)
+            val theta = angleGenerator.randomNext()
+            val word = Word(wordFrequency.word, colorPalette.next(), fontMetrics, collisionChecker, theta)
 
-        if (padding > 0) {
-            padder.pad(word, padding)
+            if (padding > 0) {
+                padder.pad(word, padding)
+            }
+            return word
+        } finally {
+            graphics.dispose()
         }
-        return word
     }
 
     companion object {

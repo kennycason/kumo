@@ -6,18 +6,16 @@ import com.kennycason.kumo.bg.PixelBoundaryBackground
 import com.kennycason.kumo.font.FontWeight
 import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.SqrtFontScalar
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.palette.ColorPalette
-import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.commons.io.IOUtils
 import org.junit.Test
 import java.awt.Color
 import java.awt.Dimension
 import java.io.InputStream
 
-private val logger = KotlinLogging.logger {}
-
-class DataRankWordCloudITest {
+class DataRankWordCloudITest : Logging {
 
     @Test
     fun datarank() {

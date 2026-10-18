@@ -14,7 +14,11 @@ class RectanglePadder : Padder {
 
         val newBufferedImage = BufferedImage(width, height, bufferedImage.type)
         val graphics = newBufferedImage.graphics
-        graphics.drawImage(bufferedImage, padding, padding, null)
+        try {
+            graphics.drawImage(bufferedImage, padding, padding, null)
+        } finally {
+            graphics.dispose()
+        }
 
         word.bufferedImage = newBufferedImage
     }

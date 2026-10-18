@@ -6,7 +6,7 @@ import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.SqrtFontScalar
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.palette.ColorPalette
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.kennycason.kumo.logging.Logging
 import org.apache.commons.io.IOUtils
 import org.junit.Test
 import java.awt.Color
@@ -14,28 +14,25 @@ import java.awt.Dimension
 import java.io.IOException
 import java.io.InputStream
 
-private val logger = KotlinLogging.logger {}
+class WordCloudImageResizeTest : Logging {
 
-class WordCloudImageResizeTest {
+    private fun loadStopWords(): Set<String> {
+        try {
+            val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
+            return HashSet(lines)
+        } catch (e: IOException) {
+            logger.error(e) { e.message }
+        }
+        return emptySet()
+    }
+
+    private fun getInputStream(path: String): InputStream =
+        Thread.currentThread().contextClassLoader.getResourceAsStream(path)
 
     companion object {
         private const val INPUT_PATH = "backgrounds/whale.png"
         private const val DEFAULT_FONT = "Impact"
         private const val DEFAULT_IMAGE_TYPE = "png"
-
-        private fun loadStopWords(): Set<String> {
-            try {
-                val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
-                return HashSet(lines)
-            } catch (e: IOException) {
-                logger.error(e) { e.message }
-            }
-            return emptySet()
-        }
-
-        private fun getInputStream(path: String): InputStream {
-            return Thread.currentThread().contextClassLoader.getResourceAsStream(path)
-        }
     }
 
     @Test

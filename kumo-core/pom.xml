@@ -26,12 +26,6 @@
             <artifactId>kumo-api</artifactId>
         </dependency>
 
-        <!--logging -->
-        <dependency>
-            <groupId>io.github.oshai</groupId>
-            <artifactId>kotlin-logging-jvm</artifactId>
-        </dependency>
-
         <!-- misc -->
         <dependency>
             <groupId>org.jsoup</groupId>

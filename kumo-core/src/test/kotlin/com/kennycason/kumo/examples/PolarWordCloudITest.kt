@@ -11,7 +11,7 @@ import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.LinearFontScalar
 import com.kennycason.kumo.font.scale.SqrtFontScalar
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.kennycason.kumo.logging.Logging
 import org.apache.commons.io.IOUtils
 import org.junit.Test
 import java.awt.Color
@@ -19,9 +19,7 @@ import java.awt.Dimension
 import java.io.IOException
 import java.io.InputStream
 
-private val logger = KotlinLogging.logger {}
-
-class PolarWordCloudITest {
+class PolarWordCloudITest : Logging {
 
     @Test
     fun whaleImgLargePolarTest() {
@@ -109,19 +107,16 @@ class PolarWordCloudITest {
         wordCloud.writeToFile("output/tidy_cat_litter_cat_shape3.png")
     }
 
-    companion object {
-        private fun loadStopWords(): Set<String> {
-            try {
-                val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
-                return HashSet(lines)
-            } catch (e: IOException) {
-                logger.error(e) { e.message }
-            }
-            return emptySet()
+    private fun loadStopWords(): Set<String> {
+        try {
+            val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
+            return HashSet(lines)
+        } catch (e: IOException) {
+            logger.error(e) { e.message }
         }
-
-        private fun getInputStream(path: String): InputStream {
-            return Thread.currentThread().contextClassLoader.getResourceAsStream(path)
-        }
+        return emptySet()
     }
+
+    private fun getInputStream(path: String): InputStream =
+        Thread.currentThread().contextClassLoader.getResourceAsStream(path)
 }

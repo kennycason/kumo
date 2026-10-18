@@ -1,13 +1,11 @@
 package com.kennycason.kumo.nlp.tokenizers
 
 import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer
-import io.github.oshai.kotlinlogging.KotlinLogging
+import com.kennycason.kumo.logging.Logging
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-private val logger = KotlinLogging.logger {}
-
-class ChineseWordTokenizerTest {
+class ChineseWordTokenizerTest : Logging {
 
     @Test
     fun test() {

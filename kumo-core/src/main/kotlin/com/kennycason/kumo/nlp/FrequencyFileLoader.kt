@@ -47,7 +47,7 @@ class FrequencyFileLoader {
                 throw KumoException("Unable to process line: [$line]. $DEFAULT_ERROR_MESSAGE")
             }
 
-            val parts = line.split(":")
+            val parts = line.split(":", limit = 2)
             if (parts.size != 2) {
                 throw KumoException("Unable to process line: [$line]. $DEFAULT_ERROR_MESSAGE")
             }
