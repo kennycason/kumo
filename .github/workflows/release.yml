@@ -42,13 +42,7 @@ jobs:
         run: mvn -B versions:set -DnewVersion=${{ github.event.inputs.release-version }} -DgenerateBackupPoms=false
 
       - name: Build and test
-        run: mvn -B verify -pl '!kumo-tokenizers'
-
-      - name: Build kumo-tokenizers (compile only)
-        run: mvn -B compile -pl kumo-tokenizers
-
-      - name: Package CLI jar
-        run: mvn -B package -pl kumo-cli -DskipTests -Dmaven.test.skip=true
+        run: mvn -B clean verify -Djava.awt.headless=true
 
       - name: Commit and tag release
         run: |
