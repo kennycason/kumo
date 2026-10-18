@@ -4,24 +4,24 @@ import com.kennycason.kumo.CollisionMode
 import com.kennycason.kumo.WordCloud
 import com.kennycason.kumo.bg.CircleBackground
 import com.kennycason.kumo.font.scale.LinearFontScalar
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.nlp.normalize.BubbleTextNormalizer
 import com.kennycason.kumo.nlp.normalize.StringToHexNormalizer
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer
 import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer
-import com.kennycason.kumo.logging.Logging
-import org.junit.Test
 import java.awt.Dimension
 import java.net.URL
+import org.junit.jupiter.api.Test
 
 class WordCloudNormalizersITest : Logging {
 
     @Test
     fun upperCaseNormalizer() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.addNormalizer(UpperCaseNormalizer())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.normalizers += UpperCaseNormalizer()
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
@@ -38,9 +38,9 @@ class WordCloudNormalizersITest : Logging {
     @Test
     fun upsideDownNormalizer() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.addNormalizer(UpsideDownNormalizer())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.normalizers += UpsideDownNormalizer()
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
@@ -57,9 +57,9 @@ class WordCloudNormalizersITest : Logging {
     @Test
     fun hexStringNormalizer() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.addNormalizer(StringToHexNormalizer())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.normalizers += StringToHexNormalizer()
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
@@ -76,10 +76,10 @@ class WordCloudNormalizersITest : Logging {
     @Test
     fun noNormalizationOrFilters() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.clearFilters()
-        frequencyAnalyzer.clearNormalizers()
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.filters = emptyList()
+        frequencyAnalyzer.normalizers = emptyList()
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)
@@ -96,8 +96,8 @@ class WordCloudNormalizersITest : Logging {
     @Test
     fun bubbleText() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.addNormalizer(BubbleTextNormalizer())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.normalizers += BubbleTextNormalizer()
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://kennycason.com"))
         val dimension = Dimension(600, 600)

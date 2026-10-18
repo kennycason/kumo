@@ -88,17 +88,13 @@ class CliParameters {
     @Parameter(names = ["--tokenizer"], description = "Determine where to start drawing text to the word cloud.", converter = TokenizerConverter::class)
     var tokenizer: TokenizerType = TokenizerType.WHITE_SPACE
 
-    fun getColors(): List<Color> {
-        val raw = colorRaw
-        if (raw.isNullOrBlank()) return emptyList()
-        return ColorsConverter().convert(raw)
-    }
+    val colors: List<Color>
+        get() = colorRaw?.takeIf { it.isNotBlank() }
+            ?.let { ColorsConverter().convert(it) }.orEmpty()
 
-    fun getLayeredColors(): List<List<Color>> {
-        val raw = colorRaw
-        if (raw.isNullOrBlank()) return emptyList()
-        return raw.split("\\|".toRegex()).map { ColorsConverter().convert(it) }
-    }
+    val layeredColors: List<List<Color>>
+        get() = colorRaw?.takeIf { it.isNotBlank() }
+            ?.split('|')?.map { ColorsConverter().convert(it) }.orEmpty()
 
     // enums
     enum class Type {

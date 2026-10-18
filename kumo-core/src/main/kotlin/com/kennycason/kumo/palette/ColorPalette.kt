@@ -5,7 +5,7 @@ import java.util.Random
 
 open class ColorPalette {
 
-    private val colors: List<Color>
+    val colors: List<Color>
     private var next: Int = 0
 
     constructor(vararg colors: Color) {
@@ -23,8 +23,6 @@ open class ColorPalette {
     fun next(): Color = colors[next++ % colors.size]
 
     fun randomNext(): Color = colors[RANDOM.nextInt(colors.size)]
-
-    fun getColors(): List<Color> = colors
 
     companion object {
         private val RANDOM = Random()

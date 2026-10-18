@@ -12,7 +12,6 @@ class PolarWordCloud : WordCloud {
 
     private val polarBlendMode: PolarBlendMode
 
-    @set:JvmName("setColorPalette2")
     var colorPalette2: ColorPalette
 
     constructor(dimension: Dimension, collisionMode: CollisionMode) :

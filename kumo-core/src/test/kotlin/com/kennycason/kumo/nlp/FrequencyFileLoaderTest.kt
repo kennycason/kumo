@@ -1,58 +1,79 @@
 package com.kennycason.kumo.nlp
 
 import com.kennycason.kumo.exception.KumoException
-import org.apache.commons.io.IOUtils
-import org.junit.Assert.*
-import org.junit.Test
+import java.io.ByteArrayInputStream
+import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.api.expectThrows
+import strikt.assertions.containsExactly
+import strikt.assertions.isEqualTo
+import strikt.assertions.isFalse
 
 class FrequencyFileLoaderTest {
 
-    companion object {
-        private val FREQUENCY_FILE_LOADER = FrequencyFileLoader()
+    @Test
+    fun readsCallerOwnedStreamWithoutClosingIt() {
+        val input = object : ByteArrayInputStream("2:cat\n1:dog".toByteArray()) {
+            var closed = false
+            override fun close() {
+                closed = true
+                super.close()
+            }
+        }
+        input.use {
+            expectThat(FrequencyFileLoader().load(it).map { frequency -> frequency.word })
+                .containsExactly("cat", "dog")
+            expectThat(input.closed).isFalse()
+        }
     }
+
+    private val frequencyFileLoader = FrequencyFileLoader()
 
     @Test
     fun basic() {
-        val wordFrequencies = FREQUENCY_FILE_LOADER.load(IOUtils.toInputStream(
-            "100:cat\n" +
+        val wordFrequencies = frequencyFileLoader.load(("100:cat\n" +
             "50:dog\n" +
             "25:fish\n" +
-            "75:frog"))
+            "75:frog").byteInputStream())
 
-        assertEquals(4, wordFrequencies.size)
-        assertEquals(100, wordFrequencies[0].frequency)
-        assertEquals("cat", wordFrequencies[0].word)
-        assertEquals(75, wordFrequencies[1].frequency)
-        assertEquals("frog", wordFrequencies[1].word)
-        assertEquals(50, wordFrequencies[2].frequency)
-        assertEquals("dog", wordFrequencies[2].word)
-        assertEquals(25, wordFrequencies[3].frequency)
-        assertEquals("fish", wordFrequencies[3].word)
+        expectThat(wordFrequencies.size).isEqualTo(4)
+        expectThat(wordFrequencies[0].frequency).isEqualTo(100)
+        expectThat(wordFrequencies[0].word).isEqualTo("cat")
+        expectThat(wordFrequencies[1].frequency).isEqualTo(75)
+        expectThat(wordFrequencies[1].word).isEqualTo("frog")
+        expectThat(wordFrequencies[2].frequency).isEqualTo(50)
+        expectThat(wordFrequencies[2].word).isEqualTo("dog")
+        expectThat(wordFrequencies[3].frequency).isEqualTo(25)
+        expectThat(wordFrequencies[3].word).isEqualTo("fish")
     }
 
     // read valid file, and assert sorted order, ignores empty lines, spaces, and tabs
     @Test
     fun validFile() {
-        val wordFrequencies = FREQUENCY_FILE_LOADER.load(Thread.currentThread().contextClassLoader.getResourceAsStream("frequency_file.txt"))
+        val wordFrequencies = Thread.currentThread().contextClassLoader.getResourceAsStream("frequency_file.txt").use { frequencyFileLoader.load(it) }
 
-        assertEquals(4, wordFrequencies.size)
-        assertEquals(100, wordFrequencies[0].frequency)
-        assertEquals("cat", wordFrequencies[0].word)
-        assertEquals(75, wordFrequencies[1].frequency)
-        assertEquals("frog", wordFrequencies[1].word)
-        assertEquals(50, wordFrequencies[2].frequency)
-        assertEquals("dog", wordFrequencies[2].word)
-        assertEquals(25, wordFrequencies[3].frequency)
-        assertEquals("fish", wordFrequencies[3].word)
+        expectThat(wordFrequencies.size).isEqualTo(4)
+        expectThat(wordFrequencies[0].frequency).isEqualTo(100)
+        expectThat(wordFrequencies[0].word).isEqualTo("cat")
+        expectThat(wordFrequencies[1].frequency).isEqualTo(75)
+        expectThat(wordFrequencies[1].word).isEqualTo("frog")
+        expectThat(wordFrequencies[2].frequency).isEqualTo(50)
+        expectThat(wordFrequencies[2].word).isEqualTo("dog")
+        expectThat(wordFrequencies[3].frequency).isEqualTo(25)
+        expectThat(wordFrequencies[3].word).isEqualTo("fish")
     }
 
-    @Test(expected = KumoException::class)
+    @Test
     fun malformedWord() {
-        FREQUENCY_FILE_LOADER.load(Thread.currentThread().contextClassLoader.getResourceAsStream("frequency_file_malformed_word.txt"))
+        expectThrows<KumoException> {
+            Thread.currentThread().contextClassLoader.getResourceAsStream("frequency_file_malformed_word.txt").use { frequencyFileLoader.load(it) }
+        }
     }
 
-    @Test(expected = KumoException::class)
+    @Test
     fun malformedWordCount() {
-        FREQUENCY_FILE_LOADER.load(Thread.currentThread().contextClassLoader.getResourceAsStream("frequency_file_malformed_word_count.txt"))
+        expectThrows<KumoException> {
+            Thread.currentThread().contextClassLoader.getResourceAsStream("frequency_file_malformed_word_count.txt").use { frequencyFileLoader.load(it) }
+        }
     }
 }

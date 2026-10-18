@@ -1,7 +1,6 @@
 package com.kennycason.kumo
 
 import com.kennycason.kumo.exception.KumoException
-import com.kennycason.kumo.logging.Logging
 import java.awt.Dimension
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
@@ -12,7 +11,7 @@ class ParallelLayeredWordCloud(
     layers: Int,
     dimension: Dimension,
     collisionMode: CollisionMode
-) : LayeredWordCloud(layers, dimension, collisionMode), Logging {
+) : LayeredWordCloud(layers, dimension, collisionMode) {
 
     private val executorFutures = mutableListOf<Future<*>>()
     private val executorService = Executors.newFixedThreadPool(layers)
@@ -29,11 +28,7 @@ class ParallelLayeredWordCloud(
         writeToFile(outputFileName, blockThread = true, shutdownExecutor = true)
     }
 
-    fun writeToFile(outputFileName: String, blockThread: Boolean) {
-        writeToFile(outputFileName, blockThread, shutdownExecutor = true)
-    }
-
-    fun writeToFile(outputFileName: String, blockThread: Boolean, shutdownExecutor: Boolean) {
+    fun writeToFile(outputFileName: String, blockThread: Boolean, shutdownExecutor: Boolean = true) {
         if (blockThread) {
             waitForFuturesToBlockCurrentThread()
         }

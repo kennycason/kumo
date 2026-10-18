@@ -2,10 +2,15 @@ package com.kennycason.kumo.image
 
 import com.kennycason.kumo.collide.Collidable
 import com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker
-import org.junit.Assert.*
-import org.junit.Test
 import java.awt.Dimension
 import java.awt.Point
+import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.api.expectThrows
+import strikt.assertions.containsExactly
+import strikt.assertions.isEqualTo
+import strikt.assertions.isFalse
+import strikt.assertions.isTrue
 
 class CollisionRasterTest {
 
@@ -16,12 +21,12 @@ class CollisionRasterTest {
         val dimension = Dimension(width, height)
         val collisionRaster = CollisionRaster(dimension)
 
-        assertEquals(width, collisionRaster.dimension.width)
-        assertEquals(height, collisionRaster.dimension.height)
+        expectThat(collisionRaster.dimension.width).isEqualTo(width)
+        expectThat(collisionRaster.dimension.height).isEqualTo(height)
 
         for (y in 0 until height) {
             for (x in 0 until width) {
-                assertTrue(collisionRaster.isTransparent(x, y))
+                expectThat(collisionRaster.isTransparent(x, y)).isTrue()
             }
         }
     }
@@ -38,31 +43,36 @@ class CollisionRasterTest {
 
                 collisionRaster.setPixelIsNotTransparent(xSet, ySet)
 
-                for (y in 0 until height) {
-                    for (x in 0 until width) {
-                        if (x == xSet && y == ySet) {
-                            assertFalse(collisionRaster.isTransparent(x, y))
-                        } else {
-                            assertTrue(collisionRaster.isTransparent(x, y))
+                val opaquePixels = buildList {
+                    for (y in 0 until height) {
+                        for (x in 0 until width) {
+                            if (!collisionRaster.isTransparent(x, y)) {
+                                add(Point(x, y))
+                            }
                         }
                     }
                 }
+                expectThat(opaquePixels).containsExactly(Point(xSet, ySet))
             }
         }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun illegalX() {
-        val dimension = Dimension(90, 60)
-        val collisionRaster = CollisionRaster(dimension)
-        collisionRaster.setPixelIsNotTransparent(100, 0)
+        expectThrows<IllegalArgumentException> {
+            val dimension = Dimension(90, 60)
+            val collisionRaster = CollisionRaster(dimension)
+            collisionRaster.setPixelIsNotTransparent(100, 0)
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun illegalY() {
-        val dimension = Dimension(90, 60)
-        val collisionRaster = CollisionRaster(dimension)
-        collisionRaster.setPixelIsNotTransparent(0, 70)
+        expectThrows<IllegalArgumentException> {
+            val dimension = Dimension(90, 60)
+            val collisionRaster = CollisionRaster(dimension)
+            collisionRaster.setPixelIsNotTransparent(0, 70)
+        }
     }
 
     @Test
@@ -80,20 +90,20 @@ class CollisionRasterTest {
             }
         }
 
-        assertFalse(checker.collide(
+        expectThat(checker.collide(
             collidable(Point(30, 30), dimension, collisionRasterA),
             collidable(Point(30, 30), dimension, collisionRasterB)
-        ))
+        )).isFalse()
 
-        assertTrue(checker.collide(
+        expectThat(checker.collide(
             collidable(Point(30, 30), dimension, collisionRasterA),
             collidable(Point(20, 20), dimension, collisionRasterB)
-        ))
+        )).isTrue()
 
-        assertFalse(checker.collide(
+        expectThat(checker.collide(
             collidable(Point(20, 20), dimension, collisionRasterA),
             collidable(Point(30, 30), dimension, collisionRasterB)
-        ))
+        )).isFalse()
     }
 
     private fun collidable(p: Point, d: Dimension, r: CollisionRaster): Collidable {

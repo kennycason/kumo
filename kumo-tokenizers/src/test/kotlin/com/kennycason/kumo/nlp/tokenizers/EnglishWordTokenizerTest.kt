@@ -1,9 +1,10 @@
 package com.kennycason.kumo.nlp.tokenizers
 
-import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer
 import com.kennycason.kumo.logging.Logging
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer
+import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.assertions.isEqualTo
 
 class EnglishWordTokenizerTest : Logging {
 
@@ -13,13 +14,10 @@ class EnglishWordTokenizerTest : Logging {
         val tokenizer: WordTokenizer = EnglishWordTokenizer()
         logger.info { "load time: ${System.currentTimeMillis() - time} ms" }
 
-        assertEquals(listOf("Kenny"), tokenizer.tokenize("Kenny"))
+        expectThat(tokenizer.tokenize("Kenny")).isEqualTo(listOf("Kenny"))
 
-        assertEquals(listOf("I", "like", "cats"), tokenizer.tokenize("I like cats"))
+        expectThat(tokenizer.tokenize("I like cats")).isEqualTo(listOf("I", "like", "cats"))
 
-        assertEquals(
-            listOf("Wow", ",", "my", "name", "is", "kumo", ".", "I", "'", "m", "a", "word", "cloud", "library"),
-            tokenizer.tokenize("Wow, my name is kumo. I'm a word cloud library")
-        )
+        expectThat(tokenizer.tokenize("Wow, my name is kumo. I'm a word cloud library")).isEqualTo(listOf("Wow", ",", "my", "name", "is", "kumo", ".", "I", "'", "m", "a", "word", "cloud", "library"))
     }
 }

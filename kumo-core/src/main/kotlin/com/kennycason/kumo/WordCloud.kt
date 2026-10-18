@@ -45,32 +45,22 @@ open class WordCloud(
     protected val padder: Padder = derivePadder(collisionMode)
     val skipped: MutableSet<Word> = HashSet()
 
-    @set:JvmName("setPadding")
-    @get:JvmName("getPadding")
     var padding: Int = 0
 
-    @set:JvmName("setBackground")
     var background: Background = RectangleBackground(dimension)
 
-    @set:JvmName("setBackgroundColor")
     var backgroundColor: Color? = Color.BLACK
 
-    @set:JvmName("setFontScalar")
     var fontScalar: FontScalar = LinearFontScalar(10, 40)
 
-    @set:JvmName("setKumoFont")
     var kumoFont: KumoFont = KumoFont("Comic Sans MS", FontWeight.BOLD)
 
-    @set:JvmName("setAngleGenerator")
     var angleGenerator: AngleGenerator = AngleGenerator()
 
-    @set:JvmName("setWordPlacer")
     var wordPlacer: RectangleWordPlacer = RTreeWordPlacer()
 
-    @set:JvmName("setColorPalette")
     var colorPalette: ColorPalette = ColorPalette(0x02B6F2, 0x37C2F0, 0x7CCBE6, 0xC4E7F2, 0xFFFFFF)
 
-    @set:JvmName("setWordStartStrategy")
     var wordStartStrategy: WordStartStrategy = RandomWordStart()
 
     open fun build(wordFrequencies: List<WordFrequency>) {
@@ -231,7 +221,6 @@ open class WordCloud(
     }
 
     companion object {
-        @JvmStatic
         fun computeRadius(dimension: Dimension, start: Point): Int {
             val maxDistanceX = max(start.x, dimension.width - start.x) + 1
             val maxDistanceY = max(start.y, dimension.height - start.y) + 1

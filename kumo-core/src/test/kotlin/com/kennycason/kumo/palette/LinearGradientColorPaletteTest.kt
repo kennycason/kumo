@@ -1,8 +1,9 @@
 package com.kennycason.kumo.palette
 
-import org.junit.Assert.*
-import org.junit.Test
 import java.awt.Color
+import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.assertions.isEqualTo
 
 class LinearGradientColorPaletteTest {
 
@@ -12,16 +13,16 @@ class LinearGradientColorPaletteTest {
         val color2 = Color(0xFF, 0xFF, 0xFF)
         val gradientSteps = 15
         val colorPalette = LinearGradientColorPalette(color1, color2, gradientSteps)
-        val colors = colorPalette.getColors()
-        assertEquals(16, colors.size)
-        assertEquals(color1, colors[0])
-        assertEquals(color2, colors[gradientSteps])
+        val colors = colorPalette.colors
+        expectThat(colors.size).isEqualTo(16)
+        expectThat(colors[0]).isEqualTo(color1)
+        expectThat(colors[gradientSteps]).isEqualTo(color2)
 
         val stepSize = 0xFF / gradientSteps
         for (i in 0 until gradientSteps) {
-            assertEquals(i * stepSize, colors[i].red)
-            assertEquals(i * stepSize, colors[i].green)
-            assertEquals(i * stepSize, colors[i].blue)
+            expectThat(colors[i].red).isEqualTo(i * stepSize)
+            expectThat(colors[i].green).isEqualTo(i * stepSize)
+            expectThat(colors[i].blue).isEqualTo(i * stepSize)
         }
     }
 
@@ -34,22 +35,22 @@ class LinearGradientColorPaletteTest {
         val gradientSteps = 15
         val colorPalette = LinearGradientColorPalette(color1, color2, color3,
             gradientSteps, gradientSteps)
-        val colors = colorPalette.getColors()
-        assertEquals(31, colors.size)
-        assertEquals(color1, colors[0])
-        assertEquals(color2, colors[gradientSteps])
+        val colors = colorPalette.colors
+        expectThat(colors.size).isEqualTo(31)
+        expectThat(colors[0]).isEqualTo(color1)
+        expectThat(colors[gradientSteps]).isEqualTo(color2)
 
         val stepSize = 0xFF / gradientSteps
         for (i in 0..gradientSteps) {
-            assertEquals(i * stepSize, colors[i].red)
-            assertEquals(i * stepSize, colors[i].green)
-            assertEquals(i * stepSize, colors[i].blue)
+            expectThat(colors[i].red).isEqualTo(i * stepSize)
+            expectThat(colors[i].green).isEqualTo(i * stepSize)
+            expectThat(colors[i].blue).isEqualTo(i * stepSize)
         }
         var expectedColor = 0xFF
         for (i in gradientSteps until colors.size) {
-            assertEquals(expectedColor, colors[i].red)
-            assertEquals(expectedColor, colors[i].green)
-            assertEquals(expectedColor, colors[i].blue)
+            expectThat(colors[i].red).isEqualTo(expectedColor)
+            expectThat(colors[i].green).isEqualTo(expectedColor)
+            expectThat(colors[i].blue).isEqualTo(expectedColor)
             expectedColor -= stepSize
         }
     }

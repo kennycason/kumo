@@ -3,28 +3,22 @@ package com.kennycason.kumo.bg
 import com.kennycason.kumo.collide.RectanglePixelCollidable
 import com.kennycason.kumo.image.CollisionRaster
 import java.awt.Point
+import java.awt.image.BufferedImage
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
 import java.io.InputStream
 import javax.imageio.ImageIO
 import kotlin.math.max
 
-class PixelBoundaryBackground : Background {
+class PixelBoundaryBackground private constructor(bufferedImage: BufferedImage) : Background {
 
-    private val collisionRaster: CollisionRaster
+    private val collisionRaster = CollisionRaster(bufferedImage)
     private val position = Point(0, 0)
 
-    @Throws(IOException::class)
-    constructor(imageInputStream: InputStream) {
-        val bufferedImage = ImageIO.read(imageInputStream)
-        this.collisionRaster = CollisionRaster(bufferedImage)
-    }
+    /** Reads from a caller-owned stream without closing it. */
+    constructor(imageInputStream: InputStream) : this(ImageIO.read(imageInputStream))
 
-    @Throws(IOException::class)
-    constructor(file: File) : this(FileInputStream(file))
+    constructor(file: File) : this(file.inputStream().use { ImageIO.read(it) })
 
-    @Throws(IOException::class)
     constructor(filepath: String) : this(File(filepath))
 
     override fun mask(backgroundCollidable: RectanglePixelCollidable) {

@@ -1,14 +1,7 @@
 package com.kennycason.kumo
 
-import com.kennycason.kumo.bg.Background
 import com.kennycason.kumo.exception.KumoException
-import com.kennycason.kumo.font.KumoFont
-import com.kennycason.kumo.font.scale.FontScalar
-import com.kennycason.kumo.image.AngleGenerator
 import com.kennycason.kumo.logging.Logging
-import com.kennycason.kumo.palette.ColorPalette
-import com.kennycason.kumo.placement.RectangleWordPlacer
-import com.kennycason.kumo.wordstart.WordStartStrategy
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.image.BufferedImage
@@ -22,89 +15,46 @@ open class LayeredWordCloud(
     collisionMode: CollisionMode
 ) : Logging {
 
-    private val wordClouds: MutableList<WordCloud> = ArrayList()
-    private var backgroundColor: Color = Color.BLACK
-
-    init {
-        for (i in 0 until layers) {
-            val wordCloud = WordCloud(dimension, collisionMode)
-            wordCloud.backgroundColor = null
-            wordClouds.add(wordCloud)
+    private val wordClouds = List(layers) {
+        WordCloud(dimension, collisionMode).apply {
+            backgroundColor = null
         }
     }
+    var backgroundColor: Color = Color.BLACK
+    val layers: Int
+        get() = wordClouds.size
 
     open fun build(layer: Int, wordFrequencies: List<WordFrequency>) {
         wordClouds[layer].build(wordFrequencies)
     }
 
-    fun setPadding(layer: Int, padding: Int) {
-        wordClouds[layer].padding = padding
-    }
+    val bufferedImage: BufferedImage
+        get() {
+            val bufferedImage = BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB)
+            val graphics = bufferedImage.graphics
+            try {
+                graphics.color = backgroundColor
+                graphics.fillRect(0, 0, dimension.width, dimension.height)
 
-    fun setColorPalette(layer: Int, colorPalette: ColorPalette) {
-        wordClouds[layer].colorPalette = colorPalette
-    }
-
-    fun setBackground(layer: Int, background: Background) {
-        wordClouds[layer].background = background
-    }
-
-    fun setFontScalar(layer: Int, fontScalar: FontScalar) {
-        wordClouds[layer].fontScalar = fontScalar
-    }
-
-    fun setKumoFont(layer: Int, kumoFont: KumoFont) {
-        wordClouds[layer].kumoFont = kumoFont
-    }
-
-    fun setAngleGenerator(layer: Int, angleGenerator: AngleGenerator) {
-        wordClouds[layer].angleGenerator = angleGenerator
-    }
-
-    fun setWordPlacer(layer: Int, wordPlacer: RectangleWordPlacer) {
-        wordClouds[layer].wordPlacer = wordPlacer
-    }
-
-    fun setBackgroundColor(backgroundColor: Color) {
-        this.backgroundColor = backgroundColor
-    }
-
-    fun getBufferedImage(): BufferedImage {
-        val bufferedImage = BufferedImage(dimension.width, dimension.height, BufferedImage.TYPE_INT_ARGB)
-        val graphics = bufferedImage.graphics
-        try {
-            graphics.color = backgroundColor
-            graphics.fillRect(0, 0, dimension.width, dimension.height)
-
-            for (wordCloud in wordClouds) {
-                graphics.drawImage(wordCloud.bufferedImage, 0, 0, null)
+                for (wordCloud in wordClouds) {
+                    graphics.drawImage(wordCloud.bufferedImage, 0, 0, null)
+                }
+            } finally {
+                graphics.dispose()
             }
-        } finally {
-            graphics.dispose()
+
+            return bufferedImage
         }
 
-        return bufferedImage
-    }
-
-    fun getLayer(layer: Int): WordCloud = wordClouds[layer]
-
-    fun getAt(layer: Int): WordCloud = getLayer(layer)
-
-    fun getSkipped(layer: Int): Set<Word> = wordClouds[layer].skipped
+    operator fun get(layer: Int): WordCloud = wordClouds[layer]
 
     open fun writeToFile(outputFileName: String) {
         val extension = outputFileName.substringAfterLast('.', "")
         try {
             logger.info { "Saving Layered WordCloud to: $outputFileName" }
-            ImageIO.write(getBufferedImage(), extension, File(outputFileName))
+            ImageIO.write(bufferedImage, extension, File(outputFileName))
         } catch (e: IOException) {
             throw KumoException("Failed to save Layered WordCloud to: $outputFileName", e)
         }
     }
-
-    fun setWordStartStrategy(layer: Int, scheme: WordStartStrategy) {
-        wordClouds[layer].wordStartStrategy = scheme
-    }
-
-    fun getLayers(): Int = wordClouds.size
 }

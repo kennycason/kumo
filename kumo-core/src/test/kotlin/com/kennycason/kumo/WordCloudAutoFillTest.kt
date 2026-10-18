@@ -4,22 +4,21 @@ import com.kennycason.kumo.bg.PixelBoundaryBackground
 import com.kennycason.kumo.font.FontWeight
 import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.SqrtFontScalar
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.palette.ColorPalette
-import com.kennycason.kumo.logging.Logging
-import org.apache.commons.io.IOUtils
-import org.junit.Test
 import java.awt.Color
 import java.awt.Dimension
 import java.io.IOException
 import java.io.InputStream
+import org.junit.jupiter.api.Test
 
 class WordCloudAutoFillTest : Logging {
 
     private fun loadStopWords(): Set<String> {
         try {
-            val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
-            return HashSet(lines)
+            val lines = getInputStream("text/stop_words.txt").bufferedReader().use { it.readLines() }
+            return lines.toSet()
         } catch (e: IOException) {
             logger.error(e) { e.message }
         }
@@ -38,23 +37,18 @@ class WordCloudAutoFillTest : Logging {
     @Test
     fun whaleImgWordTooFewTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/hello_world.txt"), true)
+        val wordFrequencies = getInputStream("text/hello_world.txt").use { frequencyAnalyzer.load(it, true) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        val inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE)
-        try {
-            wordCloud.background = PixelBoundaryBackground(inputStream)
-        } finally {
-            inputStream.close()
-        }
+        wordCloud.background = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE).use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont(DEFAULT_FONT, FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
@@ -65,23 +59,18 @@ class WordCloudAutoFillTest : Logging {
     @Test
     fun whaleImgNoWordAfterFilterWithCustomAutoFillTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/empty.txt"), true, "Dararara")
+        val wordFrequencies = getInputStream("text/empty.txt").use { frequencyAnalyzer.load(it, true, "Dararara") }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        val inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE)
-        try {
-            wordCloud.background = PixelBoundaryBackground(inputStream)
-        } finally {
-            inputStream.close()
-        }
+        wordCloud.background = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE).use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont(DEFAULT_FONT, FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
@@ -95,24 +84,19 @@ class WordCloudAutoFillTest : Logging {
     @Test
     fun whaleImgNoWordAfterFilterWithDefaultAutoFillTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
         //change 5->6
-        frequencyAnalyzer.setMinWordLength(6)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.minWordLength = 6
+        frequencyAnalyzer.stopWords = loadStopWords()
         val width = 1500
         val height = 1000
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/empty.txt"), true)
+        val wordFrequencies = getInputStream("text/empty.txt").use { frequencyAnalyzer.load(it, true) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        val inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE)
-        try {
-            wordCloud.background = PixelBoundaryBackground(inputStream)
-        } finally {
-            inputStream.close()
-        }
+        wordCloud.background = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE).use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont(DEFAULT_FONT, FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
@@ -126,9 +110,9 @@ class WordCloudAutoFillTest : Logging {
     @Test
     fun whaleImgWithListOfStringTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
         val width = 1500
         val height = 1000
         val texts = mutableListOf("hello", "world", "hello world")
@@ -138,12 +122,7 @@ class WordCloudAutoFillTest : Logging {
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        val inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE)
-        try {
-            wordCloud.background = PixelBoundaryBackground(inputStream)
-        } finally {
-            inputStream.close()
-        }
+        wordCloud.background = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE).use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont(DEFAULT_FONT, FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
@@ -157,22 +136,17 @@ class WordCloudAutoFillTest : Logging {
     @Test
     fun wordtoosmall() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(500)
-        frequencyAnalyzer.setMinWordLength(6)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 500
+        frequencyAnalyzer.minWordLength = 6
+        frequencyAnalyzer.stopWords = loadStopWords()
         val width = 500
         val height = 900
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/hello_world.txt"), true)
+        val wordFrequencies = getInputStream("text/hello_world.txt").use { frequencyAnalyzer.load(it, true) }
         val dimension = Dimension(width, height)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        val inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE)
-        try {
-            wordCloud.background = PixelBoundaryBackground(inputStream)
-        } finally {
-            inputStream.close()
-        }
+        wordCloud.background = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE).use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont(DEFAULT_FONT, FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(7, 35)
@@ -185,9 +159,9 @@ class WordCloudAutoFillTest : Logging {
     @Test
     fun duplicatesmall() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
         val width = 300
         val height = 400
         val texts = mutableListOf("hellohellohello", "worldworldworld")
@@ -197,12 +171,7 @@ class WordCloudAutoFillTest : Logging {
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        val inputStream = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE)
-        try {
-            wordCloud.background = PixelBoundaryBackground(inputStream)
-        } finally {
-            inputStream.close()
-        }
+        wordCloud.background = ImageProcessor.readImage(INPUT_PATH, width, height, DEFAULT_IMAGE_TYPE).use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont(DEFAULT_FONT, FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(8, 30)

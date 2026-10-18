@@ -1,13 +1,14 @@
 package com.kennycason.kumo
 
-import org.junit.Assert
-import org.junit.Test
 import java.awt.Dimension
 import java.awt.Point
 import java.awt.image.BufferedImage
 import java.io.File
-import javax.imageio.ImageIO
 import java.util.Random
+import javax.imageio.ImageIO
+import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.assertions.isEqualTo
 
 /**
  * @author joerg1985
@@ -72,7 +73,7 @@ class SpiralTest {
 
                         if (rgb == red) {
                             ImageIO.write(img, "png", File("output/failed_spiral_test.png"))
-                            Assert.fail()
+                            throw AssertionError("Optimized spiral missed an original point")
                         } else if (debug && rgb != white && rgb != pink) {
                             ImageIO.write(img, "png", File("output/debug_spiral_test_${System.currentTimeMillis()}.png"))
                             next = true
@@ -101,12 +102,8 @@ class SpiralTest {
                 )
 
                 val points = optimizedSpiral(dimension, start)
-                val unique = HashSet(points)
 
-                Assert.assertEquals(
-                    "no duplicate points",
-                    points.size, unique.size
-                )
+                expectThat(points).get("number of unique points") { distinct().size }.isEqualTo(points.size)
             }
         }
     }

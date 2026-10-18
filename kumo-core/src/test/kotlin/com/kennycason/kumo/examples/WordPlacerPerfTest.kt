@@ -2,13 +2,13 @@ package com.kennycason.kumo.examples
 
 import com.kennycason.kumo.CollisionMode
 import com.kennycason.kumo.WordCloud
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.placement.LinearWordPlacer
 import com.kennycason.kumo.placement.RTreeWordPlacer
-import com.kennycason.kumo.logging.Logging
-import org.junit.Test
 import java.awt.Dimension
 import java.io.InputStream
+import org.junit.jupiter.api.Test
 
 class WordPlacerPerfTest : Logging {
 
@@ -23,9 +23,9 @@ class WordPlacerPerfTest : Logging {
     @Test
     fun linearPlacement() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(FREQUENCIES_TO_PLACE)
+        frequencyAnalyzer.wordFrequenciesToReturn = FREQUENCIES_TO_PLACE
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val wordCloud = WordCloud(Dimension(1000, 1000), CollisionMode.RECTANGLE)
         wordCloud.wordPlacer = LinearWordPlacer()
 
@@ -37,9 +37,9 @@ class WordPlacerPerfTest : Logging {
     @Test
     fun rTreePlacement() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(FREQUENCIES_TO_PLACE)
+        frequencyAnalyzer.wordFrequenciesToReturn = FREQUENCIES_TO_PLACE
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val wordCloud = WordCloud(Dimension(1000, 1000), CollisionMode.RECTANGLE)
         wordCloud.wordPlacer = RTreeWordPlacer()
 

@@ -4,9 +4,9 @@ import com.kennycason.kumo.CollisionMode
 import com.kennycason.kumo.WordCloud
 import com.kennycason.kumo.WordFrequency
 import com.kennycason.kumo.font.KumoFont
-import org.junit.Test
 import java.awt.Dimension
 import java.util.Random
+import org.junit.jupiter.api.Test
 
 class EmojiWordCloudITest {
 

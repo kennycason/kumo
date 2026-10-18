@@ -11,71 +11,56 @@ import com.kennycason.kumo.nlp.normalize.Normalizer
 import com.kennycason.kumo.nlp.normalize.TrimToEmptyNormalizer
 import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer
 import com.kennycason.kumo.nlp.tokenizer.core.WhiteSpaceWordTokenizer
-import org.apache.commons.io.IOUtils
-import org.jsoup.Jsoup
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
 import java.io.InputStream
 import java.net.URL
+import org.jsoup.Jsoup
 
 class FrequencyAnalyzer {
 
-    private val stopWords = HashSet<String>()
-    private var wordTokenizer: WordTokenizer = WhiteSpaceWordTokenizer()
-    private val filters = mutableListOf<Filter>()
-    private val normalizers = mutableListOf<Normalizer>()
-    private var wordFrequenciesToReturn = DEFAULT_WORD_FREQUENCIES_TO_RETURN
-    private var maxWordLength = DEFAULT_WORD_MAX_LENGTH
-    private var minWordLength = DEFAULT_WORD_MIN_LENGTH
-    private var characterEncoding = DEFAULT_ENCODING
-    private var urlLoadTimeout = DEFAULT_URL_LOAD_TIMEOUT
+    var stopWords: Set<String> = emptySet()
+        set(value) {
+            field = value.toSet()
+        }
+    var wordTokenizer: WordTokenizer = WhiteSpaceWordTokenizer()
+    var filters: List<Filter> = emptyList()
+    var normalizers: List<Normalizer> = listOf(
+        TrimToEmptyNormalizer(), CharacterStrippingNormalizer(), LowerCaseNormalizer()
+    )
+    var wordFrequenciesToReturn = DEFAULT_WORD_FREQUENCIES_TO_RETURN
+    var maxWordLength = DEFAULT_WORD_MAX_LENGTH
+    var minWordLength = DEFAULT_WORD_MIN_LENGTH
+    var characterEncoding = DEFAULT_ENCODING
+    var urlLoadTimeout = DEFAULT_URL_LOAD_TIMEOUT
 
-    init {
-        normalizers.add(TrimToEmptyNormalizer())
-        normalizers.add(CharacterStrippingNormalizer())
-        normalizers.add(LowerCaseNormalizer())
-    }
+    /** Reads from a caller-owned stream without closing it. */
+    fun load(
+        inputStream: InputStream,
+        autoFill: Boolean = false,
+        autoFillWord: String = "nothing"
+    ): List<WordFrequency> =
+        load(inputStream.bufferedReader(charset(characterEncoding)).lineSequence().toList(), autoFill, autoFillWord)
 
-    @Throws(IOException::class)
-    fun load(inputStream: InputStream): List<WordFrequency> =
-        load(IOUtils.readLines(inputStream, characterEncoding))
+    fun load(file: File): List<WordFrequency> = file.inputStream().use { load(it) }
 
-    @Throws(IOException::class)
-    fun load(file: File): List<WordFrequency> = load(FileInputStream(file))
-
-    @Throws(IOException::class)
     fun load(filePath: String): List<WordFrequency> = load(File(filePath))
 
-    @Throws(IOException::class)
     fun load(url: URL): List<WordFrequency> {
         val doc = Jsoup.parse(url, urlLoadTimeout.toInt())
         return load(listOf(doc.body().text()))
     }
 
-    fun load(texts: List<String>): List<WordFrequency> {
+    fun load(
+        texts: List<String>,
+        autoFill: Boolean = false,
+        autoFillWord: String = "nothing"
+    ): List<WordFrequency> {
         val wordFrequencies = mutableListOf<WordFrequency>()
         val cloud = buildWordFrequencies(texts, wordTokenizer)
-        cloud.forEach { (key, value) -> wordFrequencies.add(WordFrequency(key, value)) }
-        return takeTopFrequencies(wordFrequencies)
-    }
+        if (!autoFill) {
+            return takeTopFrequencies(cloud.map { (word, frequency) -> WordFrequency(word, frequency) })
+        }
 
-    @Throws(IOException::class)
-    fun load(inputStream: InputStream, autoFill: Boolean, autoFillWord: String): List<WordFrequency> =
-        load(IOUtils.readLines(inputStream, characterEncoding), autoFill, autoFillWord)
-
-    @Throws(IOException::class)
-    fun load(inputStream: InputStream, autoFill: Boolean): List<WordFrequency> =
-        load(IOUtils.readLines(inputStream, characterEncoding), autoFill, "nothing")
-
-    fun load(texts: List<String>, autoFill: Boolean): List<WordFrequency> =
-        load(texts, autoFill, "nothing")
-
-    fun load(texts: List<String>, autoFill: Boolean, autoFillWord: String): List<WordFrequency> {
-        if (!autoFill) return load(texts)
-
-        val wordFrequencies = mutableListOf<WordFrequency>()
-        val cloud = buildWordFrequencies(texts, wordTokenizer).toMutableMap()
         var totalLength = cloud.keys.sumOf { it.length }
 
         if (totalLength == 0) {
@@ -95,7 +80,7 @@ class FrequencyAnalyzer {
     fun loadWordFrequencies(wordFrequencies: List<WordFrequency>): List<WordFrequency> =
         takeTopFrequencies(wordFrequencies)
 
-    private fun buildWordFrequencies(texts: List<String>, tokenizer: WordTokenizer): Map<String, Int> {
+    private fun buildWordFrequencies(texts: List<String>, tokenizer: WordTokenizer): MutableMap<String, Int> {
         val filter = buildFilter()
         val counts = mutableMapOf<String, Int>()
         for (text in texts) {
@@ -122,61 +107,6 @@ class FrequencyAnalyzer {
 
     private fun takeTopFrequencies(wordCloudEntities: Collection<WordFrequency>): List<WordFrequency> =
         wordCloudEntities.sorted().take(wordFrequenciesToReturn)
-
-    fun setStopWords(stopWords: Collection<String>) {
-        this.stopWords.clear()
-        this.stopWords.addAll(stopWords)
-    }
-
-    fun setWordFrequenciesToReturn(wordFrequenciesToReturn: Int) {
-        this.wordFrequenciesToReturn = wordFrequenciesToReturn
-    }
-
-    fun setMinWordLength(minWordLength: Int) {
-        this.minWordLength = minWordLength
-    }
-
-    fun setMaxWordLength(maxWordLength: Int) {
-        this.maxWordLength = maxWordLength
-    }
-
-    fun setWordTokenizer(wordTokenizer: WordTokenizer) {
-        this.wordTokenizer = wordTokenizer
-    }
-
-    fun clearFilters() {
-        filters.clear()
-    }
-
-    fun addFilter(filter: Filter) {
-        filters.add(filter)
-    }
-
-    fun setFilter(filter: Filter) {
-        filters.clear()
-        filters.add(filter)
-    }
-
-    fun clearNormalizers() {
-        normalizers.clear()
-    }
-
-    fun addNormalizer(normalizer: Normalizer) {
-        normalizers.add(normalizer)
-    }
-
-    fun setNormalizer(normalizer: Normalizer) {
-        normalizers.clear()
-        normalizers.add(normalizer)
-    }
-
-    fun setCharacterEncoding(characterEncoding: String) {
-        this.characterEncoding = characterEncoding
-    }
-
-    fun setUrlLoadTimeout(urlLoadTimeout: Long) {
-        this.urlLoadTimeout = urlLoadTimeout
-    }
 
     companion object {
         const val DEFAULT_ENCODING = "UTF-8"

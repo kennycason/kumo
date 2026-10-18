@@ -1,26 +1,28 @@
 package com.kennycason.kumo.cli
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import strikt.api.expectThat
+import strikt.assertions.isEmpty
+import strikt.assertions.isEqualTo
+import strikt.assertions.isTrue
 
 class ParenthesisSerializerTest {
 
     @Test
     fun serialize() {
-        assertEquals("", ParenthesisSerializer.serialize(emptyList<String>()))
-        assertEquals("(a)", ParenthesisSerializer.serialize(listOf("a")))
-        assertEquals("(a),(b),(c)", ParenthesisSerializer.serialize(listOf("a", "b", "c")))
+        expectThat(ParenthesisSerializer.serialize(emptyList<String>())).isEqualTo("")
+        expectThat(ParenthesisSerializer.serialize(listOf("a"))).isEqualTo("(a)")
+        expectThat(ParenthesisSerializer.serialize(listOf("a", "b", "c"))).isEqualTo("(a),(b),(c)")
     }
 
     @Test
     fun deserialize() {
-        assertTrue(ParenthesisSerializer.deserialize("").isEmpty())
-        assertEquals(1, ParenthesisSerializer.deserialize("(a)").size)
-        assertEquals("a", ParenthesisSerializer.deserialize("(a)")[0])
+        expectThat(ParenthesisSerializer.deserialize("").isEmpty()).isTrue()
+        expectThat(ParenthesisSerializer.deserialize("(a)").size).isEqualTo(1)
+        expectThat(ParenthesisSerializer.deserialize("(a)")[0]).isEqualTo("a")
 
-        assertEquals(2, ParenthesisSerializer.deserialize("(a),(b)").size)
-        assertEquals("a", ParenthesisSerializer.deserialize("(a),(b)")[0])
-        assertEquals("b", ParenthesisSerializer.deserialize("(a),(b)")[1])
+        expectThat(ParenthesisSerializer.deserialize("(a),(b)").size).isEqualTo(2)
+        expectThat(ParenthesisSerializer.deserialize("(a),(b)")[0]).isEqualTo("a")
+        expectThat(ParenthesisSerializer.deserialize("(a),(b)")[1]).isEqualTo("b")
     }
 }

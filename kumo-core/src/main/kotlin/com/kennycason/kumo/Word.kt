@@ -58,7 +58,6 @@ class Word(
         "Word{word='$word', color=$color, x=${position.x}, y=${position.y}, width=${bufferedImage.width}, height=${bufferedImage.height}}"
 
     companion object {
-        @JvmStatic
         fun getRenderingHints(): RenderingHints {
             val hints = HashMap<RenderingHints.Key, Any>()
             hints[RenderingHints.KEY_ALPHA_INTERPOLATION] = RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY

@@ -1,5 +1,5 @@
 package com.kennycason.kumo.font.scale
 
 interface FontScalar {
-    fun scale(n: Int, maxValue: Int): Float
+    fun scale(value: Int, maxValue: Int): Float
 }

@@ -10,32 +10,31 @@ import com.kennycason.kumo.font.FontWeight
 import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.LinearFontScalar
 import com.kennycason.kumo.font.scale.SqrtFontScalar
-import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.logging.Logging
-import org.apache.commons.io.IOUtils
-import org.junit.Test
+import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import java.awt.Color
 import java.awt.Dimension
 import java.io.IOException
 import java.io.InputStream
+import org.junit.jupiter.api.Test
 
 class PolarWordCloudITest : Logging {
 
     @Test
     fun whaleImgLargePolarTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(4)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 4
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"))
-        val wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"))
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
 
         val dimension = Dimension(990, 618)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
         wordCloud.backgroundColor = Color.WHITE
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale.png"))
+        wordCloud.background = getInputStream("backgrounds/whale.png").use { PixelBoundaryBackground(it) }
         wordCloud.fontScalar = LinearFontScalar(15, 50)
         val startTime = System.currentTimeMillis()
         wordCloud.build(wordFrequencies, wordFrequencies2)
@@ -46,12 +45,12 @@ class PolarWordCloudITest : Logging {
     @Test
     fun newyorkPolarCircle() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(4)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 4
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"))
-        val wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"))
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
 
         val dimension = Dimension(600, 600)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)
@@ -67,12 +66,12 @@ class PolarWordCloudITest : Logging {
     @Test
     fun newyorkPolarRectangle() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(4)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 4
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/new_york_positive.txt"))
-        val wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/new_york_negative.txt"))
+        val wordFrequencies = getInputStream("text/new_york_positive.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies2 = getInputStream("text/new_york_negative.txt").use { frequencyAnalyzer.load(it) }
 
         val dimension = Dimension(800, 600)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)
@@ -88,18 +87,18 @@ class PolarWordCloudITest : Logging {
     @Test
     fun tidyCatLitter() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(400)
-        frequencyAnalyzer.setMinWordLength(4)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 400
+        frequencyAnalyzer.minWordLength = 4
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_positive.txt"))
-        val wordFrequencies2 = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_negative.txt"))
+        val wordFrequencies = getInputStream("text/tidy_cat_litter_positive.txt").use { frequencyAnalyzer.load(it) }
+        val wordFrequencies2 = getInputStream("text/tidy_cat_litter_negative.txt").use { frequencyAnalyzer.load(it) }
 
         val dimension = Dimension(600, 600)
         val wordCloud = PolarWordCloud(dimension, CollisionMode.PIXEL_PERFECT, PolarBlendMode.BLUR)
         wordCloud.padding = 2
         wordCloud.kumoFont = KumoFont("Cairo", FontWeight.BOLD)
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/cat.bmp"))
+        wordCloud.background = getInputStream("backgrounds/cat.bmp").use { PixelBoundaryBackground(it) }
         wordCloud.fontScalar = SqrtFontScalar(10, 40)
         val startTime = System.currentTimeMillis()
         wordCloud.build(wordFrequencies, wordFrequencies2)
@@ -109,8 +108,8 @@ class PolarWordCloudITest : Logging {
 
     private fun loadStopWords(): Set<String> {
         try {
-            val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
-            return HashSet(lines)
+            val lines = getInputStream("text/stop_words.txt").bufferedReader().use { it.readLines() }
+            return lines.toSet()
         } catch (e: IOException) {
             logger.error(e) { e.message }
         }

@@ -1,50 +1,49 @@
 package com.kennycason.kumo
 
-import org.junit.Assert
-import org.junit.Ignore
-import org.junit.runners.Parameterized
 import java.awt.Color
-import java.awt.Dimension
 import java.awt.Font
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import strikt.api.expectThat
+import strikt.assertions.isTrue
 
 /**
  * @author joerg1985
  */
-//@RunWith(Parameterized::class)
-class RotateWordTest(private val _font: Font, private val _text: String) {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class RotateWordTest {
 
-    companion object {
-        @JvmStatic
-        @Parameterized.Parameters
-        fun data(): Iterable<Array<Any>> {
-            val params = mutableListOf<Array<Any>>()
-            val text = "rotating text is great!!"
-
-            for (i in 20 until 100 step 10) {
-                params.add(arrayOf(Font("Arial", 0, i), text.lowercase()))
-                params.add(arrayOf(Font("Arial", 0, i), text))
-                params.add(arrayOf(Font("Arial", 0, i), text.uppercase()))
+    fun data(): List<Arguments> = buildList {
+        val text = "rotating text is great!!"
+        for (size in 20 until 100 step 10) {
+            val font = Font("Arial", Font.PLAIN, size)
+            for (sample in listOf(text.lowercase(), text, text.uppercase())) {
+                add(Arguments.of(font, sample))
             }
-
-            return params
         }
     }
 
-    @Ignore
-    fun checkRotatedTextIsNotCropped() {
+    @Disabled("Previously disabled visual cropping check")
+    @ParameterizedTest
+    @MethodSource("data")
+    fun checkRotatedTextIsNotCropped(font: Font, text: String) {
         val image = BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR)
         val graphics = image.createGraphics()
 
         // set the rendering hint here to ensure the font metrics are correct
         graphics.setRenderingHints(Word.getRenderingHints())
-        val fontMetrics = graphics.getFontMetrics(_font)
+        val fontMetrics = graphics.getFontMetrics(font)
+        graphics.dispose()
 
         for (angle in 0 until 360 step 5) {
             val word = Word(
-                _text, Color.red, fontMetrics, com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker(), Math.toRadians(angle.toDouble())
+                text, Color.RED, fontMetrics, com.kennycason.kumo.collide.checkers.RectanglePixelCollisionChecker(), Math.toRadians(angle.toDouble())
             )
 
             val rendered = word.bufferedImage
@@ -54,25 +53,17 @@ class RotateWordTest(private val _font: Font, private val _text: String) {
 
             try {
                 for (y in 0 until height) {
-                    Assert.assertTrue(
-                        "text doesn't touch the outer left line",
-                        nearlyTransparent(rendered.getRGB(0, y))
-                    )
-                    Assert.assertTrue(
-                        "text doesn't touch the outer right line",
-                        nearlyTransparent(rendered.getRGB(width - 1, y))
-                    )
+                    expectThat(rendered.getRGB(0, y))
+                        .get("left edge is nearly transparent") { nearlyTransparent(this) }.isTrue()
+                    expectThat(rendered.getRGB(width - 1, y))
+                        .get("right edge is nearly transparent") { nearlyTransparent(this) }.isTrue()
                 }
 
                 for (x in 0 until width) {
-                    Assert.assertTrue(
-                        "text doesn't touch the top line",
-                        nearlyTransparent(rendered.getRGB(x, 0))
-                    )
-                    Assert.assertTrue(
-                        "text doesn't touch the bottom line",
-                        nearlyTransparent(rendered.getRGB(x, height - 1))
-                    )
+                    expectThat(rendered.getRGB(x, 0))
+                        .get("top edge is nearly transparent") { nearlyTransparent(this) }.isTrue()
+                    expectThat(rendered.getRGB(x, height - 1))
+                        .get("bottom edge is nearly transparent") { nearlyTransparent(this) }.isTrue()
                 }
             } catch (e: AssertionError) {
                 val file = File("output/FailedRotateWordTest_${System.currentTimeMillis()}.png")

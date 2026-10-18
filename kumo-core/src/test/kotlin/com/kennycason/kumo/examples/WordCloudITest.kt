@@ -11,12 +11,9 @@ import com.kennycason.kumo.font.KumoFont
 import com.kennycason.kumo.font.scale.LinearFontScalar
 import com.kennycason.kumo.font.scale.SqrtFontScalar
 import com.kennycason.kumo.image.AngleGenerator
+import com.kennycason.kumo.logging.Logging
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
 import com.kennycason.kumo.palette.ColorPalette
-import com.kennycason.kumo.logging.Logging
-import org.apache.commons.io.IOUtils
-import org.junit.Ignore
-import org.junit.Test
 import java.awt.Color
 import java.awt.Dimension
 import java.io.FileInputStream
@@ -24,13 +21,15 @@ import java.io.IOException
 import java.io.InputStream
 import java.net.URL
 import java.util.Random
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
 
 class WordCloudITest : Logging {
 
     private fun loadStopWords(): Set<String> {
         try {
-            val lines = IOUtils.readLines(getInputStream("text/stop_words.txt"))
-            return HashSet(lines)
+            val lines = getInputStream("text/stop_words.txt").bufferedReader().use { it.readLines() }
+            return lines.toSet()
         } catch (e: IOException) {
             logger.error(e) { e.message }
         }
@@ -51,8 +50,7 @@ class WordCloudITest : Logging {
         }
 
         private fun buildWordFrequencies(): List<WordFrequency> {
-            val pokemonNames = IOUtils.readLines(
-                Thread.currentThread().contextClassLoader.getResourceAsStream("text/pokemon.txt"))
+            val pokemonNames = Thread.currentThread().contextClassLoader.getResourceAsStream("text/pokemon.txt").bufferedReader().use { it.readLines() }
             return pokemonNames.map { WordFrequency(it, RANDOM.nextInt(100) + 1) }
         }
     }
@@ -86,8 +84,8 @@ class WordCloudITest : Logging {
     @Test
     fun loadWikipediaFromUrl() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(1000)
-        frequencyAnalyzer.setMinWordLength(1)
+        frequencyAnalyzer.wordFrequenciesToReturn = 1000
+        frequencyAnalyzer.minWordLength = 1
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://en.wikipedia.org/wiki/Main_Page"))
         val dimension = Dimension(1000, 1000)
@@ -104,8 +102,8 @@ class WordCloudITest : Logging {
     @Test
     fun readCNN() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(500)
-        frequencyAnalyzer.setMinWordLength(3)
+        frequencyAnalyzer.wordFrequenciesToReturn = 500
+        frequencyAnalyzer.minWordLength = 3
 
         val wordFrequencies = frequencyAnalyzer.load(URL("http://www.cnn.com/"))
         val dimension = Dimension(600, 600)
@@ -122,16 +120,16 @@ class WordCloudITest : Logging {
     @Test
     fun whaleImgLargeTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(990, 618)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.backgroundColor = Color.WHITE
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale.png"))
+        wordCloud.background = getInputStream("backgrounds/whale.png").use { PixelBoundaryBackground(it) }
         wordCloud.kumoFont = KumoFont("Impact", FontWeight.PLAIN)
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0x000000))
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
@@ -142,15 +140,15 @@ class WordCloudITest : Logging {
     @Test
     fun whaleImgSmallTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(300)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 300
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(500, 312)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale_small.png"))
+        wordCloud.background = getInputStream("backgrounds/whale_small.png").use { PixelBoundaryBackground(it) }
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0xFFFFFF))
         wordCloud.fontScalar = LinearFontScalar(10, 40)
         wordCloud.build(wordFrequencies)
@@ -160,16 +158,16 @@ class WordCloudITest : Logging {
     @Test
     fun whaleImgSmallAnglesTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(100)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 100
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(500, 312)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
         wordCloud.angleGenerator = AngleGenerator(-90.0, 90.0, 10)
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale_small.png"))
+        wordCloud.background = getInputStream("backgrounds/whale_small.png").use { PixelBoundaryBackground(it) }
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0xFFFFFF))
         wordCloud.fontScalar = LinearFontScalar(10, 30)
         wordCloud.build(wordFrequencies)
@@ -179,16 +177,16 @@ class WordCloudITest : Logging {
     @Test
     fun whaleImgLargeAnglesTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(990, 618)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
         wordCloud.angleGenerator = AngleGenerator(-90.0, 90.0, 10)
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale.png"))
+        wordCloud.background = getInputStream("backgrounds/whale.png").use { PixelBoundaryBackground(it) }
         wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0xFFFFFF))
         wordCloud.fontScalar = LinearFontScalar(20, 50)
         wordCloud.build(wordFrequencies)
@@ -198,11 +196,11 @@ class WordCloudITest : Logging {
     @Test
     fun datarankCircle() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -218,11 +216,11 @@ class WordCloudITest : Logging {
     @Test
     fun datarankCircleLarge() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(750)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 750
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(1000, 1000)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
@@ -238,16 +236,16 @@ class WordCloudITest : Logging {
     @Test
     fun datarankEarthImage() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(300)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 300
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+        val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
         wordCloud.kumoFont = KumoFont("Simple Slumg__G", FontWeight.BOLD)
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/earth.bmp"))
+        wordCloud.background = getInputStream("backgrounds/earth.bmp").use { PixelBoundaryBackground(it) }
         wordCloud.colorPalette = buildRandomColorPalette(3)
         wordCloud.fontScalar = SqrtFontScalar(10, 40)
         val startTime = System.currentTimeMillis()
@@ -259,17 +257,17 @@ class WordCloudITest : Logging {
     @Test
     fun catImage() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(300)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 300
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/tidy_cat_litter_top.txt"))
+        val wordFrequencies = getInputStream("text/tidy_cat_litter_top.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
         wordCloud.kumoFont = KumoFont("Marker Felt", FontWeight.PLAIN)
         wordCloud.backgroundColor = Color.BLACK
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/cat.bmp"))
+        wordCloud.background = getInputStream("backgrounds/cat.bmp").use { PixelBoundaryBackground(it) }
         wordCloud.colorPalette = ColorPalette(Color(0xcccccc), Color(0xdddddd), Color(0xffffff))
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
         val startTime = System.currentTimeMillis()
@@ -278,34 +276,34 @@ class WordCloudITest : Logging {
         wordCloud.writeToFile("output/tidy_cat_litter_black_cat.png")
     }
 
-    @Ignore
+    @Disabled
     @Test
     fun datarankCode() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
 
-        val wordFrequencies = frequencyAnalyzer.load(FileInputStream("/tmp/code.txt"))
+        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(990, 618)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2
         wordCloud.backgroundColor = Color.WHITE
-        wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale.png"))
+        wordCloud.background = getInputStream("backgrounds/whale.png").use { PixelBoundaryBackground(it) }
         wordCloud.colorPalette = buildRandomColorPalette(3)
         wordCloud.fontScalar = SqrtFontScalar(10, 50)
         wordCloud.build(wordFrequencies)
         wordCloud.writeToFile("/tmp/datarank_code.png")
     }
 
-    @Ignore
+    @Disabled
     @Test
     fun largeCircleTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(5000)
-        frequencyAnalyzer.setMinWordLength(2)
+        frequencyAnalyzer.wordFrequenciesToReturn = 5000
+        frequencyAnalyzer.minWordLength = 2
 
-        val wordFrequencies = frequencyAnalyzer.load(FileInputStream("/tmp/code.txt"))
+        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -316,14 +314,14 @@ class WordCloudITest : Logging {
         wordCloud.writeToFile("output/wordcloud_large_code_circle.png")
     }
 
-    @Ignore
+    @Disabled
     @Test
     fun matchOnlineExample() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(600)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
-        val wordFrequencies = frequencyAnalyzer.load(FileInputStream("/tmp/code.txt"))
+        frequencyAnalyzer.wordFrequenciesToReturn = 600
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
+        val wordFrequencies = FileInputStream("/tmp/code.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 1
@@ -339,10 +337,10 @@ class WordCloudITest : Logging {
     @Test
     fun anotherRectangleTest() {
         val frequencyAnalyzer = FrequencyAnalyzer()
-        frequencyAnalyzer.setWordFrequenciesToReturn(250)
-        frequencyAnalyzer.setMinWordLength(5)
-        frequencyAnalyzer.setStopWords(loadStopWords())
-        val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/sample.txt"))
+        frequencyAnalyzer.wordFrequenciesToReturn = 250
+        frequencyAnalyzer.minWordLength = 5
+        frequencyAnalyzer.stopWords = loadStopWords()
+        val wordFrequencies = getInputStream("text/sample.txt").use { frequencyAnalyzer.load(it) }
         val dimension = Dimension(600, 600)
         val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
         wordCloud.padding = 2

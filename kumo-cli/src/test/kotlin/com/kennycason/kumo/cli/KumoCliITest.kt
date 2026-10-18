@@ -1,6 +1,6 @@
 package com.kennycason.kumo.cli
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class KumoCliITest {
 

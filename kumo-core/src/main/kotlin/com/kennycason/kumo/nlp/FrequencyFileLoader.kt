@@ -2,10 +2,7 @@ package com.kennycason.kumo.nlp
 
 import com.kennycason.kumo.WordFrequency
 import com.kennycason.kumo.exception.KumoException
-import org.apache.commons.io.IOUtils
 import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
 import java.io.InputStream
 
 /**
@@ -22,12 +19,11 @@ import java.io.InputStream
  */
 class FrequencyFileLoader {
 
-    @Throws(IOException::class)
-    fun load(file: File): List<WordFrequency> = load(FileInputStream(file))
+    fun load(file: File): List<WordFrequency> = file.inputStream().use { load(it) }
 
-    @Throws(IOException::class)
+    /** Reads from a caller-owned stream without closing it. */
     fun load(inputStream: InputStream): List<WordFrequency> =
-        processLines(IOUtils.readLines(inputStream, DEFAULT_ENCODING))
+        processLines(inputStream.bufferedReader(charset(DEFAULT_ENCODING)).lineSequence().toList())
 
     companion object {
         const val DEFAULT_ENCODING = "UTF-8"

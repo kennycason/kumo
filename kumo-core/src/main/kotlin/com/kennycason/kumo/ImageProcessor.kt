@@ -13,9 +13,6 @@ import javax.imageio.ImageIO
  */
 object ImageProcessor {
 
-    @JvmStatic
-    fun getInstance(): ImageProcessor = this
-
     /**
      * @param fileName is the path of the file
      * @param imageType can define the type of image
@@ -23,10 +20,9 @@ object ImageProcessor {
      * @param height is the resized image's height
      * @return the resized image in ByteArrayInputStream form
      */
-    @JvmStatic
-    @Throws(IOException::class)
     fun readImage(fileName: String, width: Int, height: Int, imageType: String): InputStream {
-        val originImage = ImageIO.read(getInputStream(fileName))
+        val originImage = getInputStream(fileName).use { ImageIO.read(it) }
+            ?: throw IOException("Could not decode image resource: $fileName")
         val scaledImage = originImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)
         val bufferedImage = BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR)
 
@@ -44,4 +40,5 @@ object ImageProcessor {
 
     private fun getInputStream(path: String): InputStream =
         Thread.currentThread().contextClassLoader.getResourceAsStream(path)
+            ?: throw IOException("Image resource not found: $path")
 }

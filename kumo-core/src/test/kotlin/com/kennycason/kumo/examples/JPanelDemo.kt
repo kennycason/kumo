@@ -2,7 +2,6 @@ package com.kennycason.kumo.examples
 
 import com.kennycason.kumo.CollisionMode
 import com.kennycason.kumo.WordCloud
-import com.kennycason.kumo.WordFrequency
 import com.kennycason.kumo.bg.PixelBoundaryBackground
 import com.kennycason.kumo.font.scale.LinearFontScalar
 import com.kennycason.kumo.nlp.FrequencyAnalyzer
@@ -40,14 +39,14 @@ class JPanelDemo : JPanel() {
 
         private fun buildWordCloud(): WordCloud {
             val frequencyAnalyzer = FrequencyAnalyzer()
-            frequencyAnalyzer.setWordFrequenciesToReturn(300)
-            frequencyAnalyzer.setMinWordLength(5)
+            frequencyAnalyzer.wordFrequenciesToReturn = 300
+            frequencyAnalyzer.minWordLength = 5
 
-            val wordFrequencies = frequencyAnalyzer.load(getInputStream("text/datarank.txt"))
+            val wordFrequencies = getInputStream("text/datarank.txt").use { frequencyAnalyzer.load(it) }
             val dimension = Dimension(500, 312)
             val wordCloud = WordCloud(dimension, CollisionMode.PIXEL_PERFECT)
             wordCloud.padding = 1
-            wordCloud.background = PixelBoundaryBackground(getInputStream("backgrounds/whale_small.png"))
+            wordCloud.background = getInputStream("backgrounds/whale_small.png").use { PixelBoundaryBackground(it) }
             wordCloud.colorPalette = ColorPalette(Color(0x4055F1), Color(0x408DF1), Color(0x40AAF1), Color(0x40C5F1), Color(0x40D3F1), Color(0xFFFFFF))
             wordCloud.fontScalar = LinearFontScalar(10, 40)
             wordCloud.build(wordFrequencies)

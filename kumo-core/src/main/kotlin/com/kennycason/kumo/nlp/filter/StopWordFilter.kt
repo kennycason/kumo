@@ -1,6 +1,6 @@
 package com.kennycason.kumo.nlp.filter
 
-class StopWordFilter(stopWords: Collection<String>) : Filter() {
+class StopWordFilter(stopWords: Collection<String>) : Filter {
 
     private val stopWords: Set<String> = HashSet(stopWords)
 

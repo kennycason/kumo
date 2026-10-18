@@ -24,10 +24,10 @@ import com.kennycason.kumo.nlp.normalize.CharacterStrippingNormalizer
 import com.kennycason.kumo.nlp.normalize.LowerCaseNormalizer
 import com.kennycason.kumo.nlp.normalize.Normalizer
 import com.kennycason.kumo.nlp.normalize.TrimToEmptyNormalizer
-import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer
 import com.kennycason.kumo.nlp.normalize.UpperCaseNormalizer
-import com.kennycason.kumo.nlp.tokenizer.core.WhiteSpaceWordTokenizer
+import com.kennycason.kumo.nlp.normalize.UpsideDownNormalizer
 import com.kennycason.kumo.nlp.tokenizer.api.WordTokenizer
+import com.kennycason.kumo.nlp.tokenizer.core.WhiteSpaceWordTokenizer
 import com.kennycason.kumo.nlp.tokenizers.ChineseWordTokenizer
 import com.kennycason.kumo.nlp.tokenizers.EnglishWordTokenizer
 import com.kennycason.kumo.palette.ColorPalette
@@ -53,7 +53,7 @@ class KumoCli : Logging {
 
         private fun buildBackground(background: String): Background {
             try {
-                return PixelBoundaryBackground(toInputStream(background))
+                return toInputStream(background).use { PixelBoundaryBackground(it) }
             } catch (e: IOException) {
                 throw KumoException("Failed to load background: $background", e)
             }
@@ -94,7 +94,7 @@ class KumoCli : Logging {
         try {
             val resources = javaClass.classLoader.getResources("META-INF/MANIFEST.MF")
             while (resources.hasMoreElements()) {
-                val manifest = Manifest(resources.nextElement().openStream())
+                val manifest = resources.nextElement().openStream().use { Manifest(it) }
                 val version = manifest.mainAttributes.getValue("Implementation-Version")
                 if (!version.isNullOrBlank()) {
                     logger.info { "Kumo Version: $version" }
@@ -115,7 +115,7 @@ class KumoCli : Logging {
         if (cliParameters.inputSources.size != cliParameters.backgrounds.size) {
             throw IllegalArgumentException("Number of input sources does not equal the number of backgrounds.")
         }
-        if (cliParameters.inputSources.size != cliParameters.getLayeredColors().size) {
+        if (cliParameters.inputSources.size != cliParameters.layeredColors.size) {
             throw IllegalArgumentException("Number of input sources does not equal the number of colors.")
         }
 
@@ -124,14 +124,14 @@ class KumoCli : Logging {
             Dimension(cliParameters.width, cliParameters.height),
             cliParameters.collisionMode
         )
-        wordCloud.setBackgroundColor(cliParameters.backgroundColor)
+        wordCloud.backgroundColor = cliParameters.backgroundColor
 
         for (i in cliParameters.inputSources.indices) {
-            wordCloud.setBackground(i, buildBackground(cliParameters.backgrounds[i]))
-            wordCloud.setColorPalette(i, ColorPalette(cliParameters.getLayeredColors()[i]))
-            wordCloud.setFontScalar(i, buildFontScalar(cliParameters.fontScalarType))
-            wordCloud.setPadding(i, cliParameters.padding)
-            wordCloud.setKumoFont(i, buildKumoFont(cliParameters.fontWeight))
+            wordCloud[i].background = buildBackground(cliParameters.backgrounds[i])
+            wordCloud[i].colorPalette = ColorPalette(cliParameters.layeredColors[i])
+            wordCloud[i].fontScalar = buildFontScalar(cliParameters.fontScalarType)
+            wordCloud[i].padding = cliParameters.padding
+            wordCloud[i].kumoFont = buildKumoFont(cliParameters.fontWeight)
             wordCloud.build(i, loadFrequencies(cliParameters.inputSources[i]))
         }
         wordCloud.writeToFile(cliParameters.outputSource)
@@ -150,11 +150,11 @@ class KumoCli : Logging {
             wordCloud.background = buildBackground(cliParameters.backgrounds[0])
         }
         wordCloud.backgroundColor = cliParameters.backgroundColor
-        if (cliParameters.getLayeredColors().size >= 1) {
-            wordCloud.colorPalette = ColorPalette(cliParameters.getLayeredColors()[0])
+        if (cliParameters.layeredColors.size >= 1) {
+            wordCloud.colorPalette = ColorPalette(cliParameters.layeredColors[0])
         }
-        if (cliParameters.getLayeredColors().size >= 2) {
-            wordCloud.colorPalette2 = ColorPalette(cliParameters.getLayeredColors()[1])
+        if (cliParameters.layeredColors.size >= 2) {
+            wordCloud.colorPalette2 = ColorPalette(cliParameters.layeredColors[1])
         }
         wordCloud.fontScalar = buildFontScalar(cliParameters.fontScalarType)
         wordCloud.padding = cliParameters.padding
@@ -176,8 +176,8 @@ class KumoCli : Logging {
             wordCloud.background = buildBackground(cliParameters.backgrounds[0])
         }
         wordCloud.backgroundColor = cliParameters.backgroundColor
-        if (cliParameters.getColors().isNotEmpty()) {
-            wordCloud.colorPalette = ColorPalette(cliParameters.getColors())
+        if (cliParameters.colors.isNotEmpty()) {
+            wordCloud.colorPalette = ColorPalette(cliParameters.colors)
         }
         wordCloud.fontScalar = buildFontScalar(cliParameters.fontScalarType)
         wordCloud.padding = cliParameters.padding
@@ -190,10 +190,10 @@ class KumoCli : Logging {
     private fun loadFrequencies(input: String): List<WordFrequency> {
         try {
             val frequencyAnalyzer = FrequencyAnalyzer()
-            frequencyAnalyzer.setWordFrequenciesToReturn(cliParameters.wordCount)
-            frequencyAnalyzer.setMinWordLength(cliParameters.minWordLength)
-            frequencyAnalyzer.setStopWords(cliParameters.stopWords)
-            frequencyAnalyzer.setCharacterEncoding(cliParameters.characterEncoding)
+            frequencyAnalyzer.wordFrequenciesToReturn = cliParameters.wordCount
+            frequencyAnalyzer.minWordLength = cliParameters.minWordLength
+            frequencyAnalyzer.stopWords = cliParameters.stopWords.toSet()
+            frequencyAnalyzer.characterEncoding = cliParameters.characterEncoding
 
             if (cliParameters.normalizers.isEmpty()) {
                 cliParameters.normalizers.addAll(
@@ -201,12 +201,12 @@ class KumoCli : Logging {
                 )
             }
             for (normalizer in cliParameters.normalizers) {
-                frequencyAnalyzer.addNormalizer(buildNormalizer(normalizer))
+                frequencyAnalyzer.normalizers += buildNormalizer(normalizer)
             }
 
-            frequencyAnalyzer.setWordTokenizer(buildTokenizer())
+            frequencyAnalyzer.wordTokenizer = buildTokenizer()
 
-            return frequencyAnalyzer.load(toInputStream(input))
+            return toInputStream(input).use { frequencyAnalyzer.load(it) }
         } catch (e: IOException) {
             throw KumoException("Failed to load frequencies from: $input", e)
         }

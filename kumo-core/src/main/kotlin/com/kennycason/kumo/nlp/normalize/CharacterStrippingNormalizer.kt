@@ -2,7 +2,7 @@ package com.kennycason.kumo.nlp.normalize
 
 import java.util.regex.Pattern
 
-class CharacterStrippingNormalizer @JvmOverloads constructor(
+class CharacterStrippingNormalizer(
     private val replacePattern: Pattern = DEFAULT_PATTERN,
     private val replaceWith: String = DEFAULT_REPLACE_WITH
 ) : Normalizer {
