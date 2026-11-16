@@ -1,0 +1,42 @@
+name: Performance report
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Benchmark suite (stress can take substantially longer)
+        type: choice
+        default: quick
+        options: [smoke, quick, full, stress, exports, analysis]
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: corretto
+          cache: maven
+      - name: Run benchmarks and generate report
+        env:
+          PERF_SUITE: ${{ inputs.suite }}
+        run: ./perf.sh run --suite "$PERF_SUITE"
+      - name: Publish comparison summary
+        if: always()
+        run: |
+          if [ -f target/perf/comparison.md ]; then
+            cat target/perf/comparison.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: perf-${{ github.sha }}-${{ inputs.suite }}
+          path: target/perf/
+          retention-days: 30
+          if-no-files-found: warn
